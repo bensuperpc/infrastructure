@@ -20,7 +20,7 @@
 
 DOCKER := docker
 
-PROFILE := db wordpress webserver certbot phpmyadmin flask
+PROFILE := db wordpress webserver certbot phpmyadmin flask_website qbittorrent
 PROFILE_CMD := $(addprefix --profile ,$(PROFILE))
 
 COMPOSE_FILE := docker-compose.yml
