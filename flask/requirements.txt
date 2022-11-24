@@ -1,0 +1,12 @@
+requests
+
+flask
+flask-babel
+flask-login
+flask-sqlalchemy
+flask-assets
+flask-wtf
+flask-mail
+
+
+uwsgi

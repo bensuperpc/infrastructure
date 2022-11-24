@@ -1,0 +1,101 @@
+version: "3.8"
+
+services:
+  db:
+    image: mariadb:10.10.2
+    container_name: db
+    profiles:
+      - db
+    restart: unless-stopped
+    env_file: .env
+    volumes: 
+      - dbdata:/var/lib/mysql
+    networks:
+      - app-network
+
+  wordpress:
+    depends_on: 
+      - db
+    image: wordpress:6.1.1-php8.1-fpm
+    container_name: wordpress
+    profiles:
+      - wordpress
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - WORDPRESS_DB_HOST=db:3306
+      - WORDPRESS_DB_USER=$MARIADB_USER
+      - WORDPRESS_DB_PASSWORD=$MARIADB_PASSWORD
+      - WORDPRESS_DB_NAME=$MARIADB_DATABASE
+    volumes:
+      - wordpress:/var/www/html
+    networks:
+      - app-network
+
+  flask_website:
+    build:
+      context: ./flask
+      dockerfile: Dockerfile
+    container_name: flask_website
+    profiles:
+      - flask
+    volumes:
+      - ./flask:/app:rw
+    restart: unless-stopped
+    networks:
+      - app-network
+  webserver:
+    depends_on:
+      - wordpress
+    image: nginx:1.23
+    container_name: webserver
+    profiles:
+      - webserver
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - wordpress:/var/www/html
+      - ./nginx-conf:/etc/nginx/conf.d
+      - certbot-etc:/etc/letsencrypt:ro
+    networks:
+      - app-network
+
+  certbot:
+    depends_on:
+      - webserver
+    image: certbot/certbot:v1.32.0
+    container_name: certbot
+    profiles:
+      - certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - wordpress:/var/www/html
+    #command: certonly --webroot --webroot-path=/var/www/html --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --staging --domain www.bensuperpc.org --domain bensuperpc.org
+    #command: certonly --webroot --webroot-path=/var/www/html --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --force-renewal --domain www.bensuperpc.org --domain bensuperpc.org
+    command: certonly --webroot --webroot-path=/var/www/html --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --keep-until-expiring --domain www.bensuperpc.org --domain bensuperpc.org
+  phpmyadmin:
+    image: phpmyadmin:5.2.0
+    container_name: phpmyadmin
+    profiles:
+      - phpmyadmin
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=$MARIADB_ROOT_PASSWORD
+      - MYSQL_USER=$MARIADB_USER
+      - MYSQL_PASSWORD=$MARIADB_PASSWORD
+      - PMA_HOST=db
+    depends_on:
+      - db
+    networks:
+      - app-network
+volumes:
+  certbot-etc: {}
+  wordpress: {}
+  dbdata: {}
+
+networks:
+  app-network:
+    driver: bridge
