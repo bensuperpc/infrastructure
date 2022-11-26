@@ -27,7 +27,7 @@ COMPOSE_FILE := docker-compose.yml
 
 AUTHOR := bensuperpc
 
-IMAGE_NAME := wordpress:6.1.1-php8.1-fpm mariadb:10.10.2 nginx:1.23 certbot/certbot:v1.32.0 phpmyadmin:5.2.0
+IMAGE_NAME := wordpress:6.1.1-php8.1-fpm mariadb:10.10.2 nginx:1.23 certbot/certbot:v1.32.0 phpmyadmin:5.2.0 dpage/pgadmin4:6.16 lscr.io/linuxserver/qbittorrent:latest
 
 #IMAGE_AUTHOR := $(addprefix itzg/, $(IMAGE_NAME))
 
