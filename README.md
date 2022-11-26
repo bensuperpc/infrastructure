@@ -121,7 +121,7 @@ Start the website with:
 make start-at
 ```
 
-Stop the website with:
+Stop the website with (or CTRL+C with the previous command):
 
 ```sh
 make stop
