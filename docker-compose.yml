@@ -18,14 +18,15 @@ services:
       - certbot-etc:/etc/letsencrypt:ro
     networks:
       - app-network
-  db:
+  wp_db:
     image: mariadb:10.10.2
-    container_name: db
+    container_name: wp_db
     profiles:
       - db
+      - wordpress
     restart: unless-stopped
     env_file: 
-      - .env
+      - env/wp_database.env
     volumes: 
       - dbdata:/var/lib/mysql
     networks:
@@ -33,19 +34,16 @@ services:
 
   wordpress:
     depends_on: 
-      - db
+      - wp_db
     image: wordpress:6.1.1-php8.1-fpm
     container_name: wordpress
     profiles:
       - wordpress
     restart: unless-stopped
     env_file: 
-      - .env
-    environment:
-      - WORDPRESS_DB_HOST=db:3306
-      - WORDPRESS_DB_USER=$MARIADB_USER
-      - WORDPRESS_DB_PASSWORD=$MARIADB_PASSWORD
-      - WORDPRESS_DB_NAME=$MARIADB_DATABASE
+      - env/wordpress.env
+#    environment:
+#      - WORDPRESS_DB_HOST=wp_db:3306
     volumes:
       - wordpress:/var/www/html
     networks:
@@ -73,9 +71,9 @@ services:
       - PGID=1000
       - TZ=Europe/London
       - WEBUI_PORT=8080
-    #volumes:
+    volumes:
     #  - /path/to/appdata/config:/config
-    #  - /path/to/downloads:/downloads
+    - downloads:/downloads
     #ports:
     #  - 8080:8080
     #  - 6881:6881
@@ -103,14 +101,9 @@ services:
       - phpmyadmin
     restart: unless-stopped
     env_file: 
-      - .env
-    environment:
-      - MYSQL_ROOT_PASSWORD=$MARIADB_ROOT_PASSWORD
-      - MYSQL_USER=$MARIADB_USER
-      - MYSQL_PASSWORD=$MARIADB_PASSWORD
-      - PMA_HOST=db
+      - env/phpmyadmin.env
     depends_on:
-      - db
+      - wp_db
     networks:
       - app-network
 volumes:
@@ -120,6 +113,9 @@ volumes:
     name: wordpress
   dbdata:
     name: dbdata
+  
+  downloads:
+    name: downloads
 
 networks:
   app-network:
