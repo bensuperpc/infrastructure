@@ -10,7 +10,7 @@ It's a work in progress, and I'm still learning a lot about it.
 
 ## Features
 
-- [x] Nginx
+- [x] Nginx reverse proxy
 - [x] Docker / docker-compose
 - [x] Letsencrypt / Certbot
 - [x] Flask (Via UWSGI/NGINX)
@@ -20,6 +20,8 @@ It's a work in progress, and I'm still learning a lot about it.
 - [x] Qbittorrent
 - [x] Use Flask instead of wordpress as default blog
 - [ ] Jellyfin
+- [ ] Gitea
+- [ ] Mastodon
 - [ ] SSL for all subdomains / Services (Not just the main domain)
 
 ## Screenshots
