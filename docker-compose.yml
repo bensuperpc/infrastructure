@@ -59,12 +59,8 @@ services:
       - flask_db
     volumes:
       - ./bensuperpc_website:/app:rw
-    environment:
-      FLASK_DEBUG: "${FLASK_DEBUG:-1}"
-      POSTGRES_URL: "${POSTGRES_URL:-flask_db:5432}"
-      POSTGRES_USER: "${POSTGRES_USER:-postgres}"
-      POSTGRES_PW: "${POSTGRES_PW:-postgres}"
-      POSTGRES_DB: "${POSTGRES_DB:-website}"
+    env_file:
+      - env/flask_website.env
     restart: unless-stopped
     ports:
       - 5000:5000
@@ -76,11 +72,8 @@ services:
     profiles:
       - flask_db
     restart: unless-stopped
-    environment:
-      POSTGRES_HOST_AUTH_METHOD: "${POSTGRES_HOST_AUTH_METHOD:-trust}"
-      POSTGRES_USER: "${POSTGRES_USER:-postgres}"
-      POSTGRES_PASSWORD: "${POSTGRES_PW:-postgres}"
-      POSTGRES_DB: "${POSTGRES_DB:-website}"
+    env_file:
+      - env/flask_database.env
 #    ports:
 #      - 5432:5432
     volumes: 
@@ -130,6 +123,18 @@ services:
       - env/phpmyadmin.env
     depends_on:
       - wp_db
+    networks:
+      - app-network
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:6.16
+    profiles:
+      - pgadmin
+    restart: unless-stopped
+    env_file:
+      - env/pgadmin.env
+    depends_on:
+      - flask_db
     networks:
       - app-network
 volumes:
