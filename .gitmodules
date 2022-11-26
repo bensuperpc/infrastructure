@@ -1,0 +1,3 @@
+[submodule "bensuperpc_website"]
+	path = bensuperpc_website
+	url = git@github.com:bensuperpc/bensuperpc_website.git
