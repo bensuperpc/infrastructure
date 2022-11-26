@@ -22,8 +22,7 @@ services:
     image: mariadb:10.10.2
     container_name: wp_db
     profiles:
-      - db
-      - wordpress
+      - wp_db
     restart: unless-stopped
     env_file: 
       - env/wp_database.env
@@ -51,14 +50,41 @@ services:
 
   flask_website:
     build:
-      context: ./flask
+      context: ./bensuperpc_website
       dockerfile: Dockerfile
     container_name: flask_website
     profiles:
       - flask_website
+    depends_on:
+      - flask_db
     volumes:
-      - ./flask:/app:rw
+      - ./bensuperpc_website:/app:rw
+    environment:
+      FLASK_DEBUG: "${FLASK_DEBUG:-1}"
+      POSTGRES_URL: "${POSTGRES_URL:-flask_db:5432}"
+      POSTGRES_USER: "${POSTGRES_USER:-postgres}"
+      POSTGRES_PW: "${POSTGRES_PW:-postgres}"
+      POSTGRES_DB: "${POSTGRES_DB:-website}"
     restart: unless-stopped
+    ports:
+      - 5000:5000
+    networks:
+      - app-network
+  flask_db:
+    image: postgres:latest
+    container_name: flask_db
+    profiles:
+      - flask_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "${POSTGRES_HOST_AUTH_METHOD:-trust}"
+      POSTGRES_USER: "${POSTGRES_USER:-postgres}"
+      POSTGRES_PASSWORD: "${POSTGRES_PW:-postgres}"
+      POSTGRES_DB: "${POSTGRES_DB:-website}"
+#    ports:
+#      - 5432:5432
+    volumes: 
+    - postgres-data:/var/lib/postgresql/data
     networks:
       - app-network
   qbittorrent:
@@ -116,6 +142,9 @@ volumes:
   
   downloads:
     name: downloads
+
+  postgres-data:
+    name: postgres-data
 
 networks:
   app-network:
