@@ -122,25 +122,6 @@ services:
     restart: unless-stopped
     networks:
       - app-network
-#  firefox:
-#    image: lscr.io/linuxserver/firefox:latest
-#    container_name: firefox
-#    profiles:
-#      - firefox
-#    security_opt:
-#      - seccomp:unconfined #optional
-#    environment:
-#      - PUID=1000
-#      - PGID=1000
-#      - TZ=Europe/London
-#    volumes:
-#      - firefox-config:/config
-    #ports:
-    #  - 3000:3000
-#    shm_size: "1gb"
-#    restart: unless-stopped
-#    networks:
-#      - app-network
   certbot:
     depends_on:
       - webserver
@@ -200,8 +181,6 @@ volumes:
     name: jellyfin-tvseries
   jellyfin-movies:
     name: jellyfin-movies
-  firefox-config:
-    name: firefox-config
   postgres-data:
     name: postgres-data
 
