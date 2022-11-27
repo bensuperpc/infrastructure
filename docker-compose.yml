@@ -91,8 +91,8 @@ services:
       - TZ=Europe/London
       - WEBUI_PORT=8080
     volumes:
-      - ./qbittorrent-conf/config:/config
-      - downloads:/downloads
+      - qbittorrent-conf:/config
+      - qbittorrent-downloads:/downloads
     #ports:
     #  - 8080:8080
     #  - 6881:6881
@@ -147,8 +147,11 @@ volumes:
   dbdata:
     name: dbdata
   
-  downloads:
-    name: downloads
+  qbittorrent-downloads:
+    name: qbittorrent-downloads
+  
+  qbittorrent-conf:
+    name: qbittorrent-conf
 
   postgres-data:
     name: postgres-data
