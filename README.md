@@ -19,7 +19,7 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [x] PHPMyAdmin (MariaDB)
 - [x] PGAdmin (PostgreSQL)
 - [x] Qbittorrent
-- [x] Use Flask instead of wordpress as default blog
+- [ ] Use Flask instead of wordpress as default blog
 - [ ] Jellyfin
 - [ ] Gitea
 - [ ] Mastodon
@@ -37,7 +37,7 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Web domain](https://www.ovh.com/world/domains/) (I use OVH)
 - [Open port 80 and 443 on your router](http://192.168.0.1/) (I use a Orange box with default IP)
-- All requirements for my Flask website (See [README.md](bensuperpc_website/README.md))
+- **All requirements for my Flask website (See [README.md](bensuperpc_website/README.md))**
 
 ### Clone
 
