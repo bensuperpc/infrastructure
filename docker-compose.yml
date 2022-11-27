@@ -91,8 +91,8 @@ services:
       - TZ=Europe/London
       - WEBUI_PORT=8080
     volumes:
-    #  - /path/to/appdata/config:/config
-    - downloads:/downloads
+      - ./qbittorrent-conf/config:/config
+      - downloads:/downloads
     #ports:
     #  - 8080:8080
     #  - 6881:6881
@@ -121,6 +121,8 @@ services:
     restart: unless-stopped
     env_file: 
       - env/phpmyadmin.env
+#    ports:
+#      - 8080:80
     depends_on:
       - wp_db
     networks:

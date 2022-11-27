@@ -1,12 +1,13 @@
 # Infrastructure
 
-_My infrastructure_
+_My personal infrastructure for my servers and services._
 
 ## About
 
-This is my infrastructure. It's a collection of scripts and configuration files that I use to manage my servers.
+This is my infrastructure. It's a collection of scripts and configuration files that I use to manage my servers and services.
 It uses Nginx and docker-compose to run my services (And many other things).
-It's a work in progress, and I'm still learning a lot about it.
+It's a **work in progress**, and I'm still learning a lot about it.
+If you have any **questions** or **suggestions**, feel free to open an issue or a pull request.
 
 ## Features
 
@@ -22,6 +23,7 @@ It's a work in progress, and I'm still learning a lot about it.
 - [ ] Jellyfin
 - [ ] Gitea
 - [ ] Mastodon
+- [ ] Minecraft server (Hyperworld v2)
 - [ ] SSL for all subdomains / Services (Not just the main domain)
 
 ## Screenshots
