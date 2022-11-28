@@ -20,7 +20,7 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [x] PGAdmin (PostgreSQL)
 - [x] Qbittorrent
 - [ ] Use Flask instead of wordpress as default blog
-- [ ] Jellyfin
+- [x] Jellyfin
 - [ ] Gitea
 - [ ] Mastodon
 - [ ] Minecraft server (Hyperworld v2)
