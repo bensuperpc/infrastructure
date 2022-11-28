@@ -55,10 +55,16 @@ cd infrastructure
 
 ### Get the SSL certificate
 
+For all **bensuperpc.org**, you need to replace it with your domain, example: **bensuperpc.com**
+
+```sh
+find . \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i 's/bensuperpc.org/bensuperpc.com/g'
+```
+
 Keep original config file
 
 ```sh
-cp nginx-conf nginx-conf-original
+cp -r nginx-conf nginx-conf-original
 ```
 
 Remove the old config file
@@ -107,6 +113,24 @@ Now you can replace the certbot commands in _docker-compose.yml_ with the origin
 
 ```sh
 command: certonly --webroot --webroot-path=/var/www/html --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --keep-until-expiring --domain www.bensuperpc.org --domain bensuperpc.org
+```
+
+Remove the cert config file
+
+```sh
+rm -fr nginx-conf
+```
+
+Copy _nginx-conf-original_ to _nginx-conf_, for definitive use
+
+```sh
+cp -r nginx-conf-original nginx-conf
+```
+
+Now you start services
+
+```sh
+make start-at
 ```
 
 ### Flask website
