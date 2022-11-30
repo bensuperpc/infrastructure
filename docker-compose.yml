@@ -13,7 +13,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - wordpress:/var/www/worpress
+      - wordpress:/var/www/wordpress
       - jellyfin:/var/www/jellyfin
       - ./nginx-conf:/etc/nginx/conf.d
       - certbot-cert:/etc/letsencrypt:ro
@@ -133,11 +133,11 @@ services:
       - certbot
     volumes:
       - certbot-cert:/etc/letsencrypt
-      - wordpress:/var/www/worpress
+      - wordpress:/var/www/wordpress
       - jellyfin:/var/www/jellyfin
-    #command: certonly --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --staging --webroot --webroot-path=/var/www/worpress --domain bensuperpc.org --domain www.bensuperpc.org --webroot-path=/var/www/jellyfin --domain jellyfin.bensuperpc.org --domain www.jellyfin.bensuperpc.org
-    #command: certonly --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --force-renewal --webroot --webroot-path=/var/www/worpress --domain bensuperpc.org --domain www.bensuperpc.org --webroot-path=/var/www/jellyfin --domain jellyfin.bensuperpc.org --domain www.jellyfin.bensuperpc.org
-    command: certonly --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --keep-until-expiring --webroot --webroot-path=/var/www/worpress --domain bensuperpc.org --domain www.bensuperpc.org --webroot-path=/var/www/jellyfin --domain jellyfin.bensuperpc.org --domain www.jellyfin.bensuperpc.org
+    #command: certonly --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --staging --webroot --webroot-path=/var/www/wordpress --domain bensuperpc.org --domain www.bensuperpc.org --webroot-path=/var/www/jellyfin --domain jellyfin.bensuperpc.org --domain www.jellyfin.bensuperpc.org
+    #command: certonly --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --force-renewal --webroot --webroot-path=/var/www/wordpress --domain bensuperpc.org --domain www.bensuperpc.org --webroot-path=/var/www/jellyfin --domain jellyfin.bensuperpc.org --domain www.jellyfin.bensuperpc.org
+    command: certonly --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --keep-until-expiring --webroot --webroot-path=/var/www/wordpress --domain bensuperpc.org --domain www.bensuperpc.org --webroot-path=/var/www/jellyfin --domain jellyfin.bensuperpc.org --domain www.jellyfin.bensuperpc.org
   phpmyadmin:
     image: phpmyadmin:5.2.0
     container_name: phpmyadmin
