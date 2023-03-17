@@ -9,7 +9,7 @@
 #//                                                          //
 #//  Script, 2022                                            //
 #//  Created: 14, April, 2022                                //
-#//  Modified: 19, June, 2022                                //
+#//  Modified: 17, March, 2023                               //
 #//  file: -                                                 //
 #//  -                                                       //
 #//  Source:                                                 //
@@ -20,57 +20,56 @@
 
 DOCKER := docker
 
-PROFILE := wp_db wordpress webserver certbot phpmyadmin flask_website flask_db pgadmin qbittorrent jellyfin
-PROFILE_CMD := $(addprefix --profile ,$(PROFILE))
+PROFILES := wp_db wordpress webserver certbot phpmyadmin flask_website flask_db pgadmin qbittorrent jellyfin
+PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
-COMPOSE_FILE := docker-compose.yml
+
+COMPOSE_FILES :=  $(shell find docker-compose* | sed -e 's/^/--file /')
 
 AUTHOR := bensuperpc
-
-IMAGE_NAME := wordpress:6.1.1-php8.1-fpm mariadb:10.10.2 nginx:1.23 certbot/certbot:v1.32.0 phpmyadmin:5.2.0 dpage/pgadmin4:6.16 lscr.io/linuxserver/qbittorrent:latest \
-		lscr.io/linuxserver/jellyfin:latest
-
-#IMAGE_AUTHOR := $(addprefix itzg/, $(IMAGE_NAME))
-
-#IMAGE_FULL_NAME := $(addsuffix :latest, $(IMAGE_AUTHOR))
 
 .PHONY: build all
 all: start
 
 .PHONY: build
 build:
-	docker-compose -f $(COMPOSE_FILE) $(PROFILE_CMD) build
+	docker compose $(COMPOSE_FILES) $(PROFILE_CMD) build
 
 .PHONY: start
 start:
-	docker-compose -f $(COMPOSE_FILE) $(PROFILE_CMD) up -d
+	docker compose $(COMPOSE_FILES) $(PROFILE_CMD) up -d
 
+.PHONY: start-at
 start-at:
-	docker-compose -f $(COMPOSE_FILE) $(PROFILE_CMD) up
+	docker compose $(COMPOSE_FILES) $(PROFILE_CMD) up
+
+.PHONY: docker-check
+docker-check:
+	docker compose $(COMPOSE_FILES) $(PROFILES_CMD) config
 
 .PHONY: stop
 stop: down
 
 .PHONY: down
 down:
-	docker-compose -f $(COMPOSE_FILE) $(PROFILE_CMD) down
+	docker compose $(COMPOSE_FILES) $(PROFILE_CMD) down
 
 .PHONY: restart
 restart: stop start
 
 .PHONY: logs
 logs:
-	docker-compose -f $(COMPOSE_FILE) logs
+	docker compose $(COMPOSE_FILES) logs
 
 .PHONY: state
 state:
-	docker-compose -f $(COMPOSE_FILE) ps
-	docker-compose -f $(COMPOSE_FILE) top
+	docker compose $(COMPOSE_FILES) ps
+	docker compose $(COMPOSE_FILES) top
 
 .PHONY: update
 update:
 	git pull --recurse-submodules --all --progress
-	echo $(IMAGE_NAME) | xargs -n1 docker pull
+	docker compose $(COMPOSE_FILES) $(PROFILES_CMD) pull
 
 .PHONY: clean
 clean:
@@ -78,4 +77,4 @@ clean:
 
 .PHONY: purge
 purge:
-	docker-compose -f $(COMPOSE_FILE) $(PROFILE_CMD) down -v --rmi all
+	docker compose $(COMPOSE_FILES) $(PROFILE_CMD) down -v --rmi all

@@ -1,0 +1,47 @@
+version: "3.9"
+
+services:
+  flask_website:
+    build:
+      context: ./bensuperpc_website
+      dockerfile: Dockerfile
+    container_name: flask_website
+    profiles:
+      - flask_website
+    depends_on:
+      - flask_db
+    volumes:
+      - ./bensuperpc_website:/app:rw
+    env_file:
+      - env/flask_website.env
+    restart: unless-stopped
+    ports:
+      - 5000:5000
+    networks:
+      - app-network
+  flask_db:
+    image: postgres:latest
+    container_name: flask_db
+    profiles:
+      - flask_db
+    restart: unless-stopped
+    env_file:
+      - env/flask_database.env
+#    ports:
+#      - 5432:5432
+    volumes: 
+    - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:6.16
+    profiles:
+      - pgadmin
+    restart: unless-stopped
+    env_file:
+      - env/pgadmin.env
+    depends_on:
+      - flask_db
+    networks:
+      - app-network
