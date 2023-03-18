@@ -30,6 +30,16 @@ services:
       - wordpress:/var/www/html
     networks:
       - app-network
+    security_opt:
+      - "no-new-privileges:true"
+    cap_drop:
+      - "ALL"
+    cap_add:
+      - "NET_RAW"
+      - "CAP_CHOWN"
+      - "SETGID"
+      - "SETUID"
+
   phpmyadmin:
     image: phpmyadmin:5.2.0
     container_name: phpmyadmin

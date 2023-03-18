@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  webserver:
+    depends_on:
+      - wordpress
+    image: nginx:1.23
+    container_name: webserver
+    profiles:
+      - webserver
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - wordpress:/var/www/wordpress
+      - jellyfin:/var/www/jellyfin
+      - ./nginx-conf:/etc/nginx/conf.d
+      - certbot-cert:/etc/letsencrypt:ro
+    networks:
+      - app-network
+    security_opt:
+      - "no-new-privileges:true"
+    cap_drop:
+      - "ALL"
+    cap_add:
+      - "NET_RAW"
+      - "NET_BIND_SERVICE"
+      - "CAP_CHOWN"
+      - "SETGID"
+      - "SETUID"
