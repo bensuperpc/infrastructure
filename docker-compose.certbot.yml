@@ -12,7 +12,6 @@ services:
       - certbot-cert:/etc/letsencrypt
       - wordpress:/var/www/wordpress
       - jellyfin:/var/www/jellyfin
-      - ./bensuperpc_website:/var/www/flask
     #command: >
     #  certonly --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --staging --webroot
     #  --webroot-path=/var/www/wordpress --domain bensuperpc.org --domain www.bensuperpc.org
@@ -23,12 +22,10 @@ services:
     #  --webroot-path=/var/www/wordpress --domain bensuperpc.org --domain www.bensuperpc.org
     #  --webroot-path=/var/www/jellyfin --domain jellyfin.bensuperpc.org --domain www.jellyfin.bensuperpc.org 
 
-    # --expand
     command: >
       certonly --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --keep-until-expiring --webroot 
       --webroot-path=/var/www/wordpress --domain bensuperpc.org --domain www.bensuperpc.org
       --webroot-path=/var/www/jellyfin --domain jellyfin.bensuperpc.org --domain www.jellyfin.bensuperpc.org
-      --webroot-path=/var/www/flask --domain flask.bensuperpc.org --domain www.flask.bensuperpc.org
 
 volumes:
   certbot-cert:

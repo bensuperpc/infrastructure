@@ -20,7 +20,7 @@
 
 DOCKER := docker
 
-PROFILES := wp_db wordpress webserver certbot phpmyadmin flask_website flask_db pgadmin qbittorrent jellyfin
+PROFILES := wp_db wordpress webserver certbot phpmyadmin qbittorrent jellyfin
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
 
