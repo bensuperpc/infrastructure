@@ -64,19 +64,19 @@ find . \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i 's/b
 Keep original config file
 
 ```sh
-cp -r nginx-conf nginx-conf-original
+cp -r nginx/conf.d nginx/conf.d-original
 ```
 
 Remove the old config file
 
 ```sh
-rm -fr nginx-conf
+rm -fr nginx/nginx-conf
 ```
 
 Copy _nginx-conf-cert_ to _nginx-conf_, for temporary use to get the SSL certificate
 
 ```sh
-cp -r nginx-conf-cert nginx-conf
+cp -r nginx/conf.d-cert nginx/conf.d
 ```
 
 Replace certbot commands in _docker-compose.yml_, and replace _bensuperpc.org_ by your domain
@@ -118,13 +118,13 @@ command: certonly --webroot --webroot-path=/var/www/html --email bensuperpc@bens
 Remove the cert config file
 
 ```sh
-rm -fr nginx-conf
+rm -fr nginx/conf.d
 ```
 
 Copy _nginx-conf-original_ to _nginx-conf_, for definitive use
 
 ```sh
-cp -r nginx-conf-original nginx-conf
+cp -r nginx/conf.d-original nginx/conf.d
 ```
 
 Now you start services
