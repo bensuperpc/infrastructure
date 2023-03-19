@@ -21,3 +21,7 @@ services:
       --webroot-path=/var/www/flask --domain bensuperpc.org --domain www.bensuperpc.org 
       --webroot-path=/var/www/jellyfin --domain jellyfin.bensuperpc.org --domain www.jellyfin.bensuperpc.org 
       --webroot-path=/var/www/wordpress --domain wordpress.bensuperpc.org --domain www.wordpress.bensuperpc.org
+
+volumes:
+  certbot-cert:
+    name: certbot-cert

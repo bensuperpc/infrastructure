@@ -45,3 +45,15 @@ services:
       - flask_db
     networks:
       - app-network
+
+volumes:
+  postgres-data:
+    name: postgres-data
+
+#  flask:
+#    name: flask
+#    driver: local
+#    driver_opts:
+#      type: bind
+#      device: ":./bensuperpc_website"
+#      o: bind

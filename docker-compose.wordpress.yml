@@ -54,3 +54,9 @@ services:
       - wp_db
     networks:
       - app-network
+
+volumes:
+  wordpress:
+    name: wordpress
+  dbdata:
+    name: dbdata

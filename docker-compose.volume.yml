@@ -1,12 +1,6 @@
 version: "3.9"
 
 volumes:
-  certbot-cert:
-    name: certbot-cert
-  wordpress:
-    name: wordpress
-  dbdata:
-    name: dbdata
   qbittorrent-downloads:
     name: qbittorrent-downloads
   qbittorrent-conf:
@@ -19,5 +13,3 @@ volumes:
     name: jellyfin-movies
   jellyfin:
     name: jellyfin
-  postgres-data:
-    name: postgres-data
