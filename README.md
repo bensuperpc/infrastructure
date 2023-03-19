@@ -14,12 +14,10 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [x] Nginx reverse proxy
 - [x] Docker / docker-compose
 - [x] Letsencrypt / Certbot
-- [x] Flask (Via UWSGI/NGINX)
 - [x] Wordpress (Via FASTCGI/NGINX)
 - [x] PHPMyAdmin (MariaDB)
 - [x] PGAdmin (PostgreSQL)
 - [x] Qbittorrent
-- [ ] Use Flask instead of wordpress as default blog
 - [x] Jellyfin
 - [ ] Gitea
 - [ ] Mastodon
@@ -37,7 +35,6 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Web domain](https://www.ovh.com/world/domains/) (I use OVH)
 - [Open port 80 and 443 on your router](http://192.168.0.1/) (I use a Orange box with default IP)
-- **All requirements for my Flask website (See [README.md](bensuperpc_website/README.md))**
 
 ### Clone
 
@@ -81,14 +78,20 @@ cp -r nginx/conf.d-cert nginx/conf.d
 
 Replace certbot commands in _docker-compose.yml_, and replace _bensuperpc.org_ by your domain
 
-```sh
-command: certonly --webroot --webroot-path=/var/www/html --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --keep-until-expiring --domain www.bensuperpc.org --domain bensuperpc.org
+```yaml
+    command: >
+      certonly --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --keep-until-expiring --webroot 
+      --webroot-path=/var/www/wordpress --domain bensuperpc.org --domain www.bensuperpc.org
+      --webroot-path=/var/www/jellyfin --domain jellyfin.bensuperpc.org --domain www.jellyfin.bensuperpc.org
 ```
 
 With to get the SSL certificate
 
-```sh
-command: certonly --webroot --webroot-path=/var/www/html --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --staging --domain www.bensuperpc.org --domain bensuperpc.org
+```yaml
+    command: >
+      certonly --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --staging --webroot
+      --webroot-path=/var/www/wordpress --domain bensuperpc.org --domain www.bensuperpc.org
+      --webroot-path=/var/www/jellyfin --domain jellyfin.bensuperpc.org --domain www.jellyfin.bensuperpc.org 
 ```
 
 Run the docker-compose and exit with CTRL+C and when you have the SSL certificate
@@ -100,7 +103,10 @@ make start-at
 Replace certbot commands in _docker-compose.yml_ to update and renew the SSL certificate
 
 ```sh
-command: certonly --webroot --webroot-path=/var/www/html --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --force-renewal --domain www.bensuperpc.org --domain bensuperpc.org
+    command: >
+      certonly --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --force-renewal --webroot
+      --webroot-path=/var/www/wordpress --domain bensuperpc.org --domain www.bensuperpc.org
+      --webroot-path=/var/www/jellyfin --domain jellyfin.bensuperpc.org --domain www.jellyfin.bensuperpc.org 
 ```
 
 Run the docker-compose to update and renew the SSL certificate and exit with CTRL+C when you have the SSL certificate
@@ -111,8 +117,11 @@ make start-at
 
 Now you can replace the certbot commands in _docker-compose.yml_ with the original one
 
-```sh
-command: certonly --webroot --webroot-path=/var/www/html --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --keep-until-expiring --domain www.bensuperpc.org --domain bensuperpc.org
+```yaml
+    command: >
+      certonly --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --keep-until-expiring --webroot 
+      --webroot-path=/var/www/wordpress --domain bensuperpc.org --domain www.bensuperpc.org
+      --webroot-path=/var/www/jellyfin --domain jellyfin.bensuperpc.org --domain www.jellyfin.bensuperpc.org
 ```
 
 Remove the cert config file
@@ -160,7 +169,6 @@ make stop
 You can access to the website with:
 
 - [bensuperpc.org](https://bensuperpc.org) and [www.bensuperpc.org](https://www.bensuperpc.org) (Wordpress for now)
-- [flask.bensuperpc.org](http://flask.bensuperpc.org) and [www.flask.bensuperpc.org](http://www.bensuperpc.org) (Flask website, no SSL for now)
 - [phpmyadmin.bensuperpc.org](http://phpmyadmin.bensuperpc.org) and [www.phpmyadmin.bensuperpc.org](http://www.phpmyadmin.bensuperpc.org) (PHPMyAdmin for MariaDB)
 - [pgadmin.bensuperpc.org](http://pgadmin.bensuperpc.org) and [www.pgadmin.bensuperpc.org](http://www.pgadmin.bensuperpc.org) (PGAdmin for PostgreSQL)
 - [qbittorrent.bensuperpc.org](http://qbittorrent.bensuperpc.org) and [www.qbittorrent.bensuperpc.org](http://www.qbittorrent.bensuperpc.org) (Qbittorrent)

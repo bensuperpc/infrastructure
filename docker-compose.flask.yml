@@ -11,7 +11,7 @@ services:
     depends_on:
       - flask_db
     volumes:
-      - ./bensuperpc_website:/app:rw
+      - ./bensuperpc_website:/var/www/flask:rw
     env_file:
       - env/flask_website.env
     restart: unless-stopped
