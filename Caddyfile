@@ -1,0 +1,35 @@
+bensuperpc.org {
+    root * /var/www/html
+    php_fastcgi wordpress:9000
+    file_server
+    encode gzip
+    
+    @disallowed {
+        path /xmlrpc.php
+        path *.sql
+        path /wp-content/uploads/*.php
+    }
+    rewrite @disallowed '/index.php'
+
+    respond /uploads/*.php 404
+}
+
+www.bensuperpc.org {
+    redir https://{host}{uri}
+}
+
+bensuperpc.fr {
+    redir https://{host}{uri}
+}
+
+www.bensuperpc.fr {
+    redir https://{host}{uri}
+}
+
+bensuperpc.com {
+    redir https://{host}{uri}
+}
+
+www.bensuperpc.com {
+    redir https://{host}{uri}
+}
