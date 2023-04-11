@@ -1,0 +1,3 @@
+#import /path/to/*.caddy
+
+import wordpress/Caddyfile

@@ -14,22 +14,6 @@ bensuperpc.org {
     respond /uploads/*.php 404
 }
 
-www.bensuperpc.org {
-    redir https://{host}{uri}
-}
-
-bensuperpc.fr {
-    redir https://{host}{uri}
-}
-
-www.bensuperpc.fr {
-    redir https://{host}{uri}
-}
-
-bensuperpc.com {
-    redir https://{host}{uri}
-}
-
 www.bensuperpc.com {
-    redir https://{host}{uri}
+    redir https://bensuperpc.org{uri}
 }

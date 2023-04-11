@@ -25,7 +25,6 @@ services:
     profiles:
       - wordpress
     restart: always
-    user: "root:root"
     env_file:
       - env/wordpress.env
     volumes:
@@ -48,7 +47,7 @@ services:
       - wordpress:/var/www/html:rw
       - caddy_data:/data:rw
       - caddy_config:/config:rw
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./caddy:/etc/caddy:ro
     networks:
       - blog-network
 #  phpmyadmin:
