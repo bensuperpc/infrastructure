@@ -1,19 +1,40 @@
 bensuperpc.org {
-    root * /var/www/html
-    php_fastcgi wordpress:9000
-    file_server
-    encode gzip
-    
-    @disallowed {
-        path /xmlrpc.php
-        path *.sql
-        path /wp-content/uploads/*.php
-    }
-    rewrite @disallowed '/index.php'
+	# push
 
-    respond /uploads/*.php 404
+	root * /var/www/html
+	php_fastcgi wordpress:9000
+
+	file_server
+	encode zstd gzip
+
+	metrics /metrics
+
+	@disallowed {
+		path /xmlrpc.php
+		path *.sql
+		path /wp-content/uploads/*.php
+	}
+	rewrite @disallowed '/index.php'
+
+	respond /uploads/*.php 404
+
+	header {
+		-Server
+		Content-Security-Policy default-src 'self' *.bensuperpc.org
+		X-XSS-Protection 1; mode=block
+		Strict-Transport-Security max-age=31536000; includeSubDomains; preload
+		X-Frame-Options DENY
+		X-Frame-Options: SAMEORIGIN
+		X-Content-Type-Options nosniff
+		Referrer-Policy no-referrer-when-downgrade
+	}
+
+	log {
+		output stdout
+		format console
+	}
 }
 
 www.bensuperpc.com {
-    redir https://bensuperpc.org{uri}
+	redir https://bensuperpc.org{uri}
 }
