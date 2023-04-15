@@ -20,7 +20,7 @@ services:
     #command: >
     #  certonly --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --force-renewal --webroot
     #  --webroot-path=/var/www/wordpress --domain bensuperpc.org --domain www.bensuperpc.org
-    #  --webroot-path=/var/www/jellyfin --domain jellyfin.bensuperpc.org --domain www.jellyfin.bensuperpc.org 
+    #  --webroot-path=/var/www/jellyfin --domain jellyfin.bensuperpc.org --domain www.jellyfin.bensuperpc.org
 
     command: >
       certonly --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --keep-until-expiring --webroot 
