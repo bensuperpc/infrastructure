@@ -2,24 +2,23 @@
 
 _My personal infrastructure for my servers and services._
 
-**I moved to caddy inetead of nginx, you can find the old version before this commit:**b98fca7af8954770feec0cd962d35f47bde0d5d2**
-
 ## About
 
 This is my infrastructure. It's a collection of scripts and configuration files that I use to manage my servers and services.
-It uses ~~Nginx ~~ caddy and docker-compose to run my services (And many other things).
+It uses Nginx and docker-compose to run my services (And many other things).
 It's a **work in progress**, and I'm still learning a lot about it.
 If you have any **questions** or **suggestions**, feel free to open an issue or a pull request.
 
 ## Features
 
-- [x] caddy 2 reverse proxy
+- [x] Nginx reverse proxy
 - [x] Docker / docker-compose
-- [x] ~~Letsencrypt / Certbot~~ (Caddy)
-- [x] Wordpress (Via FASTCGI/caddy)
+- [x] Letsencrypt / Certbot
+- [x] Wordpress (Via FASTCGI/NGINX)
 - [x] PHPMyAdmin (MariaDB)
-- [ ] Qbittorrent
-- [ ] Jellyfin
+- [x] PGAdmin (PostgreSQL)
+- [x] Qbittorrent
+- [x] Jellyfin
 - [ ] Gitea
 - [ ] Mastodon
 - [ ] Minecraft server (Hyperworld v2)
@@ -59,17 +58,93 @@ For all **bensuperpc.org**, you need to replace it with your domain, example: **
 find . \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i 's/bensuperpc.org/bensuperpc.com/g'
 ```
 
-And then, caddy will generate the certificate for you and renew it automatically :D (It's easier than certbot and nginx)
-
-### Configure the infrastructure
-
-You must create a file named `.env` with the following content:
+Keep original config file
 
 ```sh
-MARIADB_ROOT_PASSWORD=<your_root_password>
-MARIADB_USER=<your_user>
-MARIADB_PASSWORD=<your_password>
+cp -r nginx/conf.d nginx/conf.d-original
 ```
+
+Remove the old config file
+
+```sh
+rm -fr nginx/nginx-conf
+```
+
+Copy _nginx-conf-cert_ to _nginx-conf_, for temporary use to get the SSL certificate
+
+```sh
+cp -r nginx/conf.d-cert nginx/conf.d
+```
+
+Replace certbot commands in _docker-compose.yml_, and replace _bensuperpc.org_ by your domain
+
+```yaml
+    command: >
+      certonly --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --keep-until-expiring --webroot 
+      --webroot-path=/var/www/wordpress --domain bensuperpc.org --domain www.bensuperpc.org
+      --webroot-path=/var/www/jellyfin --domain jellyfin.bensuperpc.org --domain www.jellyfin.bensuperpc.org
+```
+
+With to get the SSL certificate
+
+```yaml
+    command: >
+      certonly --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --staging --webroot
+      --webroot-path=/var/www/wordpress --domain bensuperpc.org --domain www.bensuperpc.org
+      --webroot-path=/var/www/jellyfin --domain jellyfin.bensuperpc.org --domain www.jellyfin.bensuperpc.org 
+```
+
+Run the docker-compose and exit with CTRL+C and when you have the SSL certificate
+
+```sh
+make start-at
+```
+
+Replace certbot commands in _docker-compose.yml_ to update and renew the SSL certificate
+
+```sh
+    command: >
+      certonly --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --force-renewal --webroot
+      --webroot-path=/var/www/wordpress --domain bensuperpc.org --domain www.bensuperpc.org
+      --webroot-path=/var/www/jellyfin --domain jellyfin.bensuperpc.org --domain www.jellyfin.bensuperpc.org 
+```
+
+Run the docker-compose to update and renew the SSL certificate and exit with CTRL+C when you have the SSL certificate
+
+```sh
+make start-at
+```
+
+Now you can replace the certbot commands in _docker-compose.yml_ with the original one
+
+```yaml
+    command: >
+      certonly --email bensuperpc@bensuperpc.fr --agree-tos --rsa-key-size 4096 --no-eff-email --verbose --noninteractive --keep-until-expiring --webroot 
+      --webroot-path=/var/www/wordpress --domain bensuperpc.org --domain www.bensuperpc.org
+      --webroot-path=/var/www/jellyfin --domain jellyfin.bensuperpc.org --domain www.jellyfin.bensuperpc.org
+```
+
+Remove the cert config file
+
+```sh
+rm -fr nginx/conf.d
+```
+
+Copy _nginx-conf-original_ to _nginx-conf_, for definitive use
+
+```sh
+cp -r nginx/conf.d-original nginx/conf.d
+```
+
+Now you start services
+
+```sh
+make start-at
+```
+
+### Flask website
+
+You can follow the [README.md](bensuperpc_website/README.md) to install the Flask website.
 
 ### Wordpress website
 
@@ -94,6 +169,9 @@ make stop
 You can access to the website with:
 
 - [bensuperpc.org](https://bensuperpc.org) and [www.bensuperpc.org](https://www.bensuperpc.org) (Wordpress for now)
+- [phpmyadmin.bensuperpc.org](http://phpmyadmin.bensuperpc.org) and [www.phpmyadmin.bensuperpc.org](http://www.phpmyadmin.bensuperpc.org) (PHPMyAdmin for MariaDB)
+- [pgadmin.bensuperpc.org](http://pgadmin.bensuperpc.org) and [www.pgadmin.bensuperpc.org](http://www.pgadmin.bensuperpc.org) (PGAdmin for PostgreSQL)
+- [qbittorrent.bensuperpc.org](http://qbittorrent.bensuperpc.org) and [www.qbittorrent.bensuperpc.org](http://www.qbittorrent.bensuperpc.org) (Qbittorrent)
 
 ## Build with
 
@@ -104,8 +182,8 @@ You can access to the website with:
 - [Docker](https://www.docker.com/)
 - [Docker Compose](https://docs.docker.com/compose/)
 - [Docker Hub](https://hub.docker.com/)
-- [How To Start WordPress with Caddy using Docker Compose](https://minhcung.me/how-to-start-wordpress-with-caddy-using-docker-compose-3d31bb9ef88b)
-- [Digital Ocean - How To Install WordPress with Docker Compose (nginx)](https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose)
+- [Digital Ocean](https://www.digitalocean.com/)
+- [Digital Ocean - How To Install WordPress with Docker Compose](https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose)
 - [PGAmin](https://www.pgadmin.org/)
 - [Qbittorrent](https://www.qbittorrent.org/)
 - [Jellyfin](https://jellyfin.org/)

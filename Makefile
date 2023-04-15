@@ -7,9 +7,9 @@
 #//                             |_|             |_|          //
 #//////////////////////////////////////////////////////////////
 #//                                                          //
-#//  Infrastructur, 2022                                     //
+#//  Script, 2022                                            //
 #//  Created: 14, April, 2022                                //
-#//  Modified: 10, April, 2023                               //
+#//  Modified: 17, March, 2023                               //
 #//  file: -                                                 //
 #//  -                                                       //
 #//  Source:                                                 //
@@ -20,7 +20,7 @@
 
 DOCKER := docker
 
-PROFILES := webserver database wordpress
+PROFILES := wp_db wordpress webserver certbot phpmyadmin qbittorrent jellyfin
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
 
@@ -68,7 +68,6 @@ state:
 
 .PHONY: update
 update:
-	git submodule update --init --recursive --remote
 	git pull --recurse-submodules --all --progress
 	docker compose $(COMPOSE_FILES) $(PROFILES_CMD) pull
 
