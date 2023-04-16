@@ -4,7 +4,7 @@ services:
   certbot:
     depends_on:
       - webserver
-    image: certbot/certbot:v1.32.0
+    image: certbot/certbot:v2.5.0
     container_name: certbot
     profiles:
       - certbot
