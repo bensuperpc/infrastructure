@@ -21,4 +21,4 @@ services:
     networks:
       - app-network
     security_opt:
-      - "no-new-privileges:true"
+      - no-new-privileges:true

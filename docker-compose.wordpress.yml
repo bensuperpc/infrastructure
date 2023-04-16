@@ -13,6 +13,8 @@ services:
       - dbdata:/var/lib/mysql
     networks:
       - app-network
+    security_opt:
+      - no-new-privileges:true
 
   wordpress:
     depends_on: 
@@ -29,8 +31,16 @@ services:
     networks:
       - app-network
     security_opt:
-      - "no-new-privileges:true"
-
+      - no-new-privileges:true
+#    cap_drop:
+#        - ALL
+#    cap_add:
+#      - SETUID
+#      - SETGID
+#      - DAC_OVERRIDE
+#      - NET_BIND_SERVICE
+#      - NET_RAW
+#      - CAP_CHOWN
   phpmyadmin:
     image: phpmyadmin:5.2.0
     container_name: phpmyadmin
@@ -39,12 +49,12 @@ services:
     restart: unless-stopped
     env_file: 
       - env/phpmyadmin.env
-#    ports:
-#      - 8080:80
     depends_on:
       - wp_db
     networks:
       - app-network
+    security_opt:
+      - no-new-privileges:true
 
 volumes:
   wordpress:

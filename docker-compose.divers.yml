@@ -44,3 +44,5 @@ services:
     restart: unless-stopped
     networks:
       - app-network
+    security_opt:
+      - no-new-privileges:true
