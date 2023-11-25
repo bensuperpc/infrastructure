@@ -15,15 +15,9 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 
 - [x] caddy 2 reverse proxy
 - [x] Docker / docker-compose
-- [x] ~~Letsencrypt / Certbot~~ (Caddy)
+- [x] Caddy
 - [x] Wordpress (Via FASTCGI/caddy)
-- [x] PHPMyAdmin (MariaDB)
-- [ ] Qbittorrent
-- [ ] Jellyfin
-- [ ] Gitea
-- [ ] Mastodon
-- [ ] Minecraft server (Hyperworld v2)
-- [ ] SSL for all subdomains / Services (Not just the main domain)
+- [x] Adminer (MariaDB)
 
 ## Screenshots
 
@@ -53,11 +47,13 @@ cd infrastructure
 
 ### Get the SSL certificate
 
-For all **bensuperpc.org**, you need to replace it with your domain, example: **bensuperpc.com**
+For all **bensuperpc.org**, you need to replace it with your domain, example: **mydomain.com**
 
 ```sh
-find . \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i 's/bensuperpc.org/bensuperpc.com/g'
+find . \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i 's/bensuperpc.org/mydomain.com/g'
 ```
+
+Check if all bensuperpc.* are replaced by your domain in [Caddyfile](caddy/wordpress/Caddyfile)
 
 And then, caddy will generate the certificate for you and renew it automatically :D (It's easier than certbot and nginx)
 
@@ -65,13 +61,31 @@ And then, caddy will generate the certificate for you and renew it automatically
 
 You must create a folder named `env` with the following content:
 
-file named `.env` with the following content:
+File named `wordpress.env` with the following content:
 
+```sh
+WORDPRESS_DB_USER=bensuperpc
+WORDPRESS_DB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
+WORDPRESS_DB_NAME=wordpress
+WORDPRESS_DB_HOST=database:3306
+```
+
+Another file `mariadb.env` 
+    
 ```sh
 MARIADB_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
 MARIADB_USER=bensuperpc
 MARIADB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
 MARIADB_DATABASE=wordpress
+```
+
+Another file `adminer.env`
+
+```sh
+MYSQL_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
+MYSQL_USER=bensuperpc
+MYSQL_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
+ADMINER_DEFAULT_SERVER=database
 ```
 
 ### Wordpress website

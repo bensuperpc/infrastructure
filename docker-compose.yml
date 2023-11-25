@@ -1,14 +1,14 @@
-version: '3.7'
-# https://minhcung.me/how-to-start-wordpress-with-caddy-using-docker-compose-3d31bb9ef88b
+version: '3.9'
 services:
+  # Database
   database:
     image: mariadb:latest
     container_name: database
     profiles:
       - database
+    restart: on-failure
     volumes:
       - database:/var/lib/mysql:rw
-    restart: always
     env_file:
       - env/mariadb.env
     environment:
@@ -16,15 +16,18 @@ services:
     command: '--default-authentication-plugin=mysql_native_password'
     networks:
       - blog-network
+    security_opt:
+      - no-new-privileges:true
+
   # Wordpress
   wordpress:
-    depends_on:
-      - database
     image: wordpress:fpm
     container_name: wordpress
     profiles:
       - wordpress
-    restart: always
+    restart: on-failure
+    depends_on:
+      - database
     env_file:
       - env/wordpress.env
     volumes:
@@ -32,18 +35,19 @@ services:
       - wordpress:/var/www/html:rw
     networks:
       - blog-network
+    security_opt:
+      - no-new-privileges:true
+
   # Webserver
   caddy:
     image: caddy:alpine
     container_name: webserver
     profiles:
       - webserver
-    restart: always
+    restart: on-failure
     ports:
-      - 80:80/tcp
-      - 80:80/udp
-      - 443:443/tcp
-      - 443:443/udp
+      - 80:80
+      - 443:443
     volumes:
       - wordpress:/var/www/html:rw
       - caddy_data:/data:rw
@@ -51,26 +55,31 @@ services:
       - ./caddy:/etc/caddy:ro
     networks:
       - blog-network
+    security_opt:
+      - no-new-privileges:true
+
+  # Adminer
   adminer:
     image: adminer:latest
     container_name: adminer
     profiles:
       - adminer
-    restart: always
+    restart: on-failure
     env_file: 
       - env/adminer.env
     depends_on:
       - database
     networks:
       - blog-network
-#    security_opt:
-#      - no-new-privileges:true
+    security_opt:
+      - no-new-privileges:true
 #      - seccomp:unconfined
 #      - apparmor:unconfined
 #    cap_drop:
 #      - ALL
 #    cap_add:
 #      - CHOWN
+
 networks:
   blog-network:
     driver: bridge

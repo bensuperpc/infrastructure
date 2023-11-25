@@ -1,6 +1,4 @@
 www.bensuperpc.org {
-	# push
-
 	root * /var/www/html
 	php_fastcgi wordpress:9000
 
@@ -30,5 +28,13 @@ bensuperpc.org {
 }
 
 adminer.bensuperpc.org {
-	reverse_proxy adminer:7777
+	reverse_proxy adminer:8080
+}
+
+bensuperpc.com {  
+  	redir https://www.bensuperpc.org{uri} permanent
+}
+
+www.bensuperpc.com {  
+  	redir https://www.bensuperpc.org{uri} permanent
 }
