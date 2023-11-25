@@ -59,9 +59,9 @@ And then, caddy will generate the certificate for you and renew it automatically
 
 ### Configure the infrastructure
 
-You must create a folder named `env` with the following content:
+You need to configure the infrastructure with your own configuration.
 
-File named `wordpress.env` with the following content:
+For the [wordpress.env](env/wordpress.env) file, you need to change the password and user for the database.
 
 ```sh
 WORDPRESS_DB_USER=bensuperpc
@@ -70,7 +70,7 @@ WORDPRESS_DB_NAME=wordpress
 WORDPRESS_DB_HOST=database:3306
 ```
 
-Another file `mariadb.env` 
+For [mariadb.env](env/mariadb.env) file, you need to change the password(s) and user for the database.
     
 ```sh
 MARIADB_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
@@ -79,7 +79,7 @@ MARIADB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
 MARIADB_DATABASE=wordpress
 ```
 
-Another file `adminer.env`
+For [adminer.env](env/adminer.env) file, you need to change the password(s) and user for the database.
 
 ```sh
 MYSQL_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
@@ -106,6 +106,12 @@ Stop the website with (or CTRL+C with the previous command):
 make stop
 ```
 
+Remove countainers with:
+
+```sh
+make down
+```
+
 ## URL
 
 You can access to the website with:
@@ -123,13 +129,8 @@ You can access to the website with:
 - [Docker Hub](https://hub.docker.com/)
 - [How To Start WordPress with Caddy using Docker Compose](https://minhcung.me/how-to-start-wordpress-with-caddy-using-docker-compose-3d31bb9ef88b)
 - [Digital Ocean - How To Install WordPress with Docker Compose (nginx)](https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose)
-- [PGAmin](https://www.pgadmin.org/)
-- [Qbittorrent](https://www.qbittorrent.org/)
-- [Jellyfin](https://jellyfin.org/)
 - [Letsencrypt](https://letsencrypt.org/)
-- [Certbot](https://certbot.eff.org/)
-- [Nginx](https://www.nginx.com/)
-- [UWSGI](https://uwsgi-docs.readthedocs.io/en/latest/)
+- [Caddy](https://caddyserver.com/)
 
 ## License
 
