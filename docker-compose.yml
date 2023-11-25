@@ -20,7 +20,7 @@ services:
   wordpress:
     depends_on:
       - database
-    image: wordpress:6.2-fpm-alpine
+    image: wordpress:fpm
     container_name: wordpress
     profiles:
       - wordpress
@@ -38,6 +38,7 @@ services:
     container_name: webserver
     profiles:
       - webserver
+    restart: always
     ports:
       - 80:80/tcp
       - 80:80/udp
@@ -50,20 +51,18 @@ services:
       - ./caddy:/etc/caddy:ro
     networks:
       - blog-network
-#  phpmyadmin:
-#    image: phpmyadmin:5.2.0
-#    container_name: phpmyadmin
-#    profiles:
-#      - phpmyadmin
-#    restart: always
-#    env_file: 
-#      - env/phpmyadmin.env
-#    ports:
-#      - 8080:80
-#    depends_on:
-#      - database
-#    networks:
-#      - blog-network
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    profiles:
+      - adminer
+    restart: always
+    env_file: 
+      - env/adminer.env
+    depends_on:
+      - database
+    networks:
+      - blog-network
 #    security_opt:
 #      - no-new-privileges:true
 #      - seccomp:unconfined

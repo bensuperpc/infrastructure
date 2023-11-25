@@ -1,4 +1,4 @@
-bensuperpc.org {
+www.bensuperpc.org {
 	# push
 
 	root * /var/www/html
@@ -14,27 +14,21 @@ bensuperpc.org {
 		path *.sql
 		path /wp-content/uploads/*.php
 	}
+
 	rewrite @disallowed '/index.php'
 
 	respond /uploads/*.php 404
-
-	header {
-		-Server
-		Content-Security-Policy default-src 'self' *.bensuperpc.org
-		X-XSS-Protection 1; mode=block
-		Strict-Transport-Security max-age=31536000; includeSubDomains; preload
-		X-Frame-Options DENY
-		X-Frame-Options: SAMEORIGIN
-		X-Content-Type-Options nosniff
-		Referrer-Policy no-referrer-when-downgrade
-	}
-
+	
 	log {
 		output stdout
 		format console
 	}
 }
 
-www.bensuperpc.com {
-	redir https://bensuperpc.org{uri}
+bensuperpc.org {
+	redir https://www.bensuperpc.org{uri} permanent
+}
+
+adminer.bensuperpc.org {
+	reverse_proxy adminer:7777
 }

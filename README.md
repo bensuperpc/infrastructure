@@ -63,12 +63,15 @@ And then, caddy will generate the certificate for you and renew it automatically
 
 ### Configure the infrastructure
 
-You must create a file named `.env` with the following content:
+You must create a folder named `env` with the following content:
+
+file named `.env` with the following content:
 
 ```sh
-MARIADB_ROOT_PASSWORD=<your_root_password>
-MARIADB_USER=<your_user>
-MARIADB_PASSWORD=<your_password>
+MARIADB_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
+MARIADB_USER=bensuperpc
+MARIADB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
+MARIADB_DATABASE=wordpress
 ```
 
 ### Wordpress website

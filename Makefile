@@ -20,7 +20,7 @@
 
 DOCKER := docker
 
-PROFILES := webserver database wordpress
+PROFILES := webserver database wordpress adminer
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
 
