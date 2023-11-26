@@ -6,6 +6,8 @@ services:
     container_name: database
     profiles:
       - database
+    depends_on:
+      - caddy
     restart: on-failure
     volumes:
       - database:/var/lib/mysql:rw
@@ -28,6 +30,7 @@ services:
     restart: on-failure
     depends_on:
       - database
+      - caddy
     env_file:
       - env/wordpress.env
     volumes:
@@ -69,6 +72,7 @@ services:
       - env/adminer.env
     depends_on:
       - database
+      - caddy
     networks:
       - blog-network
     security_opt:
@@ -79,6 +83,21 @@ services:
 #      - ALL
 #    cap_add:
 #      - CHOWN
+
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    container_name: uptime-kuma
+    profiles:
+      - uptime-kuma
+    depends_on:
+      - caddy
+    volumes:
+      - uptimekuma_data:/app/data
+    restart: always
+    networks:
+      - blog-network
+    security_opt:
+      - no-new-privileges:true
 
 networks:
   blog-network:
@@ -94,3 +113,5 @@ volumes:
     name: caddy_data
   caddy_config:
     name: caddy_config
+  uptimekuma_data:
+    name: uptimekuma_data

@@ -18,7 +18,7 @@ www.bensuperpc.org {
 	respond /uploads/*.php 404
 	
 	log {
-		output stdout
+		output file /data/logs/access.log
 		format console
 	}
 }
@@ -29,6 +29,10 @@ bensuperpc.org {
 
 adminer.bensuperpc.org {
 	reverse_proxy adminer:8080
+}
+
+uptimekuma.bensuperpc.org {
+	reverse_proxy uptime-kuma:3001
 }
 
 bensuperpc.com {  

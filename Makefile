@@ -20,11 +20,11 @@
 
 DOCKER := docker
 
-PROFILES := webserver database wordpress adminer
+PROFILES := webserver database wordpress adminer uptime-kuma
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
 
-COMPOSE_FILES :=  $(shell find docker-compose* | sed -e 's/^/--file /')
+COMPOSE_FILES :=  $(shell find docker-compose*.yml | sed -e 's/^/--file /')
 
 AUTHOR := bensuperpc
 
