@@ -34,11 +34,3 @@ adminer.bensuperpc.org {
 uptimekuma.bensuperpc.org {
 	reverse_proxy uptime-kuma:3001
 }
-
-bensuperpc.com {  
-  	redir https://www.bensuperpc.org{uri} permanent
-}
-
-www.bensuperpc.com {  
-  	redir https://www.bensuperpc.org{uri} permanent
-}

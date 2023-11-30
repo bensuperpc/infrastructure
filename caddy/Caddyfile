@@ -1,1 +1,3 @@
-import wordpress/Caddyfile
+import bensuperpc.org/Caddyfile
+import bensuperpc.com/Caddyfile
+import bensuperpc.fr/Caddyfile
