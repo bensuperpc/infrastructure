@@ -1,0 +1,7 @@
+bensuperpc.net {
+	redir https://www.bensuperpc.org{uri} permanent
+}
+
+www.bensuperpc.net {
+	redir https://www.bensuperpc.org{uri} permanent
+}
