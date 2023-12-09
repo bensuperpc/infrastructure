@@ -1,5 +1,6 @@
 {
     email bensuperpc@gmail.com
+    key_type ed25519
 }
 
 import bensuperpc.org/Caddyfile
