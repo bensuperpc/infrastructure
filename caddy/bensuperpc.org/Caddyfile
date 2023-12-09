@@ -34,3 +34,11 @@ adminer.bensuperpc.org {
 uptimekuma.bensuperpc.org {
 	reverse_proxy uptime-kuma:3001
 }
+
+portainer.bensuperpc.org {
+	reverse_proxy portainer:9000
+}
+
+rickroll.bensuperpc.org {
+	redir https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent
+}

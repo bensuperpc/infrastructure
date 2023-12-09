@@ -1,3 +1,7 @@
+{
+    email bensuperpc@gmail.com
+}
+
 import bensuperpc.org/Caddyfile
 import bensuperpc.com/Caddyfile
 import bensuperpc.net/Caddyfile

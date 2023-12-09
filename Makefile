@@ -20,9 +20,8 @@
 
 DOCKER := docker
 
-PROFILES := webserver database wordpress adminer uptime-kuma
+PROFILES := webserver database wordpress adminer uptime-kuma portainer
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
-
 
 COMPOSE_FILES :=  $(shell find docker-compose*.yml | sed -e 's/^/--file /')
 
@@ -45,7 +44,7 @@ start-at:
 
 .PHONY: docker-check
 docker-check:
-	docker compose $(COMPOSE_FILES) $(PROFILES_CMD) config
+	docker compose $(COMPOSE_FILES) $(PROFILE_CMD) config
 
 .PHONY: stop
 stop: down
@@ -70,7 +69,7 @@ state:
 update:
 	git submodule update --init --recursive --remote
 	git pull --recurse-submodules --all --progress
-	docker compose $(COMPOSE_FILES) $(PROFILES_CMD) pull
+	docker compose $(COMPOSE_FILES) $(PROFILE_CMD) pull
 
 .PHONY: clean
 clean:

@@ -18,6 +18,7 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [x] Caddy
 - [x] Wordpress (Via FASTCGI/caddy)
 - [x] Adminer (MariaDB)
+- [x] Portainer ce
 
 ## Screenshots
 
@@ -29,7 +30,7 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Web domain](https://www.ovh.com/world/domains/) (I use OVH)
-- [Open port 80 and 443 on your router](http://192.168.0.1/) (I use a Orange box with default IP)
+- [Open port 80 and 443 on your router](http://192.168.0.1/) (I use a SFR box with default IP)
 
 ### Clone
 
@@ -45,7 +46,7 @@ Go to the folder
 cd infrastructure
 ```
 
-### Get the SSL certificate
+### Configure the domain
 
 For all **bensuperpc.org**, you need to replace it with your domain, example: **mydomain.com**
 
@@ -57,9 +58,22 @@ Check if all bensuperpc.* are replaced by your domain in [Caddyfile](caddy/wordp
 
 And then, caddy will generate the certificate for you and renew it automatically :D (It's easier than certbot and nginx)
 
+| Domain name | Description |
+| --- | --- |
+| bensuperpc.org | Main domain |
+| bensuperpc.com | Redirect to bensuperpc.org |
+| bensuperpc.fr | Redirect to bensuperpc.org |
+| bensuperpc.net | Redirect to bensuperpc.org |
+
 ### Configure the infrastructure
 
 You need to configure the infrastructure with your own configuration.
+
+You can generate a password with 32 characters:
+
+```sh
+openssl rand -base64 32
+```
 
 For the [wordpress.env](env/wordpress.env) file, you need to change the password and user for the database.
 
@@ -111,6 +125,16 @@ Remove countainers with:
 ```sh
 make down
 ```
+
+### All services
+
+You can find all services on the [docker-compose.yml](docker-compose.yml) file or on this table:
+
+| Service | Description | URL |
+| --- | --- | --- |
+| Wordpress | Wordpress website | [bensuperpc.org](https://bensuperpc.org) and [www.bensuperpc.org](https://www.bensuperpc.org) |
+| Adminer | Adminer for MariaDB | [adminer.bensuperpc.org](https://adminer.bensuperpc.org) |
+| Portainer ce | Portainer ce | [portainer.bensuperpc.org](https://portainer.bensuperpc.org) |
 
 ## URL
 
