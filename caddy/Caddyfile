@@ -1,9 +1,9 @@
 {
     email bensuperpc@gmail.com
     key_type ed25519
-}
 
-import bensuperpc.org/Caddyfile
-import bensuperpc.com/Caddyfile
-import bensuperpc.net/Caddyfile
-import bensuperpc.fr/Caddyfile
+    import bensuperpc.org/Caddyfile
+    import bensuperpc.com/Caddyfile
+    import bensuperpc.net/Caddyfile
+    import bensuperpc.fr/Caddyfile
+}
