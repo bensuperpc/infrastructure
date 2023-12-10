@@ -1,0 +1,32 @@
+name: infrastructure
+
+on:
+  push:
+    branches:
+      - "main"
+      - "master"
+      - "dev"
+    paths-ignore:
+      - "**/README.md"
+  pull_request:
+    branches:
+      - "*"
+  schedule:
+    - cron: "0 9 * * 2" # every tuesday at 9:00 https://crontab.guru/#0_7_*_*_1
+  workflow_dispatch:
+
+jobs:
+  image:
+    name: infrastructure
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: "Checkout Code"
+        uses: actions/checkout@v3
+        with:
+          submodules: "recursive"
+          fetch-depth: 0
+      - name: "Update server"
+        run: make update
+      - name: "Build server"
+        run: make build

@@ -77,8 +77,6 @@ services:
       - blog-network
     security_opt:
       - no-new-privileges:true
-#      - seccomp:unconfined
-#      - apparmor:unconfined
 #    cap_drop:
 #      - ALL
 #    cap_add:
@@ -89,8 +87,6 @@ services:
     container_name: uptime-kuma
     profiles:
       - uptime-kuma
-    depends_on:
-      - caddy
     volumes:
       - uptimekuma_data:/app/data
     restart: always
