@@ -64,6 +64,7 @@ And then, caddy will generate the certificate for you and renew it automatically
 | bensuperpc.com | Redirect to bensuperpc.org |
 | bensuperpc.fr | Redirect to bensuperpc.org |
 | bensuperpc.net | Redirect to bensuperpc.org |
+| bensuperpc.ovh | Redirect to bensuperpc.org |
 
 ### Configure the infrastructure
 

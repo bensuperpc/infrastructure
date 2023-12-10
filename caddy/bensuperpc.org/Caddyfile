@@ -16,6 +16,13 @@ www.bensuperpc.org {
 	rewrite @disallowed '/index.php'
 
 	respond /uploads/*.php 404
+
+	header / {
+		Permissions-Policy interest-cohort=()
+		Strict-Transport-Security max-age=31536000;
+		X-Content-Type-Options nosniff
+		X-Frame-Options DENY
+	}
 	
 	log {
 		output file /data/logs/access.log

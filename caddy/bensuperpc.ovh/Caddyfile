@@ -1,0 +1,7 @@
+bensuperpc.ovh {
+	redir https://www.bensuperpc.org{uri} permanent
+}
+
+www.bensuperpc.ovh {
+	redir https://www.bensuperpc.org{uri} permanent
+}
