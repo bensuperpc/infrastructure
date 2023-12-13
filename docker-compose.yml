@@ -34,7 +34,7 @@ services:
     env_file:
       - env/wordpress.env
     volumes:
-      - ./php.ini:/usr/local/etc/php/conf.d/custom.ini:ro
+      - ./config/wordpress/php.ini:/usr/local/etc/php/conf.d/custom.ini:ro
       - wordpress:/var/www/html:rw
     networks:
       - blog-network
@@ -60,6 +60,15 @@ services:
       - blog-network
     security_opt:
       - no-new-privileges:true
+#    cap_drop:
+#      - ALL
+#    cap_add:
+#      - CHOWN
+#      - FOWNER
+#      - DAC_OVERRIDE
+#      - SETGID
+#      - SETUID
+#      - NET_BIND_SERVICE
 
   # Adminer
   adminer:
@@ -77,10 +86,6 @@ services:
       - blog-network
     security_opt:
       - no-new-privileges:true
-#    cap_drop:
-#      - ALL
-#    cap_add:
-#      - CHOWN
 
   uptime-kuma:
     image: louislam/uptime-kuma:latest
