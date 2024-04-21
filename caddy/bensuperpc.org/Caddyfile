@@ -17,10 +17,17 @@ www.bensuperpc.org {
 
 	respond /uploads/*.php 404
 
-	header / {
+	header {
+		# disable FLoC tracking
 		Permissions-Policy interest-cohort=()
+
+		# enable HSTS
 		Strict-Transport-Security max-age=31536000;
+
+		# disable clients from sniffing the media type
 		X-Content-Type-Options nosniff
+
+		# clickjacking protection
 		X-Frame-Options DENY
 	}
 	
@@ -48,4 +55,8 @@ portainer.bensuperpc.org {
 
 rickroll.bensuperpc.org {
 	redir https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent
+}
+
+babyshark.bensuperpc.org {
+	redir https://www.youtube.com/watch?v=XqZsoesa55w permanent
 }
