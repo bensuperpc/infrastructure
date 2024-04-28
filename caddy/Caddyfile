@@ -1,6 +1,11 @@
 {
 	email bensuperpc@gmail.com
-	key_type ed25519
+	key_type p384
+
+	log {
+		output file /data/logs/access.log
+		format console
+	}
 }
 
 import bensuperpc.org/Caddyfile

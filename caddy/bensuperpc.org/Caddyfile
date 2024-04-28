@@ -5,7 +5,7 @@ www.bensuperpc.org {
 	file_server
 	encode zstd gzip
 
-	metrics /metrics
+	#metrics /metrics
 
 	@disallowed {
 		path /xmlrpc.php
@@ -30,11 +30,6 @@ www.bensuperpc.org {
 		# clickjacking protection
 		X-Frame-Options DENY
 	}
-	
-	log {
-		output file /data/logs/access.log
-		format console
-	}
 }
 
 bensuperpc.org {
@@ -42,21 +37,18 @@ bensuperpc.org {
 }
 
 adminer.bensuperpc.org {
-	reverse_proxy adminer:8080
+	#reverse_proxy adminer:8080
 }
 
 uptimekuma.bensuperpc.org {
 	reverse_proxy uptime-kuma:3001
 }
 
-portainer.bensuperpc.org {
-	reverse_proxy portainer:9000
+link.bensuperpc.org {
+	redir /rickroll https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent
+	redir /babyshark https://www.youtube.com/watch?v=XqZsoesa55w permanent
 }
 
-rickroll.bensuperpc.org {
-	redir https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent
-}
-
-babyshark.bensuperpc.org {
-	redir https://www.youtube.com/watch?v=XqZsoesa55w permanent
-}
+#rickroll.bensuperpc.org {
+#	redir https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent
+#}

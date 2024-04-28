@@ -99,20 +99,6 @@ services:
       - blog-network
     security_opt:
       - no-new-privileges:true
-
-  portainer:
-    image: portainer/portainer-ce:latest
-    container_name: portainer
-    profiles:
-      - portainer
-    restart: on-failure
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer_data:/data
-    networks:
-      - blog-network
-    security_opt:
-      - no-new-privileges:true
 networks:
   blog-network:
     driver: bridge
@@ -129,5 +115,3 @@ volumes:
     name: caddy_config
   uptimekuma_data:
     name: uptimekuma_data
-  portainer_data:
-    name: portainer_data
