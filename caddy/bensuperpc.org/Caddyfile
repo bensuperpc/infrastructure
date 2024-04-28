@@ -47,6 +47,13 @@ uptimekuma.bensuperpc.org {
 link.bensuperpc.org {
 	redir /rickroll https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent
 	redir /babyshark https://www.youtube.com/watch?v=XqZsoesa55w permanent
+	redir /cowcowcow https://www.youtube.com/watch?v=FavUpD_IjVY permanent
+	redir /badapple https://www.youtube.com/watch?v=FtutLA63Cp8 permanent
+	redir /macdo https://www.youtube.com/watch?v=Q16KpquGsIc permanent
+	redir /superiser https://www.youtube.com/watch?v=srnyVw-OR0g permanent
+	redir /daicon https://youtu.be/-840keiiFDE?si=zIPIokytxcnGw5fJ&t=162 permanent
+	redir /scp https://www.youtube.com/watch?v=FGCDndN20G8 permanent
+	redir /scpfb https://youtu.be/9zrKk-1E8zM?si=8R_ZBVG3GzMUYOe8&t=36 permanent
 }
 
 #rickroll.bensuperpc.org {
