@@ -20,7 +20,7 @@
 
 DOCKER := docker
 
-PROFILES := webserver database wordpress adminer uptime-kuma portainer
+PROFILES := webserver database wordpress adminer uptime-kuma portainer qbittorrent
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
 COMPOSE_FILES :=  $(shell find docker-compose*.yml | sed -e 's/^/--file /')

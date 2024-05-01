@@ -17,7 +17,7 @@ services:
       MYSQL_DATABASE: blog_wp
     command: '--default-authentication-plugin=mysql_native_password'
     networks:
-      - blog-network
+      - infra-network
     security_opt:
       - no-new-privileges:true
 
@@ -37,7 +37,7 @@ services:
       - ./config/wordpress/php.ini:/usr/local/etc/php/conf.d/custom.ini:ro
       - wordpress:/var/www/html:rw
     networks:
-      - blog-network
+      - infra-network
     security_opt:
       - no-new-privileges:true
 
@@ -57,7 +57,7 @@ services:
       - caddy_config:/config:rw
       - ./caddy:/etc/caddy:ro
     networks:
-      - blog-network
+      - infra-network
     security_opt:
       - no-new-privileges:true
 #    cap_drop:
@@ -83,7 +83,7 @@ services:
       - database
       - caddy
     networks:
-      - blog-network
+      - infra-network
     security_opt:
       - no-new-privileges:true
 
@@ -96,13 +96,38 @@ services:
       - uptimekuma_data:/app/data
     restart: always
     networks:
-      - blog-network
+      - infra-network
     security_opt:
       - no-new-privileges:true
+
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    profiles:
+      - qbittorrent
+    restart: on-failure
+    depends_on:
+      - caddy
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - WEBUI_PORT=8080
+      - TORRENTING_PORT=6881
+    volumes:
+      - qbittorrent_config:/config
+      - qbittorrent_data:/downloads
+    networks:
+      - infra-network
+#    ports:
+#      - 8080:8080
+#      - 6881:6881
+#      - 6881:6881/udp
+
 networks:
-  blog-network:
+  infra-network:
     driver: bridge
-    name: blog-network
+    name: infra-network
 
 volumes:
   database:
@@ -113,5 +138,9 @@ volumes:
     name: caddy_data
   caddy_config:
     name: caddy_config
+  qbittorrent_config:
+    name: qbittorrent_config
+  qbittorrent_data:
+    name: qbittorrent_data
   uptimekuma_data:
     name: uptimekuma_data
