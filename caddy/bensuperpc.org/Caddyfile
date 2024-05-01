@@ -54,8 +54,7 @@ link.bensuperpc.org {
 	redir /daicon https://youtu.be/-840keiiFDE?si=zIPIokytxcnGw5fJ&t=162 permanent
 	redir /scp https://www.youtube.com/watch?v=FGCDndN20G8 permanent
 	redir /scpfb https://youtu.be/9zrKk-1E8zM?si=8R_ZBVG3GzMUYOe8&t=36 permanent
+	redir /mother https://youtu.be/w3NyycHR3fE?si=rNNSW9zYv0bcO2Eu permanent
+	redir /cpu https://www.youtube.com/watch?v=y39D4529FM4 permanent
+	redir /chanteur https://youtu.be/HXdP15Ubu6M?si=N0qvhqo--3pmSGmb permanent
 }
-
-#rickroll.bensuperpc.org {
-#	redir https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent
-#}
