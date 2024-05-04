@@ -84,20 +84,6 @@ services:
       - infra-network
     security_opt:
       - no-new-privileges:true
-
-  uptime-kuma:
-    image: louislam/uptime-kuma:latest
-    container_name: uptime-kuma
-    profiles:
-      - uptime-kuma
-    volumes:
-      - uptimekuma_data:/app/data
-    restart: always
-    networks:
-      - infra-network
-    security_opt:
-      - no-new-privileges:true
-  
   gitea:
     image: gitea/gitea:latest-rootless
     container_name: gitea
@@ -152,6 +138,19 @@ services:
       - infra-network
     security_opt:
       - no-new-privileges:true
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptime-kuma
+    profiles:
+      - uptime-kuma
+    volumes:
+      - uptimekuma_data:/app/data
+    restart: always
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+
 
 networks:
   infra-network:
