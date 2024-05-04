@@ -37,7 +37,7 @@ bensuperpc.org {
 }
 
 adminer.bensuperpc.org {
-	#reverse_proxy adminer:8080
+	reverse_proxy adminer:8080
 }
 
 uptimekuma.bensuperpc.org {
