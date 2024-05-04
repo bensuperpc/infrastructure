@@ -120,6 +120,22 @@ services:
       - infra-network
     security_opt:
       - no-new-privileges:true
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    profiles:
+      - jellyfin
+    restart: on-failure
+    depends_on:
+      - caddy
+    volumes:
+      - jellyfin_config:/config
+      - jellyfin_data:/movies:ro
+      - jellyfin_cache:/cache
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
 
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
@@ -178,3 +194,9 @@ volumes:
     name: gitea_config
   gitea_db:
     name: gitea_db
+  jellyfin_config:
+    name: jellyfin_config
+  jellyfin_data:
+    name: jellyfin_data
+  jellyfin_cache:
+    name: jellyfin_cache

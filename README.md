@@ -18,7 +18,10 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [x] Caddy
 - [x] Wordpress (Via FASTCGI/caddy)
 - [x] Adminer (MariaDB)
-- [x] Portainer ce
+- [x] Jellyfin (Media server)
+- [x] Gitea (Git server)
+- [x] Uptime Kuma (Monitoring)
+- [x] Torrent server
 
 ## Screenshots
 
@@ -31,6 +34,8 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Web domain](https://www.ovh.com/world/domains/) (I use OVH)
 - [Open port 80 and 443 on your router](http://192.168.0.1/) (I use a SFR box with default IP)
+
+***To avoid get rate limit from letsencrypt (10 certificates per 3 hours), you need to disable some URL in the caddyfiles and enable them 3h later...***
 
 ### Clone
 
@@ -66,6 +71,7 @@ And then, caddy will generate the certificate for you and renew it automatically
 | torrent.bensuperpc.org | Sub | Torrent server |
 | git.bensuperpc.org | Sub | Gitea for git |
 | link.bensuperpc.org | Sub | For link shortener |
+| jellyfin.bensuperpc.org | Sub | Jellyfin for media server |
 | bensuperpc.com | Main | Redirect to bensuperpc.org |
 | bensuperpc.fr | Sub | Redirect to bensuperpc.org |
 | bensuperpc.net | Sub | Redirect to bensuperpc.org |
@@ -159,7 +165,10 @@ You can find all services on the [docker-compose.yml](docker-compose.yml) file o
 | --- | --- | --- |
 | Wordpress | Wordpress website | [bensuperpc.org](https://bensuperpc.org) and [www.bensuperpc.org](https://www.bensuperpc.org) |
 | Adminer | Adminer for MariaDB | [adminer.bensuperpc.org](https://adminer.bensuperpc.org) |
-| Portainer ce | Portainer ce | [portainer.bensuperpc.org](https://portainer.bensuperpc.org) |
+| Uptime Kuma | Uptime Kuma for monitoring | [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org) |
+| Torrent | Torrent server | [torrent.bensuperpc.org](https://torrent.bensuperpc.org) |
+| Gitea | Gitea for git | [git.bensuperpc.org](https://git.bensuperpc.org) |
+| Jellyfin | Jellyfin for media server | [jellyfin.bensuperpc.org](https://jellyfin.bensuperpc.org) |
 
 ## URL
 
