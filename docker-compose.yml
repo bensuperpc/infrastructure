@@ -12,9 +12,7 @@ services:
     volumes:
       - database:/var/lib/mysql:rw
     env_file:
-      - env/mariadb.env
-    environment:
-      MYSQL_DATABASE: blog_wp
+      - env/wordpress_db.env
     command: '--default-authentication-plugin=mysql_native_password'
     networks:
       - infra-network
@@ -99,6 +97,43 @@ services:
       - infra-network
     security_opt:
       - no-new-privileges:true
+  
+  gitea:
+    image: gitea/gitea:latest-rootless
+    container_name: gitea
+    profiles:
+      - gitea
+    restart: on-failure
+    depends_on:
+      - caddy
+    env_file:
+      - env/gitea.env
+    volumes:
+      - gitea_data:/var/lib/gitea
+      - gitea_config:/etc/gitea
+#      - /etc/timezone:/etc/timezone:ro
+#      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+  database_gitea:
+    image: mariadb:latest
+    container_name: database_gitea
+    profiles:
+      - database
+    depends_on:
+      - gitea
+    restart: on-failure
+    volumes:
+      - gitea_db:/var/lib/mysql:rw
+    env_file:
+      - env/gitea_db.env
+    command: '--default-authentication-plugin=mysql_native_password'
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
 
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
@@ -108,21 +143,15 @@ services:
     restart: on-failure
     depends_on:
       - caddy
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Etc/UTC
-      - WEBUI_PORT=8080
-      - TORRENTING_PORT=6881
+    env_file:
+      - env/qbittorrent.env
     volumes:
       - qbittorrent_config:/config
       - qbittorrent_data:/downloads
     networks:
       - infra-network
-#    ports:
-#      - 8080:8080
-#      - 6881:6881
-#      - 6881:6881/udp
+    security_opt:
+      - no-new-privileges:true
 
 networks:
   infra-network:
@@ -144,3 +173,9 @@ volumes:
     name: qbittorrent_data
   uptimekuma_data:
     name: uptimekuma_data
+  gitea_data:
+    name: gitea_data
+  gitea_config:
+    name: gitea_config
+  gitea_db:
+    name: gitea_db

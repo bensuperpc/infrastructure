@@ -58,13 +58,18 @@ Check if all bensuperpc.* are replaced by your domain in [Caddyfile](caddy/wordp
 
 And then, caddy will generate the certificate for you and renew it automatically :D (It's easier than certbot and nginx)
 
-| Domain name | Description |
+| Domain name | Type | Description |
 | --- | --- |
-| bensuperpc.org | Main domain |
-| bensuperpc.com | Redirect to bensuperpc.org |
-| bensuperpc.fr | Redirect to bensuperpc.org |
-| bensuperpc.net | Redirect to bensuperpc.org |
-| bensuperpc.ovh | Redirect to bensuperpc.org |
+| bensuperpc.org | Main | Main domain |
+| adminer.bensuperpc.org | Sub | Adminer for MariaDB for wordpress only |
+| uptimekuma.bensuperpc.org | Sub | Uptime Kuma for monitoring |
+| torrent.bensuperpc.org | Sub | Torrent server |
+| git.bensuperpc.org | Sub | Gitea for git |
+| link.bensuperpc.org | Sub | For link shortener |
+| bensuperpc.com | Main | Redirect to bensuperpc.org |
+| bensuperpc.fr | Sub | Redirect to bensuperpc.org |
+| bensuperpc.net | Sub | Redirect to bensuperpc.org |
+| bensuperpc.ovh | Sub | Redirect to bensuperpc.org |
 
 ### Configure the infrastructure
 
@@ -85,7 +90,7 @@ WORDPRESS_DB_NAME=wordpress
 WORDPRESS_DB_HOST=database:3306
 ```
 
-For [mariadb.env](env/mariadb.env) file, you need to change the password(s) and user for the database.
+For [wordpress_db.env](env/wordpress_db.env) file, you need to change the password(s) and user for the database.
     
 ```sh
 MARIADB_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
@@ -101,6 +106,25 @@ MYSQL_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
 MYSQL_USER=bensuperpc
 MYSQL_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
 ADMINER_DEFAULT_SERVER=database
+```
+
+For [gitea.env](env/gitea.env) file, you need to change the password(s) and user for the database.
+
+```sh
+GITEA__database__DB_TYPE=mysql
+GITEA__database__HOST=database_gitea:3306
+GITEA__database__NAME=gitea
+GITEA__database__USER=bensuperpc
+GITEA__database__PASSWD=K7s5yoHknnEd7vsZoxb8I3dK9mjToF1j
+```
+
+For [gitea_db.env](env/gitea_db.env) file, you need to change the password(s) and user for the database.
+
+```sh
+MYSQL_ROOT_PASSWORD=xpc4zIhHZzWKqVHcjBu4aW6aS7jG8d7X
+MYSQL_USER=bensuperpc
+MYSQL_PASSWORD=K7s5yoHknnEd7vsZoxb8I3dK9mjToF1j
+MYSQL_DATABASE=gitea
 ```
 
 ### Wordpress website

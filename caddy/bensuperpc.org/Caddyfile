@@ -48,6 +48,10 @@ torrent.bensuperpc.org {
 	reverse_proxy qbittorrent:8080
 }
 
+git.bensuperpc.org {
+	reverse_proxy gitea:3000
+}
+
 link.bensuperpc.org {
 	redir /rickroll https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent
 	redir /babyshark https://www.youtube.com/watch?v=XqZsoesa55w permanent
