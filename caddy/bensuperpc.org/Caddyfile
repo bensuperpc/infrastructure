@@ -69,4 +69,6 @@ link.bensuperpc.org {
 	redir /mother https://youtu.be/w3NyycHR3fE?si=rNNSW9zYv0bcO2Eu permanent
 	redir /cpu https://www.youtube.com/watch?v=y39D4529FM4 permanent
 	redir /chanteur https://youtu.be/HXdP15Ubu6M?si=N0qvhqo--3pmSGmb permanent
+	redir /bna https://youtu.be/3T3ofoKfEoY?si=_7HkGQXMC7rBng8O permanent
+	redir /darkwater https://youtu.be/Tr8ZgF4Dc0E?si=CEOmm2J6Jp5rdbbt permanent
 }

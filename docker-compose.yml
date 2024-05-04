@@ -1,6 +1,35 @@
 version: '3.9'
 services:
-  # Database
+  # Webserver
+  caddy:
+    image: caddy:latest
+    container_name: webserver
+    profiles:
+      - webserver
+    restart: on-failure
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - wordpress:/var/www/html:rw
+      - caddy_data:/data:rw
+      - caddy_config:/config:rw
+      - ./caddy:/etc/caddy:ro
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+#    cap_drop:
+#      - ALL
+#    cap_add:
+#      - CHOWN
+#      - FOWNER
+#      - DAC_OVERRIDE
+#      - SETGID
+#      - SETUID
+#      - NET_BIND_SERVICE
+
+  # Database wordpress
   database:
     image: mariadb:latest
     container_name: database
@@ -40,35 +69,6 @@ services:
     security_opt:
       - no-new-privileges:true
 
-  # Webserver
-  caddy:
-    image: caddy:latest
-    container_name: webserver
-    profiles:
-      - webserver
-    restart: on-failure
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - wordpress:/var/www/html:rw
-      - caddy_data:/data:rw
-      - caddy_config:/config:rw
-      - ./caddy:/etc/caddy:ro
-    networks:
-      - infra-network
-    security_opt:
-      - no-new-privileges:true
-#    cap_drop:
-#      - ALL
-#    cap_add:
-#      - CHOWN
-#      - FOWNER
-#      - DAC_OVERRIDE
-#      - SETGID
-#      - SETUID
-#      - NET_BIND_SERVICE
-
   # Adminer
   adminer:
     image: adminer:latest
@@ -85,6 +85,8 @@ services:
       - infra-network
     security_opt:
       - no-new-privileges:true
+  
+  # Gitea
   gitea:
     image: gitea/gitea:latest-rootless
     container_name: gitea
@@ -104,6 +106,8 @@ services:
       - infra-network
     security_opt:
       - no-new-privileges:true
+  
+  # Database gitea
   database_gitea:
     image: mariadb:latest
     container_name: database_gitea
@@ -122,6 +126,8 @@ services:
       - infra-network
     security_opt:
       - no-new-privileges:true
+  
+  # Jellyfin
   jellyfin:
     image: jellyfin/jellyfin:latest
     container_name: jellyfin
@@ -139,6 +145,7 @@ services:
     security_opt:
       - no-new-privileges:true
 
+  # qBittorrent
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     container_name: qbittorrent
@@ -156,6 +163,8 @@ services:
       - infra-network
     security_opt:
       - no-new-privileges:true
+  
+  # Uptime Kuma
   uptime-kuma:
     image: louislam/uptime-kuma:latest
     container_name: uptime-kuma
@@ -163,17 +172,11 @@ services:
       - uptime-kuma
     volumes:
       - uptimekuma_data:/app/data
-    restart: always
+    restart: on-failure
     networks:
       - infra-network
     security_opt:
       - no-new-privileges:true
-
-
-networks:
-  infra-network:
-    driver: bridge
-    name: infra-network
 
 volumes:
   database:
@@ -202,3 +205,8 @@ volumes:
     name: jellyfin_data
   jellyfin_cache:
     name: jellyfin_cache
+
+networks:
+  infra-network:
+    driver: bridge
+    name: infra-network
