@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  # Watchtower
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    profiles:
+      - watchtower
+    restart: on-failure
+    networks:
+      - infra-network
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+    security_opt:
+      - no-new-privileges:true

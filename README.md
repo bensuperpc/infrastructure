@@ -91,7 +91,7 @@ For the [wordpress.env](env/wordpress.env) file, you need to change the password
 WORDPRESS_DB_USER=bensuperpc
 WORDPRESS_DB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
 WORDPRESS_DB_NAME=wordpress
-WORDPRESS_DB_HOST=database:3306
+WORDPRESS_DB_HOST=wordpress_db:3306
 ```
 
 For [wordpress_db.env](env/wordpress_db.env) file, you need to change the password(s) and user for the database.
@@ -109,7 +109,7 @@ For [adminer.env](env/adminer.env) file, you need to change the password(s) and 
 MYSQL_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
 MYSQL_USER=bensuperpc
 MYSQL_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
-ADMINER_DEFAULT_SERVER=database
+ADMINER_DEFAULT_SERVER=wordpress_db
 ```
 
 For [gitea.env](env/gitea.env) file, you need to change the password(s) and user for the database.
