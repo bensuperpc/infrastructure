@@ -30,3 +30,8 @@ services:
 #      - SETUID
 #      - NET_BIND_SERVICE
 
+volumes:
+  caddy_data:
+    name: caddy_data
+  caddy_config:
+    name: caddy_config

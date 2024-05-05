@@ -41,3 +41,11 @@ services:
       - infra-network
     security_opt:
       - no-new-privileges:true
+
+volumes:
+  gitea_data:
+    name: gitea_data
+  gitea_config:
+    name: gitea_config
+  gitea_db:
+    name: gitea_db

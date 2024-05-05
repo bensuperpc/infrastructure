@@ -1,29 +1,5 @@
 version: '3.9'
 
 volumes:
-  database:
-    name: database
-  wordpress:
-    name: wordpress
-  caddy_data:
-    name: caddy_data
-  caddy_config:
-    name: caddy_config
-  qbittorrent_config:
-    name: qbittorrent_config
-  qbittorrent_data:
-    name: qbittorrent_data
   uptimekuma_data:
     name: uptimekuma_data
-  gitea_data:
-    name: gitea_data
-  gitea_config:
-    name: gitea_config
-  gitea_db:
-    name: gitea_db
-  jellyfin_config:
-    name: jellyfin_config
-  jellyfin_data:
-    name: jellyfin_data
-  jellyfin_cache:
-    name: jellyfin_cache

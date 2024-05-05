@@ -18,3 +18,11 @@ services:
       - infra-network
     security_opt:
       - no-new-privileges:true
+
+volumes:
+  jellyfin_config:
+    name: jellyfin_config
+  jellyfin_data:
+    name: jellyfin_data
+  jellyfin_cache:
+    name: jellyfin_cache

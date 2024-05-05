@@ -21,23 +21,6 @@ services:
     security_opt:
       - no-new-privileges:true
 
-  # Adminer
-  adminer:
-    image: adminer:latest
-    container_name: adminer
-    profiles:
-      - adminer
-    restart: on-failure
-    env_file: 
-      - env/adminer.env
-    depends_on:
-      - wordpress_db
-      - caddy
-    networks:
-      - infra-network
-    security_opt:
-      - no-new-privileges:true
-
   # Database wordpress
   wordpress_db:
     image: mariadb:latest
@@ -57,3 +40,26 @@ services:
       - infra-network
     security_opt:
       - no-new-privileges:true
+
+  # Adminer
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    profiles:
+      - adminer
+    restart: on-failure
+    env_file: 
+      - env/adminer.env
+    depends_on:
+      - wordpress_db
+      - caddy
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  database:
+    name: database
+  wordpress:
+    name: wordpress

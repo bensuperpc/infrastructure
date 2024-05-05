@@ -19,3 +19,9 @@ services:
       - infra-network
     security_opt:
       - no-new-privileges:true
+
+volumes:
+  qbittorrent_config:
+    name: qbittorrent_config
+  qbittorrent_data:
+    name: qbittorrent_data

@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  # Backup
+  backup:
+    image: offen/docker-volume-backup:latest
+    container_name: backup
+    profiles:
+      - backup
+    restart: on-failure
+    env_file:
+      - env/backup.env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - caddy_data:/backup/caddy_data:ro
+      - caddy_config:/backup/caddy_config:ro
+      - backup:/archive
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  backup:
+    name: backup

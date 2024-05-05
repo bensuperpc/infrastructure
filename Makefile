@@ -13,7 +13,7 @@
 
 DOCKER := docker
 
-PROFILES := webserver wordpress adminer uptime-kuma portainer qbittorrent gitea jellyfin watchtower
+PROFILES := webserver wordpress adminer uptime-kuma portainer qbittorrent gitea jellyfin watchtower backup
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
 COMPOSE_FILES :=  $(shell find docker-compose*.yml | sed -e 's/^/--file /')
@@ -56,11 +56,14 @@ state:
 	docker compose $(COMPOSE_FILES) ps
 	docker compose $(COMPOSE_FILES) top
 
-.PHONY: update
-update:
+.PHONY: update-docker
+update-docker:
 	docker compose $(COMPOSE_FILES) $(PROFILE_CMD) pull
-	git submodule update --init --recursive --remote
-	git pull --recurse-submodules --all --progress
+
+.PHONY: update
+update: update-docker
+#	git submodule update --init --recursive --remote
+#	git pull --recurse-submodules --all --progress
 
 .PHONY: clean
 clean:
