@@ -33,7 +33,7 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [Web domain](https://www.ovh.com/world/domains/) (I use OVH)
 - [Open port 80 and 443 on your router](http://192.168.0.1/) (I use a SFR box with default IP)
 
-***To avoid get rate limit from letsencrypt (10 certificates per 3 hours), you need to disable some URL in the caddyfiles and enable them 3h later...***
+***To avoid get rate limit from letsencrypt (10 certificates per 3 hours), you need to disable some certificates in the caddyfiles and enable them 3h later...***
 
 ### Clone
 
