@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  # qBittorrent
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    profiles:
+      - qbittorrent
+    restart: on-failure
+    depends_on:
+      - caddy
+    env_file:
+      - env/qbittorrent.env
+    volumes:
+      - qbittorrent_config:/config
+      - qbittorrent_data:/downloads
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true

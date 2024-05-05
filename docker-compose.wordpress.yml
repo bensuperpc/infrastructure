@@ -1,0 +1,59 @@
+version: '3.9'
+
+services:
+  # Database wordpress
+  database:
+    image: mariadb:latest
+    container_name: database
+    profiles:
+      - database
+      - wordpress
+    depends_on:
+      - caddy
+    restart: on-failure
+    volumes:
+      - database:/var/lib/mysql:rw
+    env_file:
+      - env/wordpress_db.env
+    command: '--default-authentication-plugin=mysql_native_password'
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+
+  # Wordpress
+  wordpress:
+    image: wordpress:fpm
+    container_name: wordpress
+    profiles:
+      - wordpress
+    restart: on-failure
+    depends_on:
+      - database
+      - caddy
+    env_file:
+      - env/wordpress.env
+    volumes:
+      - ./config/wordpress/php.ini:/usr/local/etc/php/conf.d/custom.ini:ro
+      - wordpress:/var/www/html:rw
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+
+  # Adminer
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    profiles:
+      - adminer
+    restart: on-failure
+    env_file: 
+      - env/adminer.env
+    depends_on:
+      - database
+      - caddy
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true

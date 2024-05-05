@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  # Uptime Kuma
+  uptime-kuma:
+    image: louislam/uptime-kuma:latest
+    container_name: uptime-kuma
+    profiles:
+      - uptime-kuma
+    volumes:
+      - uptimekuma_data:/app/data
+    restart: on-failure
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true

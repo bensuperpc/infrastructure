@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  # Gitea
+  gitea:
+    image: gitea/gitea:latest-rootless
+    container_name: gitea
+    profiles:
+      - gitea
+    restart: on-failure
+    depends_on:
+      - caddy
+    env_file:
+      - env/gitea.env
+    volumes:
+      - gitea_data:/var/lib/gitea
+      - gitea_config:/etc/gitea
+#      - /etc/timezone:/etc/timezone:ro
+#      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+  
+  # Database gitea
+  database_gitea:
+    image: mariadb:latest
+    container_name: database_gitea
+    profiles:
+      - database
+      - gitea
+    depends_on:
+      - gitea
+    restart: on-failure
+    volumes:
+      - gitea_db:/var/lib/mysql:rw
+    env_file:
+      - env/gitea_db.env
+    command: '--default-authentication-plugin=mysql_native_password'
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true

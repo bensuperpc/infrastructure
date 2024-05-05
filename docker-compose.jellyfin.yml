@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+  # Jellyfin
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    profiles:
+      - jellyfin
+    restart: on-failure
+    depends_on:
+      - caddy
+    volumes:
+      - jellyfin_config:/config
+      - jellyfin_data:/movies:ro
+      - jellyfin_cache:/cache
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true

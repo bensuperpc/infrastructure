@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  # Webserver
+  caddy:
+    image: caddy:latest
+    container_name: webserver
+    profiles:
+      - webserver
+    restart: on-failure
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - wordpress:/var/www/html:rw
+      - caddy_data:/data:rw
+      - caddy_config:/config:rw
+      - ./caddy:/etc/caddy:ro
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+#    cap_drop:
+#      - ALL
+#    cap_add:
+#      - CHOWN
+#      - FOWNER
+#      - DAC_OVERRIDE
+#      - SETGID
+#      - SETUID
+#      - NET_BIND_SERVICE
+
