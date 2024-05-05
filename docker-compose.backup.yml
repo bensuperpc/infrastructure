@@ -12,9 +12,19 @@ services:
       - env/backup.env
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - backup:/archive
       - caddy_data:/backup/caddy_data:ro
       - caddy_config:/backup/caddy_config:ro
-      - backup:/archive
+#      - gitea_data:/backup/gitea_data:ro
+#      - gitea_config:/backup/gitea_config:ro
+#      - database:/backup/database:ro
+#      - wordpress:/backup/wordpress:ro
+#      - jellyfin_config:/backup/jellyfin_config:ro
+#      - jellyfin_data:/backup/jellyfin_data:ro
+#      - jellyfin_cache:/backup/jellyfin_cache:ro
+#      - qbittorrent_config:/backup/qbittorrent_config:ro
+#      - qbittorrent_data:/backup/qbittorrent_data:ro
+#      - uptimekuma_data:/backup/uptimekuma_data:ro
     networks:
       - infra-network
     security_opt:

@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  # Adminer
+  adminer:
+    image: adminer:latest
+    container_name: adminer
+    profiles:
+      - adminer
+    restart: on-failure
+    env_file: 
+      - env/adminer.env
+    depends_on:
+      - wordpress_db
+      - caddy
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
