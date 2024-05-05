@@ -1,15 +1,8 @@
 #//////////////////////////////////////////////////////////////
-#//   ____                                                   //
-#//  | __ )  ___ _ __  ___ _   _ _ __   ___ _ __ _ __   ___  //
-#//  |  _ \ / _ \ '_ \/ __| | | | '_ \ / _ \ '__| '_ \ / __| //
-#//  | |_) |  __/ | | \__ \ |_| | |_) |  __/ |  | |_) | (__  //
-#//  |____/ \___|_| |_|___/\__,_| .__/ \___|_|  | .__/ \___| //
-#//                             |_|             |_|          //
-#//////////////////////////////////////////////////////////////
 #//                                                          //
-#//  Infrastructur, 2022                                     //
+#//  Infrastructure, 2024                                    //
 #//  Created: 14, April, 2022                                //
-#//  Modified: 25, Novembre, 2023                            //
+#//  Modified: 05, May, 2024                                 //
 #//  file: -                                                 //
 #//  -                                                       //
 #//  Source:                                                 //
@@ -24,8 +17,6 @@ PROFILES := webserver database wordpress adminer uptime-kuma portainer qbittorre
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
 COMPOSE_FILES :=  $(shell find docker-compose*.yml | sed -e 's/^/--file /')
-
-AUTHOR := bensuperpc
 
 .PHONY: build all
 all: start
@@ -67,9 +58,9 @@ state:
 
 .PHONY: update
 update:
+	docker compose $(COMPOSE_FILES) $(PROFILE_CMD) pull
 	git submodule update --init --recursive --remote
 	git pull --recurse-submodules --all --progress
-	docker compose $(COMPOSE_FILES) $(PROFILE_CMD) pull
 
 .PHONY: clean
 clean:
