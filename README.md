@@ -2,12 +2,10 @@
 
 _My personal infrastructure for my servers and services._
 
-**I moved to caddy inetead of nginx, you can find the old version before this commit:**b98fca7af8954770feec0cd962d35f47bde0d5d2**
-
 ## About
 
 This is my infrastructure. It's a collection of scripts and configuration files that I use to manage my servers and services.
-It uses ~~Nginx ~~ caddy and docker-compose to run my services (And many other things).
+It uses caddy and docker-compose to run my services (And many other things).
 It's a **work in progress**, and I'm still learning a lot about it.
 If you have any **questions** or **suggestions**, feel free to open an issue or a pull request.
 
@@ -64,7 +62,7 @@ Check if all bensuperpc.* are replaced by your domain in [Caddyfile](caddy/wordp
 And then, caddy will generate the certificate for you and renew it automatically :D (It's easier than certbot and nginx)
 
 | Domain name | Type | Description |
-| --- | --- |
+| --- | --- | --- |
 | bensuperpc.org | Main | Main domain |
 | adminer.bensuperpc.org | Sub | Adminer for MariaDB for wordpress only |
 | uptimekuma.bensuperpc.org | Sub | Uptime Kuma for monitoring |
@@ -132,10 +130,6 @@ MYSQL_USER=bensuperpc
 MYSQL_PASSWORD=K7s5yoHknnEd7vsZoxb8I3dK9mjToF1j
 MYSQL_DATABASE=gitea
 ```
-
-### Wordpress website
-
-For the Wordpress website, you can configure in GUI when you go to the website.
 
 ### Start the infrastructure
 
