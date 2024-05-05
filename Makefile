@@ -13,7 +13,7 @@
 
 DOCKER := docker
 
-PROFILES := webserver wordpress adminer uptime-kuma portainer qbittorrent gitea jellyfin watchtower backup
+PROFILES := webserver wordpress adminer uptime-kuma portainer qbittorrent gitea jellyfin watchtower backup openssh
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
 COMPOSE_FILES :=  $(shell find docker-compose*.yml | sed -e 's/^/--file /')

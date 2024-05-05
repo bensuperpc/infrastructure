@@ -56,6 +56,10 @@ jellyfin.bensuperpc.org {
 	reverse_proxy jellyfin:8096
 }
 
+ssh.bensuperpc.org {
+	reverse_proxy openssh:2222
+}
+
 link.bensuperpc.org {
 	redir /rickroll https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent
 	redir /babyshark https://www.youtube.com/watch?v=XqZsoesa55w permanent

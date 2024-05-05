@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  # Openssh
+  openssh:
+    image: linuxserver/openssh-server:latest
+    container_name: openssh
+    profiles:
+      - openssh
+    restart: on-failure
+    env_file:
+      - env/openssh.env
+    volumes:
+      - openssh_config:/config
+      - openssh_data:/data
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  openssh_config:
+    name: openssh_config
+  openssh_data:
+    name: openssh_data
