@@ -17,7 +17,7 @@ services:
       - caddy_config:/backup/caddy_config:ro
 #      - gitea_data:/backup/gitea_data:ro
 #      - gitea_config:/backup/gitea_config:ro
-#      - database:/backup/database:ro
+#      - wordpress_db:/backup/wordpress_db:ro
 #      - wordpress:/backup/wordpress:ro
 #      - jellyfin_config:/backup/jellyfin_config:ro
 #      - jellyfin_data:/backup/jellyfin_data:ro

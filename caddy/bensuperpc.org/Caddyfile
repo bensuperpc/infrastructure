@@ -29,6 +29,9 @@ www.bensuperpc.org {
 
 		# clickjacking protection
 		X-Frame-Options DENY
+
+		# Disable powerful features we don't need
+        Permissions-Policy "geolocation=(), camera=(), microphone=() interest-cohort=()"
 	}
 }
 

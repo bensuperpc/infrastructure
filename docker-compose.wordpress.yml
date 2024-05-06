@@ -32,7 +32,7 @@ services:
       - caddy
     restart: on-failure
     volumes:
-      - database:/var/lib/mysql:rw
+      - wordpress_db:/var/lib/mysql:rw
     env_file:
       - env/wordpress_db.env
     command: '--default-authentication-plugin=mysql_native_password'
@@ -42,7 +42,7 @@ services:
       - no-new-privileges:true
 
 volumes:
-  database:
-    name: database
+  wordpress_db:
+    name: wordpress_db
   wordpress:
     name: wordpress
