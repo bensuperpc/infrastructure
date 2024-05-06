@@ -60,6 +60,12 @@ ssh.bensuperpc.org {
 	reverse_proxy openssh:2222
 }
 
+syncthing.bensuperpc.org {
+	reverse_proxy syncthing:8384 {
+		header_up Host {upstream_hostport}
+	}
+}
+
 link.bensuperpc.org {
 	redir /rickroll https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent
 	redir /babyshark https://www.youtube.com/watch?v=XqZsoesa55w permanent

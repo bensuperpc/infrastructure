@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  # syncthing
+  syncthing:
+    image: linuxserver/syncthing:latest
+    container_name: syncthing
+    profiles:
+      - syncthing
+    restart: on-failure
+    env_file:
+      - env/syncthing.env
+    volumes:
+      - syncthing_config:/config
+      - syncthing_data:/data1
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  syncthing_config:
+    name: syncthing_config
+  syncthing_data:
+    name: syncthing_data

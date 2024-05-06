@@ -70,10 +70,12 @@ And then, caddy will generate the certificate for you and renew it automatically
 | git.bensuperpc.org | Sub | Gitea for git |
 | link.bensuperpc.org | Sub | For link shortener |
 | jellyfin.bensuperpc.org | Sub | Jellyfin for media server |
+| syncthing.bensuperpc.org | Sub | SyncThing for file synchronization |
+| ssh.bensuperpc.org | Sub | Openssh for ssh |
 | bensuperpc.com | Main | Redirect to bensuperpc.org |
-| bensuperpc.fr | Sub | Redirect to bensuperpc.org |
-| bensuperpc.net | Sub | Redirect to bensuperpc.org |
-| bensuperpc.ovh | Sub | Redirect to bensuperpc.org |
+| bensuperpc.fr | Main | Redirect to bensuperpc.org |
+| bensuperpc.net | Main | Redirect to bensuperpc.org |
+| bensuperpc.ovh | Main | Redirect to bensuperpc.org |
 
 ### Configure the infrastructure
 
@@ -163,6 +165,8 @@ You can find all services on the [docker-compose.yml](docker-compose.yml) file o
 | Torrent | Torrent server | [torrent.bensuperpc.org](https://torrent.bensuperpc.org) |
 | Gitea | Gitea for git | [git.bensuperpc.org](https://git.bensuperpc.org) |
 | Jellyfin | Jellyfin for media server | [jellyfin.bensuperpc.org](https://jellyfin.bensuperpc.org) |
+| SyncThing | SyncThing for file synchronization | [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org) |
+| Openssh | Openssh for ssh | [ssh.bensuperpc.org](https://ssh.bensuperpc.org) |
 
 ## URL
 
