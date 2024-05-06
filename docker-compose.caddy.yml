@@ -1,12 +1,12 @@
 version: '3.9'
 
 services:
-  # Webserver
+  # Caddy
   caddy:
     image: caddy:latest
-    container_name: webserver
+    container_name: caddy
     profiles:
-      - webserver
+      - caddy
     restart: on-failure
     ports:
       - 80:80
