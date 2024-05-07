@@ -51,7 +51,7 @@ cd infrastructure
 
 ### Configure the domain
 
-For all **bensuperpc.org**, you need to replace it with your domain, example: **mydomain.com**
+For all **bensuperpc.org**, you need to replace it with your domain, example: **mydomain.com**, so the same for **bensuperpc.com** ect...
 
 ```sh
 find . \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i 's/bensuperpc.org/mydomain.com/g'
@@ -59,7 +59,7 @@ find . \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i 's/b
 
 Check if all bensuperpc.* are replaced by your domain in [Caddyfile](caddy/wordpress/Caddyfile)
 
-And then, caddy will generate the certificate for you and renew it automatically :D (It's easier than certbot and nginx)
+And then, caddy will generate the certificate for you and renew it automatically :D
 
 | Domain name | Type | Description |
 | --- | --- | --- |
@@ -168,11 +168,7 @@ You can find all services on the [docker-compose.yml](docker-compose.yml) file o
 | SyncThing | SyncThing for file synchronization | [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org) |
 | Openssh | Openssh for ssh | [ssh.bensuperpc.org](https://ssh.bensuperpc.org) |
 
-## URL
-
-You can access to the website with:
-
-- [bensuperpc.org](https://bensuperpc.org) and [www.bensuperpc.org](https://www.bensuperpc.org) (Wordpress for now)
+You can disable some services by removing the service name in PROFILES variable in the [Makefile](Makefile) file.
 
 ## Build with
 

@@ -5,7 +5,7 @@ www.bensuperpc.org {
 	file_server
 	encode zstd gzip
 
-	#metrics /metrics
+	# metrics /metrics
 
 	@disallowed {
 		path /xmlrpc.php
@@ -70,6 +70,14 @@ syncthing.bensuperpc.org {
 }
 
 link.bensuperpc.org {
+	# TODO: Use service with database
+	# Friendly links
+	redir /gnous https://gnous.eu permanent
+	redir /proxy https://imagisphe.re permanent
+	redir /patch https://spaceint.fr permanent
+	redir /greep https://greep.fr permanent
+
+	# Youtube links
 	redir /rickroll https://www.youtube.com/watch?v=dQw4w9WgXcQ permanent
 	redir /babyshark https://www.youtube.com/watch?v=XqZsoesa55w permanent
 	redir /cowcowcow https://www.youtube.com/watch?v=FavUpD_IjVY permanent
