@@ -63,15 +63,15 @@ And then, caddy will generate the certificate for you and renew it automatically
 
 | Domain name | Type | Description |
 | --- | --- | --- |
-| bensuperpc.org | Main | Main domain |
-| adminer.bensuperpc.org | Sub | Adminer for MariaDB for wordpress only |
-| uptimekuma.bensuperpc.org | Sub | Uptime Kuma for monitoring |
-| torrent.bensuperpc.org | Sub | Torrent server |
-| git.bensuperpc.org | Sub | Gitea for git |
-| link.bensuperpc.org | Sub | For link shortener |
-| jellyfin.bensuperpc.org | Sub | Jellyfin for media server |
-| syncthing.bensuperpc.org | Sub | SyncThing for file synchronization |
-| ssh.bensuperpc.org | Sub | Openssh for ssh |
+| [bensuperpc.org](https://bensuperpc.org) | Main | Main domain |
+| [adminer.bensuperpc.org](https://adminer.bensuperpc.org) | Sub | Adminer for MariaDB for wordpress only |
+| [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org) | Sub | Uptime Kuma for monitoring |
+| [torrent.bensuperpc.org](https://torrent.bensuperpc.org) | Sub | Torrent server |
+| [git.bensuperpc.org](https://git.bensuperpc.org) | Sub | Gitea for git |
+| [link.bensuperpc.org](https://link.bensuperpc.org) | Sub | For link shortener |
+| [jellyfin.bensuperpc.org](https://jellyfin.bensuperpc.org) | Sub | Jellyfin for media server |
+| [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org) | Sub | SyncThing for file synchronization |
+| [ssh.bensuperpc.org](https://ssh.bensuperpc.org) | Sub | Openssh for ssh |
 | bensuperpc.com | Main | Redirect to bensuperpc.org |
 | bensuperpc.fr | Main | Redirect to bensuperpc.org |
 | bensuperpc.net | Main | Redirect to bensuperpc.org |
