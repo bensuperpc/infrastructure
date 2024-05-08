@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  dns-server:
+    container_name: dns-server
+    hostname: dns-server
+    profiles:
+      - dns-server
+    image: technitium/dns-server:latest
+    restart: on-failure
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - dns-config:/etc/dns
+    env_file:
+      - env/technitium.env
+
+volumes:
+  dns-config:
+    name: dns-config
+

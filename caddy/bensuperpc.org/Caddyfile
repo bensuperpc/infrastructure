@@ -69,6 +69,10 @@ syncthing.bensuperpc.org {
 	}
 }
 
+dns.bensuperpc.org {
+	reverse_proxy dns-server:5380
+}
+
 link.bensuperpc.org {
 	# TODO: Use service with database
 	# Friendly links
