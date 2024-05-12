@@ -9,6 +9,7 @@ services:
       - gitea
     restart: on-failure:5
     depends_on:
+      - database_gitea
       - caddy
     env_file:
       - env/gitea.env
@@ -29,8 +30,6 @@ services:
     profiles:
       - database
       - gitea
-    depends_on:
-      - gitea
     restart: on-failure:5
     volumes:
       - gitea_db:/var/lib/mysql:rw
@@ -47,7 +46,7 @@ services:
     image: gitea/act_runner:latest
     container_name: gitea-runner
     profiles:
-      - gitea
+      - gitea-runner
     depends_on:
       - gitea
     restart: on-failure:5
