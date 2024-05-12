@@ -11,6 +11,8 @@ services:
     depends_on:
       - database_gitea
       - caddy
+    ports:
+      - "2222:2222"
     env_file:
       - env/gitea.env
     volumes:

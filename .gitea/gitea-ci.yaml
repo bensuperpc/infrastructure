@@ -1,6 +1,6 @@
 name: Build And Test
 run-name: ${{ gitea.actor }} is runs ci pipeline
-# on: [ push, pull_request ]
+on: [ push ]
 
 jobs:
   build:
