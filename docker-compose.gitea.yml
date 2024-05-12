@@ -56,6 +56,8 @@ services:
       - env/gitea-runner.env
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - gitea_runner:/data
+      - ./config/gitea_runner/config.yaml:/config.yaml:ro
     networks:
       - infra-network
     security_opt:
@@ -68,3 +70,5 @@ volumes:
     name: gitea_config
   gitea_db:
     name: gitea_db
+  gitea_runner:
+    name: gitea_runner
