@@ -4,7 +4,7 @@
 
 	log {
 		output file /data/logs/access.log
-		format console
+		format json
 	}
 }
 
