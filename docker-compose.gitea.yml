@@ -42,6 +42,24 @@ services:
     security_opt:
       - no-new-privileges:true
 
+  # Gitea-runner
+  gitea-runner:
+    image: gitea/act_runner:latest
+    container_name: gitea-runner
+    profiles:
+      - gitea
+    depends_on:
+      - gitea
+    restart: on-failure:5
+    env_file:
+      - env/gitea-runner.env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+
 volumes:
   gitea_data:
     name: gitea_data
