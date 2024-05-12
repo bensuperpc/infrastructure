@@ -7,7 +7,7 @@ services:
     container_name: wordpress
     profiles:
       - wordpress
-    restart: on-failure
+    restart: on-failure:5
     depends_on:
       - wordpress_db
       - caddy
@@ -30,7 +30,7 @@ services:
       - wordpress
     depends_on:
       - caddy
-    restart: on-failure
+    restart: on-failure:5
     volumes:
       - wordpress_db:/var/lib/mysql:rw
     env_file:

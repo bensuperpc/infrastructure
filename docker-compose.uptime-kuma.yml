@@ -9,7 +9,7 @@ services:
       - uptime-kuma
     volumes:
       - uptimekuma_data:/app/data
-    restart: on-failure
+    restart: on-failure:5
     networks:
       - infra-network
     security_opt:

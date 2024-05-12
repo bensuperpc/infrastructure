@@ -7,7 +7,7 @@ services:
     container_name: backup
     profiles:
       - backup
-    restart: on-failure
+    restart: on-failure:5
     env_file:
       - env/backup.env
     volumes:
