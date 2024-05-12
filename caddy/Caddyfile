@@ -8,8 +8,8 @@
 	}
 }
 
-import bensuperpc.org/Caddyfile
-import bensuperpc.com/Caddyfile
-import bensuperpc.net/Caddyfile
-import bensuperpc.ovh/Caddyfile
-import bensuperpc.fr/Caddyfile
+import bensuperpc.org/*
+import bensuperpc.com/*
+import bensuperpc.net/*
+import bensuperpc.ovh/*
+import bensuperpc.fr/*

@@ -5,3 +5,15 @@ bensuperpc.net {
 www.bensuperpc.net {
 	redir https://www.bensuperpc.org{uri} permanent
 }
+
+git.bensuperpc.net {
+	redir https://git.bensuperpc.org{uri} permanent
+}
+
+jellyfin.bensuperpc.net {
+	redir https://jellyfin.bensuperpc.org{uri} permanent
+}
+
+uptimekuma.bensuperpc.net {
+	redir https://uptimekuma.bensuperpc.org{uri} permanent
+}

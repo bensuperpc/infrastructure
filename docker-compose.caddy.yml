@@ -20,19 +20,17 @@ services:
       - infra-network
     env_file:
       - env/caddy.env
-    cap_add:
-      - NET_ADMIN
     security_opt:
       - no-new-privileges:true
-    #    cap_drop:
-    #      - ALL
-    #    cap_add:
-    #      - CHOWN
-    #      - FOWNER
-    #      - DAC_OVERRIDE
-    #      - SETGID
-    #      - SETUID
-    #      - NET_BIND_SERVICE
+    cap_drop:
+      - ALL
+    cap_add:
+#      - CHOWN
+#      - FOWNER
+#      - DAC_OVERRIDE
+#      - SETGID
+#      - SETUID
+      - NET_BIND_SERVICE
     healthcheck:
       test: pidof caddy || exit 1
       interval: 120s
