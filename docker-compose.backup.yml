@@ -1,7 +1,7 @@
 services:
   # Backup
   backup:
-    image: offen/docker-volume-backup:latest
+    image: mazzolino/restic:latest
     container_name: backup
     profiles:
       - backup
@@ -9,20 +9,19 @@ services:
     env_file:
       - env/backup.env
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - backup:/archive
-      - caddy_data:/backup/caddy_data:ro
-      - caddy_config:/backup/caddy_config:ro
-#      - gitea_data:/backup/gitea_data:ro
-#      - gitea_config:/backup/gitea_config:ro
-#      - wordpress_db:/backup/wordpress_db:ro
-#      - wordpress:/backup/wordpress:ro
-#      - jellyfin_config:/backup/jellyfin_config:ro
-#      - jellyfin_data:/backup/jellyfin_data:ro
-#      - jellyfin_cache:/backup/jellyfin_cache:ro
-#      - qbittorrent_config:/backup/qbittorrent_config:ro
-#      - qbittorrent_data:/backup/qbittorrent_data:ro
-#      - uptimekuma_data:/backup/uptimekuma_data:ro
+      - backup:/mnt/restic
+      - caddy_data:/data/caddy_data:ro
+#      - caddy_config:/data/caddy_config:ro
+#      - gitea_data:/data/gitea_data:ro
+#      - gitea_config:/data/gitea_config:ro
+#      - wordpress_db:/data/wordpress_db:ro
+#      - wordpress:/data/wordpress:ro
+#      - jellyfin_config:/data/jellyfin_config:ro
+#      - jellyfin_data:/data/jellyfin_data:ro
+#      - jellyfin_cache:/data/jellyfin_cache:ro
+#      - qbittorrent_config:/data/qbittorrent_config:ro
+#      - qbittorrent_data:/data/qbittorrent_data:ro
+#      - uptimekuma_data:/data/uptimekuma_data:ro
     networks:
       - infra-network
     security_opt:

@@ -1,5 +1,3 @@
-version: '3.9'
-
 volumes:
   uptimekuma_data:
     name: uptimekuma_data
