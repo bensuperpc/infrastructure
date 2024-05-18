@@ -13,10 +13,8 @@
 
 DOCKER := docker
 
-PROFILES := caddy wordpress adminer backup qbittorrent
+PROFILES := caddy wordpress adminer backup qbittorrent syncthing gitea gitea-runner uptime-kuma jellyfin watchtower 
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
-
-#  syncthing openssh gitea gitea-runner uptime-kuma jellyfin watchtower 
 
 COMPOSE_FILES :=  $(shell find docker-compose*.yml | sed -e 's/^/--file /')
 

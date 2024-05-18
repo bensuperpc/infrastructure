@@ -11,7 +11,7 @@ services:
     volumes:
       - backup:/mnt/restic
       - caddy_data:/data/caddy_data:ro
-#      - caddy_config:/data/caddy_config:ro
+      - caddy_config:/data/caddy_config:ro
 #      - gitea_data:/data/gitea_data:ro
 #      - gitea_config:/data/gitea_config:ro
 #      - wordpress_db:/data/wordpress_db:ro
@@ -22,8 +22,6 @@ services:
 #      - qbittorrent_config:/data/qbittorrent_config:ro
 #      - qbittorrent_data:/data/qbittorrent_data:ro
 #      - uptimekuma_data:/data/uptimekuma_data:ro
-    networks:
-      - infra-network
     security_opt:
       - no-new-privileges:true
 
