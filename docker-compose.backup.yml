@@ -22,6 +22,8 @@ services:
 #      - qbittorrent_config:/data/qbittorrent_config:ro
 #      - qbittorrent_data:/data/qbittorrent_data:ro
 #      - uptimekuma_data:/data/uptimekuma_data:ro
+    networks:
+      - infra-network
     security_opt:
       - no-new-privileges:true
 
