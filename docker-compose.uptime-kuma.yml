@@ -10,6 +10,8 @@ services:
     volumes:
       - uptimekuma_data:/app/data
     restart: on-failure:5
+    depends_on:
+      - caddy
     networks:
       - infra-network
     security_opt:

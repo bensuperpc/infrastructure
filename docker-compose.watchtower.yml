@@ -7,6 +7,8 @@ services:
     container_name: watchtower
     profiles:
       - watchtower
+    depends_on:
+      - caddy
     restart: on-failure:5
     networks:
       - infra-network

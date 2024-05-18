@@ -7,6 +7,8 @@ services:
     container_name: openssh
     profiles:
       - openssh
+    depends_on:
+      - caddy
     restart: on-failure:5
     env_file:
       - env/openssh.env

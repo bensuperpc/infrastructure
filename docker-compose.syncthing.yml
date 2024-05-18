@@ -7,6 +7,8 @@ services:
     container_name: syncthing
     profiles:
       - syncthing
+    depends_on:
+      - caddy
     restart: on-failure:5
     env_file:
       - env/syncthing.env

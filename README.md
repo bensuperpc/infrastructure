@@ -170,6 +170,8 @@ You can find all services on the [docker-compose.yml](docker-compose.yml) file o
 
 You can disable some services by removing the service name in PROFILES variable in the [Makefile](Makefile) file.
 
+To enable the gitea CI: https://medium.com/@lokanx/how-to-build-docker-containers-using-gitea-runners-600729555e07
+
 ## Build with
 
 - [Wordpress](https://wordpress.org/)
