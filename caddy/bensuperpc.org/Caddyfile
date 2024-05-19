@@ -47,8 +47,12 @@ uptimekuma.bensuperpc.org {
 	reverse_proxy uptime-kuma:3001
 }
 
-torrent.bensuperpc.org {
+qbittorrent.bensuperpc.org {
 	reverse_proxy qbittorrent:8080
+}
+
+transmission.bensuperpc.org {
+	reverse_proxy transmission:9091
 }
 
 git.bensuperpc.org {

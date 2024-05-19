@@ -1,0 +1,28 @@
+services:
+  # transmission
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: transmission
+    profiles:
+      - transmission
+    restart: on-failure:5
+    depends_on:
+      - caddy
+    env_file:
+      - env/transmission.env
+    volumes:
+      - transmission_config:/config
+      - transmission_data:/downloads
+      - transmission_watch:/watch
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  transmission_config:
+    name: transmission_config
+  transmission_data:
+    name: transmission_data
+  transmission_watch:
+    name: transmission_watch
