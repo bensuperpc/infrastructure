@@ -1,0 +1,13 @@
+version: 2
+ 
+locations:
+  caddy_data:
+    from: /data/caddy_data
+    to:
+      - foo
+    cron: '* * * * *'
+ 
+backends:
+  foo:
+    type: local
+    path: /backup
