@@ -19,7 +19,7 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [x] Jellyfin (Media server)
 - [x] Gitea (Git server)
 - [x] Uptime Kuma (Monitoring)
-- [x] Torrent server
+- [x] qbittorrent server
 
 ## Screenshots
 
@@ -66,7 +66,7 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [bensuperpc.org](https://bensuperpc.org) | Main | Main domain |
 | [adminer.bensuperpc.org](https://adminer.bensuperpc.org) | Sub | Adminer for MariaDB for wordpress only |
 | [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org) | Sub | Uptime Kuma for monitoring |
-| [torrent.bensuperpc.org](https://torrent.bensuperpc.org) | Sub | Torrent server |
+| [qbittorrent.bensuperpc.org](https://qbittorrent.bensuperpc.org) | Sub | Torrent client/server |
 | [git.bensuperpc.org](https://git.bensuperpc.org) | Sub | Gitea for git |
 | [link.bensuperpc.org](https://link.bensuperpc.org) | Sub | For link shortener |
 | [jellyfin.bensuperpc.org](https://jellyfin.bensuperpc.org) | Sub | Jellyfin for media server |
@@ -161,7 +161,7 @@ You can find all services on the [docker-compose.yml](docker-compose.yml) file o
 | Wordpress | Wordpress website | [bensuperpc.org](https://bensuperpc.org) and [www.bensuperpc.org](https://www.bensuperpc.org) |
 | Adminer | Adminer for MariaDB | [adminer.bensuperpc.org](https://adminer.bensuperpc.org) |
 | Uptime Kuma | Uptime Kuma for monitoring | [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org) |
-| Torrent | Torrent server | [torrent.bensuperpc.org](https://torrent.bensuperpc.org) |
+| qbittorrent | qbittorrent server | [qbittorrent.bensuperpc.org](https://qbittorrent.bensuperpc.org) |
 | Gitea | Gitea for git | [git.bensuperpc.org](https://git.bensuperpc.org) |
 | Jellyfin | Jellyfin for media server | [jellyfin.bensuperpc.org](https://jellyfin.bensuperpc.org) |
 | SyncThing | SyncThing for file synchronization | [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org) |
