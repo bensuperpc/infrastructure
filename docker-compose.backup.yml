@@ -1,18 +1,15 @@
 services:
   # Backup
   backup:
-    image: cupcakearmy/autorestic:latest
+    image: mazzolino/restic:latest
     container_name: backup
     profiles:
       - backup
     restart: on-failure:5
     env_file:
       - env/backup.env
-    #entrypoint: ["autorestic", "backup", "--ci", "-va", "-c", "/data/autorestic.yml"]
-    entrypoint: ["restic init --repository-version 2 --repo", "/data/caddy_data"]
     volumes:
-      - backup:/backup
-      - ./config/backup/autorestic.yml:/data/autorestic.yml:ro
+      - backup:/mnt/restic
       - caddy_data:/data/caddy_data:ro
       - caddy_config:/data/caddy_config:ro
 #      - gitea_data:/data/gitea_data:ro
@@ -25,6 +22,8 @@ services:
 #      - qbittorrent_config:/data/qbittorrent_config:ro
 #      - qbittorrent_data:/data/qbittorrent_data:ro
 #      - uptimekuma_data:/data/uptimekuma_data:ro
+    networks:
+      - infra-network
     security_opt:
       - no-new-privileges:true
 
