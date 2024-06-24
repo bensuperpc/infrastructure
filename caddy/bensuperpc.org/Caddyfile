@@ -63,6 +63,10 @@ jellyfin.bensuperpc.org {
 	reverse_proxy jellyfin:8096
 }
 
+psitransfer.bensuperpc.org {
+	reverse_proxy psitransfer:3000
+}
+
 syncthing.bensuperpc.org {
 	reverse_proxy syncthing:8384 {
 		header_up Host {upstream_hostport}
@@ -89,7 +93,7 @@ link.bensuperpc.org {
 	redir /scpfb https://youtu.be/9zrKk-1E8zM?si=8R_ZBVG3GzMUYOe8&t=36 permanent
 	redir /mother https://youtu.be/w3NyycHR3fE?si=rNNSW9zYv0bcO2Eu permanent
 	redir /cpu https://www.youtube.com/watch?v=y39D4529FM4 permanent
-	redir /chanteur https://youtu.be/HXdP15Ubu6M?si=N0qvhqo--3pmSGmb permanent
+	redir /lechanteur https://youtu.be/HXdP15Ubu6M?si=N0qvhqo--3pmSGmb permanent
 	redir /bna https://youtu.be/3T3ofoKfEoY?si=_7HkGQXMC7rBng8O permanent
 	redir /jojo https://youtu.be/U0TXIXTzJEY?si=2acWJWX06ju2w4uj permanent
 	redir /patapon https://youtu.be/H6CbNHLHkmk?si=ZvU8SzrOK-oCUXT5 permanent

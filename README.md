@@ -121,6 +121,7 @@ GITEA__database__HOST=database_gitea:3306
 GITEA__database__NAME=gitea
 GITEA__database__USER=bensuperpc
 GITEA__database__PASSWD=K7s5yoHknnEd7vsZoxb8I3dK9mjToF1j
+GITEA__security__SECRET_KEY=ykcZt23an1E4lFHWvrCKdAyt16WAiK9c
 ```
 
 For [gitea_db.env](env/gitea_db.env) file, you need to change the password(s) and user for the database.
@@ -130,6 +131,12 @@ MYSQL_ROOT_PASSWORD=xpc4zIhHZzWKqVHcjBu4aW6aS7jG8d7X
 MYSQL_USER=bensuperpc
 MYSQL_PASSWORD=K7s5yoHknnEd7vsZoxb8I3dK9mjToF1j
 MYSQL_DATABASE=gitea
+```
+
+For [psitransfer.env](env/psitransfer.env) file, you need to change the password(s) and user for the database.
+
+```sh
+PSITRANSFER_ADMIN_PASS=n9jLVNT9QUotTJTT91JqH4GyBTg9pvEn
 ```
 
 ### Start the infrastructure
