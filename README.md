@@ -71,6 +71,7 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [link.bensuperpc.org](https://link.bensuperpc.org) | Sub | For link shortener |
 | [jellyfin.bensuperpc.org](https://jellyfin.bensuperpc.org) | Sub | Jellyfin for media server |
 | [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org) | Sub | SyncThing for file synchronization |
+| [psitransfer.bensuperpc.org](https://psitransfer.bensuperpc.org) | Sub | PsiTransfer for file sharing |
 | bensuperpc.com | Main | Redirect to bensuperpc.org |
 | bensuperpc.fr | Main | Redirect to bensuperpc.org |
 | bensuperpc.net | Main | Redirect to bensuperpc.org |
@@ -172,6 +173,7 @@ You can find all services on the [docker-compose.yml](docker-compose.yml) file o
 | Gitea | Gitea for git | [git.bensuperpc.org](https://git.bensuperpc.org) |
 | Jellyfin | Jellyfin for media server | [jellyfin.bensuperpc.org](https://jellyfin.bensuperpc.org) |
 | SyncThing | SyncThing for file synchronization | [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org) |
+| PsiTransfer | PsiTransfer for file sharing | [psitransfer.bensuperpc.org](https://psitransfer.bensuperpc.org) |
 
 You can disable some services by removing the service name in PROFILES variable in the [Makefile](Makefile) file.
 
