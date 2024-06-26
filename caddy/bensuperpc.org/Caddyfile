@@ -59,6 +59,10 @@ transmission.bensuperpc.org {
 	reverse_proxy transmission:9091
 }
 
+gitea.bensuperpc.org {
+	redir https://git.bensuperpc.org permanent
+}
+
 git.bensuperpc.org {
 	reverse_proxy gitea:3000
 }
