@@ -10,8 +10,15 @@ services:
       - caddy
     volumes:
       - jellyfin_config:/config
-      - jellyfin_data:/movies:ro
+      - jellyfin_data_movies:/movies:rw
+      - jellyfin_data_series:/series:rw
+      - jellyfin_data_documentaries:/documentaries:rw
+      - jellyfin_data_musics:/musics:rw
+      - jellyfin_data_personal:/personal:rw
       - jellyfin_cache:/cache
+    # Hardware acceleration (For Intel and AMD GPUs)
+    devices:
+      - /dev/dri:/dev/dri
     networks:
       - infra-network
     security_opt:
@@ -20,7 +27,15 @@ services:
 volumes:
   jellyfin_config:
     name: jellyfin_config
-  jellyfin_data:
-    name: jellyfin_data
+  jellyfin_data_movies:
+    name: jellyfin_data_movies
+  jellyfin_data_series:
+    name: jellyfin_data_series
+  jellyfin_data_documentaries:
+    name: jellyfin_data_documentaries
+  jellyfin_data_musics:
+    name: jellyfin_data_musics
+  jellyfin_data_personal:
+    name: jellyfin_data_personal
   jellyfin_cache:
     name: jellyfin_cache
