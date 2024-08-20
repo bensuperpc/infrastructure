@@ -39,8 +39,27 @@ services:
     security_opt:
       - no-new-privileges:true
 
+  wordpress_backup:
+    image: mazzolino/restic:latest
+    container_name: wordpress_backup
+    profiles:
+      - wordpress
+    restart: on-failure:5
+    env_file:
+      - env/backup.env
+    volumes:
+      - wordpress_backup:/mnt/restic
+      - wordpress_db:/data/wordpress_db:ro
+      - wordpress:/data/wordpress:ro
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+
 volumes:
   wordpress_db:
     name: wordpress_db
   wordpress:
     name: wordpress
+  wordpress_backup:
+    name: wordpress_backup
