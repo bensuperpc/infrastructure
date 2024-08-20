@@ -13,10 +13,10 @@
 
 DOCKER := docker
 
-PROFILES := caddy wordpress adminer syncthing uptime-kuma jellyfin qbittorrent psitransfer gitea
+PROFILES := caddy wordpress adminer syncthing uptime-kuma jellyfin qbittorrent psitransfer gitea watchtower
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
-# gitea-runner watchtower transmission
+# gitea-runner transmission
 
 COMPOSE_FILES :=  $(shell find docker-compose*.yml | sed -e 's/^/--file /')
 

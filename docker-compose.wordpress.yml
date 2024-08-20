@@ -44,6 +44,8 @@ services:
     container_name: wordpress_backup
     profiles:
       - wordpress
+    depends_on:
+      - wordpress
     restart: on-failure:5
     env_file:
       - env/backup.env
