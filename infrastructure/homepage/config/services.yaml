@@ -1,0 +1,30 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/latest/configs/services
+
+- Blog:
+    - wordpress:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/wordpress.png
+        href: https://www.bensuperpc.org/
+        description: Wordpress
+
+- Media:
+    - jellyfin:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/jellyfin.png
+        href: https://jellyfin.bensuperpc.org/
+        description: Jellyfin
+
+- Utils:
+    - it-tools:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/it-tools.png
+        href: https://it-tools.bensuperpc.org/
+        description: IT Tools
+    - psitransfer:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/psitransfer.png
+        href: https://psitransfer.bensuperpc.org/
+        description: PsiTransfer
+    - gitea:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/gitea.png
+        href: https://gitea.bensuperpc.org/
+        description: Gitea
+    

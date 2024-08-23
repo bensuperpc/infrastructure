@@ -109,6 +109,10 @@ linkstack.bensuperpc.org {
 	}
 }
 
+homepage.bensuperpc.org {
+	reverse_proxy homepage:3000
+}
+
 link.bensuperpc.org {
 	# TODO: Use service with database
 	# Friendly links

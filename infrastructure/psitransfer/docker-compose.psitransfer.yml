@@ -16,6 +16,7 @@ services:
       - infra-network
     security_opt:
       - no-new-privileges:true
+    read_only: true
     deploy:
       resources:
         limits:

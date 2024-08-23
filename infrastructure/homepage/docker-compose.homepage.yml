@@ -1,0 +1,24 @@
+services:
+  # homepage
+  homepage:
+    image: ghcr.io/gethomepage/homepage:latest
+    container_name: homepage
+    profiles:
+      - homepage
+    restart: on-failure:5
+    depends_on:
+      - caddy
+    env_file:
+      - ./homepage/env/homepage.env
+    volumes:
+      - ./homepage/config:/app/config
+      - homepage_log:/app/config/logs
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  homepage_log:
+    name: homepage_log
