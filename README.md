@@ -20,6 +20,9 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [x] Gitea (Git server)
 - [x] Uptime Kuma (Monitoring)
 - [x] qbittorrent and transmission (Torrent client/server)
+- [x] SyncThing (File synchronization)
+- [x] PsiTransfer (File sharing)
+- [x] it-tools (Tools for IT)
 
 ## Screenshots
 
@@ -73,6 +76,7 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [jellyfin.bensuperpc.org](https://jellyfin.bensuperpc.org) | Sub | Jellyfin for media server |
 | [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org) | Sub | SyncThing for file synchronization |
 | [psitransfer.bensuperpc.org](https://psitransfer.bensuperpc.org) | Sub | PsiTransfer for file sharing |
+| [it-tools.bensuperpc.org](https://it-tools.bensuperpc.org) | Sub | Tools for IT |
 | bensuperpc.com | Main | Redirect to bensuperpc.org |
 | bensuperpc.fr | Main | Redirect to bensuperpc.org |
 | bensuperpc.net | Main | Redirect to bensuperpc.org |
@@ -176,12 +180,13 @@ You can find all service on this table:
 | Jellyfin | Jellyfin for media server | [jellyfin.bensuperpc.org](https://jellyfin.bensuperpc.org) |
 | SyncThing | SyncThing for file synchronization | [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org) |
 | PsiTransfer | PsiTransfer for file sharing | [psitransfer.bensuperpc.org](https://psitransfer.bensuperpc.org) |
+| it-tools | Tools for IT | [it-tools.bensuperpc.org](https://it-tools.bensuperpc.org) |
 
 You can disable some services by removing the service name in PROFILES variable in the [Makefile](Makefile) file.
 
 To enable the gitea CI: https://medium.com/@lokanx/how-to-build-docker-containers-using-gitea-runners-600729555e07
 
-## Build with
+## Sources
 
 - [Wordpress](https://wordpress.org/)
 - [Gnu Make](https://www.gnu.org/software/make/)
@@ -194,6 +199,16 @@ To enable the gitea CI: https://medium.com/@lokanx/how-to-build-docker-container
 - [Digital Ocean - How To Install WordPress with Docker Compose (nginx)](https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose)
 - [Letsencrypt](https://letsencrypt.org/)
 - [Caddy](https://caddyserver.com/)
+- [Adminer](https://www.adminer.org/)
+- [Uptime Kuma](https://uptime-kuma.com/)
+- [qbittorrent](https://www.qbittorrent.org/)
+- [Transmission](https://transmissionbt.com/)
+- [Gitea](https://gitea.io/)
+- [Jellyfin](https://jellyfin.org/)
+- [SyncThing](https://syncthing.net/)
+- [PsiTransfer](https://psitransfer.com/)
+- [It-tools](https://github.com/CorentinTh/it-tools)
+- [Imagisphe](https://imagisphe.re/)
 
 ## License
 

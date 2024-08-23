@@ -85,6 +85,14 @@ syncthing.bensuperpc.org {
 	}
 }
 
+it-tools.bensuperpc.org {
+	reverse_proxy it-tools:8080
+}
+
+tools.bensuperpc.org {
+	redir https://it-tools.bensuperpc.org permanent
+}
+
 link.bensuperpc.org {
 	# TODO: Use service with database
 	# Friendly links
@@ -111,4 +119,5 @@ link.bensuperpc.org {
 	redir /patapon https://youtu.be/H6CbNHLHkmk?si=ZvU8SzrOK-oCUXT5 permanent
 	redir /darkwater https://youtu.be/Tr8ZgF4Dc0E?si=CEOmm2J6Jp5rdbbt permanent
 	redir /train https://youtu.be/l8mScKWj3kQ?si=BV07uJ9eP3kzV9Kl permanent
+	redir /jdg https://www.youtube.com/@joueurdugrenier permanent
 }

@@ -13,7 +13,7 @@
 
 DOCKER := docker
 
-PROFILES := caddy wordpress adminer syncthing uptime-kuma jellyfin qbittorrent psitransfer gitea watchtower
+PROFILES := caddy wordpress adminer syncthing uptime-kuma jellyfin qbittorrent psitransfer gitea it-tools watchtower
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
 # gitea-runner transmission

@@ -1,0 +1,24 @@
+services:
+  # it-tools
+  it-tools:
+    image: corentinth/it-tools:latest
+    container_name: it-tools
+    profiles:
+      - it-tools
+    restart: on-failure:5
+    depends_on:
+      - caddy
+    env_file:
+      - ./it-tools/env/it-tools.env
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.001'
+          memory: 20M
