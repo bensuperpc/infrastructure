@@ -86,7 +86,7 @@ syncthing.bensuperpc.org {
 }
 
 it-tools.bensuperpc.org {
-	reverse_proxy it-tools:8080
+	reverse_proxy it-tools:80
 }
 
 tools.bensuperpc.org {
