@@ -66,8 +66,8 @@ update-docker:
 
 .PHONY: update
 update: update-docker
-#	git submodule update --init --recursive --remote
-#	git pull --recurse-submodules --all --progress
+	git submodule update --init --recursive --remote
+	git pull --recurse-submodules --all --progress
 
 .PHONY: clean
 clean:

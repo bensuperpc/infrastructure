@@ -26,7 +26,17 @@ jobs:
         with:
           submodules: "recursive"
           fetch-depth: 0
-      - name: "Update server"
-        run: make update
+      - name: "Update server image"
+        run: make update-docker
       - name: "Build server"
         run: make build
+#      - name: "Start server"
+#        run: make start
+      - name: "Stop server"
+        run: make stop
+      - name: "Down server"
+        run: make down
+      - name: "Clean server"
+        run: make clean
+      - name: "Purge server"
+        run: make purge
