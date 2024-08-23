@@ -18,49 +18,51 @@ PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
 # gitea-runner transmission
 
-COMPOSE_FILES :=  $(shell find docker-compose*.yml | sed -e 's/^/--file /')
+COMPOSE_FILES :=  $(shell find . -name 'docker-compose*.yml' -type f | sed -e 's/^/--file /')
+
+COMPOSE_DIR := --project-directory ./infrastructure
 
 .PHONY: build all
 all: start
 
 .PHONY: build
 build:
-	docker compose $(COMPOSE_FILES) $(PROFILE_CMD) build
+	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) build
 
 .PHONY: start
 start:
-	docker compose $(COMPOSE_FILES) $(PROFILE_CMD) up -d
+	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) up -d
 
 .PHONY: start-at
 start-at:
-	docker compose $(COMPOSE_FILES) $(PROFILE_CMD) up
+	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) up
 
 .PHONY: docker-check
 docker-check:
-	docker compose $(COMPOSE_FILES) $(PROFILE_CMD) config
+	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) config
 
 .PHONY: stop
 stop: down
 
 .PHONY: down
 down:
-	docker compose $(COMPOSE_FILES) $(PROFILE_CMD) down
+	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) down
 
 .PHONY: restart
 restart: stop start
 
 .PHONY: logs
 logs:
-	docker compose $(COMPOSE_FILES) logs
+	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) logs
 
 .PHONY: state
 state:
-	docker compose $(COMPOSE_FILES) ps
-	docker compose $(COMPOSE_FILES) top
+	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) ps
+	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) top
 
 .PHONY: update-docker
 update-docker:
-	docker compose $(COMPOSE_FILES) $(PROFILE_CMD) pull
+	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) pull
 
 .PHONY: update
 update: update-docker
@@ -73,4 +75,4 @@ clean:
 
 .PHONY: purge
 purge:
-	docker compose $(COMPOSE_FILES) $(PROFILE_CMD) down -v --rmi all
+	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) down -v --rmi all

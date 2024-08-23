@@ -13,11 +13,11 @@ services:
       - wordpress:/var/www/html:rw
       - caddy_data:/data:rw
       - caddy_config:/config:rw
-      - ./caddy:/etc/caddy:ro
+      - ./caddy/config:/etc/caddy:ro
     networks:
       - infra-network
     env_file:
-      - env/caddy.env
+      - ./caddy/env/caddy.env
     security_opt:
       - no-new-privileges:true
     #cap_drop:
@@ -35,3 +35,8 @@ volumes:
     name: caddy_data
   caddy_config:
     name: caddy_config
+
+networks:
+  infra-network:
+    driver: bridge
+    name: infra-network

@@ -7,7 +7,7 @@ services:
       - adminer
     restart: on-failure:5
     env_file: 
-      - env/adminer.env
+      - ./wordpress/env/adminer.env
     depends_on:
       - wordpress_db
       - caddy

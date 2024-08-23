@@ -9,7 +9,7 @@ services:
     depends_on:
       - caddy
     env_file:
-      - env/psitransfer.env
+      - ./psitransfer/env/psitransfer.env
     volumes:
       - psitransfer_data:/data
     networks:

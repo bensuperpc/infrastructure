@@ -9,7 +9,7 @@ services:
     depends_on:
       - caddy
     env_file:
-      - env/transmission.env
+      - ./transmission/env/transmission.env
     volumes:
       - transmission_config:/config
       - transmission_data:/downloads

@@ -1,3 +1,0 @@
-volumes:
-  uptimekuma_data:
-    name: uptimekuma_data

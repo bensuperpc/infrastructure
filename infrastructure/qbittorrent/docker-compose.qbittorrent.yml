@@ -9,7 +9,7 @@ services:
     depends_on:
       - caddy
     env_file:
-      - env/qbittorrent.env
+      - ./qbittorrent/env/qbittorrent.env
     volumes:
       - qbittorrent_config:/config
       - qbittorrent_data:/downloads

@@ -9,7 +9,7 @@ services:
       - caddy
     restart: on-failure:5
     env_file:
-      - env/syncthing.env
+      - ./syncthing/env/syncthing.env
     volumes:
       - syncthing_config:/config
       - syncthing_data:/data1

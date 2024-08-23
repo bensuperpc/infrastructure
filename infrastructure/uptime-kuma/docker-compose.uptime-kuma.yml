@@ -14,3 +14,7 @@ services:
       - infra-network
     security_opt:
       - no-new-privileges:true
+
+volumes:
+  uptimekuma_data:
+    name: uptimekuma_data

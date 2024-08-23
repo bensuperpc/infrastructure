@@ -8,6 +8,8 @@ services:
     restart: on-failure:5
     depends_on:
       - caddy
+    env_file:
+      - ./jellyfin/env/jellyfin.env
     volumes:
       - jellyfin_config:/config
       - jellyfin_data_movies:/movies:rw

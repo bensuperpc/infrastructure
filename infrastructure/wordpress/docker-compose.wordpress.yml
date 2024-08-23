@@ -10,9 +10,9 @@ services:
       - wordpress_db
       - caddy
     env_file:
-      - env/wordpress.env
+      - ./wordpress/env/wordpress.env
     volumes:
-      - ./config/wordpress/php.ini:/usr/local/etc/php/conf.d/custom.ini:ro
+      - ./wordpress/config/wordpress/php.ini:/usr/local/etc/php/conf.d/custom.ini:ro
       - wordpress:/var/www/html:rw
     networks:
       - infra-network
@@ -32,7 +32,7 @@ services:
     volumes:
       - wordpress_db:/var/lib/mysql:rw
     env_file:
-      - env/wordpress_db.env
+      - ./wordpress/env/wordpress_db.env
     command: '--default-authentication-plugin=mysql_native_password'
     networks:
       - infra-network
@@ -48,7 +48,7 @@ services:
       - wordpress
     restart: on-failure:5
     env_file:
-      - env/backup.env
+      - ./wordpress/env/backup.env
     volumes:
       - wordpress_backup:/mnt/restic
       - wordpress_db:/data/wordpress_db:ro
