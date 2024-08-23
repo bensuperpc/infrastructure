@@ -19,7 +19,7 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [x] Jellyfin (Media server)
 - [x] Gitea (Git server)
 - [x] Uptime Kuma (Monitoring)
-- [x] qbittorrent server
+- [x] qbittorrent and transmission (Torrent client/server)
 
 ## Screenshots
 
@@ -67,6 +67,7 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [adminer.bensuperpc.org](https://adminer.bensuperpc.org) | Sub | Adminer for MariaDB for wordpress only |
 | [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org) | Sub | Uptime Kuma for monitoring |
 | [qbittorrent.bensuperpc.org](https://qbittorrent.bensuperpc.org) | Sub | Torrent client/server |
+| [transmission.bensuperpc.org](https://transmission.bensuperpc.org) | Sub | Torrent client/server |
 | [git.bensuperpc.org](https://git.bensuperpc.org) | Sub | Gitea for git |
 | [link.bensuperpc.org](https://link.bensuperpc.org) | Sub | For link shortener |
 | [jellyfin.bensuperpc.org](https://jellyfin.bensuperpc.org) | Sub | Jellyfin for media server |
@@ -87,7 +88,7 @@ You can generate a password with 32 characters:
 openssl rand -base64 32
 ```
 
-For the [wordpress.env](env/wordpress.env) file, you need to change the password and user for the database.
+For the [wordpress.env](infrastructure/wordpress/env/wordpress.env) file, you need to change the password and user for the database.
 
 ```sh
 WORDPRESS_DB_USER=bensuperpc
@@ -96,7 +97,7 @@ WORDPRESS_DB_NAME=wordpress
 WORDPRESS_DB_HOST=wordpress_db:3306
 ```
 
-For [wordpress_db.env](env/wordpress_db.env) file, you need to change the password(s) and user for the database.
+For [wordpress_db.env](infrastructure/wordpress/env/wordpress_db.env) file, you need to change the password(s) and user for the database.
     
 ```sh
 MARIADB_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
@@ -105,7 +106,7 @@ MARIADB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
 MARIADB_DATABASE=wordpress
 ```
 
-For [adminer.env](env/adminer.env) file, you need to change the password(s) and user for the database.
+For [adminer.env](infrastructure/wordpress/env/adminer.env) file, you need to change the password(s) and user for the database.
 
 ```sh
 MYSQL_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
@@ -114,7 +115,7 @@ MYSQL_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
 ADMINER_DEFAULT_SERVER=wordpress_db
 ```
 
-For [gitea.env](env/gitea.env) file, you need to change the password(s) and user for the database.
+For [gitea.env](infrastructure/gitea/env/gitea.env) file, you need to change the password(s) and user for the database.
 
 ```sh
 GITEA__database__DB_TYPE=mysql
@@ -125,7 +126,7 @@ GITEA__database__PASSWD=K7s5yoHknnEd7vsZoxb8I3dK9mjToF1j
 GITEA__security__SECRET_KEY=ykcZt23an1E4lFHWvrCKdAyt16WAiK9c
 ```
 
-For [gitea_db.env](env/gitea_db.env) file, you need to change the password(s) and user for the database.
+For [gitea_db.env](infrastructure/gitea/env/gitea_db.env) file, you need to change the password(s) and user for the database.
 
 ```sh
 MYSQL_ROOT_PASSWORD=xpc4zIhHZzWKqVHcjBu4aW6aS7jG8d7X
@@ -134,7 +135,7 @@ MYSQL_PASSWORD=K7s5yoHknnEd7vsZoxb8I3dK9mjToF1j
 MYSQL_DATABASE=gitea
 ```
 
-For [psitransfer.env](env/psitransfer.env) file, you need to change the password(s) and user for the database.
+For [psitransfer.env](infrastructure/psitransfer/env/psitransfer.env) file, you need to change the password(s) and user for the database.
 
 ```sh
 PSITRANSFER_ADMIN_PASS=n9jLVNT9QUotTJTT91JqH4GyBTg9pvEn
@@ -162,7 +163,7 @@ make down
 
 ### All services
 
-You can find all services on the [docker-compose.yml](docker-compose.yml) file or on this table:
+You can find all service on this table:
 
 | Service | Description | URL |
 | --- | --- | --- |
@@ -170,6 +171,7 @@ You can find all services on the [docker-compose.yml](docker-compose.yml) file o
 | Adminer | Adminer for MariaDB | [adminer.bensuperpc.org](https://adminer.bensuperpc.org) |
 | Uptime Kuma | Uptime Kuma for monitoring | [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org) |
 | qbittorrent | qbittorrent server | [qbittorrent.bensuperpc.org](https://qbittorrent.bensuperpc.org) |
+| transmission | transmission server | [transmission.bensuperpc.org](https://transmission.bensuperpc.org) |
 | Gitea | Gitea for git | [git.bensuperpc.org](https://git.bensuperpc.org) |
 | Jellyfin | Jellyfin for media server | [jellyfin.bensuperpc.org](https://jellyfin.bensuperpc.org) |
 | SyncThing | SyncThing for file synchronization | [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org) |
