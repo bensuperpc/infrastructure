@@ -1,18 +1,21 @@
 services:
-  # it-tools
-  it-tools:
-    image: corentinth/it-tools:latest
-    container_name: it-tools
+  # linkstack
+  linkstack:
+    image: linkstackorg/linkstack:latest
+    container_name: linkstack
     profiles:
-      - it-tools
+      - linkstack
     restart: on-failure:5
     depends_on:
       - caddy
+    env_file:
+      - ./linkstack/env/linkstack.env
+    volumes:
+      - linkstack_data:/htdocs
     networks:
       - infra-network
     security_opt:
       - no-new-privileges:true
-    read_only: true
     deploy:
       resources:
         limits:
@@ -21,3 +24,7 @@ services:
         reservations:
           cpus: '0.001'
           memory: 20M
+
+volumes:
+  linkstack_data:
+    name: linkstack_data

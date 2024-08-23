@@ -1,13 +1,15 @@
 services:
-  # it-tools
-  it-tools:
-    image: corentinth/it-tools:latest
-    container_name: it-tools
+  # privatebin
+  privatebin:
+    image: privatebin/nginx-fpm-alpine:latest
+    container_name: privatebin
     profiles:
-      - it-tools
+      - privatebin
     restart: on-failure:5
     depends_on:
       - caddy
+    volumes:
+      - privatebin_data:/srv/data
     networks:
       - infra-network
     security_opt:
@@ -21,3 +23,7 @@ services:
         reservations:
           cpus: '0.001'
           memory: 20M
+
+volumes:
+  privatebin_data:
+    name: privatebin_data

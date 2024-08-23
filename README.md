@@ -23,6 +23,7 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [x] SyncThing (File synchronization)
 - [x] PsiTransfer (File sharing)
 - [x] it-tools (Tools for IT)
+- [x] Privatebin (Pastebin)
 
 ## Screenshots
 
@@ -77,6 +78,7 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org) | Sub | SyncThing for file synchronization |
 | [psitransfer.bensuperpc.org](https://psitransfer.bensuperpc.org) | Sub | PsiTransfer for file sharing |
 | [it-tools.bensuperpc.org](https://it-tools.bensuperpc.org) | Sub | Tools for IT |
+| [privatebin.bensuperpc.org](https://privatebin.bensuperpc.org) | Sub | Pastebin |
 | bensuperpc.com | Main | Redirect to bensuperpc.org |
 | bensuperpc.fr | Main | Redirect to bensuperpc.org |
 | bensuperpc.net | Main | Redirect to bensuperpc.org |
@@ -181,6 +183,7 @@ You can find all service on this table:
 | SyncThing | SyncThing for file synchronization | [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org) |
 | PsiTransfer | PsiTransfer for file sharing | [psitransfer.bensuperpc.org](https://psitransfer.bensuperpc.org) |
 | it-tools | Tools for IT | [it-tools.bensuperpc.org](https://it-tools.bensuperpc.org) |
+| Privatebin | Pastebin | [privatebin.bensuperpc.org](https://privatebin.bensuperpc.org) |
 
 You can disable some services by removing the service name in PROFILES variable in the [Makefile](Makefile) file.
 
@@ -208,6 +211,8 @@ To enable the gitea CI: https://medium.com/@lokanx/how-to-build-docker-container
 - [SyncThing](https://syncthing.net/)
 - [PsiTransfer](https://psitransfer.com/)
 - [It-tools](https://github.com/CorentinTh/it-tools)
+- [Privatebin](https://github.com/PrivateBin/PrivateBin)
+- [Linkstack](https://linkstack.org)
 - [Imagisphe](https://imagisphe.re/)
 
 ## License

@@ -93,6 +93,22 @@ tools.bensuperpc.org {
 	redir https://it-tools.bensuperpc.org permanent
 }
 
+privatebin.bensuperpc.org {
+	reverse_proxy privatebin:8080
+}
+
+pastebin.bensuperpc.org {
+	redir https://privatebin.bensuperpc.org permanent
+}
+
+linkstack.bensuperpc.org {
+	reverse_proxy linkstack:443 {
+		transport http {
+			tls_insecure_skip_verify
+		}
+	}
+}
+
 link.bensuperpc.org {
 	# TODO: Use service with database
 	# Friendly links
