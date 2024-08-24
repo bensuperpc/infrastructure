@@ -212,7 +212,7 @@ To enable the gitea CI: https://medium.com/@lokanx/how-to-build-docker-container
 - [PsiTransfer](https://psitransfer.com/)
 - [It-tools](https://github.com/CorentinTh/it-tools)
 - [Privatebin](https://github.com/PrivateBin/PrivateBin)
-- [Linkstack](https://linkstack.org)
+- [ghost](https://ghost.org)
 - [Homepage Tuto](https://belginux.com/installer-homepage-avec-docker/)
 - [Imagisphe](https://imagisphe.re/)
 

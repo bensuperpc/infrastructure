@@ -101,14 +101,6 @@ pastebin.bensuperpc.org {
 	redir https://privatebin.bensuperpc.org permanent
 }
 
-linkstack.bensuperpc.org {
-	reverse_proxy linkstack:443 {
-		transport http {
-			tls_insecure_skip_verify
-		}
-	}
-}
-
 homepage.bensuperpc.org {
 	reverse_proxy homepage:3000
 }
