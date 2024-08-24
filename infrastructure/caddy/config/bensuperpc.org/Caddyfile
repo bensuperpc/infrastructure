@@ -105,6 +105,10 @@ homepage.bensuperpc.org {
 	reverse_proxy homepage:3000
 }
 
+ghost.bensuperpc.org {
+	reverse_proxy ghost:2368
+}
+
 link.bensuperpc.org {
 	# TODO: Use service with database
 	# Friendly links
