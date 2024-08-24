@@ -4,10 +4,49 @@
 
 title: Bensuperpc
 
-headerStyle: boxedWidgets
+base: https://homepage.bensuperpc.org
+
+#favicon: /images/favicon.ico
+
+logpath: /app/logs
+
+background: 
+  image: /images/deep.jpg
+  blur: md
+  opacity: 50
+  brightness: 50
+
+theme: dark
+color: slate
+
+language: fr
+
+layout:
+  Personal:
+    style: row
+    columns: 6
+  Media:
+    style: row
+    columns: 6
+  Sharing:
+    style: row
+    columns: 6
+  Utils:
+    style: row
+    columns: 6
+    initiallyCollapsed: false
+
+quicklaunch:
+  searchDescriptions: true
+  hideInternetSearch: false
+  hideVisitURL: false
+
+hideVersion: true
+
+headerStyle: boxed
 
 useEqualHeights: true
 
-providers:
-  openweathermap: openweathermapapikey
-  weatherapi: weatherapiapikey
+#providers:
+#  openweathermap: openweathermapapikey
+#  weatherapi: weatherapiapikey

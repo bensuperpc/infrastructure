@@ -2,27 +2,47 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/latest/configs/services
 
-- Blog:
+- Personal:
     - wordpress:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/wordpress.png
         href: https://www.bensuperpc.org/
         description: Wordpress
+    - linkstack:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/linkstack.png
+        href: https://linkstack.bensuperpc.org/
+        description: Linkstack
+    - uptime-kuma:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/uptime-kuma.png
+        href: https://uptimekuma.bensuperpc.org/
+        description: Uptime Kuma
 
-- Media:
+- Sharing:
     - jellyfin:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/jellyfin.png
         href: https://jellyfin.bensuperpc.org/
         description: Jellyfin
+    - psitransfer:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/psitransfer.png
+        href: https://psitransfer.bensuperpc.org/
+        description: PsiTransfer
+    - qbittorrent:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/qbittorrent.png
+        href: https://qbittorrent.bensuperpc.org/
+        description: qBittorrent
+    - syncthing:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/syncthing.png
+        href: https://syncthing.bensuperpc.org/
+        description: Syncthing
+    - transmission:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/transmission.png
+        href: https://transmission.bensuperpc.org/
+        description: Transmission
 
 - Utils:
     - it-tools:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/it-tools.png
         href: https://it-tools.bensuperpc.org/
         description: IT Tools
-    - psitransfer:
-        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/psitransfer.png
-        href: https://psitransfer.bensuperpc.org/
-        description: PsiTransfer
     - gitea:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/gitea.png
         href: https://gitea.bensuperpc.org/

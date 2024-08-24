@@ -11,8 +11,9 @@ services:
     env_file:
       - ./homepage/env/homepage.env
     volumes:
-      - ./homepage/config:/app/config
-      - homepage_log:/app/config/logs
+      - homepage_log:/app/logs
+      - ./homepage/config:/app/config:ro
+      - ./homepage/image:/app/public/images:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - infra-network
