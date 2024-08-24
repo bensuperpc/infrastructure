@@ -11,7 +11,7 @@ base: https://homepage.bensuperpc.org
 logpath: /app/logs
 
 background: 
-  image: /images/deep.jpg
+  image: /images/electronic.jpg
   blur: md
   opacity: 50
   brightness: 50

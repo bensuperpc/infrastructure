@@ -28,7 +28,7 @@ www.bensuperpc.org {
 		X-Content-Type-Options nosniff
 
 		# clickjacking protection
-		X-Frame-Options DENY
+		# X-Frame-Options DENY
 
 		# Disable powerful features we don't need
         Permissions-Policy "geolocation=(), camera=(), microphone=() interest-cohort=()"
@@ -107,6 +107,10 @@ homepage.bensuperpc.org {
 
 ghost.bensuperpc.org {
 	reverse_proxy ghost:2368
+}
+
+dozzle.bensuperpc.org {
+	reverse_proxy dozzle:8080
 }
 
 link.bensuperpc.org {

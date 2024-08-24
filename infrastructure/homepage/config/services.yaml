@@ -25,6 +25,10 @@
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/psitransfer.png
         href: https://psitransfer.bensuperpc.org/
         description: PsiTransfer
+    - privatebin:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/privatebin.png
+        href: https://privatebin.bensuperpc.org/
+        description: PrivateBin
     - qbittorrent:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/qbittorrent.png
         href: https://qbittorrent.bensuperpc.org/
