@@ -7,10 +7,6 @@
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/wordpress.png
         href: https://www.bensuperpc.org/
         description: Wordpress
-    - ghost:
-        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/ghost.png
-        href: https://ghost.bensuperpc.org/
-        description: Ghost
     - uptime-kuma:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/uptime-kuma.png
         href: https://uptimekuma.bensuperpc.org/
