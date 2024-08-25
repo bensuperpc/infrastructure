@@ -1,6 +1,6 @@
 # Infrastructure
 
-_Open source, decentralized and self-hosted infrastructure for my services_
+_Open source, decentralized and self-hosted infrastructure for many services._
 
 ## About
 
