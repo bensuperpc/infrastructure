@@ -6,7 +6,7 @@ title: Bensuperpc
 
 base: https://homepage.bensuperpc.org
 
-#favicon: /images/favicon.ico
+favicon: /images/favicon.ico
 
 logpath: /app/logs
 
@@ -19,7 +19,7 @@ background:
 theme: dark
 color: slate
 
-language: fr
+language: en
 
 layout:
   Personal:
@@ -32,6 +32,14 @@ layout:
     style: row
     columns: 6
   Utils:
+    style: row
+    columns: 6
+    initiallyCollapsed: false
+  Others:
+    style: row
+    columns: 6
+    initiallyCollapsed: false
+  Games:
     style: row
     columns: 6
     initiallyCollapsed: false

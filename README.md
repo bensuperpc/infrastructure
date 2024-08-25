@@ -24,6 +24,7 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [x] PsiTransfer (File sharing)
 - [x] it-tools (Tools for IT)
 - [x] Privatebin (Pastebin)
+- [x] Yacht (Web interface for managing docker containers)
 
 ## Screenshots
 
@@ -35,7 +36,7 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Web domain](https://www.ovh.com/world/domains/) (I use OVH)
-- [Open port 80, 443, 2222 on your router](http://192.168.0.1/)
+- [Open port 80, 443, 22 on your router](http://192.168.1.1/)
 
 ***To avoid get rate limit from letsencrypt (10 certificates per 3 hours), you need to disable some certificates in the caddyfiles and enable them 3h later...***
 
@@ -79,6 +80,8 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [psitransfer.bensuperpc.org](https://psitransfer.bensuperpc.org) | Sub | PsiTransfer for file sharing |
 | [it-tools.bensuperpc.org](https://it-tools.bensuperpc.org) | Sub | Tools for IT |
 | [privatebin.bensuperpc.org](https://privatebin.bensuperpc.org) | Sub | Pastebin |
+| [yacht.bensuperpc.org](https://yacht.bensuperpc.org) | Sub | Web interface for managing docker containers |
+| [homepage.bensuperpc.org](https://homepage.bensuperpc.org) | Sub | Homepage |
 | bensuperpc.com | Main | Redirect to bensuperpc.org |
 | bensuperpc.fr | Main | Redirect to bensuperpc.org |
 | bensuperpc.net | Main | Redirect to bensuperpc.org |
@@ -147,6 +150,12 @@ For [psitransfer.env](infrastructure/psitransfer/env/psitransfer.env) file, you 
 PSITRANSFER_ADMIN_PASS=n9jLVNT9QUotTJTT91JqH4GyBTg9pvEn
 ```
 
+For [yacht.env](infrastructure/yacht/env/yacht.env) file, you need to change the secret key.
+
+```sh
+SECRET_KEY=UZvg9nbcGIJlPEB3uI39TAEWyFOz9nm8
+```
+
 ### Start the infrastructure
 
 Start the website with:
@@ -184,6 +193,8 @@ You can find all service on this table:
 | PsiTransfer | PsiTransfer for file sharing | [psitransfer.bensuperpc.org](https://psitransfer.bensuperpc.org) |
 | it-tools | Tools for IT | [it-tools.bensuperpc.org](https://it-tools.bensuperpc.org) |
 | Privatebin | Pastebin | [privatebin.bensuperpc.org](https://privatebin.bensuperpc.org) |
+| Yacht | Web interface for managing docker containers | [yacht.bensuperpc.org](https://yacht.bensuperpc.org) |
+| Homepage | Homepage | [homepage.bensuperpc.org](https://homepage.bensuperpc.org) |
 
 You can disable some services by removing the service name in PROFILES variable in the [Makefile](Makefile) file.
 
@@ -214,6 +225,7 @@ To enable the gitea CI: https://medium.com/@lokanx/how-to-build-docker-container
 - [Privatebin](https://github.com/PrivateBin/PrivateBin)
 - [ghost](https://ghost.org)
 - [Homepage Tuto](https://belginux.com/installer-homepage-avec-docker/)
+- [Yacht](https://yacht.sh/)
 - [Imagisphe](https://imagisphe.re/)
 
 ## License

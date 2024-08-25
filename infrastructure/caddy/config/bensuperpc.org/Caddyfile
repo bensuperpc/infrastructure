@@ -109,6 +109,10 @@ dozzle.bensuperpc.org {
 	reverse_proxy dozzle:8080
 }
 
+yacht.bensuperpc.org {
+	reverse_proxy yacht:8000
+}
+
 link.bensuperpc.org {
 	# TODO: Use service with database
 	# Friendly links
