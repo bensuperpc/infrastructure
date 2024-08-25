@@ -5,9 +5,9 @@
 - Personal:
     - wordpress:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/wordpress.png
-        href: https://www.bensuperpc.org/
+        href: https://wordpress.bensuperpc.org/
         description: Wordpress
-        ping: bensuperpc.org
+        ping: wordpress.bensuperpc.org
         container: wordpress
     - uptime-kuma:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/uptime-kuma.png

@@ -1,4 +1,16 @@
 www.bensuperpc.org {
+	reverse_proxy homepage:3000
+}
+
+bensuperpc.org {
+	redir https://www.bensuperpc.org permanent
+}
+
+homepage.bensuperpc.org {
+	redir https://www.bensuperpc.org{uri} permanent
+}
+
+wordpress.bensuperpc.org {
 	root * /var/www/html
 	php_fastcgi wordpress:9000
 
@@ -33,10 +45,6 @@ www.bensuperpc.org {
 		# Disable powerful features we don't need
         Permissions-Policy "geolocation=(), camera=(), microphone=() interest-cohort=()"
 	}
-}
-
-bensuperpc.org {
-	redir https://www.bensuperpc.org{uri} permanent
 }
 
 adminer.bensuperpc.org {
@@ -99,10 +107,6 @@ privatebin.bensuperpc.org {
 
 pastebin.bensuperpc.org {
 	redir https://privatebin.bensuperpc.org permanent
-}
-
-homepage.bensuperpc.org {
-	reverse_proxy homepage:3000
 }
 
 dozzle.bensuperpc.org {

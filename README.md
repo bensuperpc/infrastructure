@@ -67,8 +67,8 @@ And then, caddy will generate the certificate for you and renew it automatically
 
 | Domain name | Type | Description |
 | --- | --- | --- |
-| [homepage.bensuperpc.org](https://homepage.bensuperpc.org) | Sub | Homepage |
-| [bensuperpc.org](https://bensuperpc.org) | Main | Main domain |
+| [www.bensuperpc.org](https://www.bensuperpc.org) | Main | Homepage |
+| [wordpress.bensuperpc.org](https://wordpress.bensuperpc.org) | Sub | Wordpress website |
 | [adminer.bensuperpc.org](https://adminer.bensuperpc.org) | Sub | Adminer for MariaDB for wordpress only |
 | [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org) | Sub | Uptime Kuma for monitoring |
 | [qbittorrent.bensuperpc.org](https://qbittorrent.bensuperpc.org) | Sub | Torrent client/server |
@@ -186,8 +186,8 @@ You can find all service on this table:
 
 | Service | Description | URL |
 | --- | --- | --- |
-| Homepage | Homepage | [homepage.bensuperpc.org](https://homepage.bensuperpc.org) |
-| Wordpress | Wordpress website | [bensuperpc.org](https://bensuperpc.org) and [www.bensuperpc.org](https://www.bensuperpc.org) |
+| Homepage | Homepage | [www.bensuperpc.org](https://www.bensuperpc.org) |
+| Wordpress | Wordpress website | [wordpress.bensuperpc.org](https://bensuperpc.org) |
 | Adminer | Adminer for MariaDB | [adminer.bensuperpc.org](https://adminer.bensuperpc.org) |
 | Uptime Kuma | Uptime Kuma for monitoring | [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org) |
 | qbittorrent | qbittorrent server | [qbittorrent.bensuperpc.org](https://qbittorrent.bensuperpc.org) |
