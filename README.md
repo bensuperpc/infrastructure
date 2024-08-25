@@ -68,6 +68,7 @@ And then, caddy will generate the certificate for you and renew it automatically
 
 | Domain name | Type | Description |
 | --- | --- | --- |
+| [homepage.bensuperpc.org](https://homepage.bensuperpc.org) | Sub | Homepage |
 | [bensuperpc.org](https://bensuperpc.org) | Main | Main domain |
 | [adminer.bensuperpc.org](https://adminer.bensuperpc.org) | Sub | Adminer for MariaDB for wordpress only |
 | [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org) | Sub | Uptime Kuma for monitoring |
@@ -81,7 +82,6 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [it-tools.bensuperpc.org](https://it-tools.bensuperpc.org) | Sub | Tools for IT |
 | [privatebin.bensuperpc.org](https://privatebin.bensuperpc.org) | Sub | Pastebin |
 | [yacht.bensuperpc.org](https://yacht.bensuperpc.org) | Sub | Web interface for managing docker containers |
-| [homepage.bensuperpc.org](https://homepage.bensuperpc.org) | Sub | Homepage |
 | bensuperpc.com | Main | Redirect to bensuperpc.org |
 | bensuperpc.fr | Main | Redirect to bensuperpc.org |
 | bensuperpc.net | Main | Redirect to bensuperpc.org |
@@ -182,6 +182,7 @@ You can find all service on this table:
 
 | Service | Description | URL |
 | --- | --- | --- |
+| Homepage | Homepage | [homepage.bensuperpc.org](https://homepage.bensuperpc.org) |
 | Wordpress | Wordpress website | [bensuperpc.org](https://bensuperpc.org) and [www.bensuperpc.org](https://www.bensuperpc.org) |
 | Adminer | Adminer for MariaDB | [adminer.bensuperpc.org](https://adminer.bensuperpc.org) |
 | Uptime Kuma | Uptime Kuma for monitoring | [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org) |
@@ -194,7 +195,6 @@ You can find all service on this table:
 | it-tools | Tools for IT | [it-tools.bensuperpc.org](https://it-tools.bensuperpc.org) |
 | Privatebin | Pastebin | [privatebin.bensuperpc.org](https://privatebin.bensuperpc.org) |
 | Yacht | Web interface for managing docker containers | [yacht.bensuperpc.org](https://yacht.bensuperpc.org) |
-| Homepage | Homepage | [homepage.bensuperpc.org](https://homepage.bensuperpc.org) |
 
 You can disable some services by removing the service name in PROFILES variable in the [Makefile](Makefile) file.
 
