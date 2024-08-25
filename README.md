@@ -1,10 +1,9 @@
 # Infrastructure
 
-_My personal infrastructure for my servers and services._
+_Open source, decentralized and self-hosted infrastructure for my services_
 
 ## About
 
-This is my infrastructure. It's a collection of scripts and configuration files that I use to manage my servers and services.
 It uses caddy and docker-compose to run my services (And many other things).
 It's a **work in progress**, and I'm still learning a lot about it.
 If you have any **questions** or **suggestions**, feel free to open an issue or a pull request.
