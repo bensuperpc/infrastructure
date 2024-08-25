@@ -114,6 +114,11 @@ MARIADB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
 MARIADB_DATABASE=wordpress
 ```
 
+For [wordpress_backup.env](infrastructure/wordpress/env/wordpress_backup.env) file, you need to change the password(s) for the restic backup.
+```sh
+RESTIC_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
+```
+
 For [adminer.env](infrastructure/wordpress/env/adminer.env) file, you need to change the password(s) and user for the database.
 
 ```sh

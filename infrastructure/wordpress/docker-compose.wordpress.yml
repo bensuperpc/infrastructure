@@ -48,7 +48,7 @@ services:
       - wordpress
     restart: on-failure:5
     env_file:
-      - ./wordpress/env/backup.env
+      - ./wordpress/env/wordpress_backup.env
     volumes:
       - wordpress_backup:/mnt/restic
       - wordpress_db:/data/wordpress_db:ro
