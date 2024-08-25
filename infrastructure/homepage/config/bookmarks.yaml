@@ -6,13 +6,34 @@
     - Github:
         - abbr: GH
           href: https://github.com/bensuperpc
+          description: github.com
 
 - Social:
     - Reddit:
         - abbr: RE
           href: https://reddit.com/u/bensuperpc
+          description: reddit.com
+    - Twitter:
+        - abbr: TW
+          href: https://twitter.com/bensuperpc
+          description: twitter.com
 
 - Entertainment:
     - YouTube:
         - abbr: YT
           href: https://youtube.com/c/bensuperpc
+          description: youtube.com
+
+- Friends:
+    - Rickkrict:
+        - abbr: RK
+          href: https://gnous.eu/
+          description: gnous.eu
+    - Proxy:
+        - abbr: IM
+          href: https://imagisphe.re/
+          description: imagisphe.re
+    - Greep:
+        - abbr: GP
+          href: https://greep.fr/#/
+          description: greep.fr
