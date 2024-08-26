@@ -81,6 +81,7 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [it-tools.bensuperpc.org](https://it-tools.bensuperpc.org) | Sub | Tools for IT |
 | [privatebin.bensuperpc.org](https://privatebin.bensuperpc.org) | Sub | Pastebin |
 | [yacht.bensuperpc.org](https://yacht.bensuperpc.org) | Sub | Web interface for managing docker containers |
+| [projectsend.bensuperpc.org](https://projectsend.bensuperpc.org) | Sub | ProjectSend for file sharing |
 | bensuperpc.com | Main | Redirect to bensuperpc.org |
 | bensuperpc.fr | Main | Redirect to bensuperpc.org |
 | bensuperpc.net | Main | Redirect to bensuperpc.org |
@@ -148,7 +149,7 @@ MYSQL_PASSWORD=K7s5yoHknnEd7vsZoxb8I3dK9mjToF1j
 MYSQL_DATABASE=gitea
 ```
 
-For [psitransfer.env](infrastructure/psitransfer/env/psitransfer.env) file, you need to change the password(s) and user for the database.
+For [psitransfer.env](infrastructure/psitransfer/env/psitransfer.env) file, you need to change the secret key.
 
 ```sh
 PSITRANSFER_ADMIN_PASS=n9jLVNT9QUotTJTT91JqH4GyBTg9pvEn
@@ -158,6 +159,15 @@ For [yacht.env](infrastructure/yacht/env/yacht.env) file, you need to change the
 
 ```sh
 SECRET_KEY=UZvg9nbcGIJlPEB3uI39TAEWyFOz9nm8
+```
+
+For [projectsend_db.env](infrastructure/projectsend/env/projectsend_db.env) file, you need to change the password(s) and user for the database.
+
+```sh
+MARIADB_ROOT_PASSWORD=8O34297GrBfT3Ld34Lfg9mpotmZwbJtt
+MARIADB_USER=bensuperpc
+MARIADB_PASSWORD=wdSUa1JEZhXie5AJ5NcX1w73xmpO12EY
+MARIADB_DATABASE=projectsend
 ```
 
 ### Start the infrastructure
@@ -199,6 +209,7 @@ You can find all service on this table:
 | it-tools | Tools for IT | [it-tools.bensuperpc.org](https://it-tools.bensuperpc.org) |
 | Privatebin | Pastebin | [privatebin.bensuperpc.org](https://privatebin.bensuperpc.org) |
 | Yacht | Web interface for managing docker containers | [yacht.bensuperpc.org](https://yacht.bensuperpc.org) |
+| ProjectSend | ProjectSend for file sharing | [projectsend.bensuperpc.org](https://projectsend.bensuperpc.org) |
 
 You can disable some services by removing the service name in PROFILES variable in the [Makefile](Makefile) file.
 
@@ -215,6 +226,7 @@ To enable the gitea CI: https://medium.com/@lokanx/how-to-build-docker-container
 - [Docker Hub](https://hub.docker.com/)
 - [How To Start WordPress with Caddy using Docker Compose](https://minhcung.me/how-to-start-wordpress-with-caddy-using-docker-compose-3d31bb9ef88b)
 - [Digital Ocean - How To Install WordPress with Docker Compose (nginx)](https://www.digitalocean.com/community/tutorials/how-to-install-wordpress-with-docker-compose)
+- [Imagisphe](https://imagisphe.re/)
 - [Letsencrypt](https://letsencrypt.org/)
 - [Caddy](https://caddyserver.com/)
 - [Adminer](https://www.adminer.org/)
@@ -230,7 +242,7 @@ To enable the gitea CI: https://medium.com/@lokanx/how-to-build-docker-container
 - [ghost](https://ghost.org)
 - [Homepage Tuto](https://belginux.com/installer-homepage-avec-docker/)
 - [Yacht](https://yacht.sh/)
-- [Imagisphe](https://imagisphe.re/)
+- [ProjectSend](https://www.projectsend.org/)
 
 ## License
 

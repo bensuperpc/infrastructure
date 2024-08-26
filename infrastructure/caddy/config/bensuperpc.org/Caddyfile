@@ -117,6 +117,10 @@ yacht.bensuperpc.org {
 	reverse_proxy yacht:8000
 }
 
+projectsend.bensuperpc.org {
+	reverse_proxy projectsend:80
+}
+
 link.bensuperpc.org {
 	# TODO: Use service with database
 	# Friendly links
@@ -138,6 +142,8 @@ link.bensuperpc.org {
 	redir /mother https://youtu.be/w3NyycHR3fE?si=rNNSW9zYv0bcO2Eu permanent
 	redir /cpu https://www.youtube.com/watch?v=y39D4529FM4 permanent
 	redir /lechanteur https://youtu.be/HXdP15Ubu6M?si=N0qvhqo--3pmSGmb permanent
+	redir /nohero https://youtu.be/4DuUejBkMqE?si=bkB8G6PHwCp56jxb permanent
+	redir /indochine https://youtu.be/M7X6oYg6iro?si=ZRarm3qamTJ8vIJ0 permanent
 	redir /bna https://youtu.be/3T3ofoKfEoY?si=_7HkGQXMC7rBng8O permanent
 	redir /jojo https://youtu.be/U0TXIXTzJEY?si=2acWJWX06ju2w4uj permanent
 	redir /patapon https://youtu.be/H6CbNHLHkmk?si=ZvU8SzrOK-oCUXT5 permanent

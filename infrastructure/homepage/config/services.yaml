@@ -65,6 +65,12 @@
         description: Transmission
         ping: transmission.bensuperpc.org
         container: transmission
+    - projectsend:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/projectsend.png
+        href: https://projectsend.bensuperpc.org/
+        description: ProjectSend
+        ping: projectsend.bensuperpc.org
+        container: projectsend
 
 - Utils:
     - it-tools:
