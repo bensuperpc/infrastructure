@@ -1,0 +1,31 @@
+services:
+  # picoshare
+  picoshare:
+    image: mtlynch/picoshare:latest
+    container_name: picoshare
+    profiles:
+      - picoshare
+    restart: on-failure:5
+    depends_on:
+      - caddy
+    env_file:
+      - ./picoshare/env/picoshare.env
+    volumes:
+      - picoshare_data:/data
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.001'
+          memory: 20M
+
+volumes:
+  picoshare_data:
+    name: picoshare_data

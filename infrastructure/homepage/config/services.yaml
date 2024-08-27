@@ -41,6 +41,12 @@
         description: PsiTransfer
         ping: psitransfer.bensuperpc.org
         container: psitransfer
+    - picoshare:
+#        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/picoshare.png
+        href: https://picoshare.bensuperpc.org/
+        description: PicoShare
+        ping: picoshare.bensuperpc.org
+        container: picoshare
     - privatebin:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/privatebin.png
         href: https://privatebin.bensuperpc.org/

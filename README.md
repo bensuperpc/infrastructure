@@ -82,6 +82,7 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [privatebin.bensuperpc.org](https://privatebin.bensuperpc.org) | Sub | Pastebin |
 | [yacht.bensuperpc.org](https://yacht.bensuperpc.org) | Sub | Web interface for managing docker containers |
 | [projectsend.bensuperpc.org](https://projectsend.bensuperpc.org) | Sub | ProjectSend for file sharing |
+| [picoshare.bensuperpc.org](https://picoshare.bensuperpc.org) | Sub | Picoshare for file sharing |
 | bensuperpc.com | Main | Redirect to bensuperpc.org |
 | bensuperpc.fr | Main | Redirect to bensuperpc.org |
 | bensuperpc.net | Main | Redirect to bensuperpc.org |
@@ -170,6 +171,12 @@ MARIADB_PASSWORD=wdSUa1JEZhXie5AJ5NcX1w73xmpO12EY
 MARIADB_DATABASE=projectsend
 ```
 
+For [picoshare.env](infrastructure/picoshare/env/picoshare.env) file, you need to change the secret key.
+
+```sh
+PS_SHARED_SECRET=CBuS4DJLqIe93xF1KGYRrnhxUFBqLD2n
+```
+
 ### Start the infrastructure
 
 Start the website with:
@@ -210,6 +217,7 @@ You can find all service on this table:
 | Privatebin | Pastebin | [privatebin.bensuperpc.org](https://privatebin.bensuperpc.org) |
 | Yacht | Web interface for managing docker containers | [yacht.bensuperpc.org](https://yacht.bensuperpc.org) |
 | ProjectSend | ProjectSend for file sharing | [projectsend.bensuperpc.org](https://projectsend.bensuperpc.org) |
+| Picoshare | Picoshare for file sharing | [picoshare.bensuperpc.org](https://picoshare.bensuperpc.org) |
 
 You can disable some services by removing the service name in PROFILES variable in the [Makefile](Makefile) file.
 
@@ -243,6 +251,7 @@ To enable the gitea CI: https://medium.com/@lokanx/how-to-build-docker-container
 - [Homepage Tuto](https://belginux.com/installer-homepage-avec-docker/)
 - [Yacht](https://yacht.sh/)
 - [ProjectSend](https://www.projectsend.org/)
+- [Picoshare](https://github.com/mtlynch/picoshare)
 
 ## License
 

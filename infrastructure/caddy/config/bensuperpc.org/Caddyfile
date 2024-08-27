@@ -87,6 +87,10 @@ psitransfer.bensuperpc.org {
 	redir https://transfer.bensuperpc.org{uri} permanent
 }
 
+picoshare.bensuperpc.org {
+	reverse_proxy picoshare:4001
+}
+
 syncthing.bensuperpc.org {
 	reverse_proxy syncthing:8384 {
 		header_up Host {upstream_hostport}
