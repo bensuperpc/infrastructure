@@ -47,6 +47,16 @@ wordpress.bensuperpc.org {
 	}
 }
 
+it-tools.bensuperpc.org {
+	# Load balance between 2 instances
+	reverse_proxy {
+		to it-tools0:80 it-tools1:80
+		lb_policy round_robin
+		lb_retries 3
+		lb_try_interval 1s
+	}
+}
+
 adminer.bensuperpc.org {
 	reverse_proxy adminer:8080
 }
@@ -95,10 +105,6 @@ syncthing.bensuperpc.org {
 	reverse_proxy syncthing:8384 {
 		header_up Host {upstream_hostport}
 	}
-}
-
-it-tools.bensuperpc.org {
-	reverse_proxy it-tools:80
 }
 
 tools.bensuperpc.org {
