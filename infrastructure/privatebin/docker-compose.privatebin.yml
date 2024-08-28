@@ -10,6 +10,7 @@ services:
       - caddy
     volumes:
       - privatebin_data:/srv/data
+      - ./privatebin/config/conf.php:/srv/cfg/conf.php:ro
     networks:
       - infra-network
     security_opt:
