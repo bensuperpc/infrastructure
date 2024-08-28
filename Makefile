@@ -13,10 +13,15 @@
 
 DOCKER := docker
 
-PROFILES := caddy wordpress adminer syncthing uptime-kuma jellyfin qbittorrent psitransfer gitea it-tools privatebin homepage yacht projectsend picoshare
+TORRENTS_SERVICES := qbittorrent transmission
+SHARING_SERVICES := psitransfer picoshare privatebin projectsend jellyfin
+ADMIN_SERVICES := yacht uptime-kuma adminer
+UTILS_SERVICES := it-tools
+
+PROFILES := caddy wordpress syncthing gitea homepage $(SHARING_SERVICES) $(TORRENTS_SERVICES) $(ADMIN_SERVICES) $(UTILS_SERVICES)
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
-# gitea-runner transmission dozzle watchtower
+# gitea-runner dozzle watchtower
 
 COMPOSE_FILES :=  $(shell find . -name 'docker-compose*.yml' -type f | sed -e 's/^/--file /')
 
