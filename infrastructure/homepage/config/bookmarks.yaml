@@ -17,12 +17,20 @@
         - abbr: TW
           href: https://twitter.com/bensuperpc
           description: twitter.com
+    - Bluesky:
+        - abbr: BS
+          href: https://bsky.app/profile/bensuperpc.bsky.social
+          description: bsky.app
 
 - Entertainment:
     - YouTube:
         - abbr: YT
           href: https://youtube.com/c/bensuperpc
           description: youtube.com
+    - Twitch:
+        - abbr: TW
+          href: https://twitch.tv/bensuperpc
+          description: twitch.tv
 
 - Friends:
     - Gnous:
