@@ -17,8 +17,6 @@ wordpress.bensuperpc.org {
 	file_server
 	encode zstd gzip
 
-	# metrics /metrics
-
 	@disallowed {
 		path /xmlrpc.php
 		path *.sql

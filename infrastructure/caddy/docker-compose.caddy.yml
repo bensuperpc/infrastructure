@@ -30,11 +30,31 @@ services:
       timeout: 10s
       retries: 3
 
+  caddy_backup:
+    image: mazzolino/restic:latest
+    container_name: caddy_backup
+    profiles:
+      - caddy
+    depends_on:
+      - caddy
+    restart: on-failure:5
+    env_file:
+      - ./caddy/env/caddy_backup.env
+    volumes:
+      - caddy_backup:/mnt/restic
+      - caddy_data:/data:ro
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+
 volumes:
   caddy_data:
     name: caddy_data
   caddy_config:
     name: caddy_config
+  caddy_backup:
+    name: caddy_backup
 
 networks:
   infra-network:
