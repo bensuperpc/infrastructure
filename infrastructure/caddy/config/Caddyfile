@@ -2,9 +2,15 @@
 	email bensuperpc@gmail.com
 	key_type p384
 
-	log {
+	log file-log {
 		output file /data/logs/access.log
 		format json
+	}
+
+	log {
+		output stdout
+		format json
+		level ERROR
 	}
 }
 
