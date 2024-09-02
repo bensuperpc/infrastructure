@@ -129,6 +129,10 @@ projectsend.bensuperpc.org {
 	reverse_proxy projectsend:80
 }
 
+dufs.bensuperpc.org {
+	reverse_proxy dufs:5000
+}
+
 link.bensuperpc.org {
 	# TODO: Use service with database
 	# Friendly links

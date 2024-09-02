@@ -1,0 +1,31 @@
+services:
+  # dufs
+  dufs:
+    image: sigoden/dufs:latest
+    container_name: dufs
+    profiles:
+      - dufs
+    restart: on-failure:5
+    depends_on:
+      - caddy
+    env_file:
+      - ./dufs/env/dufs.env
+    volumes:
+      - dufs_data:/data
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+    read_only: false
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.001'
+          memory: 20M
+
+volumes:
+  dufs_data:
+    name: dufs_data
