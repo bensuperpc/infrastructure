@@ -78,7 +78,7 @@
         ping: projectsend.bensuperpc.org
         container: projectsend
     - dufs:
-        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/dufs.png
+#        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/dufs.png
         href: https://dufs.bensuperpc.org/
         description: Dufs
         ping: dufs.bensuperpc.org
