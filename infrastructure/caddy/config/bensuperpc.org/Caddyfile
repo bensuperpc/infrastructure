@@ -133,6 +133,10 @@ dufs.bensuperpc.org {
 	reverse_proxy dufs:5000
 }
 
+stirlingpdf.bensuperpc.org {
+	reverse_proxy stirlingpdf:8080
+}
+
 link.bensuperpc.org {
 	# TODO: Use service with database
 	# Friendly links
