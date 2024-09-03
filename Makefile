@@ -16,7 +16,9 @@ DOCKER := docker
 TORRENTS_SERVICES := qbittorrent transmission
 SHARING_SERVICES := psitransfer picoshare privatebin projectsend jellyfin dufs
 ADMIN_SERVICES := yacht uptime-kuma adminer
-UTILS_SERVICES := it-tools stirlingpdf
+UTILS_SERVICES := it-tools
+
+# stirlingpdf
 
 PROFILES := caddy wordpress syncthing gitea homepage $(SHARING_SERVICES) $(TORRENTS_SERVICES) $(ADMIN_SERVICES) $(UTILS_SERVICES)
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
