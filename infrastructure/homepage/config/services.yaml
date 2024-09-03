@@ -91,12 +91,12 @@
         description: IT Tools
         ping: it-tools.bensuperpc.org
         container: it-tools0
-#    - stirlingpdf:
+    - stirlingpdf:
         #icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/stirlingpdf.png
-#        href: https://stirlingpdf.bensuperpc.org/
-#        description: StirlingPDF
-#        ping: stirlingpdf.bensuperpc.org
-#        container: stirlingpdf
+        href: https://stirlingpdf.bensuperpc.org/
+        description: StirlingPDF
+        ping: stirlingpdf.bensuperpc.org
+        container: stirlingpdf
 
     - gitea:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/gitea.png
