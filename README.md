@@ -184,6 +184,19 @@ For [dufs.env](infrastructure/dufs/env/dufs.env) file, you need to change the se
 DUFS_AUTH="admin:heqihlOfBmJDESGFlpbPi7P7Mi6F7RkV@/:rw|@/"
 ```
 
+
+For [stirlingpdf.env](infrastructure/stirlingpdf/env/stirlingpdf.env) file, it's **completly optional**, you can change the password(s) and user.
+
+```sh
+# Enable security, optional
+DOCKER_ENABLE_SECURITY=true
+SECURITY_ENABLE_LOGIN=true
+# Can be disabled after initial login, optional,
+# default it admin:stirling
+SECURITY_INITIALLOGIN_USERNAME=admin
+SECURITY_INITIALLOGIN_PASSWORD=Jw9U039f5xc2mFcacvGvPD9RjwIh4DzO
+```
+
 ### Start the infrastructure
 
 Start the website with:
