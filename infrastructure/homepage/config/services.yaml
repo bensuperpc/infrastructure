@@ -119,10 +119,3 @@
         ping: gitea.bensuperpc.org
         container: gitea-runner
 
-    - watchtower:
-        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/watchtower.png
-        #href: https://watchtower.bensuperpc.org/
-        description: Watchtower
-        ping: watchtower.bensuperpc.org
-        container: watchtower
-    
