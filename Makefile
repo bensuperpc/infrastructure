@@ -21,7 +21,7 @@ UTILS_SERVICES := it-tools stirlingpdf
 PROFILES := caddy wordpress syncthing gitea homepage $(SHARING_SERVICES) $(TORRENTS_SERVICES) $(ADMIN_SERVICES) $(UTILS_SERVICES)
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
-# gitea-runner dozzle watchtower
+# gitea-runner watchtower
 
 COMPOSE_FILES :=  $(shell find . -name 'docker-compose*.yml' -type f | sed -e 's/^/--file /')
 

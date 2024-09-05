@@ -21,13 +21,6 @@
         description: Yacht
         ping: yacht.bensuperpc.org
         container: yacht
-    - dozzle:
-        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/dozzle.png
-        href: https://dozzle.bensuperpc.org/
-        description: Dozzle
-        ping: dozzle.bensuperpc.org
-        container: dozzle
-
 - Sharing:
     - jellyfin:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/jellyfin.png

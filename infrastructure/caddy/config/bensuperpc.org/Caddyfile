@@ -117,10 +117,6 @@ pastebin.bensuperpc.org {
 	redir https://privatebin.bensuperpc.org permanent
 }
 
-dozzle.bensuperpc.org {
-	reverse_proxy dozzle:8080
-}
-
 yacht.bensuperpc.org {
 	reverse_proxy yacht:8000
 }
