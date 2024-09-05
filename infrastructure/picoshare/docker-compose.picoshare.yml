@@ -12,12 +12,13 @@ services:
       - ./picoshare/env/picoshare.env
     volumes:
       - picoshare_data:/data
-      - picoshare_tmpfs:/tmp
     networks:
       - infra-network
     security_opt:
       - no-new-privileges:true
     read_only: true
+    tmpfs:
+      - /tmp
     deploy:
       resources:
         limits:
@@ -30,10 +31,3 @@ services:
 volumes:
   picoshare_data:
     name: picoshare_data
-  picoshare_tmpfs:
-    name: picoshare_tmpfs
-    driver: local
-    driver_opts:
-      type: tmpfs
-      device: tmpfs
-      o: size=1g
