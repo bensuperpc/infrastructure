@@ -181,7 +181,7 @@ PS_SHARED_SECRET=CBuS4DJLqIe93xF1KGYRrnhxUFBqLD2n
 For [dufs.env](infrastructure/dufs/env/dufs.env) file, you need to change the secret key and if you want the user name.
 
 ```sh
-DUFS_AUTH="admin:heqihlOfBmJDESGFlpbPi7P7Mi6F7RkV@/:rw|@/"
+DUFS_AUTH="admin:heqihlOfBmJDESGFlpbPi7P7Mi6F7RkV@/:rw|@/:ro"
 ```
 
 
