@@ -5,6 +5,7 @@ services:
     container_name: dufs
     profiles:
       - dufs
+    user: 1000:1000
     restart: on-failure:5
     depends_on:
       - caddy
