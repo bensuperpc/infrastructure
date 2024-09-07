@@ -12,7 +12,7 @@ services:
       - ./transmission/env/transmission.env
     volumes:
       - transmission_config:/config
-      - transmission_data:/downloads
+      - public_data:/downloads
       - transmission_watch:/watch
     networks:
       - infra-network
@@ -22,7 +22,7 @@ services:
 volumes:
   transmission_config:
     name: transmission_config
-  transmission_data:
-    name: transmission_data
+  public_data:
+    name: public_data
   transmission_watch:
     name: transmission_watch

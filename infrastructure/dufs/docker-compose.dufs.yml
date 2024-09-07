@@ -12,21 +12,12 @@ services:
     env_file:
       - ./dufs/env/dufs.env
     volumes:
-      - dufs_data:/data
-      - qbittorrent_data:/data/torrent1:ro
-      - transmission_data:/data/torrent2:ro
-      - jellyfin_data_public:/data/jellyfin:ro
+      - public_data:/data
     networks:
       - infra-network
     security_opt:
       - no-new-privileges:true
 
 volumes:
-  dufs_data:
-    name: dufs_data
-  transmission_data:
-    name: transmission_data
-  qbittorrent_data:
-    name: qbittorrent_data
-  jellyfin_data_public:
-    name: jellyfin_data_public
+  public_data:
+    name: public_data

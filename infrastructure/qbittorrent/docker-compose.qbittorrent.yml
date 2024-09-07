@@ -12,7 +12,7 @@ services:
       - ./qbittorrent/env/qbittorrent.env
     volumes:
       - qbittorrent_config:/config
-      - qbittorrent_data:/downloads
+      - public_data:/downloads
     networks:
       - infra-network
     security_opt:
@@ -21,5 +21,5 @@ services:
 volumes:
   qbittorrent_config:
     name: qbittorrent_config
-  qbittorrent_data:
-    name: qbittorrent_data
+  public_data:
+    name: public_data

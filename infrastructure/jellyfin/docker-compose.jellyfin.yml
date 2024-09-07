@@ -6,6 +6,7 @@ services:
     profiles:
       - jellyfin
     restart: on-failure:5
+    user: 1000:1000
     depends_on:
       - caddy
     env_file:
@@ -16,7 +17,7 @@ services:
       - jellyfin_data_series:/series:rw
       - jellyfin_data_documentaries:/documentaries:rw
       - jellyfin_data_musics:/musics:rw
-      - jellyfin_data_public:/public:rw
+      - public_data:/public:rw
       - jellyfin_cache:/cache
     # Hardware acceleration (For Intel and AMD GPUs)
     devices:
@@ -37,7 +38,7 @@ volumes:
     name: jellyfin_data_documentaries
   jellyfin_data_musics:
     name: jellyfin_data_musics
-  jellyfin_data_public:
-    name: jellyfin_data_public
+  public_data:
+    name: public_data
   jellyfin_cache:
     name: jellyfin_cache

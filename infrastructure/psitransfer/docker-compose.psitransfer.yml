@@ -6,6 +6,7 @@ services:
     profiles:
       - psitransfer
     restart: on-failure:5
+    user: 1000:1000
     depends_on:
       - caddy
     env_file:
