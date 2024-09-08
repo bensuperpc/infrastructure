@@ -16,7 +16,7 @@ DOCKER := docker
 BLOG_SERVICES := wordpress
 TORRENTS_SERVICES := qbittorrent transmission
 SHARING_SERVICES := psitransfer picoshare privatebin projectsend jellyfin dufs gitea syncthing
-ADMIN_SERVICES := yacht uptime-kuma adminer
+ADMIN_SERVICES := yacht uptime-kuma adminer fleet
 UTILS_SERVICES := it-tools stirlingpdf
 # gitea-runner
 

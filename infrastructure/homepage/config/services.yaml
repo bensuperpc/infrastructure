@@ -76,6 +76,12 @@
         description: Dufs
         ping: dufs.bensuperpc.org
         container: dufs
+    - fleet:
+#        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/fleet.png
+        href: https://fleet.bensuperpc.org/
+        description: Fleet
+        ping: fleet.bensuperpc.org
+        container: fleet
 
 - Utils:
     - it-tools:

@@ -133,6 +133,10 @@ stirlingpdf.bensuperpc.org {
 	reverse_proxy stirlingpdf:8080
 }
 
+fleet.bensuperpc.org {
+	reverse_proxy fleet:8080
+}
+
 link.bensuperpc.org {
 	# TODO: Use service with database
 	# Friendly links
