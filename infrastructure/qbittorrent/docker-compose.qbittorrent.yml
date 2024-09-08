@@ -10,6 +10,9 @@ services:
       - caddy
     env_file:
       - ./qbittorrent/env/qbittorrent.env
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
     volumes:
       - qbittorrent_config:/config
       - public_data:/downloads

@@ -29,49 +29,49 @@ COMPOSE_DIR := --project-directory ./infrastructure
 UID := 1000
 GID := 1000
 
-BUILD_ARG_VAR := --build-arg UID=$(UID) --build-arg GID=$(GID)
+ENV_ARG_VAR := PUID=$(UID) PGID=$(GID)
 
 .PHONY: build all
 all: start
 
 .PHONY: build
 build:
-	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) build
+	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) build
 
 .PHONY: start
 start:
-	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) up -d
+	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) up -d
 
 .PHONY: start-at
 start-at:
-	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) up
+	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) up
 
 .PHONY: docker-check
 docker-check:
-	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) config
+	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) config
 
 .PHONY: stop
 stop: down
 
 .PHONY: down
 down:
-	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) down
+	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) down
 
 .PHONY: restart
 restart: stop start
 
 .PHONY: logs
 logs:
-	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) logs
+	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) logs
 
 .PHONY: state
 state:
-	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) ps
-	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) top
+	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) ps
+	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) top
 
 .PHONY: update-docker
 update-docker:
-	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) pull
+	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) pull
 
 .PHONY: update
 update: update-docker
@@ -80,8 +80,8 @@ update: update-docker
 
 .PHONY: clean
 clean:
-	$(DOCKER) images --filter=reference='bensuperpc/*' --format='{{.Repository}}:{{.Tag}}' | xargs -r $(DOCKER) rmi -f
+	$(ENV_ARG_VAR) $(DOCKER) images --filter=reference='bensuperpc/*' --format='{{.Repository}}:{{.Tag}}' | xargs -r $(DOCKER) rmi -f
 
 .PHONY: purge
 purge:
-	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) down -v --rmi all
+	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) down -v --rmi all

@@ -10,6 +10,9 @@ services:
     restart: on-failure:5
     env_file:
       - ./syncthing/env/syncthing.env
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
     volumes:
       - syncthing_config:/config
       - public_data:/data1
