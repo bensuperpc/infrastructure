@@ -3,7 +3,7 @@ www.bensuperpc.org {
 }
 
 bensuperpc.org {
-	redir https://www.bensuperpc.org permanent
+	redir https://www.{host}{uri} permanent
 }
 
 homepage.bensuperpc.org {

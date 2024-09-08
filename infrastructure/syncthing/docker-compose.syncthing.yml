@@ -12,7 +12,7 @@ services:
       - ./syncthing/env/syncthing.env
     volumes:
       - syncthing_config:/config
-      - syncthing_data:/data1
+      - public_data:/data1
     networks:
       - infra-network
     security_opt:
@@ -21,5 +21,5 @@ services:
 volumes:
   syncthing_config:
     name: syncthing_config
-  syncthing_data:
-    name: syncthing_data
+  public_data:
+    name: public_data

@@ -13,61 +13,65 @@
 
 DOCKER := docker
 
+BLOG_SERVICES := wordpress
 TORRENTS_SERVICES := qbittorrent transmission
-SHARING_SERVICES := psitransfer picoshare privatebin projectsend jellyfin dufs
+SHARING_SERVICES := psitransfer picoshare privatebin projectsend jellyfin dufs gitea syncthing
 ADMIN_SERVICES := yacht uptime-kuma adminer
 UTILS_SERVICES := it-tools stirlingpdf
-
-PROFILES := caddy wordpress syncthing gitea homepage $(SHARING_SERVICES) $(TORRENTS_SERVICES) $(ADMIN_SERVICES) $(UTILS_SERVICES)
-PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
-
 # gitea-runner
 
-COMPOSE_FILES :=  $(shell find . -name 'docker-compose*.yml' -type f | sed -e 's/^/--file /')
+PROFILES := caddy homepage $(BLOG_SERVICES) $(SHARING_SERVICES) $(TORRENTS_SERVICES) $(ADMIN_SERVICES) $(UTILS_SERVICES)
+PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
+COMPOSE_FILES :=  $(shell find . -name 'docker-compose*.yml' -type f | sed -e 's/^/--file /')
 COMPOSE_DIR := --project-directory ./infrastructure
+
+UID := 1000
+GID := 1000
+
+BUILD_ARG_VAR := --build-arg UID=$(UID) --build-arg GID=$(GID)
 
 .PHONY: build all
 all: start
 
 .PHONY: build
 build:
-	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) build
+	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) build
 
 .PHONY: start
 start:
-	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) up -d
+	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) up -d
 
 .PHONY: start-at
 start-at:
-	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) up
+	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) up
 
 .PHONY: docker-check
 docker-check:
-	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) config
+	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) config
 
 .PHONY: stop
 stop: down
 
 .PHONY: down
 down:
-	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) down
+	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) down
 
 .PHONY: restart
 restart: stop start
 
 .PHONY: logs
 logs:
-	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) logs
+	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) logs
 
 .PHONY: state
 state:
-	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) ps
-	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) top
+	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) ps
+	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) top
 
 .PHONY: update-docker
 update-docker:
-	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) pull
+	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) pull
 
 .PHONY: update
 update: update-docker
@@ -80,4 +84,4 @@ clean:
 
 .PHONY: purge
 purge:
-	docker compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) down -v --rmi all
+	$(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) down -v --rmi all
