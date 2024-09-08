@@ -111,10 +111,10 @@ WORDPRESS_DB_HOST=wordpress_db:3306
 For [wordpress_db.env](infrastructure/wordpress/env/wordpress_db.env) file, you need to change the password(s) and user for the database.
     
 ```sh
-MARIADB_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
-MARIADB_USER=bensuperpc
-MARIADB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
-MARIADB_DATABASE=wordpress
+MYSQL_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
+MYSQL_USER=bensuperpc
+MYSQL_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
+MYSQL_DATABASE=wordpress
 ```
 
 For [wordpress_backup.env](infrastructure/wordpress/env/wordpress_backup.env) file, you need to change the password(s) for the restic backup.
@@ -166,10 +166,10 @@ SECRET_KEY=UZvg9nbcGIJlPEB3uI39TAEWyFOz9nm8
 For [projectsend_db.env](infrastructure/projectsend/env/projectsend_db.env) file, you need to change the password(s) and user for the database.
 
 ```sh
-MARIADB_ROOT_PASSWORD=8O34297GrBfT3Ld34Lfg9mpotmZwbJtt
-MARIADB_USER=bensuperpc
-MARIADB_PASSWORD=wdSUa1JEZhXie5AJ5NcX1w73xmpO12EY
-MARIADB_DATABASE=projectsend
+MYSQL_ROOT_PASSWORD=8O34297GrBfT3Ld34Lfg9mpotmZwbJtt
+MYSQL_USER=bensuperpc
+MYSQL_PASSWORD=wdSUa1JEZhXie5AJ5NcX1w73xmpO12EY
+MYSQL_DATABASE=projectsend
 ```
 
 For [picoshare.env](infrastructure/picoshare/env/picoshare.env) file, you need to change the secret key.
