@@ -15,12 +15,9 @@ services:
       - ./jellyfin/env/jellyfin.env
     volumes:
       - jellyfin_config:/config
-      - jellyfin_data_movies:/movies:rw
-      - jellyfin_data_series:/series:rw
-      - jellyfin_data_documentaries:/documentaries:rw
-      - jellyfin_data_musics:/musics:rw
-      - public_data:/public:rw
       - jellyfin_cache:/cache
+      - public_data:/public
+      - private_data:/private
     # Hardware acceleration (For Intel and AMD GPUs)
     devices:
       - /dev/dri:/dev/dri
@@ -32,15 +29,9 @@ services:
 volumes:
   jellyfin_config:
     name: jellyfin_config
-  jellyfin_data_movies:
-    name: jellyfin_data_movies
-  jellyfin_data_series:
-    name: jellyfin_data_series
-  jellyfin_data_documentaries:
-    name: jellyfin_data_documentaries
-  jellyfin_data_musics:
-    name: jellyfin_data_musics
-  public_data:
-    name: public_data
   jellyfin_cache:
     name: jellyfin_cache
+  public_data:
+    name: public_data
+  private_data:
+    name: private_data

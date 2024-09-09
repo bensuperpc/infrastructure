@@ -16,11 +16,11 @@ DOCKER := docker
 BLOG_SERVICES := wordpress
 TORRENTS_SERVICES := qbittorrent transmission
 SHARING_SERVICES := psitransfer picoshare privatebin projectsend jellyfin dufs gitea syncthing
-ADMIN_SERVICES := yacht uptime-kuma adminer
+ADMIN_SERVICES := yacht uptime-kuma adminer openssh
 UTILS_SERVICES := it-tools stirlingpdf
 # gitea-runner
 
-PROFILES := caddy homepage $(BLOG_SERVICES) $(SHARING_SERVICES) $(TORRENTS_SERVICES) $(ADMIN_SERVICES) $(UTILS_SERVICES)
+PROFILES := main_infrastructure caddy homepage $(BLOG_SERVICES) $(SHARING_SERVICES) $(TORRENTS_SERVICES) $(ADMIN_SERVICES) $(UTILS_SERVICES)
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
 COMPOSE_FILES :=  $(shell find . -name 'docker-compose*.yml' -type f | sed -e 's/^/--file /')
@@ -31,47 +31,49 @@ GID := 1000
 
 ENV_ARG_VAR := PUID=$(UID) PGID=$(GID)
 
+DOCKER_COMPOSE_COMMAND := $(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD)
+
 .PHONY: build all
 all: start
 
 .PHONY: build
 build:
-	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) build
+	$(DOCKER_COMPOSE_COMMAND) build
 
 .PHONY: start
 start:
-	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) up -d
+	$(DOCKER_COMPOSE_COMMAND) up -d
 
 .PHONY: start-at
 start-at:
-	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) up
+	$(DOCKER_COMPOSE_COMMAND) up
 
 .PHONY: docker-check
 docker-check:
-	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) config
+	$(DOCKER_COMPOSE_COMMAND) config
 
 .PHONY: stop
 stop: down
 
 .PHONY: down
 down:
-	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) down
+	$(DOCKER_COMPOSE_COMMAND) down
 
 .PHONY: restart
 restart: stop start
 
 .PHONY: logs
 logs:
-	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) logs
+	$(DOCKER_COMPOSE_COMMAND) logs
 
 .PHONY: state
 state:
-	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) ps
-	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) top
+	$(DOCKER_COMPOSE_COMMAND) ps
+	$(DOCKER_COMPOSE_COMMAND) top
 
 .PHONY: update-docker
 update-docker:
-	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) pull
+	$(DOCKER_COMPOSE_COMMAND) pull
 
 .PHONY: update
 update: update-docker
@@ -80,8 +82,8 @@ update: update-docker
 
 .PHONY: clean
 clean:
-	$(ENV_ARG_VAR) $(DOCKER) images --filter=reference='bensuperpc/*' --format='{{.Repository}}:{{.Tag}}' | xargs -r $(DOCKER) rmi -f
+	docker system prune -f
 
 .PHONY: purge
 purge:
-	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD) down -v --rmi all
+	$(ENV_ARG_VAR) $(DOCKER) compose $(COMPOSE_DIR) $(COMPOSE_FILES) down -v --rmi all

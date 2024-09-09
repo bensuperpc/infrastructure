@@ -5,6 +5,9 @@ services:
     container_name: caddy
     profiles:
       - caddy
+    depends_on:
+      main_infrastructure:
+        condition: service_completed_successfully
     restart: on-failure:5
     ports:
       - 80:80
@@ -55,8 +58,3 @@ volumes:
     name: caddy_config
   caddy_backup:
     name: caddy_backup
-
-networks:
-  infra-network:
-    driver: bridge
-    name: infra-network

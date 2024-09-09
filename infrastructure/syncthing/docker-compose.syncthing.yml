@@ -16,6 +16,7 @@ services:
     volumes:
       - syncthing_config:/config
       - public_data:/data1
+      - private_data:/data2
     networks:
       - infra-network
     security_opt:
@@ -26,3 +27,5 @@ volumes:
     name: syncthing_config
   public_data:
     name: public_data
+  private_data:
+    name: private_data

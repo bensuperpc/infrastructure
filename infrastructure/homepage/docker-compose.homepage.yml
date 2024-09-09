@@ -13,7 +13,7 @@ services:
     volumes:
       - homepage_log:/app/logs
       - ./homepage/config:/app/config:ro
-      - ./homepage/image:/app/public/images:ro
+      - ./homepage/image:/app/public/image:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - infra-network

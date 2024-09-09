@@ -27,6 +27,8 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 
 ## Screenshots
 
+![astar](resources/homepagev1.jpg)
+
 ## Installation and configuration
 
 ### Requirements
@@ -67,6 +69,7 @@ And then, caddy will generate the certificate for you and renew it automatically
 
 | Domain name | Type | Description |
 | --- | --- | --- |
+| [bensuperpc.org](https://bensuperpc.org) | Main | Redirect to www.bensuperpc.org |
 | [www.bensuperpc.org](https://www.bensuperpc.org) | Main | Homepage |
 | [wordpress.bensuperpc.org](https://wordpress.bensuperpc.org) | Sub | Wordpress website |
 | [adminer.bensuperpc.org](https://adminer.bensuperpc.org) | Sub | Adminer for MariaDB for wordpress only |
@@ -84,10 +87,10 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [projectsend.bensuperpc.org](https://projectsend.bensuperpc.org) | Sub | ProjectSend for file sharing |
 | [picoshare.bensuperpc.org](https://picoshare.bensuperpc.org) | Sub | Picoshare for file sharing |
 | [dufs.bensuperpc.org](https://dufs.bensuperpc.org) | Sub | Dufs for file sharing |
-| bensuperpc.com | Main | Redirect to bensuperpc.org |
-| bensuperpc.fr | Main | Redirect to bensuperpc.org |
-| bensuperpc.net | Main | Redirect to bensuperpc.org |
-| bensuperpc.ovh | Main | Redirect to bensuperpc.org |
+| bensuperpc.com | Main | Redirect to www.bensuperpc.org |
+| bensuperpc.fr | Main | Redirect to www.bensuperpc.org |
+| bensuperpc.net | Main | Redirect to www.bensuperpc.org |
+| bensuperpc.ovh | Main | Redirect to www.bensuperpc.org |
 
 ### Configure the infrastructure
 
@@ -99,13 +102,18 @@ You can generate a password with 32 characters:
 openssl rand -base64 32
 ```
 
+Or online: [passwordsgenerator.net](https://passwordsgenerator.net/)
+
+For [caddy_backup.env](infrastructure/caddy/env/caddy_backup.env) file, you need to change the password(s) for the restic backup.
+```sh
+RESTIC_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
+```
+
 For the [wordpress.env](infrastructure/wordpress/env/wordpress.env) file, you need to change the password and user for the database.
 
 ```sh
 WORDPRESS_DB_USER=bensuperpc
 WORDPRESS_DB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
-WORDPRESS_DB_NAME=wordpress
-WORDPRESS_DB_HOST=wordpress_db:3306
 ```
 
 For [wordpress_db.env](infrastructure/wordpress/env/wordpress_db.env) file, you need to change the password(s) and user for the database.
@@ -114,7 +122,6 @@ For [wordpress_db.env](infrastructure/wordpress/env/wordpress_db.env) file, you 
 MYSQL_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
 MYSQL_USER=bensuperpc
 MYSQL_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
-MYSQL_DATABASE=wordpress
 ```
 
 For [wordpress_backup.env](infrastructure/wordpress/env/wordpress_backup.env) file, you need to change the password(s) for the restic backup.
@@ -128,15 +135,11 @@ For [adminer.env](infrastructure/wordpress/env/adminer.env) file, you need to ch
 MYSQL_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
 MYSQL_USER=bensuperpc
 MYSQL_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
-ADMINER_DEFAULT_SERVER=wordpress_db
 ```
 
 For [gitea.env](infrastructure/gitea/env/gitea.env) file, you need to change the password(s) and user for the database.
 
 ```sh
-GITEA__database__DB_TYPE=mysql
-GITEA__database__HOST=database_gitea:3306
-GITEA__database__NAME=gitea
 GITEA__database__USER=bensuperpc
 GITEA__database__PASSWD=K7s5yoHknnEd7vsZoxb8I3dK9mjToF1j
 GITEA__security__SECRET_KEY=ykcZt23an1E4lFHWvrCKdAyt16WAiK9c
@@ -148,7 +151,6 @@ For [gitea_db.env](infrastructure/gitea/env/gitea_db.env) file, you need to chan
 MYSQL_ROOT_PASSWORD=xpc4zIhHZzWKqVHcjBu4aW6aS7jG8d7X
 MYSQL_USER=bensuperpc
 MYSQL_PASSWORD=K7s5yoHknnEd7vsZoxb8I3dK9mjToF1j
-MYSQL_DATABASE=gitea
 ```
 
 For [psitransfer.env](infrastructure/psitransfer/env/psitransfer.env) file, you need to change the secret key.
@@ -169,7 +171,6 @@ For [projectsend_db.env](infrastructure/projectsend/env/projectsend_db.env) file
 MYSQL_ROOT_PASSWORD=8O34297GrBfT3Ld34Lfg9mpotmZwbJtt
 MYSQL_USER=bensuperpc
 MYSQL_PASSWORD=wdSUa1JEZhXie5AJ5NcX1w73xmpO12EY
-MYSQL_DATABASE=projectsend
 ```
 
 For [picoshare.env](infrastructure/picoshare/env/picoshare.env) file, you need to change the secret key.
@@ -183,7 +184,6 @@ For [dufs.env](infrastructure/dufs/env/dufs.env) file, you need to change the se
 ```sh
 DUFS_AUTH="admin:heqihlOfBmJDESGFlpbPi7P7Mi6F7RkV@/:rw|@/:ro"
 ```
-
 
 For [stirlingpdf.env](infrastructure/stirlingpdf/env/stirlingpdf.env) file, it's **completly optional**, you can change the password(s) and user.
 
@@ -217,32 +217,37 @@ Remove countainers with:
 make down
 ```
 
-### All services
-
-You can find all service on this table:
-
-| Service | Description | URL |
-| --- | --- | --- |
-| Homepage | Homepage | [www.bensuperpc.org](https://www.bensuperpc.org) |
-| Wordpress | Wordpress website | [wordpress.bensuperpc.org](https://bensuperpc.org) |
-| Adminer | Adminer for MariaDB | [adminer.bensuperpc.org](https://adminer.bensuperpc.org) |
-| Uptime Kuma | Uptime Kuma for monitoring | [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org) |
-| qbittorrent | qbittorrent server | [qbittorrent.bensuperpc.org](https://qbittorrent.bensuperpc.org) |
-| transmission | transmission server | [transmission.bensuperpc.org](https://transmission.bensuperpc.org) |
-| Gitea | Gitea for git | [git.bensuperpc.org](https://git.bensuperpc.org) |
-| Jellyfin | Jellyfin for media server | [jellyfin.bensuperpc.org](https://jellyfin.bensuperpc.org) |
-| SyncThing | SyncThing for file synchronization | [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org) |
-| PsiTransfer | PsiTransfer for file sharing | [psitransfer.bensuperpc.org](https://psitransfer.bensuperpc.org) |
-| it-tools | Tools for IT | [it-tools.bensuperpc.org](https://it-tools.bensuperpc.org) |
-| Privatebin | Pastebin | [privatebin.bensuperpc.org](https://privatebin.bensuperpc.org) |
-| Yacht | Web interface for managing docker containers | [yacht.bensuperpc.org](https://yacht.bensuperpc.org) |
-| ProjectSend | ProjectSend for file sharing | [projectsend.bensuperpc.org](https://projectsend.bensuperpc.org) |
-| Picoshare | Picoshare for file sharing | [picoshare.bensuperpc.org](https://picoshare.bensuperpc.org) |
-| Dufs | Dufs for file sharing | [dufs.bensuperpc.org](https://dufs.bensuperpc.org) |
-
 You can disable some services by removing the service name in PROFILES variable in the [Makefile](Makefile) file.
 
 To enable the gitea CI: https://medium.com/@lokanx/how-to-build-docker-containers-using-gitea-runners-600729555e07
+
+### Homepage
+
+You can change the homepage config in these files:
+
+- [bookmarks.yaml](infrastructure/homepage/config/bookmarks.yaml)
+- [services.yaml](infrastructure/homepage/config/services.yaml)
+- [settings.yaml](infrastructure/homepage/config/settings.yaml)
+- [widgets.yaml](infrastructure/homepage/config/widgets.yaml)
+
+### Docker volumes
+
+This infrastructure uses docker volumes to store data, all configuration/data for each service are not shared between services for security and maintenance reasons, but **public_data** and **private_data** are shared between all services to store your data.
+
+| Volume name | Description |
+| --- | --- |
+| public_data | Public data for services, reachable on internet via [dufs.bensuperpc.org](https://dufs.bensuperpc.org) |
+| private_data | Private data for services |
+
+### SSH access
+
+The default port for ssh/rsync is is 2222.
+
+You can need to add/change the public ssh key [id_ed25519.pub](infrastructure/openssh/config/authorized_keys/id_ed25519.pub) (its my public key), also change the user name in [openssh.env](infrastructure/openssh/env/openssh.env):
+
+```sh
+USER_NAME=bensuperpc
+```
 
 ## Sources
 
@@ -274,6 +279,7 @@ To enable the gitea CI: https://medium.com/@lokanx/how-to-build-docker-container
 - [ProjectSend](https://www.projectsend.org/)
 - [Picoshare](https://github.com/mtlynch/picoshare)
 - [Dufs](https://github.com/sigoden/dufs)
+- [Fix docker volume](https://pratikpc.medium.com/use-docker-compose-named-volumes-as-non-root-within-your-containers-1911eb30f731)
 
 ## License
 

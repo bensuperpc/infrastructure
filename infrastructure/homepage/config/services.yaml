@@ -9,25 +9,19 @@
         description: Wordpress
         ping: wordpress.bensuperpc.org
         container: wordpress
-    - uptime-kuma:
-        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/uptime-kuma.png
-        href: https://uptimekuma.bensuperpc.org/
-        description: Uptime Kuma
-        ping: uptimekuma.bensuperpc.org
-        container: uptime-kuma
-    - yacht:
-#        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/yacht.png
-        href: https://yacht.bensuperpc.org/
-        description: Yacht
-        ping: yacht.bensuperpc.org
-        container: yacht
-- Sharing:
     - jellyfin:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/jellyfin.png
         href: https://jellyfin.bensuperpc.org/
         description: Jellyfin
         ping: jellyfin.bensuperpc.org
         container: jellyfin
+    - projectsend:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/projectsend.png
+        href: https://projectsend.bensuperpc.org/
+        description: ProjectSend
+        ping: projectsend.bensuperpc.org
+        container: projectsend
+- Sharing:
     - psitransfer:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/psitransfer.png
         href: https://psitransfer.bensuperpc.org/
@@ -64,12 +58,6 @@
         description: Transmission
         ping: transmission.bensuperpc.org
         container: transmission
-    - projectsend:
-        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/projectsend.png
-        href: https://projectsend.bensuperpc.org/
-        description: ProjectSend
-        ping: projectsend.bensuperpc.org
-        container: projectsend
     - dufs:
 #        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/dufs.png
         href: https://dufs.bensuperpc.org/
@@ -90,13 +78,32 @@
         description: StirlingPDF
         ping: stirlingpdf.bensuperpc.org
         container: stirlingpdf
-
     - gitea:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/gitea.png
         href: https://gitea.bensuperpc.org/
         description: Gitea
         ping: gitea.bensuperpc.org
         container: gitea
+
+- Admin:
+    - uptime-kuma:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/uptime-kuma.png
+        href: https://uptimekuma.bensuperpc.org/
+        description: Uptime Kuma
+        ping: uptimekuma.bensuperpc.org
+        container: uptime-kuma
+    - yacht:
+#        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/yacht.png
+        href: https://yacht.bensuperpc.org/
+        description: Yacht
+        ping: yacht.bensuperpc.org
+        container: yacht
+    - adminer:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/adminer.png
+        href: https://adminer.bensuperpc.org/
+        description: Adminer
+        ping: adminer.bensuperpc.org
+        container: adminer
 
 - Games:
     - minecraft:
@@ -111,11 +118,4 @@
         description: 7 Days to Die server
 #        ping: 7dtd.bensuperpc.org
         container: 7dtd-server
-- Others:
-    - gitea-runner:
-        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/gitea.png
-#        href: https://gitea.bensuperpc.org/
-        description: Gitea Runner
-        ping: gitea.bensuperpc.org
-        container: gitea-runner
 

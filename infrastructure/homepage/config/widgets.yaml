@@ -1,19 +1,37 @@
 ---
 # For configuration options and examples, please see:
 # https://gethomepage.dev/latest/configs/service-widgets
+# https://gethomepage.dev/main/widgets/services/qbittorrent
+
+#- logo:
+#    icon: /image/daisy.jpg
 
 - resources:
     cpu: true
+    cputemp: true
     memory: true
     disk: /
+    uptime: true
+    refresh: 3000
 
-- search:
-    provider: duckduckgo
-    target: _blank
+#- search:
+#    provider: duckduckgo
+#    target: _blank
+#    showSearchSuggestions: true
 
 - datetime:
     text_size: xl
     locale: fr
     format:
-        timeStyle: long
-        dateStyle: long
+        timeStyle: short
+        dateStyle: short
+
+- openmeteo:
+    label: Nantes # optional
+    latitude: 47.216671
+    longitude: -1.55
+    timezone: Europe/Paris # optional
+    units: metric # or imperial
+    cache: 5 # Time in minutes to cache API responses, to stay within limits
+    format: # optional, Intl.NumberFormat options
+      maximumFractionDigits: 1

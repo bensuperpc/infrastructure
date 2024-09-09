@@ -21,3 +21,5 @@ services:
 volumes:
   public_data:
     name: public_data
+  private_data:
+    name: private_data

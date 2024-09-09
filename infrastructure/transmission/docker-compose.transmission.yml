@@ -25,7 +25,9 @@ services:
 volumes:
   transmission_config:
     name: transmission_config
-  public_data:
-    name: public_data
   transmission_watch:
     name: transmission_watch
+  public_data:
+    name: public_data
+  private_data:
+    name: private_data

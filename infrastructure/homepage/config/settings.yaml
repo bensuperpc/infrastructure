@@ -6,12 +6,12 @@ title: Bensuperpc
 
 base: https://www.bensuperpc.org
 
-favicon: /images/favicon.ico
+favicon: /image/favicon.ico
 
 logpath: /app/logs
 
 background: 
-  image: /images/electronic.jpg
+  image: /image/background.jpg
   blur: md
   opacity: 50
   brightness: 50
@@ -25,17 +25,13 @@ layout:
   Personal:
     style: row
     columns: 6
-  Media:
-    style: row
-    columns: 6
   Sharing:
     style: row
     columns: 6
-  Utils:
+  Admin:
     style: row
     columns: 6
-    initiallyCollapsed: false
-  Others:
+  Utils:
     style: row
     columns: 6
     initiallyCollapsed: false
