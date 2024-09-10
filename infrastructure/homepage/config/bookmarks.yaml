@@ -21,6 +21,10 @@
         - abbr: BS
           href: https://bsky.app/profile/bensuperpc.bsky.social
           description: bsky.app
+    - Mastodon:
+        - abbr: MA
+          href: https://mastodon.social/@bensuperpc
+          description: mastodon.social
 
 - Entertainment:
     - YouTube:
