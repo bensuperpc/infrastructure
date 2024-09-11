@@ -37,7 +37,7 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Web domain](https://www.ovh.com/world/domains/) (I use OVH)
-- [Open port 80, 443, 22 on your router](http://192.168.1.1/)
+- [Open port 80, 443, 22 and 2222 on your router](http://192.168.1.1/)
 
 ***To avoid get rate limit from letsencrypt (10 certificates per 3 hours), you need to disable some certificates in the caddyfiles and enable them 3h later...***
 
@@ -197,6 +197,12 @@ SECURITY_INITIALLOGIN_USERNAME=admin
 SECURITY_INITIALLOGIN_PASSWORD=Jw9U039f5xc2mFcacvGvPD9RjwIh4DzO
 ```
 
+You can need to add/change the public ssh key [id_ed25519.pub](infrastructure/openssh/config/authorized_keys/id_ed25519.pub) (its my public key), also change the user name in [openssh.env](infrastructure/openssh/env/openssh.env):
+
+```sh
+USER_NAME=bensuperpc
+```
+
 ### Start the infrastructure
 
 Start the website with:
@@ -236,18 +242,12 @@ This infrastructure uses docker volumes to store data, all configuration/data fo
 
 | Volume name | Description |
 | --- | --- |
-| public_data | Public data for services, reachable on internet via [dufs.bensuperpc.org](https://dufs.bensuperpc.org) |
-| private_data | Private data for services |
+| public_data | Public data reachable on internet via [dufs.bensuperpc.org](https://dufs.bensuperpc.org), can be disabled. |
+| private_data | Private data |
 
 ### SSH access
 
 The default port for ssh/rsync is is 2222.
-
-You can need to add/change the public ssh key [id_ed25519.pub](infrastructure/openssh/config/authorized_keys/id_ed25519.pub) (its my public key), also change the user name in [openssh.env](infrastructure/openssh/env/openssh.env):
-
-```sh
-USER_NAME=bensuperpc
-```
 
 ## Sources
 
