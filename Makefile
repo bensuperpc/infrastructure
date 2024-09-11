@@ -11,6 +11,8 @@
 #//                                                          //
 #//////////////////////////////////////////////////////////////
 
+SERVER_DIRECTORY := infrastructure
+
 DOCKER := docker
 
 BLOG_SERVICES := wordpress
@@ -24,7 +26,7 @@ PROFILES := main_infrastructure caddy homepage $(BLOG_SERVICES) $(SHARING_SERVIC
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
 COMPOSE_FILES :=  $(shell find . -name 'docker-compose*.yml' -type f | sed -e 's/^/--file /')
-COMPOSE_DIR := --project-directory ./infrastructure
+COMPOSE_DIR := --project-directory ./$(SERVER_DIRECTORY)
 
 UID := 1000
 GID := 1000
