@@ -1,17 +1,19 @@
 services:
   main_infrastructure:
     container_name: main_infrastructure
-    image: debian:latest
+    image: alpine:latest
     profiles:
       - main_infrastructure
-    user: "root"
-    group_add:
-      - '${PUID:-1000}'
     volumes:
       - public_data:/public
       - private_data:/private
-    networks:
-      - infra-network
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
     # Fix root permissions on mounted volumes
     command: chown -R ${PUID:-1000}:${PGID:-1000} /public /private
 
