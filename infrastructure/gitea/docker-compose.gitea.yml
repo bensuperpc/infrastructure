@@ -30,6 +30,8 @@ services:
     profiles:
       - database
       - gitea
+    depends_on:
+      - caddy
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}

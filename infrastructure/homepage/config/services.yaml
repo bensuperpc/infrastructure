@@ -118,4 +118,10 @@
         description: 7 Days to Die server
 #        ping: 7dtd.bensuperpc.org
         container: 7dtd-server
+    - satisfactory:
+#        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/7dtd.png
+#        href: https://7dtd.bensuperpc.org/
+        description: Satisfactory server
+#        ping: 7dtd.bensuperpc.org
+        container: satisfactory-server
 
