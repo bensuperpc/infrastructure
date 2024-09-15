@@ -25,9 +25,16 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [x] Privatebin (Pastebin)
 - [x] Yacht (Web interface for managing docker containers)
 
+## Architecture
+
+![Architecture](resources/arch_infra.png)
+
+
 ## Screenshots
 
-![astar](resources/homepagev1.jpg)
+The homepage is a dashboard with many widgets and services.
+
+![Homepage](resources/homepagev1.jpg)
 
 ## Installation and configuration
 
