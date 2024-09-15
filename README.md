@@ -10,25 +10,23 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 
 ## Features
 
-- [x] caddy 2 reverse proxy
+- [x] caddy 2 HTTP/S reverse proxy
 - [x] Docker / docker-compose
-- [x] Caddy
 - [x] Wordpress (Via FASTCGI/caddy)
-- [x] Adminer (MariaDB)
 - [x] Jellyfin (Media server)
 - [x] Gitea (Git server)
 - [x] Uptime Kuma (Monitoring)
 - [x] qbittorrent and transmission (Torrent client/server)
 - [x] SyncThing (File synchronization)
-- [x] PsiTransfer (File sharing)
+- [x] PsiTransfer, ProjectSend, Picoshare (File sharing)
 - [x] it-tools (Tools for IT)
 - [x] Privatebin (Pastebin)
 - [x] Yacht (Web interface for managing docker containers)
+- [ ] Integrate games ([Satisfactory](https://github.com/bensuperpc/docker-satisfactory), [7 days to die](https://github.com/bensuperpc/docker-7daystodie), Minecraft...)
 
 ## Architecture
 
 ![Architecture](resources/arch_infra.png)
-
 
 ## Screenshots
 

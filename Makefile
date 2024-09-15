@@ -25,7 +25,7 @@ UTILS_SERVICES := it-tools stirlingpdf
 PROFILES := main_infrastructure caddy homepage $(BLOG_SERVICES) $(SHARING_SERVICES) $(TORRENTS_SERVICES) $(ADMIN_SERVICES) $(UTILS_SERVICES)
 PROFILE_CMD := $(addprefix --profile ,$(PROFILES))
 
-COMPOSE_FILES :=  $(shell find . -name 'docker-compose*.yml' -type f | sed -e 's/^/--file /')
+COMPOSE_FILES :=  $(shell find ./$(SERVER_DIRECTORY) -name 'docker-compose*.yml' -type f | sed -e 's/^/--file /')
 COMPOSE_DIR := --project-directory ./$(SERVER_DIRECTORY)
 
 UID := 1000
