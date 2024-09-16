@@ -124,9 +124,9 @@ WORDPRESS_DB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
 For [wordpress_db.env](infrastructure/wordpress/env/wordpress_db.env) file, you need to change the password(s) and user for the database.
     
 ```sh
-MYSQL_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
-MYSQL_USER=bensuperpc
-MYSQL_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
+MARIADB_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
+MARIADB_USER=bensuperpc
+MARIADB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
 ```
 
 For [wordpress_backup.env](infrastructure/wordpress/env/wordpress_backup.env) file, you need to change the password(s) for the restic backup.
@@ -137,9 +137,9 @@ RESTIC_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
 For [adminer.env](infrastructure/wordpress/env/adminer.env) file, you need to change the password(s) and user for the database.
 
 ```sh
-MYSQL_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
-MYSQL_USER=bensuperpc
-MYSQL_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
+MARIADB_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
+MARIADB_USER=bensuperpc
+MARIADB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
 ```
 
 For [gitea.env](infrastructure/gitea/env/gitea.env) file, you need to change the password(s) and user for the database.
@@ -153,9 +153,9 @@ GITEA__security__SECRET_KEY=ykcZt23an1E4lFHWvrCKdAyt16WAiK9c
 For [gitea_db.env](infrastructure/gitea/env/gitea_db.env) file, you need to change the password(s) and user for the database.
 
 ```sh
-MYSQL_ROOT_PASSWORD=xpc4zIhHZzWKqVHcjBu4aW6aS7jG8d7X
-MYSQL_USER=bensuperpc
-MYSQL_PASSWORD=K7s5yoHknnEd7vsZoxb8I3dK9mjToF1j
+MARIADB_ROOT_PASSWORD=xpc4zIhHZzWKqVHcjBu4aW6aS7jG8d7X
+MARIADB_USER=bensuperpc
+MARIADB_PASSWORD=K7s5yoHknnEd7vsZoxb8I3dK9mjToF1j
 ```
 
 For [psitransfer.env](infrastructure/psitransfer/env/psitransfer.env) file, you need to change the secret key.
@@ -173,9 +173,9 @@ SECRET_KEY=UZvg9nbcGIJlPEB3uI39TAEWyFOz9nm8
 For [projectsend_db.env](infrastructure/projectsend/env/projectsend_db.env) file, you need to change the password(s) and user for the database.
 
 ```sh
-MYSQL_ROOT_PASSWORD=8O34297GrBfT3Ld34Lfg9mpotmZwbJtt
-MYSQL_USER=bensuperpc
-MYSQL_PASSWORD=wdSUa1JEZhXie5AJ5NcX1w73xmpO12EY
+MARIADB_ROOT_PASSWORD=8O34297GrBfT3Ld34Lfg9mpotmZwbJtt
+MARIADB_USER=bensuperpc
+MARIADB_PASSWORD=wdSUa1JEZhXie5AJ5NcX1w73xmpO12EY
 ```
 
 For [picoshare.env](infrastructure/picoshare/env/picoshare.env) file, you need to change the secret key.

@@ -25,21 +25,19 @@ services:
   
   # Database gitea
   database_gitea:
-    image: lscr.io/linuxserver/mariadb:latest
+    image: mariadb:latest
     container_name: database_gitea
     profiles:
       - database
       - gitea
     depends_on:
       - caddy
-    environment:
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
     restart: on-failure:5
     volumes:
       - gitea_db:/var/lib/mysql:rw
     env_file:
       - ./gitea/env/gitea_db.env
+    command: '--default-authentication-plugin=mysql_native_password'
     networks:
       - infra-network
     security_opt:

@@ -21,7 +21,7 @@ services:
 
   # Database projectsend
   projectsend_db:
-    image: lscr.io/linuxserver/mariadb:latest
+    image: mariadb:latest
     container_name: projectsend_db
     profiles:
       - database
@@ -33,9 +33,7 @@ services:
       - projectsend_db:/var/lib/mysql:rw
     env_file:
       - ./projectsend/env/projectsend_db.env
-    environment:
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
+    command: '--default-authentication-plugin=mysql_native_password'
     networks:
       - infra-network
     security_opt:

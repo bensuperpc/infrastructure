@@ -8,10 +8,6 @@ services:
       - infrastructure_server_chown:/infrastructure_server:rw
       - public_data:/infrastructure_server/public:rw
       - private_data:/infrastructure_server/private:rw
-      #- caddy_data:/infrastructure_server/caddy_data:rw
-      #- caddy_config:/infrastructure_server/caddy_config:rw
-      #- caddy_backup:/infrastructure_server/caddy_backup:rw
-      #- caddy_backup_cache:/infrastructure_server/caddy_backup_cache:rw
     read_only: true
     security_opt:
       - no-new-privileges:true
@@ -30,14 +26,6 @@ volumes:
     name: public_data
   private_data:
     name: private_data
-  caddy_data:
-    name: caddy_data
-  caddy_config:
-    name: caddy_config
-  caddy_backup:
-    name: caddy_backup
-  caddy_backup_cache:
-    name: caddy_backup_cache
 
 networks:
   infra-network:
