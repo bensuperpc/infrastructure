@@ -202,10 +202,18 @@ SECURITY_INITIALLOGIN_USERNAME=admin
 SECURITY_INITIALLOGIN_PASSWORD=Jw9U039f5xc2mFcacvGvPD9RjwIh4DzO
 ```
 
-You can need to add/change the public ssh key [id_ed25519.pub](infrastructure/openssh/config/authorized_keys/id_ed25519.pub) (its my public key), also change the user name in [openssh.env](infrastructure/openssh/env/openssh.env):
+You can need to add/change the public ssh key [id_ed25519.pub](infrastructure/openssh/config/authorized_keys/id_ed25519.pub) (its my public key), also change the config/password in [openssh.env](infrastructure/openssh/env/openssh.env):
 
 ```sh
-USER_NAME=bensuperpc
+SUDO_ACCESS=true
+#PUBLIC_KEY_URL=https://github.com/bensuperpc.keys
+PUBLIC_KEY_DIR=/authorized_ssh_keys
+USER_PASSWORD=rdUwf36C11PLmpU9Lvq7tP5pfFBKAuCh
+
+#PUBLIC_KEY=yourpublickey
+#PUBLIC_KEY_FILE=/path/to/file
+#PUBLIC_KEY_DIR=/path/to/directory/containing/_only_/pubkeys
+#USER_PASSWORD_FILE=/path/to/file
 ```
 
 ### Start the infrastructure
