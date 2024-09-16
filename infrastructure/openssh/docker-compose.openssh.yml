@@ -14,14 +14,13 @@ services:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
     volumes:
-      - openssh_config:/config
+      - openssh_config:/config:rw
       - ./openssh/config/authorized_keys:/authorized_ssh_keys:ro
-      - public_data:/public
-      - private_data:/private
+      - public_data:/public:rw
+      - private_data:/private:rw
       - caddy_data:/caddy_data:rw
       - caddy_config:/caddy_config:rw
       - caddy_backup:/caddy_backup:rw
-      - caddy_backup_cache:/caddy_backup_cache:rw
     networks:
       - infra-network
     security_opt:
@@ -41,6 +40,3 @@ volumes:
     name: caddy_config
   caddy_backup:
     name: caddy_backup
-  caddy_backup_cache:
-    name: caddy_backup_cache
-
