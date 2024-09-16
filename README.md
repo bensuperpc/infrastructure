@@ -26,13 +26,13 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 
 ## Architecture
 
-![Architecture](resources/arch_infra.png)
+![Architecture](ressources/arch_infra.png)
 
 ## Screenshots
 
 The homepage is a dashboard with many widgets and services.
 
-![Homepage](resources/homepagev1.jpg)
+![Homepage](ressources/homepagev1.jpg)
 
 ## Installation and configuration
 
