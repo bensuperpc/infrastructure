@@ -15,6 +15,11 @@ services:
       - ./homepage/config:/app/config:ro
       - ./homepage/image:/app/public/image:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
+#    develop:
+#      watch:
+#        - action: sync+restart
+#          path: ./homepage/image
+#          target: /app/public/image
     networks:
       - infra-network
     security_opt:
