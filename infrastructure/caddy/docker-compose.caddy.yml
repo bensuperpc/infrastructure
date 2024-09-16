@@ -5,6 +5,7 @@ services:
     container_name: caddy
     profiles:
       - caddy
+    #user: ${PUID:-1000}:${PGID:-1000} 
     depends_on:
       main_infrastructure:
         condition: service_completed_successfully
@@ -21,6 +22,7 @@ services:
       - infra-network
     env_file:
       - ./caddy/env/caddy.env
+    #read_only: true
     security_opt:
       - no-new-privileges:true
     #cap_drop:
@@ -40,12 +42,14 @@ services:
       - caddy
     depends_on:
       - caddy
+    #user: "${PUID:-1000}:${PGID:-1000}"
     restart: on-failure:5
     env_file:
       - ./caddy/env/caddy_backup.env
     volumes:
       - caddy_backup:/mnt/restic
       - caddy_data:/data:ro
+    #  - caddy_backup_cache:/.cache
     networks:
       - infra-network
     security_opt:
@@ -58,3 +62,6 @@ volumes:
     name: caddy_config
   caddy_backup:
     name: caddy_backup
+  caddy_backup_cache:
+    name: caddy_backup_cache
+    
