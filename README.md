@@ -254,6 +254,12 @@ This infrastructure uses docker volumes to store data, all configuration/data fo
 
 The default port for ssh/rsync is is 2222.
 
+You can access to the server with:
+
+```sh
+ssh -p 2222 admin@bensuperpc.org
+```
+
 ## Sources
 
 - [Wordpress](https://wordpress.org/)

@@ -11,8 +11,8 @@ services:
     env_file:
       - ./openssh/env/openssh.env
     environment:
-      - PUID=${PUID:-1000}
-      - PGID=${PGID:-1000}
+      - PUID=0
+      - PGID=0
     volumes:
       - openssh_config:/config
       - ./openssh/config/authorized_keys:/authorized_ssh_keys:ro
