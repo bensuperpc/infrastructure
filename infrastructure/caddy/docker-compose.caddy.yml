@@ -21,13 +21,8 @@ services:
       - infra-network
     env_file:
       - ./caddy/env/caddy.env
-    #read_only: true
     security_opt:
       - no-new-privileges:true
-    #cap_drop:
-    #  - ALL
-    cap_add:
-      - NET_ADMIN
     healthcheck:
       test: pidof caddy || exit 1
       interval: 120s
@@ -47,10 +42,10 @@ services:
     volumes:
       - caddy_backup:/mnt/restic
       - caddy_data:/data:ro
-    networks:
-      - infra-network
-    security_opt:
-      - no-new-privileges:true
+    network_mode: none
+    cap_drop:
+      - NET_ADMIN
+      - NET_RAW
 
 volumes:
   caddy_data:

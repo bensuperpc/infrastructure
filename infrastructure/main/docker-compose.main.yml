@@ -5,9 +5,8 @@ services:
     profiles:
       - main_infrastructure
     volumes:
-      - infrastructure_server_chown:/infrastructure_server:rw
-      - public_data:/infrastructure_server/public:rw
-      - private_data:/infrastructure_server/private:rw
+      - public_data:/public:rw
+      - private_data:/private:rw
     read_only: true
     security_opt:
       - no-new-privileges:true
@@ -17,11 +16,9 @@ services:
       - CHOWN
       - DAC_OVERRIDE
     # Fix root permissions on mounted volumes
-    command: chown -R ${PUID:-1000}:${PGID:-1000} /infrastructure_server
+    command: chown -R ${PUID:-1000}:${PGID:-1000} /public /privates
 
 volumes:
-  infrastructure_server_chown:
-    name: infrastructure_server_chown
   public_data:
     name: public_data
   private_data:

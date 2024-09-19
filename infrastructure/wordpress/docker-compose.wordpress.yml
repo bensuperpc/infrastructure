@@ -53,10 +53,10 @@ services:
       - wordpress_backup:/mnt/restic
       - wordpress_db:/data/wordpress_db:ro
       - wordpress:/data/wordpress:ro
-    networks:
-      - infra-network
-    security_opt:
-      - no-new-privileges:true
+    network_mode: none
+    cap_drop:
+      - NET_ADMIN
+      - NET_RAW
 
 volumes:
   wordpress_db:
