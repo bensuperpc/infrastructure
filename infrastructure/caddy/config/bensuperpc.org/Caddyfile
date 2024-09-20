@@ -10,6 +10,11 @@ homepage.bensuperpc.org {
 	redir https://www.bensuperpc.org{uri} permanent
 }
 
+public.bensuperpc.org {
+	root * /public_data
+	file_server browse
+}
+
 wordpress.bensuperpc.org {
 	root * /var/www/html
 	php_fastcgi wordpress:9000

@@ -57,6 +57,7 @@ services:
     cap_drop:
       - NET_ADMIN
       - NET_RAW
+      - SYS_ADMIN
 
 volumes:
   wordpress_db:

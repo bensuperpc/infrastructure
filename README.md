@@ -92,6 +92,7 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [projectsend.bensuperpc.org](https://projectsend.bensuperpc.org) | Sub | ProjectSend for file sharing |
 | [picoshare.bensuperpc.org](https://picoshare.bensuperpc.org) | Sub | Picoshare for file sharing |
 | [dufs.bensuperpc.org](https://dufs.bensuperpc.org) | Sub | Dufs for file sharing |
+| [public.bensuperpc.org](https://public.bensuperpc.org) | Sub | Caddy for file sharing |
 | bensuperpc.com | Main | Redirect to www.bensuperpc.org |
 | bensuperpc.fr | Main | Redirect to www.bensuperpc.org |
 | bensuperpc.net | Main | Redirect to www.bensuperpc.org |

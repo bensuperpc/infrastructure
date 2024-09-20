@@ -13,10 +13,12 @@ services:
       - 80:80
       - 443:443
     volumes:
-      - wordpress:/var/www/html:rw
       - caddy_data:/data:rw
       - caddy_config:/config:rw
       - ./caddy/config:/etc/caddy:ro
+      - wordpress:/var/www/html:rw
+      - public_data:/public_data:ro
+
     networks:
       - infra-network
     env_file:
@@ -46,6 +48,7 @@ services:
     cap_drop:
       - NET_ADMIN
       - NET_RAW
+      - SYS_ADMIN
 
 volumes:
   caddy_data:
@@ -54,3 +57,7 @@ volumes:
     name: caddy_config
   caddy_backup:
     name: caddy_backup
+  wordpress:
+    name: wordpress
+  public_data:
+    name: public_data

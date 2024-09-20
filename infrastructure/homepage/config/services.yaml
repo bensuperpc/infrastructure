@@ -64,6 +64,12 @@
         description: Dufs
         ping: dufs.bensuperpc.org
         container: dufs
+    - caddy:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/caddy.png
+        href: https://public.bensuperpc.org/
+        description: File browser
+        ping: public.bensuperpc.org
+        container: caddy
 
 - Utils:
     - it-tools:
