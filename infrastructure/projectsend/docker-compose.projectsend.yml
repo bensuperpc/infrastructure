@@ -18,6 +18,8 @@ services:
       - infra-network
     security_opt:
       - no-new-privileges:true
+    cap_drop:
+      - SYS_ADMIN
 
   # Database projectsend
   projectsend_db:

@@ -16,9 +16,11 @@ services:
       - infra-network
     security_opt:
       - no-new-privileges:true
-    read_only: true
-    tmpfs:
-      - /tmp
+    read_only: false
+    cap_drop:
+      - SYS_ADMIN
+#    tmpfs:
+#      - /tmp
     deploy:
       resources:
         limits:
