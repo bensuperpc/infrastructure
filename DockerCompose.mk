@@ -19,7 +19,7 @@ DOCKER_PROFILES ?= main_infrastructure
 
 PROFILE_CMD ?= $(addprefix --profile ,$(DOCKER_PROFILES))
 
-COMPOSE_FILES ?=  $(shell find ./$(PROJECT_DIRECTORY) -name 'docker-compose*.yml' -type f | sed -e 's/^/--file /')
+COMPOSE_FILES ?=  $(shell find ./$(PROJECT_DIRECTORY) -maxdepth 1 -name 'docker-compose*.yml' -type f | sed -e 's/^/--file /')
 COMPOSE_DIR ?= --project-directory ./$(PROJECT_DIRECTORY)
 
 UID ?= 1000

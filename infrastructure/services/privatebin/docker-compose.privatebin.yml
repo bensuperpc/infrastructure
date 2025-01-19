@@ -1,0 +1,30 @@
+services:
+  # privatebin
+  privatebin:
+    image: privatebin/nginx-fpm-alpine:latest
+    container_name: privatebin
+    profiles:
+      - privatebin
+    restart: on-failure:5
+    depends_on:
+      - caddy
+    volumes:
+      - privatebin_data:/srv/data
+      - ./config/conf.php:/srv/cfg/conf.php:ro
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.001'
+          memory: 20M
+
+volumes:
+  privatebin_data:
+    name: privatebin_data

@@ -1,0 +1,73 @@
+include:
+# WordPress
+  - services/wordpress/docker-compose.adminer.yml
+  - services/wordpress/docker-compose.wordpress.yml
+# Caddy
+  - services/caddy/docker-compose.caddy.yml
+# Dufs
+  - services/dufs/docker-compose.dufs.yml
+# Gitea
+  - services/gitea/docker-compose.gitea.yml
+# Homepage
+  - services/homepage/docker-compose.homepage.yml
+# It-tools
+  - services/it-tools/docker-compose.it-tools.yml
+# Jellyfin
+  - services/jellyfin/docker-compose.jellyfin.yml
+# Openssh
+  - services/openssh/docker-compose.openssh.yml
+# Picoshare
+  - services/picoshare/docker-compose.picoshare.yml
+# Privatebin
+  - services/privatebin/docker-compose.privatebin.yml
+# Projectsend
+  - services/projectsend/docker-compose.projectsend.yml
+# Psitransfer
+  - services/psitransfer/docker-compose.psitransfer.yml
+# Qbittorrent
+  - services/qbittorrent/docker-compose.qbittorrent.yml
+# Stirlingpdf
+  - services/stirlingpdf/docker-compose.stirlingpdf.yml
+# Syncthing
+  - services/syncthing/docker-compose.syncthing.yml
+# Transmission
+  - services/transmission/docker-compose.transmission.yml
+# Uptime-kuma
+  - services/uptime-kuma/docker-compose.uptime-kuma.yml
+# Yacht
+  - services/yacht/docker-compose.yacht.yml
+
+services:
+  main_infrastructure:
+    container_name: main_infrastructure
+    image: alpine:latest
+    profiles:
+      - main_infrastructure
+    volumes:
+      - public_data:/public_data:rw
+      - private_data:/private_data:rw
+    read_only: true
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+    # Fix root permissions on mounted volumes
+    command: chown -R ${PUID:-1000}:${PGID:-1000} /public_data /private_data
+
+volumes:
+  public_data:
+    name: public_data
+  private_data:
+    name: private_data
+
+networks:
+  infra-network:
+    driver: bridge
+    name: infra-network
+  intern-network:
+    driver: bridge
+    internal: true
+    name: intern-network

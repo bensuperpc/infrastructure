@@ -68,7 +68,7 @@ For all **bensuperpc.org**, you need to replace it with your domain, example: **
 find . \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i 's/bensuperpc.org/mydomain.com/g'
 ```
 
-Check if all bensuperpc.* are replaced by your domain in [Caddyfile](caddy/wordpress/Caddyfile)
+Check if all bensuperpc.* are replaced by your domain in [Caddyfile](caddy/services/wordpress/Caddyfile)
 
 And then, caddy will generate the certificate for you and renew it automatically :D
 
@@ -110,19 +110,19 @@ openssl rand -base64 32
 
 Or online: [passwordsgenerator.net](https://passwordsgenerator.net/)
 
-For [caddy_backup.env](infrastructure/caddy/env/caddy_backup.env) file, you need to change the password(s) for the restic backup.
+For [caddy_backup.env](infrastructure/services/caddy/env/caddy_backup.env) file, you need to change the password(s) for the restic backup.
 ```sh
 RESTIC_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
 ```
 
-For the [wordpress.env](infrastructure/wordpress/env/wordpress.env) file, you need to change the password and user for the database.
+For the [wordpress.env](infrastructure/services/wordpress/env/wordpress.env) file, you need to change the password and user for the database.
 
 ```sh
 WORDPRESS_DB_USER=bensuperpc
 WORDPRESS_DB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
 ```
 
-For [wordpress_db.env](infrastructure/wordpress/env/wordpress_db.env) file, you need to change the password(s) and user for the database.
+For [wordpress_db.env](infrastructure/services/wordpress/env/wordpress_db.env) file, you need to change the password(s) and user for the database.
     
 ```sh
 MARIADB_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
@@ -130,12 +130,12 @@ MARIADB_USER=bensuperpc
 MARIADB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
 ```
 
-For [wordpress_backup.env](infrastructure/wordpress/env/wordpress_backup.env) file, you need to change the password(s) for the restic backup.
+For [wordpress_backup.env](infrastructure/services/wordpress/env/wordpress_backup.env) file, you need to change the password(s) for the restic backup.
 ```sh
 RESTIC_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
 ```
 
-For [adminer.env](infrastructure/wordpress/env/adminer.env) file, you need to change the password(s) and user for the database.
+For [adminer.env](infrastructure/services/wordpress/env/adminer.env) file, you need to change the password(s) and user for the database.
 
 ```sh
 MARIADB_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
@@ -143,7 +143,7 @@ MARIADB_USER=bensuperpc
 MARIADB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
 ```
 
-For [gitea.env](infrastructure/gitea/env/gitea.env) file, you need to change the password(s) and user for the database.
+For [gitea.env](infrastructure/services/gitea/env/gitea.env) file, you need to change the password(s) and user for the database.
 
 ```sh
 GITEA__database__USER=bensuperpc
@@ -151,7 +151,7 @@ GITEA__database__PASSWD=K7s5yoHknnEd7vsZoxb8I3dK9mjToF1j
 GITEA__security__SECRET_KEY=ykcZt23an1E4lFHWvrCKdAyt16WAiK9c
 ```
 
-For [gitea_db.env](infrastructure/gitea/env/gitea_db.env) file, you need to change the password(s) and user for the database.
+For [gitea_db.env](infrastructure/services/gitea/env/gitea_db.env) file, you need to change the password(s) and user for the database.
 
 ```sh
 MARIADB_ROOT_PASSWORD=xpc4zIhHZzWKqVHcjBu4aW6aS7jG8d7X
@@ -159,19 +159,19 @@ MARIADB_USER=bensuperpc
 MARIADB_PASSWORD=K7s5yoHknnEd7vsZoxb8I3dK9mjToF1j
 ```
 
-For [psitransfer.env](infrastructure/psitransfer/env/psitransfer.env) file, you need to change the secret key.
+For [psitransfer.env](infrastructure/services/psitransfer/env/psitransfer.env) file, you need to change the secret key.
 
 ```sh
 PSITRANSFER_ADMIN_PASS=n9jLVNT9QUotTJTT91JqH4GyBTg9pvEn
 ```
 
-For [yacht.env](infrastructure/yacht/env/yacht.env) file, you need to change the secret key.
+For [yacht.env](infrastructure/services/yacht/env/yacht.env) file, you need to change the secret key.
 
 ```sh
 SECRET_KEY=UZvg9nbcGIJlPEB3uI39TAEWyFOz9nm8
 ```
 
-For [projectsend_db.env](infrastructure/projectsend/env/projectsend_db.env) file, you need to change the password(s) and user for the database.
+For [projectsend_db.env](infrastructure/services/projectsend/env/projectsend_db.env) file, you need to change the password(s) and user for the database.
 
 ```sh
 MARIADB_ROOT_PASSWORD=8O34297GrBfT3Ld34Lfg9mpotmZwbJtt
@@ -179,19 +179,19 @@ MARIADB_USER=bensuperpc
 MARIADB_PASSWORD=wdSUa1JEZhXie5AJ5NcX1w73xmpO12EY
 ```
 
-For [picoshare.env](infrastructure/picoshare/env/picoshare.env) file, you need to change the secret key.
+For [picoshare.env](infrastructure/services/picoshare/env/picoshare.env) file, you need to change the secret key.
 
 ```sh
 PS_SHARED_SECRET=CBuS4DJLqIe93xF1KGYRrnhxUFBqLD2n
 ```
 
-For [dufs.env](infrastructure/dufs/env/dufs.env) file, you need to change the secret key and if you want the user name.
+For [dufs.env](infrastructure/services/dufs/env/dufs.env) file, you need to change the secret key and if you want the user name.
 
 ```sh
 DUFS_AUTH="admin:heqihlOfBmJDESGFlpbPi7P7Mi6F7RkV@/:rw|@/:ro"
 ```
 
-For [stirlingpdf.env](infrastructure/stirlingpdf/env/stirlingpdf.env) file, it's **completly optional**, you can change the password(s) and user.
+For [stirlingpdf.env](infrastructure/services/stirlingpdf/env/stirlingpdf.env) file, it's **completly optional**, you can change the password(s) and user.
 
 ```sh
 # Enable security, optional
@@ -203,7 +203,7 @@ SECURITY_INITIALLOGIN_USERNAME=admin
 SECURITY_INITIALLOGIN_PASSWORD=Jw9U039f5xc2mFcacvGvPD9RjwIh4DzO
 ```
 
-You can need to add/change the public ssh key [id_ed25519.pub](infrastructure/openssh/config/authorized_keys/id_ed25519.pub) (its my public key), also change the config/password in [openssh.env](infrastructure/openssh/env/openssh.env):
+You can need to add/change the public ssh key [id_ed25519.pub](infrastructure/services/openssh/config/authorized_keys/id_ed25519.pub) (its my public key), also change the config/password in [openssh.env](infrastructure/services/openssh/env/openssh.env):
 
 ```sh
 SUDO_ACCESS=true
@@ -245,10 +245,10 @@ To enable the gitea CI: https://medium.com/@lokanx/how-to-build-docker-container
 
 You can change the homepage config in these files:
 
-- [bookmarks.yaml](infrastructure/homepage/config/bookmarks.yaml)
-- [services.yaml](infrastructure/homepage/config/services.yaml)
-- [settings.yaml](infrastructure/homepage/config/settings.yaml)
-- [widgets.yaml](infrastructure/homepage/config/widgets.yaml)
+- [bookmarks.yaml](infrastructure/services/homepage/config/bookmarks.yaml)
+- [services.yaml](infrastructure/services/homepage/config/services.yaml)
+- [settings.yaml](infrastructure/services/homepage/config/settings.yaml)
+- [widgets.yaml](infrastructure/services/homepage/config/widgets.yaml)
 
 ### Docker volumes
 

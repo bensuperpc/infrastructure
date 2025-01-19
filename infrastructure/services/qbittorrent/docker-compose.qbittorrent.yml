@@ -1,0 +1,30 @@
+services:
+  # qBittorrent
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    container_name: qbittorrent
+    profiles:
+      - qbittorrent
+    restart: on-failure:5
+    depends_on:
+      - caddy
+    env_file:
+      - ./env/qbittorrent.env
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+    volumes:
+      - qbittorrent_config:/config
+      - public_data:/downloads
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  qbittorrent_config:
+    name: qbittorrent_config
+  public_data:
+    name: public_data
+  private_data:
+    name: private_data

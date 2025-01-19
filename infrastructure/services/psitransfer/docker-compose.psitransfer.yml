@@ -1,0 +1,32 @@
+services:
+  # psitransfer
+  psitransfer:
+    image: psitrax/psitransfer:latest
+    container_name: psitransfer
+    profiles:
+      - psitransfer
+    restart: on-failure:5
+    user: ${PUID:-1000}:${PGID:-1000} 
+    depends_on:
+      - caddy
+    env_file:
+      - ./env/psitransfer.env
+    volumes:
+      - psitransfer_data:/data
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.001'
+          memory: 20M
+
+volumes:
+  psitransfer_data:
+    name: psitransfer_data

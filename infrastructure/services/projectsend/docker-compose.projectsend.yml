@@ -1,0 +1,50 @@
+services:
+  # projectsend
+  projectsend:
+    image: linuxserver/projectsend:latest
+    container_name: projectsend
+    profiles:
+      - projectsend
+    restart: on-failure:5
+    depends_on:
+      - caddy
+    env_file:
+      - ./env/projectsend.env
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - projectsend_config:/config
+      - projectsend_share:/data
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - SYS_ADMIN
+
+  # Database projectsend
+  projectsend_db:
+    image: mariadb:latest
+    container_name: projectsend_db
+    profiles:
+      - database
+      - projectsend
+    depends_on:
+      - caddy
+    restart: on-failure:5
+    volumes:
+      - projectsend_db:/var/lib/mysql:rw
+    env_file:
+      - ./env/projectsend_db.env
+    command: '--default-authentication-plugin=mysql_native_password'
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  projectsend_db:
+    name: projectsend_db
+  projectsend_config:
+    name: projectsend_config
+  projectsend_share:
+    name: projectsend_share
