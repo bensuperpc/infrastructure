@@ -104,12 +104,6 @@
         description: Yacht
         ping: yacht.bensuperpc.org
         container: yacht
-    - adminer:
-        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/adminer.png
-        href: https://adminer.bensuperpc.org/
-        description: Adminer
-        ping: adminer.bensuperpc.org
-        container: adminer
 
 - Games:
     - minecraft:

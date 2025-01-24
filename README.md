@@ -77,7 +77,6 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [bensuperpc.org](https://bensuperpc.org) | Main | Redirect to www.bensuperpc.org |
 | [www.bensuperpc.org](https://www.bensuperpc.org) | Main | Homepage |
 | [wordpress.bensuperpc.org](https://wordpress.bensuperpc.org) | Sub | Wordpress website |
-| [adminer.bensuperpc.org](https://adminer.bensuperpc.org) | Sub | Adminer for MariaDB for wordpress only |
 | [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org) | Sub | Uptime Kuma for monitoring |
 | [qbittorrent.bensuperpc.org](https://qbittorrent.bensuperpc.org) | Sub | Torrent client/server |
 | [transmission.bensuperpc.org](https://transmission.bensuperpc.org) | Sub | Torrent client/server |
@@ -111,6 +110,7 @@ openssl rand -base64 32
 Or online: [passwordsgenerator.net](https://passwordsgenerator.net/)
 
 For [caddy_backup.env](infrastructure/services/caddy/env/caddy_backup.env) file, you need to change the password(s) for the restic backup.
+
 ```sh
 RESTIC_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
 ```
@@ -123,7 +123,7 @@ WORDPRESS_DB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
 ```
 
 For [wordpress_db.env](infrastructure/services/wordpress/env/wordpress_db.env) file, you need to change the password(s) and user for the database.
-    
+
 ```sh
 MARIADB_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
 MARIADB_USER=bensuperpc
@@ -131,16 +131,9 @@ MARIADB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
 ```
 
 For [wordpress_backup.env](infrastructure/services/wordpress/env/wordpress_backup.env) file, you need to change the password(s) for the restic backup.
+
 ```sh
 RESTIC_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
-```
-
-For [adminer.env](infrastructure/services/wordpress/env/adminer.env) file, you need to change the password(s) and user for the database.
-
-```sh
-MARIADB_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
-MARIADB_USER=bensuperpc
-MARIADB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
 ```
 
 For [gitea.env](infrastructure/services/gitea/env/gitea.env) file, you need to change the password(s) and user for the database.

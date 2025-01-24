@@ -1,6 +1,5 @@
 include:
 # WordPress
-  - services/wordpress/docker-compose.adminer.yml
   - services/wordpress/docker-compose.wordpress.yml
 # Caddy
   - services/caddy/docker-compose.caddy.yml

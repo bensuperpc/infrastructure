@@ -158,9 +158,6 @@
         <mxCell id="wsmfsViyqE6_RoJ9hA4X-133" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; text-decoration: underline;&quot;&gt;uptimekuma&lt;/p&gt;&lt;hr style=&quot;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 8px;&quot;&gt;&lt;font style=&quot;font-size: 7px;&quot;&gt;uptimekuma.bensuperpc.org&lt;/font&gt;&lt;/p&gt;" style="verticalAlign=middle;align=center;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=1;fontStyle=1;strokeWidth=3;fillColor=#E6FFCC" vertex="1" parent="1">
           <mxGeometry x="920" y="180" width="110" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="wsmfsViyqE6_RoJ9hA4X-134" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; text-decoration: underline;&quot;&gt;adminer&lt;/p&gt;&lt;hr style=&quot;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 8px;&quot;&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;adminer.bensuperpc.org&lt;/font&gt;&lt;/p&gt;" style="verticalAlign=middle;align=center;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=1;fontStyle=1;strokeWidth=3;fillColor=#E6FFCC" vertex="1" parent="1">
-          <mxGeometry x="1050" y="180" width="110" height="90" as="geometry" />
-        </mxCell>
         <mxCell id="wsmfsViyqE6_RoJ9hA4X-136" value="&lt;p style=&quot;margin: 4px 0px 0px; text-align: center; text-decoration: underline;&quot;&gt;Satisfactory&lt;/p&gt;&lt;hr style=&quot;&quot;&gt;&lt;p style=&quot;margin: 0px 0px 0px 8px;&quot;&gt;&lt;font style=&quot;font-size: 8px;&quot;&gt;bensuperpc.org&lt;/font&gt;&lt;/p&gt;" style="verticalAlign=middle;align=center;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;rounded=1;fontStyle=1;strokeWidth=3;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
           <mxGeometry x="9" y="500" width="110" height="90" as="geometry" />
         </mxCell>

@@ -60,10 +60,6 @@ it-tools.bensuperpc.org {
 	}
 }
 
-adminer.bensuperpc.org {
-	reverse_proxy adminer:8080
-}
-
 uptimekuma.bensuperpc.org {
 	reverse_proxy uptime-kuma:3001
 }

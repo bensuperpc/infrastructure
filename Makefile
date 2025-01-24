@@ -14,7 +14,7 @@
 BLOG_SERVICES := wordpress
 TORRENTS_SERVICES := qbittorrent transmission
 SHARING_SERVICES := psitransfer picoshare privatebin projectsend jellyfin dufs gitea syncthing
-ADMIN_SERVICES := yacht uptime-kuma adminer openssh
+ADMIN_SERVICES := yacht uptime-kuma openssh
 UTILS_SERVICES := it-tools stirlingpdf
 # gitea-runner
 
