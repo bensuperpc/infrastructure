@@ -233,7 +233,7 @@ make down
 
 You can disable some services by removing the service name in PROFILES variable in the [Makefile](Makefile) file.
 
-To enable the gitea CI: https://medium.com/@lokanx/how-to-build-docker-containers-using-gitea-runners-600729555e07
+To enable the gitea CI: [how-to-build-docker-containers-using-gitea-runners](https://medium.com/@lokanx/how-to-build-docker-containers-using-gitea-runners-600729555e07)
 
 ### Homepage
 
