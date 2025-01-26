@@ -18,7 +18,7 @@ ADMIN_SERVICES := yacht uptime-kuma openssh
 UTILS_SERVICES := it-tools stirlingpdf
 # gitea-runner
 
-SERVER_DIRECTORY := infrastructure
+PROJECT_DIRECTORY := infrastructure
 
 DOCKER_PROFILES := main_infrastructure caddy homepage $(BLOG_SERVICES) $(SHARING_SERVICES) $(TORRENTS_SERVICES) $(ADMIN_SERVICES) $(UTILS_SERVICES)
 
