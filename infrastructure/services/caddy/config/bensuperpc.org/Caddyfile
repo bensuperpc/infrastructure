@@ -134,6 +134,10 @@ stirlingpdf.bensuperpc.org {
 	reverse_proxy stirlingpdf:8080
 }
 
+memos.bensuperpc.org {
+	reverse_proxy memos:5230
+}
+
 link.bensuperpc.org {
 	# TODO: Use service with database
 	# Friendly links

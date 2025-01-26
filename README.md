@@ -74,7 +74,7 @@ And then, caddy will generate the certificate for you and renew it automatically
 
 | Domain name | Type | Description |
 | --- | --- | --- |
-| [bensuperpc.org](https://bensuperpc.org) | Main | Redirect to www.bensuperpc.org |
+| [bensuperpc.org](https://bensuperpc.org) | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
 | [www.bensuperpc.org](https://www.bensuperpc.org) | Main | Homepage |
 | [wordpress.bensuperpc.org](https://wordpress.bensuperpc.org) | Sub | Wordpress website |
 | [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org) | Sub | Uptime Kuma for monitoring |
@@ -92,10 +92,11 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [picoshare.bensuperpc.org](https://picoshare.bensuperpc.org) | Sub | Picoshare for file sharing |
 | [dufs.bensuperpc.org](https://dufs.bensuperpc.org) | Sub | Dufs for file sharing |
 | [public.bensuperpc.org](https://public.bensuperpc.org) | Sub | Caddy for file sharing |
-| bensuperpc.com | Main | Redirect to www.bensuperpc.org |
-| bensuperpc.fr | Main | Redirect to www.bensuperpc.org |
-| bensuperpc.net | Main | Redirect to www.bensuperpc.org |
-| bensuperpc.ovh | Main | Redirect to www.bensuperpc.org |
+| [memos.bensuperpc.org](https://memos.bensuperpc.org) | Sub | Caddy for file sharing |
+| bensuperpc.com | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
+| bensuperpc.fr | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
+| bensuperpc.net | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
+| bensuperpc.ovh | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
 
 ### Configure the infrastructure
 
@@ -292,6 +293,7 @@ ssh -p 2222 admin@bensuperpc.org
 - [ProjectSend](https://www.projectsend.org/)
 - [Picoshare](https://github.com/mtlynch/picoshare)
 - [Dufs](https://github.com/sigoden/dufs)
+- [demos](https://github.com/usememos/memos)
 - [Fix docker volume](https://pratikpc.medium.com/use-docker-compose-named-volumes-as-non-root-within-your-containers-1911eb30f731)
 
 ## License

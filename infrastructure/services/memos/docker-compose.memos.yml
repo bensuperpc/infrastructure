@@ -1,0 +1,22 @@
+services:
+  # memos
+  memos:
+    image: neosmemo/memos:latest
+    container_name: memos
+    profiles:
+      - memos
+    restart: on-failure:5
+    depends_on:
+      - caddy
+    env_file:
+      - ./env/memos.env
+    volumes:
+      - memos_config:/var/opt/memos
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  memos_config:
+    name: memos_config
