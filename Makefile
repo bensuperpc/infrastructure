@@ -17,9 +17,10 @@ SHARING_SERVICES := psitransfer picoshare privatebin projectsend jellyfin dufs g
 ADMIN_SERVICES := yacht uptime-kuma openssh
 UTILS_SERVICES := it-tools stirlingpdf
 # gitea-runner
+GAME_SERVICES := mc-server
 
 PROJECT_DIRECTORY := infrastructure
 
-DOCKER_PROFILES := main_infrastructure caddy homepage $(BLOG_SERVICES) $(SHARING_SERVICES) $(TORRENTS_SERVICES) $(ADMIN_SERVICES) $(UTILS_SERVICES)
+DOCKER_PROFILES := main_infrastructure caddy homepage $(BLOG_SERVICES) $(SHARING_SERVICES) $(TORRENTS_SERVICES) $(ADMIN_SERVICES) $(UTILS_SERVICES) $(GAME_SERVICES)
 
 include DockerCompose.mk
