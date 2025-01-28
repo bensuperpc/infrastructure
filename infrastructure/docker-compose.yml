@@ -41,3 +41,7 @@ include:
   - services/minecraft-server/minecraft-server/minecraft-server/docker-compose.yml
 # Backup minecraft
   - services/minecraft-server/minecraft-server/backup/docker-compose.backup.yml
+# 7daystodie
+  - services/7daystodie/7daystodie-server/7daystodie/docker-compose.7daystodie.yml
+# Backup 7daystodie
+  - services/7daystodie/7daystodie-server/backup/docker-compose.backup.yml

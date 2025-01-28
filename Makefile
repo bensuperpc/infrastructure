@@ -17,7 +17,7 @@ SHARING_SERVICES := psitransfer picoshare privatebin projectsend jellyfin dufs g
 ADMIN_SERVICES := yacht uptime-kuma openssh
 UTILS_SERVICES := it-tools stirlingpdf
 # gitea-runner
-GAME_SERVICES := mc-server
+GAME_SERVICES := mc-server mc-backup 7daystodie_server 7daystodie_backup
 
 PROJECT_DIRECTORY := infrastructure
 
