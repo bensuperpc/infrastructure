@@ -1,3 +1,6 @@
 [submodule "infrastructure/services/minecraft-server"]
 	path = infrastructure/services/minecraft-server
 	url = git@github.com:bensuperpc/docker-minecraft-server.git
+[submodule "infrastructure/services/7daystodie"]
+	path = infrastructure/services/7daystodie
+	url = git@github.com:bensuperpc/docker-7daystodie.git
