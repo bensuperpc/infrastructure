@@ -44,8 +44,8 @@ start:
 start-at:
 	$(DOCKER_COMPOSE_COMMAND) up
 
-.PHONY: docker-check
-docker-check:
+.PHONY: check
+check:
 	$(DOCKER_COMPOSE_COMMAND) config
 
 .PHONY: stop
@@ -67,14 +67,17 @@ state:
 	$(DOCKER_COMPOSE_COMMAND) ps
 	$(DOCKER_COMPOSE_COMMAND) top
 
-.PHONY: update-docker
-update-docker:
+.PHONY: image-update
+image-update:
 	$(DOCKER_COMPOSE_COMMAND) pull
 
-.PHONY: update
-update: update-docker
+.PHONY: git-update
+git-update: 
 #	git submodule update --init --recursive --remote
 	git pull --recurse-submodules --all --progress
+
+.PHONY: update
+update: image-update git-update
 
 .PHONY: clean
 clean:

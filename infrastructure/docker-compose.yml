@@ -37,6 +37,8 @@ include:
   - services/uptime-kuma/docker-compose.uptime-kuma.yml
 # Yacht
   - services/yacht/docker-compose.yacht.yml
+# open-webui
+  - services/open-webui/docker-compose.open-webui.yml
 # Minecraft
   - services/minecraft-server/minecraft-server/minecraft-server/docker-compose.yml
 # Backup minecraft

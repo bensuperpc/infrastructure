@@ -1,0 +1,43 @@
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    #platform: linux/amd64
+    container_name: ollama
+    profiles:
+      - open-webui
+    depends_on:
+      - caddy
+    restart: on-failure:5
+    tty: true
+    volumes:
+      - ollama:/root/.ollama
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - infra-network
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    profiles:
+      - open-webui
+    volumes:
+      - open-webui:/app/backend/data
+    depends_on:
+      - ollama
+      - caddy
+    env_file:
+      - ./env/open-webui.env
+    #environment:
+    #  - UID=${PUID:-1000}
+    #  - GID=${PGID:-1000}
+    restart: on-failure:5
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  ollama: {}
+  open-webui: {}

@@ -90,6 +90,12 @@
         description: Gitea
         ping: gitea.bensuperpc.org
         container: gitea
+    - open-webui:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/open-webui.png
+        href: https://open-webui.bensuperpc.org/
+        description: ChatGPT local
+        ping: open-webui.bensuperpc.org
+        container: open-webui
 
 - Admin:
     - uptime-kuma:

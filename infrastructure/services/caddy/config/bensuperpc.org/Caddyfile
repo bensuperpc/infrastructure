@@ -138,6 +138,10 @@ memos.bensuperpc.org {
 	reverse_proxy memos:5230
 }
 
+open-webui.bensuperpc.org {
+	reverse_proxy open-webui:8080
+}
+
 link.bensuperpc.org {
 	# TODO: Use service with database
 	# Friendly links

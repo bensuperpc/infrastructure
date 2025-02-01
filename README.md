@@ -22,7 +22,9 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [x] it-tools (Tools for IT)
 - [x] Privatebin (Pastebin)
 - [x] Yacht (Web interface for managing docker containers)
-- [ ] Integrate games ([Satisfactory](https://github.com/bensuperpc/docker-satisfactory), [7 days to die](https://github.com/bensuperpc/docker-7daystodie), Minecraft...)
+- [ ] [Satisfactory](https://github.com/bensuperpc/docker-satisfactory)
+- [x] [7 days to die](https://github.com/bensuperpc/docker-7daystodie)
+- [x] [minecraft](https://github.com/bensuperpc/docker-minecraft-server)
 
 ## Architecture
 
@@ -76,6 +78,7 @@ And then, caddy will generate the certificate for you and renew it automatically
 | --- | --- | --- |
 | [bensuperpc.org](https://bensuperpc.org) | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
 | [www.bensuperpc.org](https://www.bensuperpc.org) | Main | Homepage |
+| [open-webui.bensuperpc.org](https://open-webui.bensuperpc.org) | Sub | For local chatGPT |
 | [wordpress.bensuperpc.org](https://wordpress.bensuperpc.org) | Sub | Wordpress website |
 | [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org) | Sub | Uptime Kuma for monitoring |
 | [qbittorrent.bensuperpc.org](https://qbittorrent.bensuperpc.org) | Sub | Torrent client/server |
@@ -93,6 +96,7 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [dufs.bensuperpc.org](https://dufs.bensuperpc.org) | Sub | Dufs for file sharing |
 | [public.bensuperpc.org](https://public.bensuperpc.org) | Sub | Caddy for file sharing |
 | [memos.bensuperpc.org](https://memos.bensuperpc.org) | Sub | Caddy for file sharing |
+| [stirlingpdf.bensuperpc.org](https://stirlingpdf.bensuperpc.org) | Sub | Stirling PDF tools |
 | bensuperpc.com | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
 | bensuperpc.fr | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
 | bensuperpc.net | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
@@ -110,11 +114,15 @@ openssl rand -base64 32
 
 Or online: [passwordsgenerator.net](https://passwordsgenerator.net/)
 
+#### Caddy
+
 For [caddy_backup.env](infrastructure/services/caddy/env/caddy_backup.env) file, you need to change the password(s) for the restic backup.
 
 ```sh
 RESTIC_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
 ```
+
+#### Wordpress
 
 For the [wordpress.env](infrastructure/services/wordpress/env/wordpress.env) file, you need to change the password and user for the database.
 
@@ -137,6 +145,8 @@ For [wordpress_backup.env](infrastructure/services/wordpress/env/wordpress_backu
 RESTIC_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
 ```
 
+#### Gitea
+
 For [gitea.env](infrastructure/services/gitea/env/gitea.env) file, you need to change the password(s) and user for the database.
 
 ```sh
@@ -152,6 +162,8 @@ MARIADB_ROOT_PASSWORD=xpc4zIhHZzWKqVHcjBu4aW6aS7jG8d7X
 MARIADB_USER=bensuperpc
 MARIADB_PASSWORD=K7s5yoHknnEd7vsZoxb8I3dK9mjToF1j
 ```
+
+#### PsiTransfer
 
 For [psitransfer.env](infrastructure/services/psitransfer/env/psitransfer.env) file, you need to change the secret key.
 
@@ -173,17 +185,23 @@ MARIADB_USER=bensuperpc
 MARIADB_PASSWORD=wdSUa1JEZhXie5AJ5NcX1w73xmpO12EY
 ```
 
+#### Picoshare
+
 For [picoshare.env](infrastructure/services/picoshare/env/picoshare.env) file, you need to change the secret key.
 
 ```sh
 PS_SHARED_SECRET=CBuS4DJLqIe93xF1KGYRrnhxUFBqLD2n
 ```
 
+#### Dufs
+
 For [dufs.env](infrastructure/services/dufs/env/dufs.env) file, you need to change the secret key and if you want the user name.
 
 ```sh
 DUFS_AUTH="admin:heqihlOfBmJDESGFlpbPi7P7Mi6F7RkV@/:rw|@/:ro"
 ```
+
+#### Stirling PDF
 
 For [stirlingpdf.env](infrastructure/services/stirlingpdf/env/stirlingpdf.env) file, it's **completly optional**, you can change the password(s) and user.
 
@@ -197,6 +215,8 @@ SECURITY_INITIALLOGIN_USERNAME=admin
 SECURITY_INITIALLOGIN_PASSWORD=Jw9U039f5xc2mFcacvGvPD9RjwIh4DzO
 ```
 
+#### OpenSSH
+
 You can need to add/change the public ssh key [id_ed25519.pub](infrastructure/services/openssh/config/authorized_keys/id_ed25519.pub) (its my public key), also change the config/password in [openssh.env](infrastructure/services/openssh/env/openssh.env):
 
 ```sh
@@ -209,6 +229,16 @@ USER_PASSWORD=rdUwf36C11PLmpU9Lvq7tP5pfFBKAuCh
 #PUBLIC_KEY_FILE=/path/to/file
 #PUBLIC_KEY_DIR=/path/to/directory/containing/_only_/pubkeys
 #USER_PASSWORD_FILE=/path/to/file
+```
+
+#### Open-WebUI
+
+For [open-webui.env](infrastructure/services/open-webui/env/open-webui.env) file, entirely optional.
+
+To download the model, you can use:
+
+```sh
+docker exec ollama ollama run deepseek-r1:8b
 ```
 
 ### Start the infrastructure
@@ -294,6 +324,8 @@ ssh -p 2222 admin@bensuperpc.org
 - [Picoshare](https://github.com/mtlynch/picoshare)
 - [Dufs](https://github.com/sigoden/dufs)
 - [demos](https://github.com/usememos/memos)
+- [Stirling PDF](https://github.com/Stirling-Tools/Stirling-PDF)
+- [open-webui](https://github.com/open-webui/open-webui)
 - [Fix docker volume](https://pratikpc.medium.com/use-docker-compose-named-volumes-as-non-root-within-your-containers-1911eb30f731)
 
 ## License
