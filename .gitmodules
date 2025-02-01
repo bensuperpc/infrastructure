@@ -4,3 +4,6 @@
 [submodule "infrastructure/services/7daystodie"]
 	path = infrastructure/services/7daystodie
 	url = git@github.com:bensuperpc/docker-7daystodie.git
+[submodule "infrastructure/services/satisfactory"]
+	path = infrastructure/services/satisfactory
+	url = git@github.com:bensuperpc/docker-satisfactory.git

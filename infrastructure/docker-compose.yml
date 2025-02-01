@@ -47,3 +47,7 @@ include:
   - services/7daystodie/7daystodie-server/7daystodie/docker-compose.7daystodie.yml
 # Backup 7daystodie
   - services/7daystodie/7daystodie-server/backup/docker-compose.backup.yml
+# Satisfactory
+  - services/satisfactory/satisfactory-server/satisfactory/docker-compose.satisfactory.yml
+# Backup satisfactory
+  - services/satisfactory/satisfactory-server/backup/docker-compose.backup.yml

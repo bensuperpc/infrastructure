@@ -22,7 +22,7 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [x] it-tools (Tools for IT)
 - [x] Privatebin (Pastebin)
 - [x] Yacht (Web interface for managing docker containers)
-- [ ] [Satisfactory](https://github.com/bensuperpc/docker-satisfactory)
+- [X] [Satisfactory](https://github.com/bensuperpc/docker-satisfactory)
 - [x] [7 days to die](https://github.com/bensuperpc/docker-7daystodie)
 - [x] [minecraft](https://github.com/bensuperpc/docker-minecraft-server)
 
@@ -45,8 +45,9 @@ The homepage is a dashboard with many widgets and services.
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Web domain](https://www.ovh.com/world/domains/) (I use OVH)
 - [Open port 80, 443, 22 and 2222 on your router](http://192.168.1.1/)
+- For games server, you need to open the port for the game server (7777, 25565, 26900, 26901, 26903)
 
-***To avoid get rate limit from letsencrypt (10 certificates per 3 hours), you need to disable some certificates in the caddyfiles and enable them 3h later...***
+**To avoid get rate limit from letsencrypt (10 certificates per 3 hours), you need to disable some certificates in the caddyfiles and enable them 3h later...**
 
 ### Clone
 
@@ -61,6 +62,8 @@ Go to the folder
 ```sh
 cd infrastructure
 ```
+
+Change services you want to enable in the [Makefile](Makefile) file, by default all services are enabled (games servers included).
 
 ### Configure the domain
 
