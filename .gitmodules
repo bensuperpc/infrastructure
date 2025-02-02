@@ -2,8 +2,8 @@
 	path = infrastructure/services/minecraft-server
 	url = git@github.com:bensuperpc/docker-minecraft-server.git
 [submodule "infrastructure/services/7daystodie"]
-	path = infrastructure/services/7daystodie
+	path = infrastructure/services/7daystodie-server
 	url = git@github.com:bensuperpc/docker-7daystodie.git
 [submodule "infrastructure/services/satisfactory"]
-	path = infrastructure/services/satisfactory
+	path = infrastructure/services/satisfactory-server
 	url = git@github.com:bensuperpc/docker-satisfactory.git
