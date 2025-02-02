@@ -97,20 +97,6 @@
         ping: open-webui.bensuperpc.org
         container: open-webui
 
-- Admin:
-    - uptime-kuma:
-        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/uptime-kuma.png
-        href: https://uptimekuma.bensuperpc.org/
-        description: Uptime Kuma
-        ping: uptimekuma.bensuperpc.org
-        container: uptime-kuma
-    - yacht:
-#        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/yacht.png
-        href: https://yacht.bensuperpc.org/
-        description: Yacht
-        ping: yacht.bensuperpc.org
-        container: yacht
-
 - Games:
     - minecraft:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/minecraft.png
@@ -130,4 +116,18 @@
         description: Satisfactory server
 #        ping: 7dtd.bensuperpc.org
         container: satisfactory_server
+
+- Admin:
+    - uptime-kuma:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/uptime-kuma.png
+        href: https://uptimekuma.bensuperpc.org/
+        description: Uptime Kuma
+        ping: uptimekuma.bensuperpc.org
+        container: uptime-kuma
+    - yacht:
+#        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/yacht.png
+        href: https://yacht.bensuperpc.org/
+        description: Yacht
+        ping: yacht.bensuperpc.org
+        container: yacht
 
