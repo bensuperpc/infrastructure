@@ -45,7 +45,7 @@ The homepage is a dashboard with many widgets and services.
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Web domain](https://www.ovh.com/world/domains/) (I use OVH)
 - [Open port 80, 443, 22 and 2222 on your router](http://192.168.1.1/)
-- For games server, you need to open the port for the game server (7777, 25565, 26900, 26901, 26903)
+- For games server, you need to open these ports (7777, 25565, 26900, 26901, 26903)
 
 **To avoid get rate limit from letsencrypt (10 certificates per 3 hours), you need to disable some certificates in the caddyfiles and enable them 3h later...**
 
