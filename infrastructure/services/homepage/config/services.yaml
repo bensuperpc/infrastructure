@@ -129,5 +129,5 @@
 #        href: https://7dtd.bensuperpc.org/
         description: Satisfactory server
 #        ping: 7dtd.bensuperpc.org
-        container: satisfactory-server
+        container: satisfactory_server
 
