@@ -241,7 +241,7 @@ For [open-webui.env](infrastructure/services/open-webui/env/open-webui.env) file
 To download the model, you can use:
 
 ```sh
-docker exec ollama ollama run deepseek-r1:8b
+docker exec -it ollama ollama run deepseek-r1:8b
 ```
 
 ### Start the infrastructure

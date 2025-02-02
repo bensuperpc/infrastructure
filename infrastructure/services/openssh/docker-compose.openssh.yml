@@ -40,3 +40,19 @@ volumes:
     name: caddy_config
   caddy_backup:
     name: caddy_backup
+# 7daystodie-server
+  7daystodie_backup:
+    name: 7daystodie_backup
+  7daystodie_server_save:
+    name: 7daystodie_server_save
+  7daystodie_server_config_lgsm:
+    name: 7daystodie_server_config_lgsm
+  7daystodie_server_file:
+    name: 7daystodie_server_file
+  7daystodie_server_log:
+    name: 7daystodie_server_log
+# satisfactory-server
+  satisfactory_backup:
+    name: satisfactory_backup
+  satisfactory_server_config:
+    name: satisfactory_server_config
