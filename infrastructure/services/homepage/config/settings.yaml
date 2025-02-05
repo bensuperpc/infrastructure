@@ -1,8 +1,10 @@
 ---
 # For configuration options and examples, please see:
-# https://gethomepage.dev/latest/configs/settings
+# https://gethomepage.dev/configs/settings/
 
 title: Bensuperpc
+
+description: Bensuperpc's homepage
 
 base: https://www.bensuperpc.org
 

@@ -6,6 +6,9 @@ services:
     profiles:
       - homepage
     restart: on-failure:5
+#    environment:
+#      - PUID=${PUID:-1000}
+#      - PGID=${PGID:-1000}
     depends_on:
       - caddy
     env_file:
