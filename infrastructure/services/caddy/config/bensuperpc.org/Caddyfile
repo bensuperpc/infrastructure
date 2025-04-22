@@ -1,21 +1,21 @@
-www.bensuperpc.org {
+www.{$MAIN_DOMAIN} {
 	reverse_proxy homepage:3000
 }
 
-bensuperpc.org {
+{$MAIN_DOMAIN} {
 	redir https://www.{host}{uri} permanent
 }
 
-homepage.bensuperpc.org {
-	redir https://www.bensuperpc.org{uri} permanent
+homepage.{$MAIN_DOMAIN} {
+	redir https://www.{$MAIN_DOMAIN}{uri} permanent
 }
 
-public.bensuperpc.org {
+public.{$MAIN_DOMAIN} {
 	root * /public_data
 	file_server browse
 }
 
-wordpress.bensuperpc.org {
+wordpress.{$MAIN_DOMAIN} {
 	root * /var/www/html
 	php_fastcgi wordpress:9000
 
@@ -46,11 +46,11 @@ wordpress.bensuperpc.org {
 		# X-Frame-Options DENY
 
 		# Disable powerful features we don't need
-        Permissions-Policy "geolocation=(), camera=(), microphone=() interest-cohort=()"
+		Permissions-Policy "geolocation=(), camera=(), microphone=() interest-cohort=()"
 	}
 }
 
-it-tools.bensuperpc.org {
+it-tools.{$MAIN_DOMAIN} {
 	# Load balance between 2 instances
 	reverse_proxy {
 		to it-tools0:80 it-tools1:80
@@ -60,89 +60,89 @@ it-tools.bensuperpc.org {
 	}
 }
 
-uptimekuma.bensuperpc.org {
+uptimekuma.{$MAIN_DOMAIN} {
 	reverse_proxy uptime-kuma:3001
 }
 
-torrent.bensuperpc.org {
+torrent.{$MAIN_DOMAIN} {
 	reverse_proxy qbittorrent:8080
 }
 
-qbittorrent.bensuperpc.org {
-	redir https://torrent.bensuperpc.org permanent
+qbittorrent.{$MAIN_DOMAIN} {
+	redir https://torrent.{$MAIN_DOMAIN} permanent
 }
 
-transmission.bensuperpc.org {
+transmission.{$MAIN_DOMAIN} {
 	reverse_proxy transmission:9091
 }
 
-gitea.bensuperpc.org {
-	redir https://git.bensuperpc.org permanent
+gitea.{$MAIN_DOMAIN} {
+	redir https://git.{$MAIN_DOMAIN} permanent
 }
 
-git.bensuperpc.org {
+git.{$MAIN_DOMAIN} {
 	reverse_proxy gitea:3000
 }
 
-jellyfin.bensuperpc.org {
+jellyfin.{$MAIN_DOMAIN} {
 	reverse_proxy jellyfin:8096
 }
 
-transfer.bensuperpc.org {
+transfer.{$MAIN_DOMAIN} {
 	reverse_proxy psitransfer:3000
 }
 
-psitransfer.bensuperpc.org {
-	redir https://transfer.bensuperpc.org{uri} permanent
+psitransfer.{$MAIN_DOMAIN} {
+	redir https://transfer.{$MAIN_DOMAIN}{uri} permanent
 }
 
-picoshare.bensuperpc.org {
+picoshare.{$MAIN_DOMAIN} {
 	reverse_proxy picoshare:4001
 }
 
-syncthing.bensuperpc.org {
+syncthing.{$MAIN_DOMAIN} {
 	reverse_proxy syncthing:8384 {
 		header_up Host {upstream_hostport}
 	}
 }
 
-tools.bensuperpc.org {
-	redir https://it-tools.bensuperpc.org permanent
+tools.{$MAIN_DOMAIN} {
+	redir https://it-tools.{$MAIN_DOMAIN} permanent
 }
 
-privatebin.bensuperpc.org {
+privatebin.{$MAIN_DOMAIN} {
 	reverse_proxy privatebin:8080
 }
 
-pastebin.bensuperpc.org {
-	redir https://privatebin.bensuperpc.org permanent
+pastebin.{$MAIN_DOMAIN} {
+	redir https://privatebin.{$MAIN_DOMAIN} permanent
 }
 
-yacht.bensuperpc.org {
+yacht.{$MAIN_DOMAIN} {
 	reverse_proxy yacht:8000
 }
 
-projectsend.bensuperpc.org {
+projectsend.{$MAIN_DOMAIN} {
 	reverse_proxy projectsend:80
 }
 
-dufs.bensuperpc.org {
+dufs.{$MAIN_DOMAIN} {
 	reverse_proxy dufs:5000
 }
 
-stirlingpdf.bensuperpc.org {
+stirlingpdf.{$MAIN_DOMAIN} {
 	reverse_proxy stirlingpdf:8080
 }
 
-memos.bensuperpc.org {
+memos.{$MAIN_DOMAIN} {
 	reverse_proxy memos:5230
 }
 
-open-webui.bensuperpc.org {
+open-webui.{$MAIN_DOMAIN} {
 	reverse_proxy open-webui:8080
 }
 
-link.bensuperpc.org {
+link.{$MAIN_DOMAIN} {
 	# TODO: Use service with database
 	# Friendly links
 	redir /gnous https://gnous.eu permanent
