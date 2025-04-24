@@ -78,6 +78,12 @@
         description: IT Tools
         ping: it-tools.bensuperpc.org
         container: it-tools0
+    - omni-tools:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/it-tools.png
+        href: https://omni-tools.bensuperpc.org/
+        description: Omni Tools
+        ping: omni-tools.bensuperpc.org
+        container: omni-tools0
     - stirlingpdf:
         #icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/stirlingpdf.png
         href: https://stirlingpdf.bensuperpc.org/

@@ -19,7 +19,8 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [x] qbittorrent and transmission (Torrent client/server)
 - [x] SyncThing (File synchronization)
 - [x] PsiTransfer, ProjectSend, Picoshare (File sharing)
-- [x] it-tools (Tools for IT)
+- [x] it-tools and omni-tools (Tools for IT)
+- [x] Open-WebUI (Local chatGPT)
 - [x] Privatebin (Pastebin)
 - [x] Yacht (Web interface for managing docker containers)
 - [X] [Satisfactory](https://github.com/bensuperpc/docker-satisfactory)
@@ -92,6 +93,7 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org) | Sub | SyncThing for file synchronization |
 | [psitransfer.bensuperpc.org](https://psitransfer.bensuperpc.org) | Sub | PsiTransfer for file sharing |
 | [it-tools.bensuperpc.org](https://it-tools.bensuperpc.org) | Sub | Tools for IT |
+| [omni-tools.bensuperpc.org](https://omni-tools.bensuperpc.org) | Sub | Tools for IT |
 | [privatebin.bensuperpc.org](https://privatebin.bensuperpc.org) | Sub | Pastebin |
 | [yacht.bensuperpc.org](https://yacht.bensuperpc.org) | Sub | Web interface for managing docker containers |
 | [projectsend.bensuperpc.org](https://projectsend.bensuperpc.org) | Sub | ProjectSend for file sharing |
@@ -319,6 +321,7 @@ ssh -p 2222 admin@bensuperpc.org
 - [SyncThing](https://syncthing.net/)
 - [PsiTransfer](https://psitransfer.com/)
 - [It-tools](https://github.com/CorentinTh/it-tools)
+- [Omni-tools](https://github.com/iib0011/omni-tools)
 - [Privatebin](https://github.com/PrivateBin/PrivateBin)
 - [ghost](https://ghost.org)
 - [Homepage Tuto](https://belginux.com/installer-homepage-avec-docker/)

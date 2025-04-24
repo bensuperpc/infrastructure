@@ -13,6 +13,8 @@ include:
   - services/homepage/docker-compose.homepage.yml
 # It-tools
   - services/it-tools/docker-compose.it-tools.yml
+# omni-tools
+  - services/omni-tools/docker-compose.omni-tools.yml
 # Jellyfin
   - services/jellyfin/docker-compose.jellyfin.yml
 # Openssh

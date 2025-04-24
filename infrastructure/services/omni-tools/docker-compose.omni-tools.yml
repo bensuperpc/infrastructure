@@ -1,0 +1,51 @@
+services:
+  # omni-tools
+  omni-tools0:
+    image: iib0011/omni-tools:latest
+    container_name: omni-tools0
+    profiles:
+      - omni-tools
+    restart: on-failure:5
+    depends_on:
+      - caddy
+    networks:
+      - infra-network
+    read_only: false
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - SYS_ADMIN
+
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.001'
+          memory: 20M
+
+  omni-tools1:
+    image: iib0011/omni-tools:latest
+    container_name: omni-tools1
+    profiles:
+      - omni-tools
+    restart: on-failure:5
+    depends_on:
+      - caddy
+    networks:
+      - infra-network
+    read_only: false
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - SYS_ADMIN
+
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          cpus: '0.001'
+          memory: 20M

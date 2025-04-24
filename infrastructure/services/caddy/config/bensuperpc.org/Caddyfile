@@ -60,6 +60,16 @@ it-tools.{$MAIN_DOMAIN} {
 	}
 }
 
+omni-tools.{$MAIN_DOMAIN} {
+	# Load balance between 2 instances
+	reverse_proxy {
+		to omni-tools0:80 omni-tools1:80
+		lb_policy round_robin
+		lb_retries 3
+		lb_try_interval 1s
+	}
+}
+
 uptimekuma.{$MAIN_DOMAIN} {
 	reverse_proxy uptime-kuma:3001
 }
@@ -104,10 +114,6 @@ syncthing.{$MAIN_DOMAIN} {
 	reverse_proxy syncthing:8384 {
 		header_up Host {upstream_hostport}
 	}
-}
-
-tools.{$MAIN_DOMAIN} {
-	redir https://it-tools.{$MAIN_DOMAIN} permanent
 }
 
 privatebin.{$MAIN_DOMAIN} {
