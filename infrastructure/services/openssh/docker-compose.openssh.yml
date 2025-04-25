@@ -30,8 +30,9 @@ services:
       - satisfactory_server_config:/satisfactory_server_config:rw
       - minecraft_server_backup:/minecraft_server_backup:rw
       - minecraft_server_data:/minecraft_server_data:rw
-      - minecraft_server_config:/minecraft_server_config:rw
-      - minecraft_server_log:/minecraft_server_log:rw
+      - minecraft_proxy_data:/minecraft_proxy_data:rw
+      - minecraft_rcon_data:/minecraft_rcon_data:rw
+
     networks:
       - infra-network
     security_opt:
@@ -72,7 +73,7 @@ volumes:
     name: minecraft_server_backup
   minecraft_server_data:
     name: minecraft_server_data
-  minecraft_server_config:
-    name: minecraft_server_config
-  minecraft_server_log:
-    name: minecraft_server_log
+  minecraft_proxy_data:
+    name: minecraft_proxy_data
+  minecraft_rcon_data:
+    name: minecraft_rcon_data
