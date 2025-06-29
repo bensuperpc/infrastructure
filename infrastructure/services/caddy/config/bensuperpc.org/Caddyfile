@@ -94,6 +94,10 @@ git.{$MAIN_DOMAIN} {
 	reverse_proxy gitea:3000
 }
 
+forgejo.{$MAIN_DOMAIN} {
+	reverse_proxy forgejo:3000
+}
+
 jellyfin.{$MAIN_DOMAIN} {
 	reverse_proxy jellyfin:8096
 }

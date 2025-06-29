@@ -279,6 +279,26 @@ You can change the homepage config in these files:
 - [settings.yaml](infrastructure/services/homepage/config/settings.yaml)
 - [widgets.yaml](infrastructure/services/homepage/config/widgets.yaml)
 
+### Forgejo
+
+```sh
+docker exec -it forgejo_runner /bin/bash
+```
+```sh
+forgejo-runner generate-config > /data/config.yml
+```
+
+```sh
+forgejo-runner register
+```
+
+```sh
+https://forgejo.bensuperpc.org/
+<Your Registration Token, in https://forgejo.bensuperpc.org/admin/actions/runners>
+main
+ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:act-22.04
+```
+
 ### Docker volumes
 
 This infrastructure uses docker volumes to store data, all configuration/data for each service are not shared between services for security and maintenance reasons, but **public_data** and **private_data** are shared between all services to store your data.
@@ -333,6 +353,8 @@ ssh -p 2222 admin@bensuperpc.org
 - [Stirling PDF](https://github.com/Stirling-Tools/Stirling-PDF)
 - [open-webui](https://github.com/open-webui/open-webui)
 - [Fix docker volume](https://pratikpc.medium.com/use-docker-compose-named-volumes-as-non-root-within-your-containers-1911eb30f731)
+- [Forgejo-runner](https://code.forgejo.org/forgejo/runner)
+- [Forgejo-runner](https://huijzer.xyz/posts/55)
 
 ## License
 

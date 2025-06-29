@@ -1,0 +1,90 @@
+services:
+  # forgejo
+  forgejo:
+    image: codeberg.org/forgejo/forgejo:11-rootless
+    container_name: forgejo
+    profiles:
+      - forgejo
+    restart: on-failure:5
+    depends_on:
+      - database_forgejo
+      - caddy
+    ports:
+      - "5555:5555"
+    env_file:
+      - ./env/forgejo.env
+    volumes:
+    # /var/lib/gitea/custom/conf/app.ini
+      - forgejo_data:/var/lib/gitea
+      - forgejo_config:/etc/gitea
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+  
+  # Database forgejo
+  database_forgejo:
+    image: mariadb:latest
+    container_name: database_forgejo
+    profiles:
+      - forgejo
+    depends_on:
+      - caddy
+    restart: on-failure:5
+    volumes:
+      - forgejo_db:/var/lib/mysql:rw
+    env_file:
+      - ./env/forgejo_db.env
+    command: '--default-authentication-plugin=mysql_native_password'
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:true
+
+  # forgejo-runner
+  docker-in-docker:
+    image: docker:dind
+    networks:
+      - infra-network
+    profiles:
+      - forgejo
+    container_name: 'docker_dind'
+    privileged: true
+    command: [ 'dockerd', '-H', 'tcp://0.0.0.0:2375', '--tls=false' ]
+    restart: 'unless-stopped'
+
+  forgejo_runner:
+    image: 'code.forgejo.org/forgejo/runner:6.3.1'
+    networks:
+      - infra-network
+    profiles:
+      - forgejo
+    links:
+      - docker-in-docker
+    depends_on:
+      docker-in-docker:
+        condition: service_started
+    container_name: 'forgejo_runner'
+    environment:
+      DOCKER_HOST: tcp://docker-in-docker:2375
+#    user: 1001:1001
+    volumes:
+      - forgejo_runner:/data
+    restart: 'unless-stopped'
+
+#    command: '/bin/sh -c "while : ; do sleep 1 ; done ;"'
+    command: '/bin/sh -c "sleep 5; forgejo-runner -c /data/config.yml daemon"'
+
+volumes:
+  forgejo_data:
+    name: forgejo_data
+  forgejo_config:
+    name: forgejo_config
+  forgejo_db:
+    name: forgejo_db
+  forgejo_certs:
+    name: forgejo_certs
+  forgejo_runner:
+    name: forgejo_runner

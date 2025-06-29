@@ -96,6 +96,12 @@
         description: Gitea
         ping: gitea.bensuperpc.org
         container: gitea
+    - forgejo:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/forgejo.png
+        href: https://forgejo.bensuperpc.org/
+        description: Forgejo
+        ping: forgejo.bensuperpc.org
+        container: forgejo
     - open-webui:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/open-webui.png
         href: https://open-webui.bensuperpc.org/

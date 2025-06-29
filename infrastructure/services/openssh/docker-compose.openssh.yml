@@ -77,3 +77,5 @@ volumes:
     name: minecraft_proxy_data
   minecraft_rcon_data:
     name: minecraft_rcon_data
+# forgejo
+# gitea

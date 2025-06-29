@@ -16,8 +16,8 @@ services:
     volumes:
       - gitea_data:/var/lib/gitea
       - gitea_config:/etc/gitea
-#      - /etc/timezone:/etc/timezone:ro
-#      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
     networks:
       - infra-network
     security_opt:
@@ -28,7 +28,6 @@ services:
     image: mariadb:latest
     container_name: database_gitea
     profiles:
-      - database
       - gitea
     depends_on:
       - caddy
