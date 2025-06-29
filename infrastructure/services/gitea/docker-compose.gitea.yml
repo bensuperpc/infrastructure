@@ -10,7 +10,7 @@ services:
       - database_gitea
       - caddy
     ports:
-      - "22:22"
+      - "5555:5555"
     env_file:
       - ./env/gitea.env
     volumes:

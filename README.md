@@ -87,8 +87,9 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org) | Sub | Uptime Kuma for monitoring |
 | [qbittorrent.bensuperpc.org](https://qbittorrent.bensuperpc.org) | Sub | Torrent client/server |
 | [transmission.bensuperpc.org](https://transmission.bensuperpc.org) | Sub | Torrent client/server |
-| [git.bensuperpc.org](https://git.bensuperpc.org) | Sub | Gitea for git |
+| [gitea.bensuperpc.org](https://gitea.bensuperpc.org) | Sub | Gitea for git |
 | [forgejo.bensuperpc.org](https://forgejo.bensuperpc.org/) | Sub | Fork of Gitea for git |
+| [git.bensuperpc.org](https://git.bensuperpc.org) | Sub | Fork of Gitea for git |
 | [link.bensuperpc.org](https://link.bensuperpc.org) | Sub | For link shortener |
 | [jellyfin.bensuperpc.org](https://jellyfin.bensuperpc.org) | Sub | Jellyfin for media server |
 | [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org) | Sub | SyncThing for file synchronization |

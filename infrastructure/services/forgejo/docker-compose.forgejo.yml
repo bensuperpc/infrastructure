@@ -10,7 +10,7 @@ services:
       - database_forgejo
       - caddy
     ports:
-      - "5555:5555"
+      - "22:22"
     env_file:
       - ./env/forgejo.env
     volumes:
@@ -70,10 +70,8 @@ services:
       docker-in-docker:
         condition: service_started
     container_name: 'forgejo_runner'
-    environment:
-      DOCKER_HOST: tcp://docker:2376
-      DOCKER_CERT_PATH: /certs/client
-      DOCKER_TLS_VERIFY: "1"
+    env_file:
+      - ./env/forgejo_runner.env
 #    user: 1001:1001
     volumes:
 #      - ./config/forgejo_runner/config.yaml:/config.yaml:ro
@@ -81,8 +79,8 @@ services:
       - forgejo_certs:/certs
     restart: 'unless-stopped'
 
-    command: '/bin/sh -c "while : ; do sleep 1 ; done ;"'
-#    command: '/bin/sh -c "sleep 5; forgejo-runner -c /data/config.yml daemon"'
+#    command: '/bin/sh -c "while : ; do sleep 1 ; done ;"'
+    command: '/bin/sh -c "sleep 5; forgejo-runner -c /data/config.yml daemon"'
 
 volumes:
   forgejo_data:
