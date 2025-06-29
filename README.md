@@ -88,6 +88,7 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [qbittorrent.bensuperpc.org](https://qbittorrent.bensuperpc.org) | Sub | Torrent client/server |
 | [transmission.bensuperpc.org](https://transmission.bensuperpc.org) | Sub | Torrent client/server |
 | [git.bensuperpc.org](https://git.bensuperpc.org) | Sub | Gitea for git |
+| [forgejo.bensuperpc.org](https://forgejo.bensuperpc.org/) | Sub | Fork of Gitea for git |
 | [link.bensuperpc.org](https://link.bensuperpc.org) | Sub | For link shortener |
 | [jellyfin.bensuperpc.org](https://jellyfin.bensuperpc.org) | Sub | Jellyfin for media server |
 | [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org) | Sub | SyncThing for file synchronization |
@@ -284,19 +285,39 @@ You can change the homepage config in these files:
 ```sh
 docker exec -it forgejo_runner /bin/bash
 ```
+
 ```sh
 forgejo-runner generate-config > /data/config.yml
 ```
+
+Now update the config.yml file to support docker-in-docker:
+
+```yml
+  envs:
+    DOCKER_TLS_VERIFY: 1
+    DOCKER_CERT_PATH: /certs/client
+    DOCKER_HOST: tcp://docker:2376
+  labels: ["ubuntu-latest:docker://node:20-bookworm", "ubuntu-22.04:docker://node:20-bookworm"]
+  network: host
+  options: -v /certs/client:/certs/client
+  valid_volumes:
+     - /certs/client
+```
+
+Register the runner with your Forgejo instance:
+
 
 ```sh
 forgejo-runner register
 ```
 
+You will need to provide the following information:
+
 ```sh
 https://forgejo.bensuperpc.org/
 <Your Registration Token, in https://forgejo.bensuperpc.org/admin/actions/runners>
-main
 ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:act-22.04
+main
 ```
 
 ### Docker volumes

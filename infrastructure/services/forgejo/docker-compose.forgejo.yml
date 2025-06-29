@@ -14,7 +14,6 @@ services:
     env_file:
       - ./env/forgejo.env
     volumes:
-    # /var/lib/gitea/custom/conf/app.ini
       - forgejo_data:/var/lib/gitea
       - forgejo_config:/etc/gitea
       - /etc/timezone:/etc/timezone:ro
@@ -45,15 +44,19 @@ services:
 
   # forgejo-runner
   docker-in-docker:
-    image: docker:dind
+    image: code.forgejo.org/oci/docker:dind
+    container_name: 'docker_dind'
+    hostname: docker
     networks:
       - infra-network
     profiles:
       - forgejo
-    container_name: 'docker_dind'
     privileged: true
-    command: [ 'dockerd', '-H', 'tcp://0.0.0.0:2375', '--tls=false' ]
-    restart: 'unless-stopped'
+    environment:
+      DOCKER_TLS_CERTDIR: /certs
+      DOCKER_HOST: docker-in-docker
+    volumes:
+      - forgejo_certs:/certs
 
   forgejo_runner:
     image: 'code.forgejo.org/forgejo/runner:6.3.1'
@@ -68,14 +71,18 @@ services:
         condition: service_started
     container_name: 'forgejo_runner'
     environment:
-      DOCKER_HOST: tcp://docker-in-docker:2375
+      DOCKER_HOST: tcp://docker:2376
+      DOCKER_CERT_PATH: /certs/client
+      DOCKER_TLS_VERIFY: "1"
 #    user: 1001:1001
     volumes:
+#      - ./config/forgejo_runner/config.yaml:/config.yaml:ro
       - forgejo_runner:/data
+      - forgejo_certs:/certs
     restart: 'unless-stopped'
 
-#    command: '/bin/sh -c "while : ; do sleep 1 ; done ;"'
-    command: '/bin/sh -c "sleep 5; forgejo-runner -c /data/config.yml daemon"'
+    command: '/bin/sh -c "while : ; do sleep 1 ; done ;"'
+#    command: '/bin/sh -c "sleep 5; forgejo-runner -c /data/config.yml daemon"'
 
 volumes:
   forgejo_data:
