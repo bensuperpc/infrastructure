@@ -45,8 +45,24 @@ The homepage is a dashboard with many widgets and services.
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Web domain](https://www.ovh.com/world/domains/) (I use OVH)
-- [Open port 80, 443, 22 and 2222 on your router](http://192.168.1.1/)
+- [Open port 80, 443, 22, 2222 and 5555 on your router](http://192.168.1.1/)
 - For games server, you need to open these ports (7777, 25565, 26900, 26901, 26903)
+
+List of ports used by the services in this infrastructure:
+
+| Port number | Service       | Description       |
+| ----------- | ------------- | ----------------- |
+| 80          | Caddy         | HTTP traffic      |
+| 443         | Caddy         | HTTPS traffic     |
+| 22          | Forgejo       | Git/SSH access    |
+| 2222        | OpenSSH       | Global SSH access |
+| 5555        | Gitea         | Git/SSH access    |
+| 7777        | Satisfactory  | Game server port  |
+| 25565       | Minecraft     | Game server port  |
+| 26900       | 7 Days to Die | Game server port  |
+| 26901       | 7 Days to Die | Game server port  |
+| 26903       | 7 Days to Die | Game server port  |
+
 
 **To avoid get rate limit from letsencrypt (10 certificates per 3 hours), you need to disable some certificates in the caddyfiles and enable them 3h later...**
 
@@ -78,36 +94,36 @@ Check if all bensuperpc.* are replaced by your domain in [Caddyfile](caddy/servi
 
 And then, caddy will generate the certificate for you and renew it automatically :D
 
-| Domain name | Type | Description |
-| --- | --- | --- |
-| [bensuperpc.org](https://bensuperpc.org) | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
-| [www.bensuperpc.org](https://www.bensuperpc.org) | Main | Homepage |
-| [open-webui.bensuperpc.org](https://open-webui.bensuperpc.org) | Sub | For local chatGPT |
-| [wordpress.bensuperpc.org](https://wordpress.bensuperpc.org) | Sub | Wordpress website |
-| [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org) | Sub | Uptime Kuma for monitoring |
-| [qbittorrent.bensuperpc.org](https://qbittorrent.bensuperpc.org) | Sub | Torrent client/server |
-| [transmission.bensuperpc.org](https://transmission.bensuperpc.org) | Sub | Torrent client/server |
-| [gitea.bensuperpc.org](https://gitea.bensuperpc.org) | Sub | Gitea for git |
-| [forgejo.bensuperpc.org](https://forgejo.bensuperpc.org/) | Sub | Fork of Gitea for git |
-| [git.bensuperpc.org](https://git.bensuperpc.org) | Sub | Fork of Gitea for git |
-| [link.bensuperpc.org](https://link.bensuperpc.org) | Sub | For link shortener |
-| [jellyfin.bensuperpc.org](https://jellyfin.bensuperpc.org) | Sub | Jellyfin for media server |
-| [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org) | Sub | SyncThing for file synchronization |
-| [psitransfer.bensuperpc.org](https://psitransfer.bensuperpc.org) | Sub | PsiTransfer for file sharing |
-| [it-tools.bensuperpc.org](https://it-tools.bensuperpc.org) | Sub | Tools for IT |
-| [omni-tools.bensuperpc.org](https://omni-tools.bensuperpc.org) | Sub | Tools for IT |
-| [privatebin.bensuperpc.org](https://privatebin.bensuperpc.org) | Sub | Pastebin |
-| [yacht.bensuperpc.org](https://yacht.bensuperpc.org) | Sub | Web interface for managing docker containers |
-| [projectsend.bensuperpc.org](https://projectsend.bensuperpc.org) | Sub | ProjectSend for file sharing |
-| [picoshare.bensuperpc.org](https://picoshare.bensuperpc.org) | Sub | Picoshare for file sharing |
-| [dufs.bensuperpc.org](https://dufs.bensuperpc.org) | Sub | Dufs for file sharing |
-| [public.bensuperpc.org](https://public.bensuperpc.org) | Sub | Caddy for file sharing |
-| [memos.bensuperpc.org](https://memos.bensuperpc.org) | Sub | Caddy for file sharing |
-| [stirlingpdf.bensuperpc.org](https://stirlingpdf.bensuperpc.org) | Sub | Stirling PDF tools |
-| bensuperpc.com | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
-| bensuperpc.fr | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
-| bensuperpc.net | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
-| bensuperpc.ovh | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
+| Domain name                                                        | Type | Description                                                  |
+| ------------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
+| [bensuperpc.org](https://bensuperpc.org)                           | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
+| [www.bensuperpc.org](https://www.bensuperpc.org)                   | Main | Homepage                                                     |
+| [open-webui.bensuperpc.org](https://open-webui.bensuperpc.org)     | Sub  | For local chatGPT                                            |
+| [wordpress.bensuperpc.org](https://wordpress.bensuperpc.org)       | Sub  | Wordpress website                                            |
+| [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org)     | Sub  | Uptime Kuma for monitoring                                   |
+| [qbittorrent.bensuperpc.org](https://qbittorrent.bensuperpc.org)   | Sub  | Torrent client/server                                        |
+| [transmission.bensuperpc.org](https://transmission.bensuperpc.org) | Sub  | Torrent client/server                                        |
+| [gitea.bensuperpc.org](https://gitea.bensuperpc.org)               | Sub  | Gitea for git                                                |
+| [forgejo.bensuperpc.org](https://forgejo.bensuperpc.org/)          | Sub  | Fork of Gitea for git                                        |
+| [git.bensuperpc.org](https://git.bensuperpc.org)                   | Sub  | Fork of Gitea for git                                        |
+| [link.bensuperpc.org](https://link.bensuperpc.org)                 | Sub  | For link shortener                                           |
+| [jellyfin.bensuperpc.org](https://jellyfin.bensuperpc.org)         | Sub  | Jellyfin for media server                                    |
+| [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org)       | Sub  | SyncThing for file synchronization                           |
+| [psitransfer.bensuperpc.org](https://psitransfer.bensuperpc.org)   | Sub  | PsiTransfer for file sharing                                 |
+| [it-tools.bensuperpc.org](https://it-tools.bensuperpc.org)         | Sub  | Tools for IT                                                 |
+| [omni-tools.bensuperpc.org](https://omni-tools.bensuperpc.org)     | Sub  | Tools for IT                                                 |
+| [privatebin.bensuperpc.org](https://privatebin.bensuperpc.org)     | Sub  | Pastebin                                                     |
+| [yacht.bensuperpc.org](https://yacht.bensuperpc.org)               | Sub  | Web interface for managing docker containers                 |
+| [projectsend.bensuperpc.org](https://projectsend.bensuperpc.org)   | Sub  | ProjectSend for file sharing                                 |
+| [picoshare.bensuperpc.org](https://picoshare.bensuperpc.org)       | Sub  | Picoshare for file sharing                                   |
+| [dufs.bensuperpc.org](https://dufs.bensuperpc.org)                 | Sub  | Dufs for file sharing                                        |
+| [public.bensuperpc.org](https://public.bensuperpc.org)             | Sub  | Caddy for file sharing                                       |
+| [memos.bensuperpc.org](https://memos.bensuperpc.org)               | Sub  | Caddy for file sharing                                       |
+| [stirlingpdf.bensuperpc.org](https://stirlingpdf.bensuperpc.org)   | Sub  | Stirling PDF tools                                           |
+| bensuperpc.com                                                     | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
+| bensuperpc.fr                                                      | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
+| bensuperpc.net                                                     | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
+| bensuperpc.ovh                                                     | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
 
 ### Configure the infrastructure
 
@@ -325,10 +341,10 @@ main
 
 This infrastructure uses docker volumes to store data, all configuration/data for each service are not shared between services for security and maintenance reasons, but **public_data** and **private_data** are shared between all services to store your data.
 
-| Volume name | Description |
-| --- | --- |
-| public_data | Public data reachable on internet via [dufs.bensuperpc.org](https://dufs.bensuperpc.org), can be disabled. |
-| private_data | Private data |
+| Volume name  | Description                                                                                                |
+| ------------ | ---------------------------------------------------------------------------------------------------------- |
+| public_data  | Public data reachable on internet via [dufs.bensuperpc.org](https://dufs.bensuperpc.org), can be disabled. |
+| private_data | Private data                                                                                               |
 
 ### SSH access
 

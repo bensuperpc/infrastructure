@@ -95,7 +95,7 @@ git.{$MAIN_DOMAIN} {
 }
 
 forgejo.{$MAIN_DOMAIN} {
-	reverse_proxy forgejo:3000
+	redir https://git.{$MAIN_DOMAIN}{uri} permanent
 }
 
 jellyfin.{$MAIN_DOMAIN} {
