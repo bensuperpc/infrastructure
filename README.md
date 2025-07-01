@@ -15,6 +15,7 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [x] Wordpress (Via FASTCGI/caddy)
 - [x] Jellyfin (Media server)
 - [x] Gitea (Git server)
+- [x] Forgejo (Git server, fork of Gitea)
 - [x] Uptime Kuma (Monitoring)
 - [x] qbittorrent and transmission (Torrent client/server)
 - [x] SyncThing (File synchronization)
