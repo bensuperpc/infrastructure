@@ -5,8 +5,6 @@ services:
     container_name: openssh
     profiles:
       - openssh
-    depends_on:
-      - caddy
     restart: on-failure:5
     env_file:
       - ./env/openssh.env
@@ -32,6 +30,12 @@ services:
       - minecraft_server_data:/minecraft_server_data:rw
       - minecraft_proxy_data:/minecraft_proxy_data:rw
       - minecraft_rcon_data:/minecraft_rcon_data:rw
+      - forgejo_data:/forgejo_data:rw
+      - forgejo_config:/forgejo_config:rw
+      - forgejo_db:/forgejo_db:rw
+      - gitea_data:/gitea_data:rw
+      - gitea_config:/gitea_config:rw
+      - gitea_db:/gitea_db:rw
 
     networks:
       - infra-network
@@ -78,4 +82,16 @@ volumes:
   minecraft_rcon_data:
     name: minecraft_rcon_data
 # forgejo
+  forgejo_data:
+    name: forgejo_data
+  forgejo_config:
+    name: forgejo_config
+  forgejo_db:
+    name: forgejo_db
 # gitea
+  gitea_data:
+    name: gitea_data
+  gitea_config:
+    name: gitea_config
+  gitea_db:
+    name: gitea_db

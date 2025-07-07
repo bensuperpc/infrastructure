@@ -67,6 +67,10 @@ state:
 	$(DOCKER_COMPOSE_COMMAND) ps
 	$(DOCKER_COMPOSE_COMMAND) top
 
+.PHONY: volumes
+volumes:
+	$(DOCKER_COMPOSE_COMMAND) config --volumes
+
 .PHONY: image-update
 image-update:
 	$(DOCKER_COMPOSE_COMMAND) pull
