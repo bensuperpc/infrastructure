@@ -44,6 +44,10 @@ start:
 start-at:
 	$(DOCKER_COMPOSE_COMMAND) up
 
+.PHONY: no-start
+no-start:
+	$(DOCKER_COMPOSE_COMMAND) up --no-start
+
 .PHONY: check
 check:
 	$(DOCKER_COMPOSE_COMMAND) config

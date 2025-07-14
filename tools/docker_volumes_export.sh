@@ -3,22 +3,24 @@
 set -euo pipefail
 
 volumes=(
+    7daystodie_backup
+    7daystodie_server_save
+    7daystodie_server_config_lgsm
+    7daystodie_server_log
+#    7daystodie_server_file
 #    satisfactory_server_config
     forgejo_data
     wordpress_db
     minecraft_proxy_data
-    7daystodie_server_save
     stirlingpdf_tessdata
     wordpress
     gitea_db
 #    wordpress_backup
-    7daystodie_server_config_lgsm
     projectsend_share
     transmission_config
 #    public_data
     projectsend_db
     projectsend_config
-    7daystodie_server_log
     open-webui
     minecraft_rcon_data
     jellyfin_cache
@@ -26,11 +28,9 @@ volumes=(
 #    satisfactory_backup
     homepage_log
     syncthing_config
-#    7daystodie_server_file
     openssh_config
     minecraft_server_backup
     qbittorrent_config
-    7daystodie_backup
     gitea_runner
     gitea_config
     minecraft_server_data
@@ -63,7 +63,7 @@ export_volume() {
 import_volume() {
     local volume="$1"
     echo "Importing volume: $volume from $(pwd)/$volume.tar.gz"
-    #docker run --rm -v "$volume:/dest" -v "$(pwd):/source" alpine sh -c 'apk add --no-cache tar && tar --numeric-owner -xpvzf /source/"$0.tar.gz" -C /dest' "$volume"
+    docker run --rm -v "$volume:/dest" -v "$(pwd):/source" alpine sh -c 'apk add --no-cache tar && tar --numeric-owner -xpvzf /source/"$0.tar.gz" -C /dest' "$volume"
 }
 
 echo "Starting sync process..."
