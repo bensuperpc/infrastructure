@@ -1,5 +1,5 @@
 {
-	email bensuperpc@gmail.com
+	email {$MAIL_DOMAIN}
 	key_type p384
 
 	log {
