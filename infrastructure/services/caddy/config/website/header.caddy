@@ -1,0 +1,14 @@
+(header_common) {
+	Permissions-Policy: geolocation=(), camera=(), microphone=(), clipboard-read=(), usb=()
+	Strict-Transport-Security: max-age=31536000; includeSubDomains
+	X-Content-Type-Options: nosniff
+	X-Frame-Options: DENY
+	Referrer-Policy: strict-origin-when-cross-origin
+	# Only useful for old browsers
+	X-XSS-Protection: "1; mode=block"
+
+	# Can cause issues with external resources
+	#Cross-Origin-Embedder-Policy: require-corp
+	Cross-Origin-Opener-Policy: same-origin
+	#Cross-Origin-Resource-Policy: same-origin
+}

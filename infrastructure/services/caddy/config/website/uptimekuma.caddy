@@ -1,0 +1,5 @@
+import header.caddy
+
+uptimekuma.{$MAIN_DOMAIN} {
+	reverse_proxy uptime-kuma:3001
+}

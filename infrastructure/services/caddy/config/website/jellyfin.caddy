@@ -1,0 +1,5 @@
+import header.caddy
+
+jellyfin.{$MAIN_DOMAIN} {
+	reverse_proxy jellyfin:8096
+}

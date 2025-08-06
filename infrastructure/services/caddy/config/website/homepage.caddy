@@ -1,0 +1,5 @@
+import header.caddy
+
+homepage.{$MAIN_DOMAIN} {
+	redir reverse_proxy homepage:3000
+}

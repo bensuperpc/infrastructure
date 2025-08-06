@@ -1,0 +1,9 @@
+import header.caddy
+
+transfer.{$MAIN_DOMAIN} {
+	reverse_proxy psitransfer:3000
+}
+
+psitransfer.{$MAIN_DOMAIN} {
+	redir https://transfer.{$MAIN_DOMAIN}{uri} permanent
+}

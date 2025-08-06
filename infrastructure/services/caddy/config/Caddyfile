@@ -3,13 +3,13 @@
 	key_type p384
 
 	log {
-		output file /data/logs/access.log
+		output file /data/logs/access.log {
+			roll_size 1GiB
+			roll_keep 20
+			roll_keep_for 720h
+		}
 		format json
 	}
 }
 
-import bensuperpc.org/*
-import bensuperpc.com/*
-import bensuperpc.net/*
-import bensuperpc.ovh/*
-import bensuperpc.fr/*
+import website/*

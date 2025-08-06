@@ -11,17 +11,18 @@
 #//                                                          //
 #//////////////////////////////////////////////////////////////
 
-ADMIN_SERVICES := openssh uptime-kuma yacht
-BLOG_SERVICES := wordpress
-7DAYS_TO_DIE_SERVICES := 7daystodie_server 7daystodie_backup
-MINECRAFT_SERVICES := minecraft_server minecraft_backup
-SATISFACTORY_SERVICES := satisfactory_server satisfactory_backup
-GIT_SERVICES := forgejo forgejo-runner
+ADMIN_SERVICES := openssh 
+#uptime-kuma yacht
+#BLOG_SERVICES := wordpress
+#7DAYS_TO_DIE_SERVICES := 7daystodie_server 7daystodie_backup
+#MINECRAFT_SERVICES := minecraft_server minecraft_backup
+#SATISFACTORY_SERVICES := satisfactory_server satisfactory_backup
+#GIT_SERVICES := forgejo forgejo-runner
 # gitea gitea-runner
-IA_SERVICES := open-webui
-SHARING_SERVICES := psitransfer picoshare privatebin projectsend jellyfin dufs syncthing
-TORRENTS_SERVICES := qbittorrent transmission
-UTILS_SERVICES := it-tools stirlingpdf omni-tools
+#IA_SERVICES := open-webui
+#SHARING_SERVICES := psitransfer picoshare privatebin projectsend jellyfin dufs syncthing
+#TORRENTS_SERVICES := qbittorrent transmission
+#UTILS_SERVICES := it-tools stirlingpdf omni-tools
 
 MAIN_SERVICES := main_infrastructure caddy homepage
 

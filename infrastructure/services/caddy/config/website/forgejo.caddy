@@ -1,0 +1,9 @@
+import header.caddy
+
+git.{$MAIN_DOMAIN} {
+	reverse_proxy forgejo:3000
+}
+
+forgejo.{$MAIN_DOMAIN} {
+	redir https://git.{$MAIN_DOMAIN}{uri} permanent
+}

@@ -1,0 +1,5 @@
+import header.caddy
+
+gitea.{$MAIN_DOMAIN} {
+	reverse_proxy gitea:3000
+}

@@ -1,0 +1,5 @@
+import header.caddy
+
+stirlingpdf.{$MAIN_DOMAIN} {
+	reverse_proxy stirlingpdf:8080
+}

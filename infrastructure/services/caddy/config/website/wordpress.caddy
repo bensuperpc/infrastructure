@@ -1,0 +1,36 @@
+import header.caddy
+
+wordpress.{$MAIN_DOMAIN} {
+	root * /var/www/html
+	php_fastcgi wordpress:9000
+
+	file_server
+	encode zstd gzip
+
+	@disallowed {
+		path /xmlrpc.php
+		path *.sql
+		path /wp-content/uploads/*.php
+	}
+
+	rewrite @disallowed '/index.php'
+
+	respond /uploads/*.php 404
+
+	header {
+		# disable FLoC tracking
+		Permissions-Policy interest-cohort=()
+
+		# enable HSTS
+		Strict-Transport-Security max-age=31536000;
+
+		# disable clients from sniffing the media type
+		X-Content-Type-Options nosniff
+
+		# clickjacking protection
+		# X-Frame-Options DENY
+
+		# Disable powerful features we don't need
+		Permissions-Policy "geolocation=(), camera=(), microphone=() interest-cohort=()"
+	}
+}

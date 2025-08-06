@@ -1,0 +1,11 @@
+import header.caddy
+
+omni-tools.{$MAIN_DOMAIN} {
+	# Load balance between 2 instances
+	reverse_proxy {
+		to omni-tools0:80 omni-tools1:80
+		lb_policy round_robin
+		lb_retries 3
+		lb_try_interval 1s
+	}
+}

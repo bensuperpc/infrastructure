@@ -1,0 +1,29 @@
+import header.caddy
+
+www.{$MAIN_DOMAIN} {
+	header {
+		Cache-Control "public, max-age=10"
+		import header_common
+	}
+
+	handle_errors {
+		@notFound expression `{http.error.status_code} == 404`
+		redir @notFound https://www.{$MAIN_DOMAIN} permanent
+	}
+
+	reverse_proxy homepage:3000
+}
+
+{$MAIN_DOMAIN} {
+	redir https://www.{host}{uri} permanent
+}
+
+public.{$MAIN_DOMAIN} {
+	root * /public_data
+	file_server browse
+
+	header / {
+		Cache-Control "no-store"
+		import header_common
+	}
+}

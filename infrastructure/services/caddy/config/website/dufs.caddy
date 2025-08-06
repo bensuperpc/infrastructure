@@ -1,0 +1,5 @@
+import header.caddy
+
+dufs.{$MAIN_DOMAIN} {
+	reverse_proxy dufs:5000
+}

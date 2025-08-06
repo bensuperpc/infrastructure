@@ -1,0 +1,5 @@
+import header.caddy
+
+transmission.{$MAIN_DOMAIN} {
+	reverse_proxy transmission:9091
+}

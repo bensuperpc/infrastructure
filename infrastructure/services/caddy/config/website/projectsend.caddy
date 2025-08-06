@@ -1,0 +1,5 @@
+import header.caddy
+
+projectsend.{$MAIN_DOMAIN} {
+	reverse_proxy projectsend:80
+}

@@ -1,0 +1,5 @@
+import header.caddy
+
+open-webui.{$MAIN_DOMAIN} {
+	reverse_proxy open-webui:8080
+}

@@ -1,0 +1,7 @@
+import header.caddy
+
+syncthing.{$MAIN_DOMAIN} {
+	reverse_proxy syncthing:8384 {
+		header_up Host {upstream_hostport}
+	}
+}

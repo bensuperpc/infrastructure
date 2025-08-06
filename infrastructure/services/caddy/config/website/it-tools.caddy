@@ -1,0 +1,11 @@
+import header.caddy
+
+it-tools.{$MAIN_DOMAIN} {
+	# Load balance between 2 instances
+	reverse_proxy {
+		to it-tools0:80 it-tools1:80
+		lb_policy round_robin
+		lb_retries 3
+		lb_try_interval 1s
+	}
+}

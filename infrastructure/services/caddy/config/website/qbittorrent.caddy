@@ -1,0 +1,9 @@
+import header.caddy
+
+torrent.{$MAIN_DOMAIN} {
+	reverse_proxy qbittorrent:8080
+}
+
+qbittorrent.{$MAIN_DOMAIN} {
+	redir https://torrent.{$MAIN_DOMAIN} permanent
+}

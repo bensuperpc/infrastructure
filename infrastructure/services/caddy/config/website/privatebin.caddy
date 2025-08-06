@@ -1,0 +1,9 @@
+import header.caddy
+
+privatebin.{$MAIN_DOMAIN} {
+	reverse_proxy privatebin:8080
+}
+
+pastebin.{$MAIN_DOMAIN} {
+	redir https://privatebin.{$MAIN_DOMAIN} permanent
+}

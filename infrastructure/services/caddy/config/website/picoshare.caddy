@@ -1,0 +1,5 @@
+import header.caddy
+
+picoshare.{$MAIN_DOMAIN} {
+	reverse_proxy picoshare:4001
+}

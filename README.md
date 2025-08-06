@@ -121,10 +121,6 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [public.bensuperpc.org](https://public.bensuperpc.org)             | Sub  | Caddy for file sharing                                       |
 | [memos.bensuperpc.org](https://memos.bensuperpc.org)               | Sub  | Caddy for file sharing                                       |
 | [stirlingpdf.bensuperpc.org](https://stirlingpdf.bensuperpc.org)   | Sub  | Stirling PDF tools                                           |
-| bensuperpc.com                                                     | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
-| bensuperpc.fr                                                      | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
-| bensuperpc.net                                                     | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
-| bensuperpc.ovh                                                     | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
 
 ### Configure the infrastructure
 

@@ -1,0 +1,5 @@
+import header.caddy
+
+yacht.{$MAIN_DOMAIN} {
+	reverse_proxy yacht:8000
+}
