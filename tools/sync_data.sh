@@ -10,4 +10,8 @@ fi
 SOURCE="${1}"
 DEST="${2}"
 
-rsync -e 'ssh -p 2222' --progress --human-readable --archive --verbose --compress --acls --xattrs --bwlimit=30000 --stats --delete-during "${SOURCE}" "${DEST}"
+# --bwlimit=30000 --whole-file
+
+rsync -e "ssh -p 2222 -o Compression=no" \
+  --progress --human-readable --archive --stats --verbose --acls --xattrs --stats --delete-during \
+  "${SOURCE}" "${DEST}"
