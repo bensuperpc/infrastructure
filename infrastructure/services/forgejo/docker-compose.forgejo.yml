@@ -63,7 +63,7 @@ services:
     networks:
       - infra-network
     profiles:
-      - forgejo
+      - forgejo-runner
     links:
       - docker-in-docker
     depends_on:

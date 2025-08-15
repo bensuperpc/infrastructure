@@ -51,6 +51,11 @@ volumes=(
     gitea_data
     jellyfin_config
     picoshare_data
+    forgejo_data
+    forgejo_config
+    forgejo_db
+    forgejo_certs
+    forgejo_runner
 )
 
 export_volume() {

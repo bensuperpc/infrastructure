@@ -1,5 +1,3 @@
-import header.caddy
-
 memos.{$MAIN_DOMAIN} {
 	reverse_proxy memos:5230
 }
