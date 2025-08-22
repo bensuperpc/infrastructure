@@ -1,7 +1,7 @@
-it-tools.{$MAIN_DOMAIN} {
+cyberchef.{$MAIN_DOMAIN} {
 	# Load balance between 2 instances
 	reverse_proxy {
-		to it-tools0:8080 it-tools1:8080
+		to cyberchef0:8000 cyberchef1:8000
 		lb_policy round_robin
 		lb_retries 3
 		lb_try_interval 1s

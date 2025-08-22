@@ -1,10 +1,10 @@
 services:
-  # it-tools
-  it-tools0:
-    image: ghcr.io/sharevb/it-tools:latest
-    container_name: it-tools0
+  # cyberchef
+  cyberchef0:
+    image: mpepping/cyberchef:latest
+    container_name: cyberchef0
     profiles:
-      - it-tools
+      - cyberchef
     restart: on-failure:5
     depends_on:
       - caddy
@@ -25,11 +25,11 @@ services:
           cpus: '0.001'
           memory: 20M
 
-  it-tools1:
-    image: ghcr.io/sharevb/it-tools:latest
-    container_name: it-tools1
+  cyberchef1:
+    image: mpepping/cyberchef:latest
+    container_name: cyberchef1
     profiles:
-      - it-tools
+      - cyberchef
     restart: on-failure:5
     depends_on:
       - caddy

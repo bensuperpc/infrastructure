@@ -17,6 +17,8 @@ include:
   - services/it-tools/docker-compose.it-tools.yml
 # omni-tools
   - services/omni-tools/docker-compose.omni-tools.yml
+# cyberchef
+  - services/cyberchef/docker-compose.cyberchef.yml
 # Jellyfin
   - services/jellyfin/docker-compose.jellyfin.yml
 # Openssh

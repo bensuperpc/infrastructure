@@ -84,6 +84,12 @@
         description: Omni Tools
         ping: omni-tools.bensuperpc.org
         container: omni-tools0
+    - cyberchef:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/cyberchef.png
+        href: https://cyberchef.bensuperpc.org/
+        description: CyberChef
+        ping: cyberchef.bensuperpc.org
+        container: cyberchef0
     - stirlingpdf:
         #icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/stirlingpdf.png
         href: https://stirlingpdf.bensuperpc.org/

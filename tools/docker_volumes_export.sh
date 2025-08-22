@@ -7,14 +7,17 @@ volumes=(
     7daystodie_server_save
     7daystodie_server_config_lgsm
     7daystodie_server_log
-#    7daystodie_server_file
+    7daystodie_server_file
 #    satisfactory_server_config
+#    satisfactory_backup
     forgejo_data
     wordpress_db
     minecraft_proxy_data
+    minecraft_rcon_data
+    minecraft_server_data
+    minecraft_server_backup
     stirlingpdf_tessdata
     wordpress
-    gitea_db
 #    wordpress_backup
     projectsend_share
     transmission_config
@@ -22,33 +25,26 @@ volumes=(
     projectsend_db
     projectsend_config
     open-webui
-    minecraft_rcon_data
     jellyfin_cache
     caddy_backup
-#    satisfactory_backup
+    caddy_config
+    caddy_data
     homepage_log
     syncthing_config
     openssh_config
-    minecraft_server_backup
     qbittorrent_config
-    gitea_runner
-    gitea_config
-    minecraft_server_data
     ollama
-    caddy_data
-    forgejo_config
     stirlingpdf_config
     uptimekuma_data
 #    private_data
     yacht_config
     transmission_watch
-    forgejo_db
     privatebin_data
-    caddy_config
     psitransfer_data
-    forgejo_certs
-    forgejo_runner
-    gitea_data
+#    gitea_db
+#    gitea_data
+#    gitea_runner
+#    gitea_config
     jellyfin_config
     picoshare_data
     forgejo_data

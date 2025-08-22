@@ -14,8 +14,8 @@ services:
     volumes:
       - openssh_config:/config:rw
       - ./config/authorized_keys:/authorized_ssh_keys:ro
-      - public_data:/public:rw
-      - private_data:/private:rw
+      - public_data:/public_data:rw
+      - private_data:/private_data:rw
       - caddy_data:/caddy_data:rw
       - caddy_config:/caddy_config:rw
       - caddy_backup:/caddy_backup:rw

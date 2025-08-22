@@ -15,7 +15,7 @@ services:
       - ./env/homepage.env
     volumes:
       - homepage_log:/app/logs
-      - ./config:/app/config:ro
+      - ./config:/app/config
       - ./image:/app/public/image:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
 #    develop:
