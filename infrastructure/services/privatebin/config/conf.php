@@ -39,16 +39,29 @@ defaultformatter = "plaintext"
 ; (optional) set a syntax highlighting theme, as found in css/prettify/
 ; syntaxhighlightingtheme = "sons-of-obsidian"
 
-; size limit per paste or comment in bytes, defaults to 10 Mebibytes
-sizelimit = 10485760
+; size limit per document or comment in bytes, defaults to 10 Megabytes
+sizelimit = 10000000
 
-; template to include, default is "bootstrap" (tpl/bootstrap.php), also
-; available are "page" (tpl/page.php), the classic ZeroBin style and several
-; bootstrap variants: "bootstrap-dark", "bootstrap-compact", "bootstrap-page",
-; which can be combined with "-dark" and "-compact" for "bootstrap-dark-page"
-; and finally "bootstrap-compact-page" - previews at:
+; by default PrivateBin use "bootstrap5" template (tpl/bootstrap5.php).
+; Optionally you can enable the template selection menu, which uses
+; a session cookie to store the choice until the browser is closed.
+templateselection = false
+
+; List of available for selection templates when "templateselection" option is enabled
+availabletemplates[] = "bootstrap5"
+availabletemplates[] = "bootstrap"
+availabletemplates[] = "bootstrap-page"
+availabletemplates[] = "bootstrap-dark"
+availabletemplates[] = "bootstrap-dark-page"
+availabletemplates[] = "bootstrap-compact"
+availabletemplates[] = "bootstrap-compact-page"
+
+; set the template your installs defaults to, defaults to "bootstrap5" (tpl/bootstrap5.php), also
+; bootstrap template (tpl/bootstrap.php) and it's variants: "bootstrap-dark", "bootstrap-compact", "bootstrap-page",
+; which can be combined with "-dark" and "-compact" for "bootstrap-dark-page",
+; "bootstrap-compact-page" - previews at:
 ; https://privatebin.info/screenshots.html
-template = "bootstrap-dark"
+; template = "bootstrap5"
 
 ; (optional) info text to display
 ; use single, instead of double quotes for HTML attributes
@@ -66,17 +79,22 @@ languageselection = false
 ; if this is set and language selection is disabled, this will be the only language
 ; languagedefault = "en"
 
-; (optional) URL shortener address to offer after a new paste is created.
+; (optional) URL shortener address to offer after a new document is created.
 ; It is suggested to only use this with self-hosted shorteners as this will leak
-; the pastes encryption key.
+; the documents encryption key.
 ; urlshortener = "https://shortener.example.com/api?link="
 
-; (optional) Let users create a QR code for sharing the paste URL with one click.
-; It works both when a new paste is created and when you view a paste.
+; (optional) Whether to shorten the URL by default when a new document is created.
+; If set to true, the "Shorten URL" functionality will be automatically called.
+; This only works if the "urlshortener" option is set.
+; shortenbydefault = false
+
+; (optional) Let users create a QR code for sharing the document URL with one click.
+; It works both when a new document is created and when you view a document.
 ; qrcode = true
 
-; (optional) Let users send an email sharing the paste URL with one click.
-; It works both when a new paste is created and when you view a paste.
+; (optional) Let users send an email sharing the document URL with one click.
+; It works both when a new document is created and when you view a document.
 ; email = true
 
 ; (optional) IP based icons are a weak mechanism to detect if a comment was from
@@ -84,7 +102,7 @@ languageselection = false
 ; used to get the IP of a comment poster if the server salt is leaked and a
 ; SHA512 HMAC rainbow table is generated for all (relevant) IPs.
 ; Can be set to one these values:
-; "none" / "identicon" (default) / "jdenticon" / "vizhash".
+; "none" / "identicon" / "jdenticon" (default) / "vizhash".
 ; icon = "none"
 
 ; Content Security Policy headers allow a website to restrict what sources are
@@ -93,24 +111,21 @@ languageselection = false
 ; scripts or run your site behind certain DDoS-protection services.
 ; Check the documentation at https://content-security-policy.com/
 ; Notes:
-; - If you use any bootstrap theme, you can remove the allow-popups from the
-;   sandbox restrictions.
-; - If you use the bootstrap5 theme, you must change default-src to 'self' to
-;   enable display of the svg icons
 ; - By default this disallows to load images from third-party servers, e.g. when
-;   they are embedded in pastes. If you wish to allow that, you can adjust the
+;   they are embedded in documents. If you wish to allow that, you can adjust the
 ;   policy here. See https://github.com/PrivateBin/PrivateBin/wiki/FAQ#why-does-not-it-load-embedded-images
 ;   for details.
-; - The 'unsafe-eval' is used in two cases; to check if the browser supports
-;   async functions and display an error if not and for Chrome to enable
-;   webassembly support (used for zlib compression). You can remove it if Chrome
-;   doesn't need to be supported and old browsers don't need to be warned.
-; cspheader = "default-src 'none'; base-uri 'self'; form-action 'none'; manifest-src 'self'; connect-src * blob:; script-src 'self' 'unsafe-eval'; style-src 'self'; font-src 'self'; frame-ancestors 'none'; img-src 'self' data: blob:; media-src blob:; object-src blob:; sandbox allow-same-origin allow-scripts allow-forms allow-popups allow-modals allow-downloads"
-
-; stay compatible with PrivateBin Alpha 0.19, less secure
-; if enabled will use base64.js version 1.7 instead of 2.1.9 and sha1 instead of
-; sha256 in HMAC for the deletion token
-; zerobincompatibility = false
+; - The 'wasm-unsafe-eval' is used to enable webassembly support (used for zlib
+;   compression). You can remove it if compression doesn't need to be supported.
+; - The 'unsafe-inline' style-src is used by Chrome when displaying PDF previews
+;   and can be omitted if attachment upload is disabled (which is the default).
+;   See https://issues.chromium.org/issues/343754409
+; - To allow displaying PDF previews in Firefox or Chrome, sandboxing must also
+;   get turned off. The following CSP allows PDF previews:
+; cspheader = "default-src 'none'; base-uri 'self'; form-action 'none'; manifest-src 'self'; connect-src * blob:; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self'; frame-ancestors 'none'; frame-src blob:; img-src 'self' data: blob:; media-src blob:; object-src blob:"
+;
+; The recommended and default used CSP is:
+; cspheader = "default-src 'none'; base-uri 'self'; form-action 'none'; manifest-src 'self'; connect-src * blob:; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; font-src 'self'; frame-ancestors 'none'; frame-src blob:; img-src 'self' data: blob:; media-src blob:; object-src blob:; sandbox allow-same-origin allow-scripts allow-forms allow-modals allow-downloads"
 
 ; Enable or disable the warning message when the site is served over an insecure
 ; connection (insecure HTTP instead of HTTPS), defaults to true.
@@ -119,7 +134,7 @@ languageselection = false
 ; See https://github.com/PrivateBin/PrivateBin/wiki/FAQ#why-does-it-show-me-an-error-about-an-insecure-connection for more information.
 ; httpwarning = true
 
-; Pick compression algorithm or disable it. Only applies to pastes/comments
+; Pick compression algorithm or disable it. Only applies to documents & comments
 ; created after changing the setting.
 ; Can be set to one these values: "none" / "zlib" (default).
 ; compression = "zlib"
@@ -160,9 +175,9 @@ limit = 10
 ; exempted = "1.2.3.4,10.10.10/24"
 
 ; (optional) If you want only some source IP addresses (v4 or v6) or subnets
-; (CIDR) to be allowed to create pastes, set these here. Invalid IPs will be
+; (CIDR) to be allowed to create documents, set these here. Invalid IPs will be
 ; ignored. If multiple values are to be exempted, the list needs to be comma
-; separated. Leave unset to allow anyone to create pastes.
+; separated. Leave unset to allow anyone to create documents.
 ; creators = "1.2.3.4,10.10.10/24"
 
 ; (optional) if your website runs behind a reverse proxy or load balancer,
@@ -170,12 +185,12 @@ limit = 10
 ; header = "X_FORWARDED_FOR"
 
 [purge]
-; minimum time limit between two purgings of expired pastes, it is only
-; triggered when pastes are created
-; Set this to 0 to run a purge every time a paste is created.
+; minimum time limit between two purgings of expired documents, it is only
+; checked when documents get created
+; Set this to 0 to run a purge every time a document is created.
 limit = 300
 
-; maximum amount of expired pastes to delete in one purge
+; maximum amount of expired documents to delete in one purge
 ; Set this to 0 to disable purging. Set it higher, if you are running a large
 ; site
 batchsize = 10
@@ -259,7 +274,7 @@ dir = PATH "data"
 ;version = "latest"
 ;bucket = "my-bucket"
 
-[yourls]
+;[yourls]
 ; When using YOURLS as a "urlshortener" config item:
 ; - By default, "urlshortener" will point to the YOURLS API URL, with or without
 ;   credentials, and will be visible in public on the PrivateBin web page.
@@ -280,4 +295,4 @@ dir = PATH "data"
 ; Subresource integrity (SRI) hashes used in template files. Uncomment and set
 ; these for all js files used. See:
 ; https://github.com/PrivateBin/PrivateBin/wiki/FAQ#user-content-how-to-make-privatebin-work-when-i-have-changed-some-javascript-files
-;privatebin.js = sha512-[…]
+;js/privatebin.js = "sha512-[…]"

@@ -1,7 +1,7 @@
 services:
   # forgejo
   forgejo:
-    image: codeberg.org/forgejo/forgejo:11-rootless
+    image: codeberg.org/forgejo/forgejo:12-rootless
     container_name: forgejo
     profiles:
       - forgejo
@@ -10,7 +10,7 @@ services:
       - database_forgejo
       - caddy
     ports:
-      - "22:22"
+      - "22:2222"
     env_file:
       - ./env/forgejo.env
     volumes:
@@ -20,6 +20,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
     networks:
       - infra-network
+    user: ${PUID:-1000}:${PGID:-1000} 
     security_opt:
       - no-new-privileges:true
   

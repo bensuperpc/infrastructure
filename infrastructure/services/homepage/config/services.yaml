@@ -64,12 +64,12 @@
         description: Dufs
         ping: dufs.bensuperpc.org
         container: dufs
-    - caddy:
-        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/caddy.png
-        href: https://public.bensuperpc.org/
-        description: File browser
-        ping: public.bensuperpc.org
-        container: caddy
+#    - caddy:
+#        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/caddy.png
+#        href: https://public.bensuperpc.org/
+#        description: File browser
+#        ping: public.bensuperpc.org
+#        container: caddy
 
 - Utils:
     - it-tools:
@@ -142,10 +142,4 @@
         description: Uptime Kuma
         ping: uptimekuma.bensuperpc.org
         container: uptime-kuma
-    - yacht:
-#        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/yacht.png
-        href: https://yacht.bensuperpc.org/
-        description: Yacht
-        ping: yacht.bensuperpc.org
-        container: yacht
 

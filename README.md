@@ -23,7 +23,6 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [x] it-tools and omni-tools (Tools for IT)
 - [x] Open-WebUI (Local chatGPT)
 - [x] Privatebin (Pastebin)
-- [x] Yacht (Web interface for managing docker containers)
 - [X] [Satisfactory](https://github.com/bensuperpc/docker-satisfactory)
 - [x] [7 days to die](https://github.com/bensuperpc/docker-7daystodie)
 - [x] [minecraft](https://github.com/bensuperpc/docker-minecraft-server)
@@ -114,11 +113,9 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [it-tools.bensuperpc.org](https://it-tools.bensuperpc.org)         | Sub  | Tools for IT                                                 |
 | [omni-tools.bensuperpc.org](https://omni-tools.bensuperpc.org)     | Sub  | Tools for IT                                                 |
 | [privatebin.bensuperpc.org](https://privatebin.bensuperpc.org)     | Sub  | Pastebin                                                     |
-| [yacht.bensuperpc.org](https://yacht.bensuperpc.org)               | Sub  | Web interface for managing docker containers                 |
 | [projectsend.bensuperpc.org](https://projectsend.bensuperpc.org)   | Sub  | ProjectSend for file sharing                                 |
 | [picoshare.bensuperpc.org](https://picoshare.bensuperpc.org)       | Sub  | Picoshare for file sharing                                   |
 | [dufs.bensuperpc.org](https://dufs.bensuperpc.org)                 | Sub  | Dufs for file sharing                                        |
-| [public.bensuperpc.org](https://public.bensuperpc.org)             | Sub  | Caddy for file sharing                                       |
 | [memos.bensuperpc.org](https://memos.bensuperpc.org)               | Sub  | Caddy for file sharing                                       |
 | [stirlingpdf.bensuperpc.org](https://stirlingpdf.bensuperpc.org)   | Sub  | Stirling PDF tools                                           |
 
@@ -189,12 +186,6 @@ For [psitransfer.env](infrastructure/services/psitransfer/env/psitransfer.env) f
 
 ```sh
 PSITRANSFER_ADMIN_PASS=n9jLVNT9QUotTJTT91JqH4GyBTg9pvEn
-```
-
-For [yacht.env](infrastructure/services/yacht/env/yacht.env) file, you need to change the secret key.
-
-```sh
-SECRET_KEY=UZvg9nbcGIJlPEB3uI39TAEWyFOz9nm8
 ```
 
 For [projectsend_db.env](infrastructure/services/projectsend/env/projectsend_db.env) file, you need to change the password(s) and user for the database.
@@ -296,6 +287,14 @@ You can change the homepage config in these files:
 
 ### Forgejo
 
+Once the installation is complete, you need to set the installation lock:
+
+```sh
+FORGEJO__security__INSTALL_LOCK=true
+```
+
+### Forgejo Runner
+
 ```sh
 docker exec -it forgejo_runner /bin/bash
 ```
@@ -380,7 +379,6 @@ ssh -p 2222 admin@bensuperpc.org
 - [Privatebin](https://github.com/PrivateBin/PrivateBin)
 - [ghost](https://ghost.org)
 - [Homepage Tuto](https://belginux.com/installer-homepage-avec-docker/)
-- [Yacht](https://yacht.sh/)
 - [ProjectSend](https://www.projectsend.org/)
 - [Picoshare](https://github.com/mtlynch/picoshare)
 - [Dufs](https://github.com/sigoden/dufs)

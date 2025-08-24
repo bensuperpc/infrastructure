@@ -41,8 +41,6 @@ include:
   - services/transmission/docker-compose.transmission.yml
 # Uptime-kuma
   - services/uptime-kuma/docker-compose.uptime-kuma.yml
-# Yacht
-  - services/yacht/docker-compose.yacht.yml
 # open-webui
   - services/open-webui/docker-compose.open-webui.yml
 # Minecraft

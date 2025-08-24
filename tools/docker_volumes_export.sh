@@ -37,7 +37,6 @@ volumes=(
     stirlingpdf_config
     uptimekuma_data
 #    private_data
-    yacht_config
     transmission_watch
     privatebin_data
     psitransfer_data

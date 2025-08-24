@@ -16,12 +16,12 @@ www.{$MAIN_DOMAIN} {
 	redir https://www.{host}{uri} permanent
 }
 
-public.{$MAIN_DOMAIN} {
-	root * /public_data
-	file_server browse
-
-	header / {
-		Cache-Control "no-store"
-		import header_common
-	}
-}
+#public.{$MAIN_DOMAIN} {
+#	root * /public_data
+#	file_server browse
+#
+#	header / {
+#		Cache-Control "no-store"
+#		import header_common
+#	}
+#}
