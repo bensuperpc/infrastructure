@@ -1,0 +1,27 @@
+services:
+  teamfortress2_backup:
+    image: mazzolino/restic:latest
+    container_name: teamfortress2_backup
+    profiles:
+      - teamfortress2_backup
+    depends_on:
+      - teamfortress2_server
+    restart: on-failure:5
+    env_file:
+      - ./env/teamfortress2_backup.env
+    volumes:
+      - teamfortress2_backup:/mnt/restic
+      - teamfortress2_data:/data:ro
+    security_opt:
+      - no-new-privileges:true
+    network_mode: none
+    cap_drop:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_ADMIN
+
+volumes:
+  teamfortress2_backup:
+    name: teamfortress2_backup
+  teamfortress2_data:
+    name: teamfortress2_data

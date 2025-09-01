@@ -51,7 +51,7 @@ services:
     networks:
       - infra-network
     profiles:
-      - forgejo
+      - forgejo-runner
     privileged: true
     environment:
       DOCKER_TLS_CERTDIR: /certs
@@ -60,7 +60,7 @@ services:
       - forgejo_certs:/certs
 
   forgejo_runner:
-    image: 'code.forgejo.org/forgejo/runner:6.3.1'
+    image: data.forgejo.org/forgejo/runner:9
     networks:
       - infra-network
     profiles:
@@ -73,7 +73,7 @@ services:
     container_name: 'forgejo_runner'
     env_file:
       - ./env/forgejo_runner.env
-#    user: 1001:1001
+    user: ${PUID:-1000}:${PGID:-1000} 
     volumes:
 #      - ./config/forgejo_runner/config.yaml:/config.yaml:ro
       - forgejo_runner:/data

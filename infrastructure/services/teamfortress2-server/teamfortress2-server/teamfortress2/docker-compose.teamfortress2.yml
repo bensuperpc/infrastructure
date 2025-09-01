@@ -1,0 +1,39 @@
+services:
+  # Team Fortress 2 server
+  teamfortress2_server:
+    image: cm2network/tf2:latest-x64
+    container_name: teamfortress2_server
+    profiles:
+      - teamfortress2_server
+    restart: on-failure:5
+    ports:
+     - "27015:27015/tcp"
+     - "27015:27015/udp"
+    volumes:
+      - teamfortress2_data:/home/steam/tf-dedicated
+    networks:
+      - infra-network
+    env_file:
+      - ./env/teamfortress2.env
+#    environment:
+#      - PUID=${PUID:-1000}
+#      - PGID=${PGID:-1000}
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - SYS_ADMIN
+    deploy:
+      resources:
+        limits:
+          memory: 16G
+        reservations:
+          memory: 4G
+
+volumes:
+  teamfortress2_data:
+    name: teamfortress2_data
+
+networks:
+  infra-network:
+    driver: bridge
+    name: infra-network

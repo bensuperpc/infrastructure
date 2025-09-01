@@ -49,3 +49,5 @@ include:
   - services/7daystodie-server/7daystodie-server/docker-compose.yml
 # Satisfactory
   - services/satisfactory-server/satisfactory-server/docker-compose.yml
+# Team Fortress 2
+  - services/teamfortress2-server/teamfortress2-server/docker-compose.yml

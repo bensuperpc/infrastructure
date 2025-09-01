@@ -1,0 +1,36 @@
+services:
+  # openssh
+  teamfortress2_openssh:
+    image: linuxserver/openssh-server:latest
+    container_name: teamfortress2_openssh
+    profiles:
+      - teamfortress2_openssh
+    depends_on:
+      - teamfortress2_server
+    restart: on-failure:5
+    env_file:
+      - ./env/openssh.env
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+    volumes:
+      - teamfortress2_openssh_config:/config
+      - ./config/authorized_keys:/authorized_ssh_keys:ro
+      - teamfortress2_backup:/teamfortress2_backup
+      - teamfortress2_data:/teamfortress2_data
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:false
+    cap_drop:
+      - SYS_ADMIN
+    ports:
+      - 2222:2222
+
+volumes:
+  teamfortress2_openssh_config:
+    name: teamfortress2_openssh_config
+  teamfortress2_backup:
+    name: teamfortress2_backup
+  teamfortress2_data:
+    name: teamfortress2_data

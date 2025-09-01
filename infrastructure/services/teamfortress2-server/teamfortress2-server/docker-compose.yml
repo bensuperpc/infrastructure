@@ -1,0 +1,7 @@
+include:
+# Team Fortress 2 server
+  - teamfortress2/docker-compose.teamfortress2.yml
+# OpenSSH server
+  - openssh/docker-compose.openssh.yml
+# Backup server
+  - backup/docker-compose.backup.yml

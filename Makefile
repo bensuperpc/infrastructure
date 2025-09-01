@@ -16,8 +16,8 @@ ADMIN_SERVICES := openssh uptime-kuma
 #7DAYS_TO_DIE_SERVICES := 7daystodie_server 7daystodie_backup
 #MINECRAFT_SERVICES := minecraft_server minecraft_backup
 #SATISFACTORY_SERVICES := satisfactory_server satisfactory_backup
-GIT_SERVICES := forgejo
-# forgejo-runner
+TEAM_FORTRESS_SERVICES := teamfortress2_server
+# teamfortress2_backup
 # gitea gitea-runner
 #IA_SERVICES := open-webui
 SHARING_SERVICES := privatebin

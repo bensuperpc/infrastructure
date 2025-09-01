@@ -36,6 +36,8 @@ services:
       - gitea_data:/gitea_data:rw
       - gitea_config:/gitea_config:rw
       - gitea_db:/gitea_db:rw
+      - teamfortress2_backup:/teamfortress2_backup:rw
+      - teamfortress2_data:/teamfortress2_data:rw
 
     networks:
       - infra-network
@@ -81,6 +83,11 @@ volumes:
     name: minecraft_proxy_data
   minecraft_rcon_data:
     name: minecraft_rcon_data
+# teamfortress2
+  teamfortress2_backup:
+    name: teamfortress2_backup
+  teamfortress2_data:
+    name: teamfortress2_data
 # forgejo
   forgejo_data:
     name: forgejo_data
