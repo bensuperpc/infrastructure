@@ -1,7 +1,7 @@
 services:
   # Team Fortress 2 server
   teamfortress2_server:
-    image: cm2network/tf2:latest-x64
+    image: cm2network/tf2:sourcemod-x64
     container_name: teamfortress2_server
     profiles:
       - teamfortress2_server

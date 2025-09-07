@@ -10,8 +10,10 @@ services:
         condition: service_completed_successfully
     restart: on-failure:5
     ports:
-      - 80:80
-      - 443:443
+      - 80:80/tcp
+      - 80:80/udp
+      - 443:443/tcp
+      - 443:443/udp
     volumes:
       - caddy_data:/data:rw
       - caddy_config:/config:rw

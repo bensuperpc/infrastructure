@@ -19,6 +19,7 @@ services:
     volumes:
       - qbittorrent_config:/config
       - public_data:/downloads
+      - private_data:/private_downloads
     networks:
       - infra-network
     security_opt:
