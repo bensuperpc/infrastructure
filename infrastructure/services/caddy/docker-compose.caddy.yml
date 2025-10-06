@@ -1,7 +1,7 @@
 services:
   # Caddy
   caddy:
-    image: caddy:latest
+    image: bensuperpc/caddy-l4:latest
     container_name: caddy
     profiles:
       - caddy

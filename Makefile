@@ -11,29 +11,21 @@
 #//                                                          //
 #//////////////////////////////////////////////////////////////
 
-ADMIN_SERVICES := openssh uptime-kuma
+#ADMIN_SERVICES := openssh
+# uptime-kuma
 #BLOG_SERVICES := wordpress
-#7DAYS_TO_DIE_SERVICES := 7daystodie_server 7daystodie_backup
-#MINECRAFT_SERVICES := minecraft_server minecraft_backup
-#SATISFACTORY_SERVICES := satisfactory_server satisfactory_backup
-TEAM_FORTRESS_SERVICES := teamfortress2_server
-# teamfortress2_backup
-# gitea gitea-runner
 #IA_SERVICES := open-webui
-SHARING_SERVICES := privatebin
+#SHARING_SERVICES := privatebin
 # jellyfin
 # psitransfer picoshare projectsend dufs syncthing
-TORRENTS_SERVICES := qbittorrent
-# transmission
-UTILS_SERVICES := it-tools omni-tools cyberchef
+#UTILS_SERVICES := it-tools omni-tools cyberchef
+# homepage
 # stirlingpdf
-MAIN_SERVICES := main_infrastructure caddy homepage
 
 PROJECT_DIRECTORY := infrastructure
+CONFIG_DIRECTORY := configs
 
-DOCKER_PROFILES := $(MAIN_SERVICES) $(ADMIN_SERVICES) $(BLOG_SERVICES) \
-	$(7DAYS_TO_DIE_SERVICES) $(MINECRAFT_SERVICES) $(SATISFACTORY_SERVICES) \
-	$(GIT_SERVICES) $(IA_SERVICES) $(SHARING_SERVICES) \
-	$(TORRENTS_SERVICES) $(UTILS_SERVICES)
+CONFIGS := torrent
+#DOCKER_PROFILES := 
 
 include DockerCompose.mk

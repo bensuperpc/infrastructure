@@ -15,9 +15,14 @@ PROJECT_DIRECTORY ?= infrastructure
 
 DOCKER_EXEC ?= docker
 
-DOCKER_PROFILES ?= main_infrastructure
+CONFIG_DIRECTORY ?= configs
+CONFIG_FILES ?= $(addprefix $(CONFIG_DIRECTORY)/,$(addsuffix .conf,$(CONFIGS)))
+include $(CONFIG_FILES)
 
-PROFILE_CMD ?= $(addprefix --profile ,$(DOCKER_PROFILES))
+DOCKER_PROFILES ?=
+EXTRA_PROFILES ?=
+
+PROFILE_CMD ?= $(addprefix --profile ,$(DOCKER_PROFILES) $(EXTRA_PROFILES))
 
 COMPOSE_FILES ?=  $(shell find ./$(PROJECT_DIRECTORY) -maxdepth 1 -name 'docker-compose*.yml' -type f | sed -e 's/^/--file /')
 COMPOSE_DIR ?= --project-directory ./$(PROJECT_DIRECTORY)
@@ -32,39 +37,19 @@ DOCKER_COMPOSE_COMMAND ?= $(ENV_ARG_VAR) $(DOCKER_EXEC) compose $(COMPOSE_DIR) $
 .PHONY: build all
 all: start
 
-.PHONY: build
-build:
-	$(DOCKER_COMPOSE_COMMAND) build
+GENERIC_TARGETS := build down up run config logs pull images start restart stop
 
-.PHONY: start
-start:
+.PHONY: $(GENERIC_TARGETS)
+$(GENERIC_TARGETS):
+	$(DOCKER_COMPOSE_COMMAND) $@
+
+.PHONY: start-detached
+start-detached:
 	$(DOCKER_COMPOSE_COMMAND) up -d
-
-.PHONY: start-at
-start-at:
-	$(DOCKER_COMPOSE_COMMAND) up
 
 .PHONY: no-start
 no-start:
 	$(DOCKER_COMPOSE_COMMAND) up --no-start
-
-.PHONY: check
-check:
-	$(DOCKER_COMPOSE_COMMAND) config
-
-.PHONY: stop
-stop: down
-
-.PHONY: down
-down:
-	$(DOCKER_COMPOSE_COMMAND) down
-
-.PHONY: restart
-restart: stop start
-
-.PHONY: logs
-logs:
-	$(DOCKER_COMPOSE_COMMAND) logs
 
 .PHONY: state
 state:
@@ -74,10 +59,6 @@ state:
 .PHONY: volumes
 volumes:
 	$(DOCKER_COMPOSE_COMMAND) config --volumes
-
-.PHONY: image-update
-image-update:
-	$(DOCKER_COMPOSE_COMMAND) pull
 
 .PHONY: git-update
 git-update: 
