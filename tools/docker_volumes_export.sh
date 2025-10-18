@@ -40,10 +40,6 @@ volumes=(
     transmission_watch
     privatebin_data
     psitransfer_data
-#    gitea_db
-#    gitea_data
-#    gitea_runner
-#    gitea_config
     jellyfin_config
     picoshare_data
     forgejo_data

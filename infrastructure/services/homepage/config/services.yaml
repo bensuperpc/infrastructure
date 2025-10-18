@@ -96,12 +96,6 @@
         description: StirlingPDF
         ping: stirlingpdf.bensuperpc.org
         container: stirlingpdf
-    - gitea:
-        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/gitea.png
-        href: https://gitea.bensuperpc.org/
-        description: Gitea
-        ping: gitea.bensuperpc.org
-        container: gitea
     - forgejo:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/forgejo.png
         href: https://forgejo.bensuperpc.org/

@@ -14,7 +14,6 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 - [x] Docker / docker-compose
 - [x] Wordpress (Via FASTCGI/caddy)
 - [x] Jellyfin (Media server)
-- [x] Gitea (Git server)
 - [x] Forgejo (Git server, fork of Gitea)
 - [x] Uptime Kuma (Monitoring)
 - [x] qbittorrent and transmission (Torrent client/server)
@@ -56,7 +55,6 @@ List of ports used by the services in this infrastructure:
 | 443         | Caddy         | HTTPS traffic     |
 | 22          | Forgejo       | Git/SSH access    |
 | 2222        | OpenSSH       | Global SSH access |
-| 5555        | Gitea         | Git/SSH access    |
 | 7777        | Satisfactory  | Game server port  |
 | 25565       | Minecraft     | Game server port  |
 | 26900       | 7 Days to Die | Game server port  |
@@ -103,7 +101,6 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org)     | Sub  | Uptime Kuma for monitoring                                   |
 | [qbittorrent.bensuperpc.org](https://qbittorrent.bensuperpc.org)   | Sub  | Torrent client/server                                        |
 | [transmission.bensuperpc.org](https://transmission.bensuperpc.org) | Sub  | Torrent client/server                                        |
-| [gitea.bensuperpc.org](https://gitea.bensuperpc.org)               | Sub  | Gitea for git                                                |
 | [forgejo.bensuperpc.org](https://forgejo.bensuperpc.org/)          | Sub  | Fork of Gitea for git                                        |
 | [git.bensuperpc.org](https://git.bensuperpc.org)                   | Sub  | Fork of Gitea for git                                        |
 | [link.bensuperpc.org](https://link.bensuperpc.org)                 | Sub  | For link shortener                                           |
@@ -160,24 +157,6 @@ For [wordpress_backup.env](infrastructure/services/wordpress/env/wordpress_backu
 
 ```sh
 RESTIC_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
-```
-
-#### Gitea
-
-For [gitea.env](infrastructure/services/gitea/env/gitea.env) file, you need to change the password(s) and user for the database.
-
-```sh
-GITEA__database__USER=bensuperpc
-GITEA__database__PASSWD=K7s5yoHknnEd7vsZoxb8I3dK9mjToF1j
-GITEA__security__SECRET_KEY=ykcZt23an1E4lFHWvrCKdAyt16WAiK9c
-```
-
-For [gitea_db.env](infrastructure/services/gitea/env/gitea_db.env) file, you need to change the password(s) and user for the database.
-
-```sh
-MARIADB_ROOT_PASSWORD=xpc4zIhHZzWKqVHcjBu4aW6aS7jG8d7X
-MARIADB_USER=bensuperpc
-MARIADB_PASSWORD=K7s5yoHknnEd7vsZoxb8I3dK9mjToF1j
 ```
 
 #### PsiTransfer

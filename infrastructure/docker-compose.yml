@@ -7,8 +7,6 @@ include:
   - services/caddy/docker-compose.caddy.yml
 # Dufs
   - services/dufs/docker-compose.dufs.yml
-# Gitea
-  - services/gitea/docker-compose.gitea.yml
 # Forgejo
   - services/forgejo/docker-compose.forgejo.yml
 # Homepage

@@ -28,7 +28,3 @@ networks:
   infra-network:
     driver: bridge
     name: infra-network
-  intern-network:
-    driver: bridge
-    internal: true
-    name: intern-network

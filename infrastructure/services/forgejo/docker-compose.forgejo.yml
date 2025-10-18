@@ -1,7 +1,7 @@
 services:
   # forgejo
   forgejo:
-    image: codeberg.org/forgejo/forgejo:12-rootless
+    image: codeberg.org/forgejo/forgejo:13-rootless
     container_name: forgejo
     profiles:
       - forgejo
