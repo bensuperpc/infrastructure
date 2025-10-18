@@ -23,7 +23,7 @@
 # stirlingpdf
 
 PROJECT_DIRECTORY := infrastructure
-CONFIG_DIRECTORY := configs
+CONFIG_DIRECTORY := presets
 
 CONFIGS := torrent
 #DOCKER_PROFILES := 

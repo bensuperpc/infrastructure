@@ -15,7 +15,7 @@ PROJECT_DIRECTORY ?= infrastructure
 
 DOCKER_EXEC ?= docker
 
-CONFIG_DIRECTORY ?= configs
+CONFIG_DIRECTORY ?= presets
 CONFIG_FILES ?= $(addprefix $(CONFIG_DIRECTORY)/,$(addsuffix .conf,$(CONFIGS)))
 include $(CONFIG_FILES)
 
