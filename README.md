@@ -266,6 +266,8 @@ You can change the homepage config in these files:
 
 ### Forgejo
 
+For Forgejo installation, you must change the password(s) and user in [forgejo_db.env](infrastructure/services/forgejo/env/forgejo_db.env) file and [forgejo.env](infrastructure/services/forgejo/env/forgejo.env) file.
+
 Once the installation is complete, you need to set the installation lock:
 
 ```sh
@@ -367,6 +369,7 @@ ssh -p 2222 admin@bensuperpc.org
 - [Fix docker volume](https://pratikpc.medium.com/use-docker-compose-named-volumes-as-non-root-within-your-containers-1911eb30f731)
 - [Forgejo-runner](https://code.forgejo.org/forgejo/runner)
 - [Forgejo-runner](https://huijzer.xyz/posts/55)
+- [Forgejo](https://nickcunningh.am/blog/how-to-setup-and-configure-forgejo-with-support-for-forgejo-actions-and-more)
 
 ## License
 
