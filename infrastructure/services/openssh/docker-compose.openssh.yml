@@ -31,7 +31,6 @@ services:
       - minecraft_proxy_data:/minecraft_proxy_data:rw
       - minecraft_rcon_data:/minecraft_rcon_data:rw
       - forgejo_data:/forgejo_data:rw
-      - forgejo_config:/forgejo_config:rw
       - forgejo_db:/forgejo_db:rw
       - teamfortress2_backup:/teamfortress2_backup:rw
       - teamfortress2_data:/teamfortress2_data:rw
@@ -88,7 +87,5 @@ volumes:
 # forgejo
   forgejo_data:
     name: forgejo_data
-  forgejo_config:
-    name: forgejo_config
   forgejo_db:
     name: forgejo_db

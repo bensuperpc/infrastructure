@@ -1,7 +1,7 @@
 services:
   # forgejo
   forgejo:
-    image: codeberg.org/forgejo/forgejo:13-rootless
+    image: codeberg.org/forgejo/forgejo:13
     container_name: forgejo
     profiles:
       - forgejo
@@ -14,13 +14,12 @@ services:
     env_file:
       - ./env/forgejo.env
     volumes:
-      - forgejo_data:/var/lib/gitea
-      - forgejo_config:/etc/gitea
+      - forgejo_data:/data
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     networks:
       - infra-network
-    user: ${PUID:-1000}:${PGID:-1000} 
+#    user: ${PUID:-1000}:${PGID:-1000} 
     security_opt:
       - no-new-privileges:true
   
@@ -73,7 +72,7 @@ services:
     container_name: 'forgejo_runner'
     env_file:
       - ./env/forgejo_runner.env
-    user: ${PUID:-1000}:${PGID:-1000} 
+#    user: ${PUID:-1000}:${PGID:-1000} 
     volumes:
 #      - ./config/forgejo_runner/config.yaml:/config.yaml:ro
       - forgejo_runner:/data
@@ -86,8 +85,6 @@ services:
 volumes:
   forgejo_data:
     name: forgejo_data
-  forgejo_config:
-    name: forgejo_config
   forgejo_db:
     name: forgejo_db
   forgejo_certs:

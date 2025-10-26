@@ -6,7 +6,7 @@ services:
     profiles:
       - psitransfer
     restart: on-failure:5
-    user: ${PUID:-1000}:${PGID:-1000} 
+#    user: ${PUID:-1000}:${PGID:-1000} 
     depends_on:
       - caddy
     env_file:

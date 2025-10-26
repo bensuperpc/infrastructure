@@ -5,7 +5,7 @@ services:
     container_name: dufs
     profiles:
       - dufs
-    user: ${PUID:-1000}:${PGID:-1000} 
+#    user: ${PUID:-1000}:${PGID:-1000} 
     restart: on-failure:5
     depends_on:
       - caddy
