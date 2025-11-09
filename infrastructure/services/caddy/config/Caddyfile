@@ -12,4 +12,30 @@
 	}
 }
 
-import website/*
+# import website/*
+
+
+# Common settings
+import website/header.caddy
+
+# All website configurations
+import website/main.caddy
+import website/cyberchef.caddy
+import website/forgejo.caddy
+import website/homepage.caddy
+import website/jellyfin.caddy
+import website/memos.caddy
+import website/open-webui.caddy
+import website/privatebin.caddy
+import website/psitransfer.caddy
+import website/stirlingpdf.caddy
+import website/transmission.caddy
+import website/wordpress.caddy
+import website/dufs.caddy
+import website/it-tools.caddy
+import website/omni-tools.caddy
+import website/picoshare.caddy
+import website/projectsend.caddy
+import website/qbittorrent.caddy
+import website/syncthing.caddy
+import website/uptimekuma.caddy

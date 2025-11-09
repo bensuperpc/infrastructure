@@ -6,4 +6,7 @@ it-tools.{$MAIN_DOMAIN} {
 		lb_retries 3
 		lb_try_interval 1s
 	}
+	header {
+		import header_common
+	}
 }

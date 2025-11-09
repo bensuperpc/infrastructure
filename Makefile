@@ -25,7 +25,7 @@
 PROJECT_DIRECTORY := infrastructure
 CONFIG_DIRECTORY := presets
 
-CONFIGS := minecraft
+CONFIGS := torrent
 #DOCKER_PROFILES := 
 
 include DockerCompose.mk
