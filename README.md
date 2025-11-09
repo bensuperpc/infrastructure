@@ -310,7 +310,7 @@ You will need to provide the following information:
 ```sh
 https://forgejo.bensuperpc.org/
 <Your Registration Token, in https://forgejo.bensuperpc.org/admin/actions/runners>
-ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:act-22.04
+ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:act-24.04
 main
 ```
 

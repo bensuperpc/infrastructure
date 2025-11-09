@@ -25,7 +25,7 @@
 PROJECT_DIRECTORY := infrastructure
 CONFIG_DIRECTORY := presets
 
-CONFIGS := minecraft
+CONFIGS := minecraft 7dtd
 #DOCKER_PROFILES := 
 
 include DockerCompose.mk

@@ -59,7 +59,7 @@ services:
       - forgejo_certs:/certs
 
   forgejo_runner:
-    image: data.forgejo.org/forgejo/runner:9
+    image: data.forgejo.org/forgejo/runner:12
     networks:
       - infra-network
     profiles:

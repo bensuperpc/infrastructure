@@ -1,12 +1,13 @@
 services:
   # Uptime Kuma
   uptime-kuma:
-    image: louislam/uptime-kuma:latest
+    image: louislam/uptime-kuma:2
     container_name: uptime-kuma
     profiles:
       - uptime-kuma
     volumes:
       - uptimekuma_data:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     restart: on-failure:5
     depends_on:
       - caddy
