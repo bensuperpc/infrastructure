@@ -12,6 +12,6 @@ DEST="${2}"
 
 # --bwlimit=30000 --whole-file
 
-rsync -e "ssh -p 2222 -o Compression=no" \
+rsync -e "ssh -p 4444 -o Compression=no" \
   --progress --human-readable --archive --stats --verbose --acls --xattrs --stats --delete-during \
   "${SOURCE}" "${DEST}"
