@@ -1,0 +1,34 @@
+services:
+  minecraft_backup:
+    image: mazzolino/restic:latest
+    container_name: minecraft_backup
+    profiles:
+      - minecraft_backup
+    depends_on:
+      - mc-server
+      - minecraft_proxy
+    restart: on-failure:3
+    env_file:
+      - ./env/backup.env
+    volumes:
+      - minecraft_server_backup:/mnt/restic
+      - minecraft_server_data:/data/minecraft_server_data:ro
+      - minecraft_proxy_data:/data/minecraft_proxy_data:ro
+      - minecraft_rcon_data:/data/minecraft_rcon_data:ro
+    security_opt:
+      - no-new-privileges:true
+    network_mode: none
+    cap_drop:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_ADMIN
+
+volumes:
+  minecraft_server_backup:
+    name: minecraft_server_backup
+  minecraft_server_data:
+    name: minecraft_server_data
+  minecraft_proxy_data:
+    name: minecraft_proxy_data
+  minecraft_rcon_data:
+    name: minecraft_rcon_data

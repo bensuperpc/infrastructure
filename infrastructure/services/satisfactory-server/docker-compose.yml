@@ -1,0 +1,7 @@
+include:
+# Satisfactory server
+  - satisfactory/docker-compose.satisfactory.yml
+# OpenSSH server
+  - openssh/docker-compose.openssh.yml
+# Backup server
+  - backup/docker-compose.backup.yml

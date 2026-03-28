@@ -1,0 +1,25 @@
+services:
+  satisfactory_backup:
+    image: mazzolino/restic:latest
+    container_name: satisfactory_backup
+    profiles:
+      - satisfactory_backup
+    depends_on:
+      - satisfactory_server
+    restart: on-failure:5
+    env_file:
+      - ./env/satisfactory_backup.env
+    volumes:
+      - satisfactory_backup:/mnt/restic
+      - satisfactory_server_config:/data:ro
+    network_mode: none
+    cap_drop:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_ADMIN
+
+volumes:
+  satisfactory_backup:
+    name: satisfactory_backup
+  satisfactory_server_config:
+    name: satisfactory_server_config

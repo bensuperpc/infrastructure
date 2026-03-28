@@ -1,0 +1,45 @@
+services:
+  # openssh
+  7daystodie_openssh:
+    image: linuxserver/openssh-server:latest
+    container_name: 7daystodie_openssh
+    profiles:
+      - 7daystodie_openssh
+    depends_on:
+      - 7daystodie_server
+    restart: on-failure:5
+    env_file:
+      - ./env/openssh.env
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+    volumes:
+      - 7daystodie_openssh_config:/config
+      - ./config/authorized_keys:/authorized_ssh_keys:ro
+      - 7daystodie_backup:/7daystodie_backup
+      - 7daystodie_server_save:/7daystodie_server_save
+      - 7daystodie_server_config_lgsm:/7daystodie_server_config_lgsm
+      - 7daystodie_server_file:/7daystodie_server_file
+      - 7daystodie_server_log:/7daystodie_server_log
+    networks:
+      - infra-network
+    security_opt:
+      - no-new-privileges:false
+    cap_drop:
+      - SYS_ADMIN
+    ports:
+      - 2222:2222
+
+volumes:
+  7daystodie_openssh_config:
+    name: 7daystodie_openssh_config
+  7daystodie_backup:
+    name: 7daystodie_backup
+  7daystodie_server_save:
+    name: 7daystodie_server_save
+  7daystodie_server_config_lgsm:
+    name: 7daystodie_server_config_lgsm
+  7daystodie_server_file:
+    name: 7daystodie_server_file
+  7daystodie_server_log:
+    name: 7daystodie_server_log

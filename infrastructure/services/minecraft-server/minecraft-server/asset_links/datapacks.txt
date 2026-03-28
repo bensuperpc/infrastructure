@@ -1,0 +1,4 @@
+https://github.com/bensuperpc/docker-minecraft-server/releases/download/Test_worlds/better-stonecutter-v1-1.zip
+https://github.com/bensuperpc/docker-minecraft-server/releases/download/Test_worlds/cuttable-wood-v2-2.zip
+https://github.com/bensuperpc/docker-minecraft-server/releases/download/Test_worlds/easy-bone-blocks-v1-0-1.zip
+https://github.com/bensuperpc/docker-minecraft-server/releases/download/Test_worlds/more-smeltable-items-v2-0-3.zip

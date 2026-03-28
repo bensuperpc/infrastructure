@@ -42,10 +42,10 @@ include:
 # open-webui
   - services/open-webui/docker-compose.open-webui.yml
 # Minecraft
-  - services/minecraft-server/minecraft-server/docker-compose.yml
+  - services/minecraft-server/docker-compose.yml
 # 7daystodie
-  - services/7daystodie-server/7daystodie-server/docker-compose.yml
+  - services/7daystodie-server/docker-compose.yml
 # Satisfactory
-  - services/satisfactory-server/satisfactory-server/docker-compose.yml
+  - services/satisfactory-server/docker-compose.yml
 # Team Fortress 2
-  - services/teamfortress2-server/teamfortress2-server/docker-compose.yml
+  - services/teamfortress2-server/docker-compose.yml

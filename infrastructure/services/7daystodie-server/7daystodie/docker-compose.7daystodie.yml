@@ -1,0 +1,54 @@
+services:
+  # 7 days to die server
+  7daystodie_server:
+    image: vinanrra/7dtd-server:latest
+    container_name: 7daystodie_server
+    profiles:
+      - 7daystodie_server
+    restart: on-failure:5
+    ports:
+      - "26900:26900"
+      - "26901:26901"
+      - "26902:26902"
+#      - "8080:8080" # WEBADMIN
+#      - "8081:8081" # TELNET
+#      - "8082:8082" # WEBSERVER
+    volumes:
+      - 7daystodie_server_save:/home/sdtdserver/.local/share/7DaysToDie     # 7 Days To Die world saves
+      - 7daystodie_server_config_lgsm:/home/sdtdserver/lgsm/config-lgsm/sdtdserver  # LGSM config folder
+      - 7daystodie_server_file:/home/sdtdserver/serverfiles                # Optional - serverfiles folder
+      - 7daystodie_server_log:/home/sdtdserver/log   
+    networks:
+      - infra-network
+    env_file:
+      - ./env/7daystodie.env
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+    # security_opt:
+    #   - no-new-privileges:true
+    # cap_drop:
+    #   - SYS_ADMIN
+    deploy:
+      resources:
+        limits:
+          memory: 16G
+        reservations:
+          memory: 4G
+
+volumes:
+  7daystodie_backup:
+    name: 7daystodie_backup
+  7daystodie_server_save:
+    name: 7daystodie_server_save
+  7daystodie_server_config_lgsm:
+    name: 7daystodie_server_config_lgsm
+  7daystodie_server_file:
+    name: 7daystodie_server_file
+  7daystodie_server_log:
+    name: 7daystodie_server_log
+
+networks:
+  infra-network:
+    driver: bridge
+    name: infra-network

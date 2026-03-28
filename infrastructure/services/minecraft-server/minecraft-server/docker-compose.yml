@@ -1,0 +1,106 @@
+services:
+  minecraft_proxy:
+    image: itzg/bungeecord:latest
+    container_name: minecraft_proxy_server
+    profiles:
+      - minecraft_proxy
+      - minecraft_server
+    restart: on-failure:3
+    env_file:
+      - ./env/proxy.env
+    environment:
+      INIT_MEMORY: "512M"
+      MAX_MEMORY: "2048M"
+    ports:
+      #       Server Minecraft port
+      - "25565:25577"
+      #       Server Minecraft Bedrock port (GeyserMC)
+      #- "19132:19132/udp"
+      #       Rcon port
+      #- "25576:25575"
+      #       Plan port
+      # - "8806:8804"
+    volumes:
+      - minecraft_proxy_data:/server
+    networks:
+      - infra-network
+
+  mc-server:
+    image: itzg/minecraft-server:latest
+    container_name: minecraft_server
+    profiles:
+      - minecraft_server
+    depends_on:
+      - minecraft_proxy
+    restart: on-failure:3
+    ports:
+      #       Server Minecraft port (Disable if you use proxy)
+      # - "25565:25565"
+      #       Rcon port
+      # - "25575:25575"
+      #       Server Minecraft Bedrock port (GeyserMC)
+      # - "19132:19132/udp"
+      #       Dynmap port
+      # - "8123:8123"
+      #       BlueMap port
+      - "8100:8100"
+      #       Plan port
+      - "8804:8804"
+    env_file:
+      - ./env/server.env
+      - ./env/world.env
+      - ./env/mods_plugins.env
+    environment:
+      MAX_MEMORY: "${MAX_MEMORY:-24G}"
+    volumes:
+      - minecraft_server_data:/data
+#      - ./asset_links/plugins.txt:/extras/plugins.txt:ro
+    networks:
+      - infra-network
+    deploy:
+      resources:
+#        limits:
+#          cpus: '8.0'
+#          memory: 26G
+        reservations:
+          cpus: '0.01'
+          memory: 20M
+
+  rcon-web:
+    image: itzg/rcon:latest
+    container_name: minecraft_rcon_web
+    profiles:
+      - mc-web
+    restart: on-failure:3
+    depends_on:
+      - minecraft_server
+      - minecraft_proxy
+    environment:
+      RWA_USERNAME: admin
+      RWA_PASSWORD: admin
+      RWA_ADMIN: "TRUE"
+      # is referring to the hostname of 'minecraft_server' compose service below
+      RWA_RCON_HOST: minecraft_server
+      RWA_RCON_PASSWORD: 6hxU3Oxmh2Q8e6S9fjkdWJikRCON_PASSWORD
+    ports:
+      #       web UI port
+      - "4326:4326"
+      #       websocket access from UI
+      - "4327:4327"
+    volumes:
+      - minecraft_rcon_data:/opt/rcon-web-admin/db
+    networks:
+      - infra-network
+
+volumes:
+  minecraft_server_data:
+    name: minecraft_server_data
+  minecraft_proxy_data:
+    name: minecraft_proxy_data
+  minecraft_rcon_data:
+    name: minecraft_rcon_data
+
+networks:
+  infra-network:
+    driver: bridge
+    name: infra-network
