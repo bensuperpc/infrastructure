@@ -1,7 +1,5 @@
 include:
 # 7 days to die server
   - 7daystodie/docker-compose.7daystodie.yml
-# OpenSSH server
-  - openssh/docker-compose.openssh.yml
 # Backup server
   - backup/docker-compose.backup.yml

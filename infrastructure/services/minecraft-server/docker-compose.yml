@@ -1,7 +1,5 @@
 include:
 # Minecraft server
   - minecraft-server/docker-compose.yml
-# OpenSSH server
-  - openssh/docker-compose.openssh.yml
 # Backup server
   - backup/docker-compose.backup.yml
