@@ -5,16 +5,23 @@ services:
     container_name: ollama
     profiles:
       - open-webui
+      - ollama
     depends_on:
       - caddy
     restart: on-failure:5
     tty: true
     volumes:
       - ollama:/root/.ollama
+    env_file:
+      - ./env/ollama.env
     security_opt:
       - no-new-privileges:true
     networks:
       - infra-network
+    # devices:
+     #  - /dev/dri/card0:/dev/dri/card0
+     #  - /dev/dri/renderD128:/dev/dri/renderD128
+
 
   open-webui:
     image: ghcr.io/open-webui/open-webui:main

@@ -18,6 +18,15 @@ services:
     # Fix root permissions on mounted volumes
     command: chown -R ${PUID:-1000}:${PGID:-1000} /public_data /private_data
 
+  watchtower:
+    container_name: watchtower
+    profiles:
+      - main_infrastructure
+    image: nickfedor/watchtower:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
 volumes:
   public_data:
     name: public_data
