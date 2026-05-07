@@ -1,0 +1,28 @@
+services:
+  # argus
+  argus:
+    image: releaseargus/argus:latest
+    container_name: argus
+    profiles:
+      - argus
+    environment:
+      ARGUS_UID: ${PUID:-1000}
+      ARGUS_GID: ${PGID:-1000}
+    restart: on-failure:5
+    depends_on:
+      - caddy
+    networks:
+      - infra-network
+    volumes:
+      - argus_data:/app/data/
+      - ./config/config.yml:/app/config.yml
+    # healthcheck:
+    #   test: ["CMD", "/healthcheck", "http://localhost:8080/api/v1/healthcheck"]
+    #   interval: 1m
+    #   timeout: 10s
+    #   retries: 3
+    #   start_period: 10s
+
+volumes:
+  argus_data:
+    name: argus_data

@@ -1,0 +1,3 @@
+argus.{$MAIN_DOMAIN} {
+	reverse_proxy argus:8080
+}

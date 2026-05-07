@@ -34,7 +34,7 @@ services:
       - forgejo_db:/forgejo_db:rw
       - teamfortress2_backup:/teamfortress2_backup:rw
       - teamfortress2_data:/teamfortress2_data:rw
-
+      - argus_data:/argus_data:rw
     networks:
       - infra-network
     security_opt:
@@ -89,3 +89,6 @@ volumes:
     name: forgejo_data
   forgejo_db:
     name: forgejo_db
+# argus
+  argus_data:
+    name: argus_data
