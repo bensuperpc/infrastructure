@@ -31,433 +31,57 @@ webhook:
     secret: <secret>
     silent_fails: true
 service:
-  prometheus/alertmanager:
-    latest_version:
-      type: github
-      url: prometheus/alertmanager
-    notify:
-      default_gotify: {}
-      default_mattermost: {}
-    webhook:
-      awx:
-        type: github
-        url: https://localhost:8081/api/v2/job_templates/45/github/
-        secret: <secret>
-      awx_more: {}
-    deployed_version:
-      type: url
-      url: https://alert-manager.example.io/api/v2/status
-      basic_auth:
-        username: prometheus
-        password: <secret>
-      json: versionInfo.version
-    dashboard:
-      web_url: https://github.com/prometheus/alertmanager/blob/main/CHANGELOG.md
-      tags:
-        - prometheus
-  release-argus/argus:
-    latest_version:
-      type: github
-      url: release-argus/argus
-    command:
-      - - /bin/true
-      - - /bin/false
-    deployed_version:
-      type: url
-      url: http://127.0.1.0:8888/demo/api/v1/version
-      json: version
-    dashboard:
-      icon: https://release-argus.io/demo/favicon.svg
-      web_url: https://github.com/release-argus/Argus/blob/master/CHANGELOG.md
-      tags:
-        - go
-  goauthentik/authentik:
-    latest_version:
-      type: github
-      url: goauthentik/authentik
-      use_prerelease: true
-      url_commands:
-        - type: regex
-          regex: version\/([0-9.]+[0-9]+(?:-rc[0-9])?)
-    notify:
-      default_gotify: {}
-      default_mattermost:
-        params:
-          icon: https://raw.githubusercontent.com/goauthentik/authentik/master/web/icons/icon.png
-    webhook:
-      awx:
-        type: github
-        url: https://localhost:8081/api/v2/job_templates/35/github/
-        secret: <secret>
-        delay: 2h
-      awx_more: {}
-    dashboard:
-      web_url: https://goauthentik.io/docs/releases/{{ version | split:"." |
-        slice:":-1" | join:"."  }}
-      tags:
-        - go
-  ansible/awx-operator:
-    latest_version:
-      type: github
-      url: ansible/awx-operator
-    notify:
-      default_gotify: {}
-      default_mattermost:
-        params:
-          icon: https://raw.githubusercontent.com/ansible/awx-logos/master/awx/ui/client/assets/logo-login.svg
-    webhook:
-      awx:
-        type: github
-        url: https://localhost:8081/api/v2/job_templates/12/github/
-        secret: <secret>
-      awx_more: {}
-    dashboard:
-      web_url: https://github.com/ansible/awx-operator/releases
-  google/docsy:
-    latest_version:
-      type: github
-      url: google/docsy
-    notify:
-      default_gotify: {}
-      default_mattermost:
-        params:
-          icon: https://github.com/google/docsy/blob/main/assets/icons/logo.png?raw=true
-    dashboard:
-      icon: https://raw.githubusercontent.com/google/docsy/b4d66f70ba9b12cf75502cea19c5aa58d5e91486/assets/icons/logo.svg
   forgejo:
     latest_version:
       type: url
       url: https://code.forgejo.org/api/v1/repos/forgejo/forgejo/releases
       url_commands:
         - type: regex
-          regex: "['\"]tag_name['\"]: *['\"]v?([0-9.]+)['\"]"
-    notify:
-      default_gotify: {}
-      default_mattermost:
-        params:
-          icon: https://codeberg.org/forgejo/forgejo/raw/branch/forgejo/public/assets/img/avatar_default.png
-    webhook:
-      awx:
-        type: github
-        url: https://localhost:8081/api/v2/job_templates/38/github/
-        secret: <secret>
-      awx_more: {}
+          regex: "['\"]tag_name['\"]: *['\"]v?([0-9.]+(?:-dev)?)['\"]"
     deployed_version:
       type: url
-      url: https://forgejo.example.io
-      regex: Powered by Forgejo.*\s+Version:\s+([0-9.]+)
+      url: https://code.forgejo.org
+      regex: Powered by Forgejo.*\s+Version:\s+([0-9.]+(?:-dev)?)
     dashboard:
-      web_url: https://github.com/go-gitea/gitea/releases/v{{ version }}
+      web_url: https://codeberg.org/forgejo/forgejo/src/branch/forgejo/release-notes-published/{{ version }}.md
+      icon: https://code.forgejo.org/assets/img/logo.svg
       tags:
         - go
-  golang/go:
-    options:
-      semantic_versioning: false
+  svt-av1:
     latest_version:
       type: url
-      url: https://golang.org/dl/
+      url: https://gitlab.com/api/v4/projects/AOMediaCodec%2FSVT-AV1/repository/tags?order_by=version&sort=desc
       url_commands:
         - type: regex
-          regex: go([0-9.]+[0-9]+)\.src\.tar\.gz
-    notify:
-      default_gotify: {}
-      default_mattermost:
-        params:
-          icon: ":gopher:"
+          regex: '"name":"v?([0-9.]+(?:-rc[0-9]+)?)"'
     dashboard:
-      icon: https://go.dev/images/gophers/motorcycle.svg
-      web_url: https://go.dev/doc/go{{ version | split:"." | slice:":2" | join:"."  }}
-      tags:
-        - go
-  gotify/server:
-    latest_version:
-      type: github
-      url: gotify/server
-    notify:
-      default_gotify: {}
-      default_mattermost:
-        params:
-          icon: https://github.com/gotify/logo/raw/master/gotify-logo.png
-    webhook:
-      awx:
-        type: github
-        url: https://localhost:8081/api/v2/job_templates/39/github/
-        secret: <secret>
-      awx_more:
-        delay: 2h
-    deployed_version:
-      type: url
-      url: https://gotify.example.io/version
-      json: version
-    dashboard:
-      web_url: https://github.com/gotify/server/releases/tag/v{{ version }}
-  grafana/grafana:
-    latest_version:
-      type: github
-      url: grafana/grafana
-    notify:
-      default_gotify: {}
-      default_mattermost:
-        params:
-          icon: ":grafana:"
-    webhook:
-      awx:
-        type: github
-        url: https://localhost:8081/api/v2/job_templates/40/github/
-        secret: <secret>
-      awx_more: {}
-    deployed_version:
-      type: url
-      url: https://grafana.example.io/login
-      regex: Grafana v([0-9.]+) \(
-    dashboard:
-      auto_approve: true
-      icon: https://cdn.worldvectorlogo.com/logos/grafana.svg
-      web_url: https://grafana.com/docs/grafana/latest/whatsnew/whats-new-in-v{{
-        version | split:"." | slice:":2" | join:"-"  }}
-      tags:
-        - grafana
-  home-assistant/core:
-    latest_version:
-      type: github
-      url: home-assistant/core
-    notify:
-      default_gotify: {}
-      default_mattermost:
-        params:
-          icon: https://github.com/home-assistant/core/raw/dev/tests/components/image_upload/logo.png
-    dashboard:
-      web_url: https://www.home-assistant.io/latest-release-notes
-  gohugoio/hugo:
-    latest_version:
-      type: github
-      url: gohugoio/hugo
-    notify:
-      default_gotify: {}
-      default_mattermost:
-        params:
-          icon: https://raw.githubusercontent.com/gohugoio/hugo/master/docs/static/img/hugo.png
-    dashboard:
-      web_url: https://github.com/gohugoio/hugo/releases/v{{ version }}
-      tags:
-        - hugo
-        - go
-  grafana/loki:
-    latest_version:
-      type: github
-      url: grafana/loki
-    notify:
-      default_gotify: {}
-      default_mattermost:
-        params:
-          icon: https://grafana.com/static/assets/img/blog/loki.png
-    webhook:
-      awx:
-        type: github
-        url: https://localhost:8081/api/v2/job_templates/41/github/
-        secret: <secret>
-      awx_more: {}
-    deployed_version:
-      type: url
-      url: https://loki.example.io/loki/api/v1/status/buildinfo
-      json: version
-    dashboard:
-      web_url: https://grafana.com/docs/loki/latest/release-notes/v{{ version |
-        split:"." | slice:":2" | join:"-"  }}
-      tags:
-        - grafana
-  mailcow/mailcow-dockerized:
-    options:
-      semantic_versioning: false
-    latest_version:
-      type: github
-      url: mailcow/mailcow-dockerized
-    notify:
-      default_gotify: {}
-      default_mattermost: {}
-    deployed_version:
-      type: url
-      url: https://mailcow.example.io/api/v1/get/status/version
-      headers:
-        - key: X-API-Key
-          value: <secret>
-      json: version
-    dashboard:
-      icon: https://raw.githubusercontent.com/mailcow/mailcow-dockerized/master/data/web/img/cow_mailcow.svg
-      web_url: https://github.com/mailcow/mailcow-dockerized/releases/tag/{{ version }}
-  mattermost/mattermost-server:
+      icon: https://upload.wikimedia.org/wikipedia/commons/8/84/AV1_logo_2018.svg
+      web_url: https://gitlab.com/AOMediaCodec/SVT-AV1/-/releases/v{{ version }}
+    tags:
+      - av1
+      - video
+      - encoder
+  ffmpeg:
     latest_version:
       type: url
-      url: https://mattermost.com/download/
+      url: https://api.github.com/repos/FFmpeg/FFmpeg/tags
       url_commands:
         - type: regex
-          regex: Latest Release:[^0-9]+([0-9]+\.[0-9]+\.[0-9]+)
-    notify:
-      default_gotify: {}
-      default_mattermost: {}
-    webhook:
-      awx:
-        type: github
-        url: https://localhost:8081/api/v2/job_templates/43/github/
-        secret: <secret>
-      awx_more: {}
+          regex: '"name":"n?([0-9.]+)"'
     dashboard:
-      web_url: https://docs.mattermost.com/install/self-managed-changelog.html
-  nextcloud/server:
+      icon: https://upload.wikimedia.org/wikipedia/commons/7/76/FFmpeg_icon.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original
+      web_url: https://github.com/FFmpeg/FFmpeg/releases/tag/n{{ version }}
+  qbittorrent:
     latest_version:
-      type: github
-      url: nextcloud/server
-    notify:
-      default_gotify: {}
-      default_mattermost:
-        params:
-          icon: https://github.com/nextcloud/server/blob/master/core/img/favicon-fb.png?raw=true
-    dashboard:
-      auto_approve: true
-      web_url: https://nextcloud.com/changelog/#latest{{ version | split:"." |
-        slice:":1" | join:""  }}
-  prometheus/prometheus:
-    latest_version:
-      type: github
-      url: prometheus/prometheus
+      type: url
+      url: https://api.github.com/repos/qbittorrent/qBittorrent/releases/latest
       url_commands:
         - type: regex
-          regex: v([0-9.]+)$
-    notify:
-      default_gotify: {}
-      default_mattermost: {}
-    webhook:
-      awx:
-        type: github
-        url: https://localhost:8081/api/v2/job_templates/45/github/
-        secret: <secret>
-      awx_more: {}
-    deployed_version:
-      type: url
-      url: https://prometheus.example.io/api/v1/status/buildinfo
-      json: data.version
+          regex: '"tag_name":"release-([0-9.]+)"'
     dashboard:
-      web_url: https://github.com/prometheus/prometheus/blob/main/CHANGELOG.md
-      tags:
-        - prometheus
-  containrrr/shoutrrr:
-    latest_version:
-      type: github
-      url: containrrr/shoutrrr
-    notify:
-      default_gotify: {}
-      default_mattermost:
-        params:
-          icon: https://raw.githubusercontent.com/containrrr/shoutrrr/main/docs/shoutrrr-logotype.png?raw=true
-    dashboard:
-      web_url: https://github.com/containrrr/shoutrrr/releases/tag/v{{ version }}
-      tags:
-        - go
-  thanos-io/thanos:
-    latest_version:
-      type: github
-      url: thanos-io/thanos
-      url_commands:
-        - type: regex
-          regex: v([0-9.]+)$
-    notify:
-      default_gotify: {}
-      default_mattermost:
-        params:
-          icon: https://github.com/thanos-io/thanos/blob/main/docs/img/Thanos-logo_fullmedium.png?raw=true
-    webhook:
-      awx:
-        type: github
-        url: https://localhost:8081/api/v2/job_templates/46/github/
-        secret: <secret>
-      awx_more: {}
-    deployed_version:
-      type: url
-      url: https://thanos.example.io/api/v1/status/buildinfo
-      json: data.version
-    dashboard:
-      web_url: https://github.com/thanos-io/thanos/blob/main/CHANGELOG.md
-  louislam/uptime-kuma:
-    latest_version:
-      type: github
-      url: louislam/uptime-kuma
-    notify:
-      default_gotify: {}
-      default_mattermost:
-        params:
-          icon: https://raw.githubusercontent.com/louislam/uptime-kuma/master/public/icon.png
-    webhook:
-      awx:
-        type: github
-        url: https://localhost:8081/api/v2/job_templates/47/github/
-        secret: <secret>
-      awx_more: {}
-    deployed_version:
-      type: url
-      url: https://uptime-kuma.example.io/metrics
-      basic_auth:
-        username: josephkav
-        password: <secret>
-      regex: app_version{version=\"([0-9.]+)\",major=\"[0-9]+\",minor=\"[0-9]+\",patch=\"[0-9]+\"}
-    dashboard:
-      web_url: https://github.com/louislam/uptime-kuma/releases/tag/{{ version }}
-  dani-garcia/vaultwarden:
-    latest_version:
-      type: github
-      url: dani-garcia/vaultwarden
-    notify:
-      default_gotify: {}
-      default_mattermost:
-        params:
-          icon: https://raw.githubusercontent.com/dani-garcia/vaultwarden/main/src/static/images/vaultwarden-icon.png
-    dashboard:
-      web_url: https://github.com/dani-garcia/vaultwarden/releases/tag/{{ version }}
-  go-vikunja/api:
-    latest_version:
-      type: github
-      url: go-vikunja/api
-    notify:
-      default_gotify: {}
-      default_mattermost:
-        params:
-          icon: https://github.com/go-vikunja/vikunja/blob/main/frontend/public/images/icons/android-chrome-512x512.png?raw=true
-    webhook:
-      awx:
-        type: github
-        url: https://localhost:8081/api/v2/job_templates/48/github/
-        secret: <secret>
-      awx_more: {}
-    dashboard:
-      web_url: https://github.com/go-vikunja/api/blob/main/CHANGELOG.md
-      tags:
-        - go
-  adnanh/webhook:
-    latest_version:
-      type: github
-      url: adnanh/webhook
-    notify:
-      default_gotify: {}
-      default_mattermost:
-        params:
-          icon: https://raw.githubusercontent.com/adnanh/webhook/development/docs/logo/logo-128x128.png
-    webhook:
-      awx_more: {}
-      awx_other: {}
-    dashboard:
-      web_url: https://github.com/adnanh/webhook/releases/tag/{{ version }}
-      tags:
-        - go
-  wowchemy/wowchemy-hugo-themes:
-    latest_version:
-      type: github
-      url: wowchemy/wowchemy-hugo-themes
-      url_commands:
-        - type: regex
-          regex: (?:modules/wowchemy/)?v?([0-9.]+)
-    notify:
-      default_gotify: {}
-      default_mattermost: {}
-    dashboard:
-      web_url: https://github.com/wowchemy/wowchemy-hugo-themes/releases
-      tags:
-        - hugo
+      icon: https://upload.wikimedia.org/wikipedia/commons/6/66/New_qBittorrent_Logo.svg
+      web_url: https://github.com/qbittorrent/qBittorrent/releases/tag/release-{{ version }}
+    tags:
+      - bittorrent
+      - qt
+      - cplusplus

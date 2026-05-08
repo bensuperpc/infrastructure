@@ -333,6 +333,10 @@ You can access to the server with:
 ssh -p 2222 admin@bensuperpc.org
 ```
 
+### Qbittorrent
+
+To activate the alternative webui theme (VueTorrent), you need to go in the qbittorrent settings, then in the `webui` section, check the `Use alternative webui` and add `/vuetorrent` to text field.
+
 ## Sources
 
 - [Wordpress](https://wordpress.org/)

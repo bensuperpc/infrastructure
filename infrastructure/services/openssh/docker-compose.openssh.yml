@@ -35,6 +35,7 @@ services:
       - teamfortress2_backup:/teamfortress2_backup:rw
       - teamfortress2_data:/teamfortress2_data:rw
       - argus_data:/argus_data:rw
+      - qbittorrent_config:/qbittorrent_config:rw
     networks:
       - infra-network
     security_opt:
@@ -92,3 +93,5 @@ volumes:
 # argus
   argus_data:
     name: argus_data
+  qbittorrent_config:
+    name: qbittorrent_config
