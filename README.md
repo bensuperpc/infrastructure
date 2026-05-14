@@ -1,6 +1,6 @@
 # Infrastructure
 
-_Open source, decentralized and self-hosted infrastructure for many services._
+_Open source, decentralized and self-hosted infrastructure for many local services._
 
 ## About
 
@@ -12,19 +12,25 @@ If you have any **questions** or **suggestions**, feel free to open an issue or 
 
 - [x] caddy 2 HTTP/S reverse proxy
 - [x] Docker / docker-compose
-- [x] Wordpress (Via FASTCGI/caddy)
-- [x] Jellyfin (Media server)
+- [x] Homepage (Dashboard)
+- [x] Jellyfin (Eg Netflix, Disney+)
 - [x] Forgejo (Git server, fork of Gitea)
 - [x] Uptime Kuma (Monitoring)
+- [x] Argus (Application update monitoring)
 - [x] qbittorrent and transmission (Torrent client/server)
 - [x] SyncThing (File synchronization)
+- [x] Dufs (File server)
 - [x] PsiTransfer, ProjectSend, Picoshare (File sharing)
-- [x] it-tools and omni-tools (Tools for IT)
-- [x] Open-WebUI (Local chatGPT)
+- [x] it-tools, omni-tools and cyberchef (Tools for IT)
+- [x] Open-WebUI + Ollama (Local chatGPT)
 - [x] Privatebin (Pastebin)
-- [X] [Satisfactory](https://github.com/bensuperpc/docker-satisfactory)
-- [x] [7 days to die](https://github.com/bensuperpc/docker-7daystodie)
-- [x] [minecraft](https://github.com/bensuperpc/docker-minecraft-server)
+- [x] Memos (Note-taking)
+- [x] Stirling PDF (PDF tools)
+- [x] Wordpress (Via FASTCGI/caddy)
+- [X] Satisfactory
+- [x] 7 days to die
+- [x] Minecraft
+- [x] Team Fortress 2
 
 ## Architecture
 
@@ -45,7 +51,7 @@ The homepage is a dashboard with many widgets and services.
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Web domain](https://www.ovh.com/world/domains/) (I use OVH)
 - [Open port 80, 443, 22, 2222 and 5555 on your router](http://192.168.1.1/)
-- For games server, you need to open these ports (7777, 25565, 26900, 26901, 26903)
+- For games server, you need to open these ports (7777, 8888, 25565, 26900, 26901, 26903)
 
 List of ports used by the services in this infrastructure:
 
@@ -56,10 +62,13 @@ List of ports used by the services in this infrastructure:
 | 22          | Forgejo       | Git/SSH access    |
 | 2222        | OpenSSH       | Global SSH access |
 | 7777        | Satisfactory  | Game server port  |
+| 8888        | Satisfactory  | Game server port  |
 | 25565       | Minecraft     | Game server port  |
+| 8100        | Bluemap Minecraft | Web map port  |
 | 26900       | 7 Days to Die | Game server port  |
 | 26901       | 7 Days to Die | Game server port  |
 | 26903       | 7 Days to Die | Game server port  |
+| 27015       | Team Fortress 2 | Game server port |
 
 
 **To avoid get rate limit from letsencrypt (10 certificates per 3 hours), you need to disable some certificates in the caddyfiles and enable them 3h later...**
@@ -113,8 +122,9 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [projectsend.bensuperpc.org](https://projectsend.bensuperpc.org)   | Sub  | ProjectSend for file sharing                                 |
 | [picoshare.bensuperpc.org](https://picoshare.bensuperpc.org)       | Sub  | Picoshare for file sharing                                   |
 | [dufs.bensuperpc.org](https://dufs.bensuperpc.org)                 | Sub  | Dufs for file sharing                                        |
-| [memos.bensuperpc.org](https://memos.bensuperpc.org)               | Sub  | Caddy for file sharing                                       |
+| [memos.bensuperpc.org](https://memos.bensuperpc.org)               | Sub  | Memos note-taking app                                        |
 | [stirlingpdf.bensuperpc.org](https://stirlingpdf.bensuperpc.org)   | Sub  | Stirling PDF tools                                           |
+| [argus.bensuperpc.org](https://argus.bensuperpc.org)   | Sub  | Argus for monitoring application updates                                  |
 
 ### Configure the infrastructure
 
@@ -236,10 +246,10 @@ docker exec -it ollama ollama run deepseek-r1:8b
 Start the website with:
 
 ```sh
-make start-at
+make start-detached
 ```
 
-Stop the website with (or CTRL+C with the previous command):
+Stop the website with:
 
 ```sh
 make stop
@@ -274,7 +284,7 @@ Once the installation is complete, you need to set the installation lock:
 FORGEJO__security__INSTALL_LOCK=true
 ```
 
-### Forgejo Runner
+### Forgejo Runner (Out of date)
 
 ```sh
 docker exec -it forgejo_runner /bin/bash
@@ -374,6 +384,8 @@ To activate the alternative webui theme (VueTorrent), you need to go in the qbit
 - [Forgejo-runner](https://code.forgejo.org/forgejo/runner)
 - [Forgejo-runner](https://huijzer.xyz/posts/55)
 - [Forgejo](https://nickcunningh.am/blog/how-to-setup-and-configure-forgejo-with-support-for-forgejo-actions-and-more)
+- [Argus](https://github.com/release-argus/Argus)
+- [Forgejo-runner](https://huijzer.xyz/posts/55)
 
 ## License
 

@@ -12,7 +12,7 @@ services:
     depends_on:
       - caddy
     networks:
-      - infra-network
+      - argus-network
     volumes:
       - argus_data:/app/data/
       - ./config/config.yml:/app/config.yml
@@ -26,3 +26,8 @@ services:
 volumes:
   argus_data:
     name: argus_data
+
+networks:
+  argus-network:
+    driver: bridge
+    name: argus-network

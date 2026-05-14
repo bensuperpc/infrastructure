@@ -18,7 +18,7 @@ services:
       - public_data:/data1
       - private_data:/data2
     networks:
-      - infra-network
+      - syncthing-network
     security_opt:
       - no-new-privileges:true
 
@@ -29,3 +29,8 @@ volumes:
     name: public_data
   private_data:
     name: private_data
+
+networks:
+  syncthing-network:
+    driver: bridge
+    name: syncthing-network

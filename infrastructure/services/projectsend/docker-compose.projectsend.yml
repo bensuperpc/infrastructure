@@ -11,11 +11,10 @@ services:
     env_file:
       - ./env/projectsend.env
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
       - projectsend_config:/config
       - projectsend_share:/data
     networks:
-      - infra-network
+      - projectsend-network
     security_opt:
       - no-new-privileges:true
     cap_drop:
@@ -37,7 +36,7 @@ services:
       - ./env/projectsend_db.env
     command: '--default-authentication-plugin=mysql_native_password'
     networks:
-      - infra-network
+      - projectsend-network
     security_opt:
       - no-new-privileges:true
 
@@ -48,3 +47,9 @@ volumes:
     name: projectsend_config
   projectsend_share:
     name: projectsend_share
+
+
+networks:
+  projectsend-network:
+    driver: bridge
+    name: projectsend-network

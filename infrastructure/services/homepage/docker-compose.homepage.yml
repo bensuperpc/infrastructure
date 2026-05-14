@@ -24,10 +24,15 @@ services:
 #          path: ./homepage/image
 #          target: /app/public/image
     networks:
-      - infra-network
+      - homepage-network
     security_opt:
       - no-new-privileges:true
 
 volumes:
   homepage_log:
     name: homepage_log
+
+networks:
+  homepage-network:
+    driver: bridge
+    name: homepage-network

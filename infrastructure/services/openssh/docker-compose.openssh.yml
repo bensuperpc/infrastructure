@@ -37,7 +37,7 @@ services:
       - argus_data:/argus_data:rw
       - qbittorrent_config:/qbittorrent_config:rw
     networks:
-      - infra-network
+      - openssh-network
     security_opt:
       - no-new-privileges:false
     ports:
@@ -95,3 +95,8 @@ volumes:
     name: argus_data
   qbittorrent_config:
     name: qbittorrent_config
+
+networks:
+  openssh-network:
+    driver: bridge
+    name: openssh-network

@@ -17,7 +17,7 @@ services:
     security_opt:
       - no-new-privileges:true
     networks:
-      - infra-network
+      - open-webui-network
     # devices:
      #  - /dev/dri/card0:/dev/dri/card0
      #  - /dev/dri/renderD128:/dev/dri/renderD128
@@ -40,10 +40,15 @@ services:
     #  - GID=${PGID:-1000}
     restart: on-failure:5
     networks:
-      - infra-network
+      - open-webui-network
     security_opt:
       - no-new-privileges:true
 
 volumes:
   ollama: {}
   open-webui: {}
+
+networks:
+  open-webui-network:
+    driver: bridge
+    name: open-webui-network

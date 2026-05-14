@@ -1,3 +1,3 @@
 homepage.{$MAIN_DOMAIN} {
-	reverse_proxy homepage:3000
+	reverse_proxy {$HOMEPAGE_ADDRESS}
 }

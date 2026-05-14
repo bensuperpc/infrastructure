@@ -12,7 +12,7 @@ services:
       - privatebin_data:/srv/data
       - ./config/conf.php:/srv/cfg/conf.php:ro
     networks:
-      - infra-network
+      - privatebin-network
     security_opt:
       - no-new-privileges:true
     read_only: true
@@ -28,3 +28,8 @@ services:
 volumes:
   privatebin_data:
     name: privatebin_data
+
+networks:
+  privatebin-network:
+    driver: bridge
+    name: privatebin-network

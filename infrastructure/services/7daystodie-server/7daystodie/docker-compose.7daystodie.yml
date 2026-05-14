@@ -19,7 +19,7 @@ services:
       - 7daystodie_server_file:/home/sdtdserver/serverfiles                # Optional - serverfiles folder
       - 7daystodie_server_log:/home/sdtdserver/log   
     networks:
-      - infra-network
+      - 7daystodie-network
     env_file:
       - ./env/7daystodie.env
     environment:
@@ -49,6 +49,7 @@ volumes:
     name: 7daystodie_server_log
 
 networks:
-  infra-network:
+  7daystodie-network:
     driver: bridge
-    name: infra-network
+    name: 7daystodie-network
+

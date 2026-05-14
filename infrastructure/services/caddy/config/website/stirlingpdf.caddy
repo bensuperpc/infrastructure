@@ -1,3 +1,3 @@
 stirlingpdf.{$MAIN_DOMAIN} {
-	reverse_proxy stirlingpdf:8080
+	reverse_proxy {$STIRLINGPDF_ADDRESS}
 }

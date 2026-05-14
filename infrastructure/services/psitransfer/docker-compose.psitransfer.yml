@@ -14,7 +14,7 @@ services:
     volumes:
       - psitransfer_data:/data
     networks:
-      - infra-network
+      - psitransfer-network
     security_opt:
       - no-new-privileges:true
     read_only: true
@@ -30,3 +30,8 @@ services:
 volumes:
   psitransfer_data:
     name: psitransfer_data
+
+networks:
+  psitransfer-network:
+    driver: bridge
+    name: psitransfer-network

@@ -15,7 +15,7 @@ services:
       - ./config/wordpress/php.ini:/usr/local/etc/php/conf.d/custom.ini:ro
       - wordpress:/var/www/html:rw
     networks:
-      - infra-network
+      - wordpress-network
     security_opt:
       - no-new-privileges:true
 
@@ -35,7 +35,7 @@ services:
       - ./env/wordpress_db.env
     command: '--default-authentication-plugin=mysql_native_password'
     networks:
-      - infra-network
+      - wordpress-network
     security_opt:
       - no-new-privileges:true
 
@@ -66,3 +66,8 @@ volumes:
     name: wordpress
   wordpress_backup:
     name: wordpress_backup
+
+networks:
+  wordpress-network:
+    driver: bridge
+    name: wordpress-network

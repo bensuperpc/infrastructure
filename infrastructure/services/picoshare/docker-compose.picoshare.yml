@@ -13,7 +13,7 @@ services:
     volumes:
       - picoshare_data:/data
     networks:
-      - infra-network
+      - picoshare-network
     security_opt:
       - no-new-privileges:true
     read_only: false
@@ -33,3 +33,8 @@ services:
 volumes:
   picoshare_data:
     name: picoshare_data
+
+networks:
+  picoshare-network:
+    driver: bridge
+    name: picoshare-network

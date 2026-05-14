@@ -1,5 +1,5 @@
 include:
 # Minecraft server
-  - minecraft-server/docker-compose.yml
+  - minecraft-server/docker-compose.minecraft.yml
 # Backup server
   - backup/docker-compose.backup.yml

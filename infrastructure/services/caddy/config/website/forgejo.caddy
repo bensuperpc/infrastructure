@@ -1,5 +1,5 @@
 git.{$MAIN_DOMAIN} {
-	reverse_proxy forgejo:3000
+	reverse_proxy {$FORGEJO_ADDRESS}
 }
 
 forgejo.{$MAIN_DOMAIN} {

@@ -13,10 +13,15 @@ services:
     volumes:
       - memos_config:/var/opt/memos
     networks:
-      - infra-network
+      - memos-network
     security_opt:
       - no-new-privileges:true
 
 volumes:
   memos_config:
     name: memos_config
+
+networks:
+  memos-network:
+    driver: bridge
+    name: memos-network

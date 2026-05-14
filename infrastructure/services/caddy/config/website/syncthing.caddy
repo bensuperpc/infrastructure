@@ -1,5 +1,5 @@
 syncthing.{$MAIN_DOMAIN} {
-	reverse_proxy syncthing:8384 {
+	reverse_proxy {$SYNCTHING_ADDRESS} { 
 		header_up Host {upstream_hostport}
 	}
 }

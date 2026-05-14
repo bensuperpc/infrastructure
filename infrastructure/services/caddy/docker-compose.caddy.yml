@@ -23,7 +23,30 @@ services:
       - public_data:/public_data:ro
 
     networks:
-      - infra-network
+      - qbittorrent-network
+      - syncthing-network
+      - jellyfin-network
+      - forgejo-network
+      - argus-network
+      - it-tools-network
+      - homepage-network
+      - dufs-network
+      - cyberchef-network
+      - open-webui-network
+      - uptimekuma-network
+      - stirlingpdf-network
+      - psitransfer-network
+      - transmission-network
+      - projectsend-network
+      - omni-tools-network
+      - privatebin-network
+      - picoshare-network
+      - memos-network
+#      - satisfactory-network
+#      - teamfortress2-network
+#      - minecraft-network
+#      - 7daystodie-network
+#      - openssh-network
     env_file:
       - ./env/caddy.env
     security_opt:

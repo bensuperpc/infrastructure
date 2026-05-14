@@ -1,5 +1,5 @@
 jellyfin.{$MAIN_DOMAIN} {
-	reverse_proxy jellyfin:8096
+	reverse_proxy {$JELLYFIN_ADDRESS}
 	header {
 		import header_common
 	}

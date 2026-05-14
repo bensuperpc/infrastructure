@@ -8,68 +8,68 @@
         href: https://wordpress.bensuperpc.org/
         description: Wordpress
         ping: wordpress.bensuperpc.org
-        container: wordpress
+        # container: wordpress
     - jellyfin:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/jellyfin.png
         href: https://jellyfin.bensuperpc.org/
         description: Jellyfin
         ping: jellyfin.bensuperpc.org
-        container: jellyfin
+        # container: jellyfin
     - projectsend:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/projectsend.png
         href: https://projectsend.bensuperpc.org/
         description: ProjectSend
         ping: projectsend.bensuperpc.org
-        container: projectsend
+        # container: projectsend
 - Sharing:
     - psitransfer:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/psitransfer.png
         href: https://psitransfer.bensuperpc.org/
         description: PsiTransfer
         ping: psitransfer.bensuperpc.org
-        container: psitransfer
+        # container: psitransfer
     - picoshare:
 #        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/picoshare.png
         href: https://picoshare.bensuperpc.org/
         description: PicoShare
         ping: picoshare.bensuperpc.org
-        container: picoshare
+        # container: picoshare
     - privatebin:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/privatebin.png
         href: https://privatebin.bensuperpc.org/
         description: PrivateBin
         ping: privatebin.bensuperpc.org
-        container: privatebin
+        # container: privatebin
     - qbittorrent:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/qbittorrent.png
         href: https://qbittorrent.bensuperpc.org/
         description: qBittorrent
         ping: qbittorrent.bensuperpc.org
-        container: qbittorrent
+        # container: qbittorrent
     - syncthing:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/syncthing.png
         href: https://syncthing.bensuperpc.org/
         description: Syncthing
         ping: syncthing.bensuperpc.org
-        container: syncthing
+        # container: syncthing
     - transmission:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/transmission.png
         href: https://transmission.bensuperpc.org/
         description: Transmission
         ping: transmission.bensuperpc.org
-        container: transmission
+        # container: transmission
     - dufs:
 #        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/dufs.png
         href: https://dufs.bensuperpc.org/
         description: Dufs
         ping: dufs.bensuperpc.org
-        container: dufs
+        # container: dufs
 #    - caddy:
 #        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/caddy.png
 #        href: https://public.bensuperpc.org/
 #        description: File browser
 #        ping: public.bensuperpc.org
-#        container: caddy
+#        # container: caddy
 
 - Utils:
     - it-tools:
@@ -77,37 +77,37 @@
         href: https://it-tools.bensuperpc.org/
         description: IT Tools
         ping: it-tools.bensuperpc.org
-        container: it-tools0
+        # container: it-tools0
     - omni-tools:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/it-tools.png
         href: https://omni-tools.bensuperpc.org/
         description: Omni Tools
         ping: omni-tools.bensuperpc.org
-        container: omni-tools0
+        # container: omni-tools0
     - cyberchef:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/cyberchef.png
         href: https://cyberchef.bensuperpc.org/
         description: CyberChef
         ping: cyberchef.bensuperpc.org
-        container: cyberchef0
+        # container: cyberchef0
     - stirlingpdf:
         #icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/stirlingpdf.png
         href: https://stirlingpdf.bensuperpc.org/
         description: StirlingPDF
         ping: stirlingpdf.bensuperpc.org
-        container: stirlingpdf
+        # container: stirlingpdf
     - forgejo:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/forgejo.png
         href: https://forgejo.bensuperpc.org/
         description: Forgejo
         ping: forgejo.bensuperpc.org
-        container: forgejo
+        # container: forgejo
     - open-webui:
         icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/open-webui.png
         href: https://open-webui.bensuperpc.org/
         description: ChatGPT local
         ping: open-webui.bensuperpc.org
-        container: open-webui
+        # container: open-webui
 
 - Games:
     - minecraft:
@@ -115,19 +115,19 @@
 #        href: https://minecraft.bensuperpc.org/
         description: Minecraft server
 #        ping: minecraft.bensuperpc.org
-        container: minecraft-server
+        # container: minecraft-server
     - 7dtd:
 #        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/7dtd.png
 #        href: https://7dtd.bensuperpc.org/
         description: 7 Days to Die server
 #        ping: 7dtd.bensuperpc.org
-        container: 7daystodie_server
+        # container: 7daystodie_server
     - satisfactory:
 #        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/7dtd.png
 #        href: https://7dtd.bensuperpc.org/
         description: Satisfactory server
 #        ping: 7dtd.bensuperpc.org
-        container: satisfactory_server
+        # container: satisfactory_server
 
 - Admin:
     - uptime-kuma:
@@ -135,5 +135,5 @@
         href: https://uptimekuma.bensuperpc.org/
         description: Uptime Kuma
         ping: uptimekuma.bensuperpc.org
-        container: uptime-kuma
+        # container: uptime-kuma
 

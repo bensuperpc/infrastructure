@@ -23,7 +23,7 @@ services:
     volumes:
       - minecraft_proxy_data:/server
     networks:
-      - infra-network
+      - minecraft-network
 
   mc-server:
     image: itzg/minecraft-server:latest
@@ -56,7 +56,7 @@ services:
       - minecraft_server_data:/data
 #      - ./asset_links/plugins.txt:/extras/plugins.txt:ro
     networks:
-      - infra-network
+      - minecraft-network
     deploy:
       resources:
 #        limits:
@@ -90,7 +90,7 @@ services:
     volumes:
       - minecraft_rcon_data:/opt/rcon-web-admin/db
     networks:
-      - infra-network
+      - minecraft-network
 
 volumes:
   minecraft_server_data:
@@ -101,6 +101,6 @@ volumes:
     name: minecraft_rcon_data
 
 networks:
-  infra-network:
+  minecraft-network:
     driver: bridge
-    name: infra-network
+    name: minecraft-network

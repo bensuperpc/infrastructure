@@ -21,7 +21,7 @@ services:
       - public_data:/downloads
       - private_data:/private_downloads
     networks:
-      - infra-network
+      - qbittorrent-network
     security_opt:
       - no-new-privileges:true
 
@@ -32,3 +32,8 @@ volumes:
     name: public_data
   private_data:
     name: private_data
+
+networks:
+  qbittorrent-network:
+    driver: bridge
+    name: qbittorrent-network

@@ -9,7 +9,7 @@ services:
     depends_on:
       - caddy
     networks:
-      - infra-network
+      - cyberchef-network
     read_only: false
     security_opt:
       - no-new-privileges:true
@@ -34,7 +34,7 @@ services:
     depends_on:
       - caddy
     networks:
-      - infra-network
+      - cyberchef-network
     read_only: false
     security_opt:
       - no-new-privileges:true
@@ -49,3 +49,8 @@ services:
         reservations:
           cpus: '0.001'
           memory: 20M
+
+networks:
+  cyberchef-network:
+    driver: bridge
+    name: cyberchef-network

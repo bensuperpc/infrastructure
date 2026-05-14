@@ -1,5 +1,5 @@
 uptimekuma.{$MAIN_DOMAIN} {
-	reverse_proxy uptime-kuma:3001
+	reverse_proxy {$UPTIMEKUMA_ADDRESS}
 	header {
 		Cache-Control "no-store"
 		import header_common

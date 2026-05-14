@@ -1,6 +1,6 @@
 wordpress.{$MAIN_DOMAIN} {
 	root * /var/www/html
-	php_fastcgi wordpress:9000
+	php_fastcgi {$WORDPRESS_ADDRESS}
 
 	file_server
 	encode zstd gzip

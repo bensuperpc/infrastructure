@@ -12,7 +12,7 @@ services:
     volumes:
       - teamfortress2_data:/home/steam/tf-dedicated
     networks:
-      - infra-network
+      - teamfortress2-network
     env_file:
       - ./env/teamfortress2.env
 #    environment:
@@ -34,6 +34,6 @@ volumes:
     name: teamfortress2_data
 
 networks:
-  infra-network:
+  teamfortress2-network:
     driver: bridge
-    name: infra-network
+    name: teamfortress2-network

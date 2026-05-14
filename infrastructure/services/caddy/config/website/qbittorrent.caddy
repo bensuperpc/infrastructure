@@ -1,5 +1,5 @@
 torrent.{$MAIN_DOMAIN} {
-	reverse_proxy qbittorrent:8080
+	reverse_proxy {$QBITTORRENT_ADDRESS}
 	header {
 		Cache-Control "no-store"
 		import header_common

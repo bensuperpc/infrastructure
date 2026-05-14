@@ -18,7 +18,7 @@ services:
       - public_data:/downloads
       - transmission_watch:/watch
     networks:
-      - infra-network
+      - transmission-network
     security_opt:
       - no-new-privileges:true
 
@@ -31,3 +31,8 @@ volumes:
     name: public_data
   private_data:
     name: private_data
+
+networks:
+  transmission-network:
+    driver: bridge
+    name: transmission-network

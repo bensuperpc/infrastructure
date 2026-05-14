@@ -32,8 +32,3 @@ volumes:
     name: public_data
   private_data:
     name: private_data
-
-networks:
-  infra-network:
-    driver: bridge
-    name: infra-network

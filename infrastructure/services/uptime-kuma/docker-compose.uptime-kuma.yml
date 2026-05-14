@@ -12,7 +12,7 @@ services:
     depends_on:
       - caddy
     networks:
-      - infra-network
+      - uptimekuma-network
     security_opt:
       - no-new-privileges:true
     cap_drop:
@@ -21,3 +21,8 @@ services:
 volumes:
   uptimekuma_data:
     name: uptimekuma_data
+
+networks:
+  uptimekuma-network:
+    driver: bridge
+    name: uptimekuma-network

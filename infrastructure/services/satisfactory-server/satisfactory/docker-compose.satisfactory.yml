@@ -13,7 +13,7 @@ services:
     volumes:
       - satisfactory_server_config:/config
     networks:
-      - infra-network
+      - satisfactory-network
     env_file:
       - ./env/satisfactory.env
     environment:
@@ -41,6 +41,6 @@ volumes:
     name: satisfactory_server_config
 
 networks:
-  infra-network:
+  satisfactory-network:
     driver: bridge
-    name: infra-network
+    name: satisfactory-network

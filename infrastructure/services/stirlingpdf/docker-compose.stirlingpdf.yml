@@ -14,7 +14,7 @@ services:
       - stirlingpdf_config:/configs
       - stirlingpdf_tessdata:/usr/share/tessdata
     networks:
-      - infra-network
+      - stirlingpdf-network
     security_opt:
       - no-new-privileges:true
     read_only: false
@@ -24,3 +24,8 @@ volumes:
     name: stirlingpdf_config
   stirlingpdf_tessdata:
     name: stirlingpdf_tessdata
+
+networks:
+  stirlingpdf-network:
+    driver: bridge
+    name: stirlingpdf-network

@@ -41,6 +41,8 @@ include:
   - services/uptime-kuma/docker-compose.uptime-kuma.yml
 # open-webui
   - services/open-webui/docker-compose.open-webui.yml
+# Memos
+  - services/memos/docker-compose.memos.yml
 # Argus
   - services/argus/docker-compose.argus.yml
 # Minecraft
