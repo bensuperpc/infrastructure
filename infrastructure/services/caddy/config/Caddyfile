@@ -40,3 +40,4 @@ import website/qbittorrent.caddy
 import website/syncthing.caddy
 import website/uptimekuma.caddy
 import website/argus.caddy
+import website/dependency-track.caddy

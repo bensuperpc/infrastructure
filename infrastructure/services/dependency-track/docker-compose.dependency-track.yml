@@ -1,0 +1,69 @@
+services:
+  dependency-track-apiserver:
+    image: dependencytrack/apiserver
+    container_name: dependency-track-apiserver
+    profiles:
+      - dependency-track
+    depends_on:
+      dependency-track-postgres:
+        condition: service_healthy
+    env_file:
+      - ./env/dependency-track.env
+    restart: on-failure:5
+    networks:
+      - dependency-track-network
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+      restart_policy:
+        condition: on-failure
+    volumes:
+    - 'dtrack-data:/data'
+
+  dependency-track-frontend:
+    image: dependencytrack/frontend
+    container_name: dependency-track-frontend
+    profiles:
+      - dependency-track
+    restart: on-failure:5
+    networks:
+      - dependency-track-network
+    depends_on:
+      dependency-track-apiserver:
+        condition: service_healthy
+      caddy:
+        condition: service_healthy
+    security_opt:
+      - no-new-privileges:true
+    env_file:
+      - ./env/dependency-track.env
+
+  dependency-track-postgres:
+    image: postgres:17-alpine
+    container_name: dependency-track-postgres
+    profiles:
+      - dependency-track
+    env_file:
+      - ./env/dependency-track.env
+    restart: on-failure:5
+    networks:
+      - dependency-track-network
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+    volumes:
+    - "dtrack-postgres-data:/var/lib/postgresql/data"
+
+volumes:
+  dtrack-data:
+    name: dtrack-data
+  dtrack-postgres-data:
+    name: dtrack-postgres-data
+
+networks:
+  dependency-track-network:
+    driver: bridge
+    name: dependency-track-network

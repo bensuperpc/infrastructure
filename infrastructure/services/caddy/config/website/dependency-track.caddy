@@ -1,0 +1,4 @@
+dependency-track.{$MAIN_DOMAIN} {
+	reverse_proxy /api/* {$DEPENDENCY_TRACK_APISERVER_ADDRESS}
+	reverse_proxy {$DEPENDENCY_TRACK_FRONTEND_ADDRESS}
+}

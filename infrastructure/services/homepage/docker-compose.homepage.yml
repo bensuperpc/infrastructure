@@ -17,7 +17,7 @@ services:
       - homepage_log:/app/logs
       - ./config:/app/config
       - ./image:/app/public/image:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+    #  - /var/run/docker.sock:/var/run/docker.sock:ro
 #    develop:
 #      watch:
 #        - action: sync+restart
