@@ -1,6 +1,6 @@
 services:
   ollama:
-    image: ollama/ollama:latest
+    image: ollama/ollama:${OLLAMA_DOCKER_TAG-latest}
     #platform: linux/amd64
     container_name: ollama
     profiles:
@@ -12,19 +12,20 @@ services:
     tty: true
     volumes:
       - ollama:/root/.ollama
+    # ports:
+    #   - ${OLLAMA_PORT-11434}:11434
     env_file:
       - ./env/ollama.env
     security_opt:
       - no-new-privileges:true
     networks:
       - open-webui-network
-    # devices:
-     #  - /dev/dri/card0:/dev/dri/card0
-     #  - /dev/dri/renderD128:/dev/dri/renderD128
-
+    devices:
+      - /dev/dri
+      - /dev/kfd
 
   open-webui:
-    image: ghcr.io/open-webui/open-webui:main
+    image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG-main}
     container_name: open-webui
     profiles:
       - open-webui
@@ -38,6 +39,8 @@ services:
     #environment:
     #  - UID=${PUID:-1000}
     #  - GID=${PGID:-1000}
+    # ports:
+    #   - ${OPEN_WEBUI_PORT-3000}:8080
     restart: on-failure:5
     networks:
       - open-webui-network

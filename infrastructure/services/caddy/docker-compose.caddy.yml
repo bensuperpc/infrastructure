@@ -43,6 +43,8 @@ services:
       - picoshare-network
       - memos-network
       - dependency-track-network
+      - searxng-network
+      - wordpress-network
 #      - satisfactory-network
 #      - teamfortress2-network
 #      - minecraft-network

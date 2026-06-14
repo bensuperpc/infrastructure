@@ -1,0 +1,43 @@
+services:
+  searxng:
+    container_name: searxng
+    image: docker.io/searxng/searxng:${SEARXNG_VERSION:-latest}
+    restart: always
+    depends_on:
+      - caddy
+    profiles:
+      - searxng
+    # ports:
+    #   - ${SEARXNG_PORT-8080}:8080
+    env_file: ./config/searxng.env
+    networks:
+      - searxng-network
+    volumes:
+      - searxng-config:/etc/searxng/
+      - searxng-data:/var/cache/searxng/
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+
+  valkey:
+    container_name: searxng-valkey
+    profiles:
+      - searxng
+    image: docker.io/valkey/valkey:9-alpine
+    command: valkey-server --save 30 1 --loglevel warning
+    restart: always
+    networks:
+      - searxng-network
+    volumes:
+      - valkey-data:/data/
+
+networks:
+  searxng-network:
+    driver: bridge
+    name: searxng-network
+
+volumes:
+  searxng-data: {}
+  searxng-config: {}
+  valkey-data: {}
+

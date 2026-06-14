@@ -47,6 +47,8 @@ include:
   - services/argus/docker-compose.argus.yml
 # Dependency-Track
   - services/dependency-track/docker-compose.dependency-track.yml
+# Searxng
+  - services/searxng/docker-compose.searxng.yml
 # Minecraft
   - services/minecraft-server/docker-compose.yml
 # 7daystodie

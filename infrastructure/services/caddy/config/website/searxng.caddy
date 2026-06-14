@@ -1,0 +1,3 @@
+searxng.{$MAIN_DOMAIN} {
+	reverse_proxy {$SEARXNG_ADDRESS}
+}
