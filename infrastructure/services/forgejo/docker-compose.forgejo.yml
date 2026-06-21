@@ -5,7 +5,7 @@ services:
     container_name: forgejo
     profiles:
       - forgejo
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - database_forgejo
       - caddy
@@ -18,7 +18,8 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     networks:
-      - forgejo-network
+      - caddy-dev
+      - forgejo-internal
 #    user: ${PUID:-1000}:${PGID:-1000} 
     security_opt:
       - no-new-privileges:true
@@ -31,14 +32,14 @@ services:
       - forgejo
     depends_on:
       - caddy
-    restart: on-failure:5
+    restart: on-failure:7
     volumes:
       - forgejo_db:/var/lib/mysql:rw
     env_file:
       - ./env/forgejo_db.env
     command: '--default-authentication-plugin=mysql_native_password'
     networks:
-      - forgejo-network
+      - forgejo-internal
     security_opt:
       - no-new-privileges:true
 
@@ -48,7 +49,7 @@ services:
     container_name: 'docker_dind'
     hostname: docker
     networks:
-      - forgejo-network
+      - forgejo-internal
     profiles:
       - forgejo-runner
     privileged: true
@@ -61,7 +62,7 @@ services:
   forgejo_runner:
     image: data.forgejo.org/forgejo/runner:12
     networks:
-      - forgejo-network
+      - forgejo-internal
     profiles:
       - forgejo-runner
     depends_on:
@@ -91,6 +92,9 @@ volumes:
     name: forgejo_runner
 
 networks:
-  forgejo-network:
+  caddy-dev:
     driver: bridge
-    name: forgejo-network
+    name: caddy-dev
+  forgejo-internal:
+    driver: bridge
+    name: forgejo-internal

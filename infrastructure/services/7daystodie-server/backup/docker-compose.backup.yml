@@ -6,7 +6,7 @@ services:
       - 7daystodie_backup
     depends_on:
       - 7daystodie_server
-    restart: on-failure:5
+    restart: on-failure:7
     env_file:
       - ./env/7daystodie_backup.env
     volumes:

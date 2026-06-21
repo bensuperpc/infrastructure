@@ -5,7 +5,7 @@ services:
     container_name: qbittorrent
     profiles:
       - qbittorrent
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     env_file:
@@ -13,6 +13,7 @@ services:
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
+      - TZ=${TZ:-Europe/Paris}
     ports:
       - 6881:6881
       - 6881:6881/udp
@@ -21,7 +22,7 @@ services:
       - public_data:/downloads
       - private_data:/private_downloads
     networks:
-      - qbittorrent-network
+      - caddy-media
     security_opt:
       - no-new-privileges:true
 
@@ -34,6 +35,6 @@ volumes:
     name: private_data
 
 networks:
-  qbittorrent-network:
+  caddy-media:
     driver: bridge
-    name: qbittorrent-network
+    name: caddy-media

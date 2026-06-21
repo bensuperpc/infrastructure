@@ -5,11 +5,11 @@ services:
     container_name: cyberchef0
     profiles:
       - cyberchef
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     networks:
-      - cyberchef-network
+      - caddy-tools
     read_only: false
     security_opt:
       - no-new-privileges:true
@@ -30,11 +30,11 @@ services:
     container_name: cyberchef1
     profiles:
       - cyberchef
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     networks:
-      - cyberchef-network
+      - caddy-tools
     read_only: false
     security_opt:
       - no-new-privileges:true
@@ -51,6 +51,6 @@ services:
           memory: 20M
 
 networks:
-  cyberchef-network:
+  caddy-tools:
     driver: bridge
-    name: cyberchef-network
+    name: caddy-tools

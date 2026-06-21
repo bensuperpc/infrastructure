@@ -7,12 +7,13 @@ services:
       - uptime-kuma
     volumes:
       - uptimekuma_data:/app/data
-    #  - /var/run/docker.sock:/var/run/docker.sock:ro
-    restart: on-failure:5
+    environment:
+      - TZ=${TZ:-Europe/Paris}
+    restart: on-failure:7
     depends_on:
       - caddy
     networks:
-      - uptimekuma-network
+      - caddy-infra
     security_opt:
       - no-new-privileges:true
     cap_drop:
@@ -23,6 +24,6 @@ volumes:
     name: uptimekuma_data
 
 networks:
-  uptimekuma-network:
+  caddy-infra:
     driver: bridge
-    name: uptimekuma-network
+    name: caddy-infra

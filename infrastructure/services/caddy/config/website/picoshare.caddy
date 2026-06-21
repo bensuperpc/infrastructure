@@ -1,3 +1,4 @@
-picoshare.{$MAIN_DOMAIN} {
+{$SCHEME}://picoshare.{$MAIN_DOMAIN} {
+	import authelia_middleware
 	reverse_proxy {$PICOSHARE_ADDRESS}
 }

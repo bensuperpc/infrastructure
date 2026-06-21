@@ -5,7 +5,7 @@ services:
     container_name: satisfactory_server
     profiles:
       - satisfactory_server
-    restart: on-failure:5
+    restart: on-failure:7
     ports:
       - 7777:7777/udp
       - 7777:7777/tcp
@@ -19,6 +19,7 @@ services:
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
+      - TZ=${TZ:-Europe/Paris}
     security_opt:
       - no-new-privileges:true
     healthcheck:

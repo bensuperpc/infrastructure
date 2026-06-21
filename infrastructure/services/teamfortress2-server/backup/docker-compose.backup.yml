@@ -6,7 +6,7 @@ services:
       - teamfortress2_backup
     depends_on:
       - teamfortress2_server
-    restart: on-failure:5
+    restart: on-failure:7
     env_file:
       - ./env/teamfortress2_backup.env
     volumes:

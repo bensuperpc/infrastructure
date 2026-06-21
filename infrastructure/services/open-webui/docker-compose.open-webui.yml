@@ -1,14 +1,15 @@
+name: openwebui
+
 services:
   ollama:
     image: ollama/ollama:${OLLAMA_DOCKER_TAG-latest}
-    #platform: linux/amd64
     container_name: ollama
     profiles:
-      - open-webui
+      - openwebui
       - ollama
     depends_on:
       - caddy
-    restart: on-failure:5
+    restart: on-failure:7
     tty: true
     volumes:
       - ollama:/root/.ollama
@@ -16,42 +17,89 @@ services:
     #   - ${OLLAMA_PORT-11434}:11434
     env_file:
       - ./env/ollama.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     security_opt:
       - no-new-privileges:true
     networks:
-      - open-webui-network
-    devices:
-      - /dev/dri
-      - /dev/kfd
+      - openwebui-internal
+    # devices:
+    #   - /dev/dri
+    #   - /dev/kfd
 
-  open-webui:
-    image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG-main}
-    container_name: open-webui
+  openwebui-postgres:
+    image: postgres:17-alpine
+    container_name: openwebui-postgres
     profiles:
-      - open-webui
+      - openwebui
+    env_file:
+      - ./env/openwebui-postgres.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     volumes:
-      - open-webui:/app/backend/data
+      - openwebui-postgres:/var/lib/postgresql/data
+    restart: on-failure:7
+    networks:
+      - openwebui-internal
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # pgadmin:
+  #   image: dpage/pgadmin4:latest
+  #   container_name: pgadmin
+  #   profiles:
+  #     - openwebui
+    # env_file:
+    #   - ./env/openwebui-pgadmin.env
+  #   volumes:
+  #     - openwebui-pgadmin:/var/lib/pgadmin
+  #   restart: on-failure:7
+  #   depends_on:
+  #     openwebui-postgres:
+  #       condition: service_healthy
+  #   networks:
+  #     - openwebui-network
+
+
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG-main}
+    container_name: openwebui
+    profiles:
+      - openwebui
+    volumes:
+      - openwebui:/app/backend/data
     depends_on:
       - ollama
       - caddy
+      - openwebui-postgres
     env_file:
-      - ./env/open-webui.env
-    #environment:
+      - ./env/openwebui.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     #  - UID=${PUID:-1000}
     #  - GID=${PGID:-1000}
     # ports:
     #   - ${OPEN_WEBUI_PORT-3000}:8080
-    restart: on-failure:5
+    restart: on-failure:7
     networks:
-      - open-webui-network
+      - caddy-ai
+      - openwebui-internal
     security_opt:
       - no-new-privileges:true
 
 volumes:
   ollama: {}
-  open-webui: {}
+  openwebui: {}
+  openwebui-postgres: {}
+  openwebui-pgadmin: {}
 
 networks:
-  open-webui-network:
+  caddy-ai:
     driver: bridge
-    name: open-webui-network
+    name: caddy-ai
+  openwebui-internal:
+    driver: bridge
+    name: openwebui-internal

@@ -5,7 +5,7 @@ services:
     profiles:
       - minecraft_proxy
       - minecraft_server
-    restart: on-failure:3
+    restart: on-failure:7
     env_file:
       - ./env/proxy.env
     environment:
@@ -32,7 +32,7 @@ services:
       - minecraft_server
     depends_on:
       - minecraft_proxy
-    restart: on-failure:3
+    restart: on-failure:7
     ports:
       #       Server Minecraft port (Disable if you use proxy)
       # - "25565:25565"
@@ -65,40 +65,11 @@ services:
         reservations:
           cpus: '0.01'
           memory: 20M
-
-  rcon-web:
-    image: itzg/rcon:latest
-    container_name: minecraft_rcon_web
-    profiles:
-      - mc-web
-    restart: on-failure:3
-    depends_on:
-      - minecraft_server
-      - minecraft_proxy
-    environment:
-      RWA_USERNAME: admin
-      RWA_PASSWORD: admin
-      RWA_ADMIN: "TRUE"
-      # is referring to the hostname of 'minecraft_server' compose service below
-      RWA_RCON_HOST: minecraft_server
-      RWA_RCON_PASSWORD: 6hxU3Oxmh2Q8e6S9fjkdWJikRCON_PASSWORD
-    ports:
-      #       web UI port
-      - "4326:4326"
-      #       websocket access from UI
-      - "4327:4327"
-    volumes:
-      - minecraft_rcon_data:/opt/rcon-web-admin/db
-    networks:
-      - minecraft-network
-
 volumes:
   minecraft_server_data:
     name: minecraft_server_data
   minecraft_proxy_data:
     name: minecraft_proxy_data
-  minecraft_rcon_data:
-    name: minecraft_rcon_data
 
 networks:
   minecraft-network:

@@ -1,0 +1,64 @@
+theme: auto
+
+server:
+  address: "tcp://0.0.0.0:9091"
+
+log:
+  level: info
+
+authentication_backend:
+  file:
+    path: /config/users_database.yml
+
+access_control:
+  default_policy: deny
+  rules:
+    - domain:
+        - "authelia.bensuperpc.org"
+        - "www.bensuperpc.org"
+        - "public.bensuperpc.org"
+        - "it-tools.bensuperpc.org"
+        - "omni-tools.bensuperpc.org"
+        - "cyberchef.bensuperpc.org"
+        - "wordpress.bensuperpc.org"
+        - "homepage.bensuperpc.org"
+      policy: bypass
+    - domain: 
+        - "jellyfin.bensuperpc.org"
+        - "openwebui.bensuperpc.org"
+        - "searxng.bensuperpc.org"
+      subject:
+      - 'group:admins'
+      - 'group:users'
+      policy: one_factor      
+    - domain: 
+        - "*.bensuperpc.org"
+      subject:
+      - 'group:admins'
+      policy: one_factor
+    # - domain: "dependency-track.bensuperpc.org"
+    #   resources:
+    #     - "^/api/.*"
+    #   policy: bypass
+#    - domain: "*.bensuperpc.org"
+#      policy: two_factor
+
+session:
+  expiration: 72h
+  inactivity: 60m
+  remember_me: 1M
+  cookies:
+    - domain: "bensuperpc.org"
+      authelia_url: "https://authelia.bensuperpc.org"
+
+regulation:
+  max_retries: 5
+  find_time: 3m
+  ban_time: 15m
+
+storage:
+  postgres: {}
+
+notifier:
+  filesystem:
+    filename: /config/notification.txt

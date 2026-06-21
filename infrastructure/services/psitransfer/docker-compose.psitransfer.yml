@@ -5,16 +5,18 @@ services:
     container_name: psitransfer
     profiles:
       - psitransfer
-    restart: on-failure:5
+    restart: on-failure:7
 #    user: ${PUID:-1000}:${PGID:-1000} 
     depends_on:
       - caddy
     env_file:
       - ./env/psitransfer.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     volumes:
       - psitransfer_data:/data
     networks:
-      - psitransfer-network
+      - caddy-files
     security_opt:
       - no-new-privileges:true
     read_only: true
@@ -32,6 +34,6 @@ volumes:
     name: psitransfer_data
 
 networks:
-  psitransfer-network:
+  caddy-files:
     driver: bridge
-    name: psitransfer-network
+    name: caddy-files

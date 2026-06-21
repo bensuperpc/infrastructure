@@ -5,14 +5,16 @@ services:
     container_name: privatebin
     profiles:
       - privatebin
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     volumes:
       - privatebin_data:/srv/data
       - ./config/conf.php:/srv/cfg/conf.php:ro
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     networks:
-      - privatebin-network
+      - caddy-tools
     security_opt:
       - no-new-privileges:true
     read_only: true
@@ -30,6 +32,6 @@ volumes:
     name: privatebin_data
 
 networks:
-  privatebin-network:
+  caddy-tools:
     driver: bridge
-    name: privatebin-network
+    name: caddy-tools

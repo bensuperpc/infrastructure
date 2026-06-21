@@ -5,16 +5,18 @@ services:
     container_name: omni-tools0
     profiles:
       - omni-tools
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     networks:
-      - omni-tools-network
+      - caddy-tools
     read_only: false
     security_opt:
       - no-new-privileges:true
     cap_drop:
       - SYS_ADMIN
+    environment:
+      - TZ=${TZ:-Europe/Paris}
 
     deploy:
       resources:
@@ -30,16 +32,18 @@ services:
     container_name: omni-tools1
     profiles:
       - omni-tools
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     networks:
-      - omni-tools-network
+      - caddy-tools
     read_only: false
     security_opt:
       - no-new-privileges:true
     cap_drop:
       - SYS_ADMIN
+    environment:
+      - TZ=${TZ:-Europe/Paris}
 
     deploy:
       resources:
@@ -51,6 +55,6 @@ services:
           memory: 20M
 
 networks:
-  omni-tools-network:
+  caddy-tools:
     driver: bridge
-    name: omni-tools-network
+    name: caddy-tools
