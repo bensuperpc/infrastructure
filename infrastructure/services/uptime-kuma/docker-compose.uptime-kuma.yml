@@ -7,8 +7,9 @@ services:
       - uptime-kuma
     volumes:
       - uptimekuma_data:/app/data
-    #  - /var/run/docker.sock:/var/run/docker.sock:ro
-    restart: on-failure:5
+    environment:
+      - TZ=${TZ:-Europe/Paris}
+    restart: on-failure:7
     depends_on:
       - caddy
     networks:

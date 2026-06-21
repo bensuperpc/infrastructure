@@ -9,7 +9,7 @@ services:
     depends_on:
       main_infrastructure:
         condition: service_completed_successfully
-    restart: on-failure:5
+    restart: on-failure:7
     ports:
       - 80:80/tcp
       - 80:80/udp
@@ -23,6 +23,7 @@ services:
       - public_data:/public_data:ro
 
     networks:
+      - authelia-network
       - qbittorrent-network
       - syncthing-network
       - jellyfin-network
@@ -32,7 +33,7 @@ services:
       - homepage-network
       - dufs-network
       - cyberchef-network
-      - open-webui-network
+      - openwebui-network
       - uptimekuma-network
       - stirlingpdf-network
       - psitransfer-network
@@ -44,6 +45,7 @@ services:
       - memos-network
       - dependency-track-network
       - searxng-network
+      - dozzle-network
       - wordpress-network
 #      - satisfactory-network
 #      - teamfortress2-network
@@ -52,6 +54,8 @@ services:
 #      - openssh-network
     env_file:
       - ./env/caddy.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     security_opt:
       - no-new-privileges:true
     healthcheck:
@@ -67,9 +71,11 @@ services:
       - caddy
     depends_on:
       - caddy
-    restart: on-failure:5
+    restart: on-failure:7
     env_file:
       - ./env/caddy_backup.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     volumes:
       - caddy_backup:/mnt/restic
       - caddy_data:/data:ro

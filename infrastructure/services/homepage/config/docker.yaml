@@ -2,9 +2,6 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/configs/docker
 
-#jellyfin:
-#  host: jellyfin
-#  port: 8096
-
-#my-docker:
-#   socket: /var/run/docker.sock
+my-docker:
+  host: homepage-dockerproxy
+  port: 2375

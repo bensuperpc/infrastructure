@@ -1,4 +1,5 @@
-uptimekuma.{$MAIN_DOMAIN} {
+{$SCHEME}://uptimekuma.{$MAIN_DOMAIN} {
+	import authelia_middleware
 	reverse_proxy {$UPTIMEKUMA_ADDRESS}
 	header {
 		Cache-Control "no-store"

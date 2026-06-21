@@ -29,8 +29,9 @@ COMPOSE_DIR ?= --project-directory ./$(PROJECT_DIRECTORY)
 
 UID ?= 1000
 GID ?= 1000
+TZ ?= Europe/Paris
 
-ENV_ARG_VAR ?= PUID=$(UID) PGID=$(GID)
+ENV_ARG_VAR ?= PUID=$(UID) PGID=$(GID) TZ=$(TZ)
 
 DOCKER_COMPOSE_COMMAND ?= $(ENV_ARG_VAR) $(DOCKER_EXEC) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD)
 
@@ -70,7 +71,7 @@ update: image-update git-update
 
 .PHONY: clean
 clean:
-	docker system prune -f
+	$(ENV_ARG_VAR) $(DOCKER_EXEC) system prune -f
 
 .PHONY: purge
 purge:

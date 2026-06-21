@@ -1,4 +1,5 @@
-www.{$MAIN_DOMAIN} {
+{$SCHEME}://www.{$MAIN_DOMAIN} {
+	import authelia_middleware
 	header {
 		Cache-Control "public, max-age=10"
 		import header_common
@@ -12,11 +13,11 @@ www.{$MAIN_DOMAIN} {
 	reverse_proxy homepage:3000
 }
 
-{$MAIN_DOMAIN} {
-	redir https://www.{host}{uri} permanent
+{$SCHEME}://{$MAIN_DOMAIN} {
+	redir https://www.{$MAIN_DOMAIN}{uri} permanent
 }
 
-public.{$MAIN_DOMAIN} {
+{$SCHEME}://public.{$MAIN_DOMAIN} {
 	root * /public_data
 	file_server browse
 

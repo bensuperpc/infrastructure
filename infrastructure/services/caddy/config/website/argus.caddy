@@ -1,3 +1,4 @@
-argus.{$MAIN_DOMAIN} {
+{$SCHEME}://argus.{$MAIN_DOMAIN} {
+	import authelia_middleware
 	reverse_proxy {$ARGUS_ADDRESS}
 }

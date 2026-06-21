@@ -6,9 +6,10 @@ services:
     profiles:
       - argus
     environment:
-      ARGUS_UID: ${PUID:-1000}
-      ARGUS_GID: ${PGID:-1000}
-    restart: on-failure:5
+      - ARGUS_UID=${PUID:-1000}
+      - ARGUS_GID=${PGID:-1000}
+      - TZ=${TZ:-Europe/Paris}
+    restart: on-failure:7
     depends_on:
       - caddy
     networks:

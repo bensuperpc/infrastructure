@@ -7,7 +7,7 @@ services:
     depends_on:
       - mc-server
       - minecraft_proxy
-    restart: on-failure:3
+    restart: on-failure:7
     env_file:
       - ./env/backup.env
     volumes:

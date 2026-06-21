@@ -5,11 +5,13 @@ services:
     container_name: stirlingpdf
     profiles:
       - stirlingpdf
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     env_file:
       - ./env/stirlingpdf.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     volumes:
       - stirlingpdf_config:/configs
       - stirlingpdf_tessdata:/usr/share/tessdata

@@ -5,12 +5,13 @@ services:
     container_name: openssh
     profiles:
       - openssh
-    restart: on-failure:5
+    restart: on-failure:7
     env_file:
       - ./env/openssh.env
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
+      - TZ=${TZ:-Europe/Paris}
     volumes:
       - openssh_config:/config:rw
       - ./config/authorized_keys:/authorized_ssh_keys:ro

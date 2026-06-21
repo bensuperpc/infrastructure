@@ -5,7 +5,7 @@ services:
     container_name: cyberchef0
     profiles:
       - cyberchef
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     networks:
@@ -30,7 +30,7 @@ services:
     container_name: cyberchef1
     profiles:
       - cyberchef
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     networks:

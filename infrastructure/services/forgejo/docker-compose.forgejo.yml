@@ -5,7 +5,7 @@ services:
     container_name: forgejo
     profiles:
       - forgejo
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - database_forgejo
       - caddy
@@ -31,7 +31,7 @@ services:
       - forgejo
     depends_on:
       - caddy
-    restart: on-failure:5
+    restart: on-failure:7
     volumes:
       - forgejo_db:/var/lib/mysql:rw
     env_file:

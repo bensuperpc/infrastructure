@@ -5,7 +5,7 @@ services:
     container_name: memos
     profiles:
       - memos
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     env_file:

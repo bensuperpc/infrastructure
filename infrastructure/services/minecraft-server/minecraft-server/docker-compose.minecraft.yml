@@ -5,7 +5,7 @@ services:
     profiles:
       - minecraft_proxy
       - minecraft_server
-    restart: on-failure:3
+    restart: on-failure:7
     env_file:
       - ./env/proxy.env
     environment:
@@ -32,7 +32,7 @@ services:
       - minecraft_server
     depends_on:
       - minecraft_proxy
-    restart: on-failure:3
+    restart: on-failure:7
     ports:
       #       Server Minecraft port (Disable if you use proxy)
       # - "25565:25565"
@@ -71,7 +71,7 @@ services:
     container_name: minecraft_rcon_web
     profiles:
       - mc-web
-    restart: on-failure:3
+    restart: on-failure:7
     depends_on:
       - minecraft_server
       - minecraft_proxy

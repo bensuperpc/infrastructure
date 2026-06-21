@@ -9,7 +9,7 @@ services:
         condition: service_healthy
     env_file:
       - ./env/dependency-track.env
-    restart: on-failure:5
+    restart: on-failure:7
     networks:
       - dependency-track-network
     deploy:
@@ -26,7 +26,7 @@ services:
     container_name: dependency-track-frontend
     profiles:
       - dependency-track
-    restart: on-failure:5
+    restart: on-failure:7
     networks:
       - dependency-track-network
     depends_on:
@@ -46,14 +46,14 @@ services:
       - dependency-track
     env_file:
       - ./env/dependency-track.env
-    restart: on-failure:5
+    restart: on-failure:7
     networks:
       - dependency-track-network
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
       interval: 5s
       timeout: 3s
-      retries: 3
+      retries: 5
     volumes:
     - "dtrack-postgres-data:/var/lib/postgresql/data"
 

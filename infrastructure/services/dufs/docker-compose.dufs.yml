@@ -6,7 +6,7 @@ services:
     profiles:
       - dufs
 #    user: ${PUID:-1000}:${PGID:-1000} 
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     env_file:

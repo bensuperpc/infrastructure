@@ -5,11 +5,13 @@ services:
     container_name: picoshare
     profiles:
       - picoshare
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     env_file:
       - ./env/picoshare.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     volumes:
       - picoshare_data:/data
     networks:
