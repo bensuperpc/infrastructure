@@ -1,4 +1,5 @@
-wordpress.{$MAIN_DOMAIN} {
+{$SCHEME}://wordpress.{$MAIN_DOMAIN} {
+	import authelia_middleware
 	root * /var/www/html
 	php_fastcgi {$WORDPRESS_ADDRESS}
 
@@ -16,9 +17,6 @@ wordpress.{$MAIN_DOMAIN} {
 	respond /uploads/*.php 404
 
 	header {
-		# disable FLoC tracking
-		Permissions-Policy interest-cohort=()
-
 		# enable HSTS
 		Strict-Transport-Security max-age=31536000;
 
@@ -29,6 +27,6 @@ wordpress.{$MAIN_DOMAIN} {
 		# X-Frame-Options DENY
 
 		# Disable powerful features we don't need
-		Permissions-Policy "geolocation=(), camera=(), microphone=() interest-cohort=()"
+		Permissions-Policy "geolocation=(), camera=(), microphone=()"
 	}
 }

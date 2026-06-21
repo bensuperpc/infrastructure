@@ -1,3 +1,4 @@
-dufs.{$MAIN_DOMAIN} {
+{$SCHEME}://dufs.{$MAIN_DOMAIN} {
+	import authelia_middleware
 	reverse_proxy dufs:5000
 }

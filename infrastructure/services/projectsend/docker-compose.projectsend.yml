@@ -5,7 +5,7 @@ services:
     container_name: projectsend
     profiles:
       - projectsend
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     env_file:
@@ -14,7 +14,8 @@ services:
       - projectsend_config:/config
       - projectsend_share:/data
     networks:
-      - projectsend-network
+      - caddy-files
+      - projectsend-internal
     security_opt:
       - no-new-privileges:true
     cap_drop:
@@ -29,14 +30,16 @@ services:
       - projectsend
     depends_on:
       - caddy
-    restart: on-failure:5
+    restart: on-failure:7
     volumes:
       - projectsend_db:/var/lib/mysql:rw
     env_file:
       - ./env/projectsend_db.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     command: '--default-authentication-plugin=mysql_native_password'
     networks:
-      - projectsend-network
+      - projectsend-internal
     security_opt:
       - no-new-privileges:true
 
@@ -50,6 +53,9 @@ volumes:
 
 
 networks:
-  projectsend-network:
+  caddy-files:
     driver: bridge
-    name: projectsend-network
+    name: caddy-files
+  projectsend-internal:
+    driver: bridge
+    name: projectsend-internal

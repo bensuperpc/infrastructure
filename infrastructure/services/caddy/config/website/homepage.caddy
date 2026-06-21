@@ -1,3 +1,4 @@
-homepage.{$MAIN_DOMAIN} {
-	reverse_proxy {$HOMEPAGE_ADDRESS}
+{$SCHEME}://homepage.{$MAIN_DOMAIN} {
+	import authelia_middleware
+	redir https://www.{$MAIN_DOMAIN}{uri} permanent
 }

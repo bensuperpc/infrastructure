@@ -5,17 +5,20 @@ services:
     container_name: wordpress
     profiles:
       - wordpress
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - wordpress_db
       - caddy
     env_file:
       - ./env/wordpress.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     volumes:
       - ./config/wordpress/php.ini:/usr/local/etc/php/conf.d/custom.ini:ro
       - wordpress:/var/www/html:rw
     networks:
-      - wordpress-network
+      - caddy-web
+      - wordpress-internal
     security_opt:
       - no-new-privileges:true
 
@@ -28,14 +31,16 @@ services:
       - wordpress
     depends_on:
       - caddy
-    restart: on-failure:5
+    restart: on-failure:7
     volumes:
       - wordpress_db:/var/lib/mysql:rw
     env_file:
       - ./env/wordpress_db.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     command: '--default-authentication-plugin=mysql_native_password'
     networks:
-      - wordpress-network
+      - wordpress-internal
     security_opt:
       - no-new-privileges:true
 
@@ -46,9 +51,11 @@ services:
       - wordpress
     depends_on:
       - wordpress
-    restart: on-failure:5
+    restart: on-failure:7
     env_file:
       - ./env/wordpress_backup.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     volumes:
       - wordpress_backup:/mnt/restic
       - wordpress_db:/data/wordpress_db:ro
@@ -68,6 +75,9 @@ volumes:
     name: wordpress_backup
 
 networks:
-  wordpress-network:
+  caddy-web:
     driver: bridge
-    name: wordpress-network
+    name: caddy-web
+  wordpress-internal:
+    driver: bridge
+    name: wordpress-internal

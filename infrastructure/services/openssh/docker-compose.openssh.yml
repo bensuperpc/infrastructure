@@ -5,12 +5,13 @@ services:
     container_name: openssh
     profiles:
       - openssh
-    restart: on-failure:5
+    restart: on-failure:7
     env_file:
       - ./env/openssh.env
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
+      - TZ=${TZ:-Europe/Paris}
     volumes:
       - openssh_config:/config:rw
       - ./config/authorized_keys:/authorized_ssh_keys:ro
@@ -29,7 +30,6 @@ services:
       - minecraft_server_backup:/minecraft_server_backup:rw
       - minecraft_server_data:/minecraft_server_data:rw
       - minecraft_proxy_data:/minecraft_proxy_data:rw
-      - minecraft_rcon_data:/minecraft_rcon_data:rw
       - forgejo_data:/forgejo_data:rw
       - forgejo_db:/forgejo_db:rw
       - teamfortress2_backup:/teamfortress2_backup:rw
@@ -78,8 +78,6 @@ volumes:
     name: minecraft_server_data
   minecraft_proxy_data:
     name: minecraft_proxy_data
-  minecraft_rcon_data:
-    name: minecraft_rcon_data
 # teamfortress2
   teamfortress2_backup:
     name: teamfortress2_backup

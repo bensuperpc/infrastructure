@@ -1,36 +1,30 @@
 # Infrastructure
 
-_Open source, decentralized and self-hosted infrastructure for many local services._
-
-## About
-
-It uses caddy and docker-compose to run my services (And many other things).
-It's a **work in progress**, and I'm still learning a lot about it.
-If you have any **questions** or **suggestions**, feel free to open an issue or a pull request.
+_Open source, decentralized and self-hosted infrastructure for many local services and authentication with Authelia._
 
 ## Features
 
 - [x] caddy 2 HTTP/S reverse proxy
+- [x] Authelia (SSO / authentication middleware)
+- [x] Open-WebUI + Ollama (Local chatGPT)
+- [x] qbittorrent and transmission (Torrent client/server)
 - [x] Docker / docker-compose
 - [x] Homepage (Dashboard)
+- [x] SearXNG (Self-hosted search engine)
 - [x] Jellyfin (Eg Netflix, Disney+)
 - [x] Forgejo (Git server, fork of Gitea)
 - [x] Uptime Kuma (Monitoring)
 - [x] Argus (Application update monitoring)
-- [x] qbittorrent and transmission (Torrent client/server)
 - [x] SyncThing (File synchronization)
 - [x] Dufs (File server)
 - [x] PsiTransfer, ProjectSend, Picoshare (File sharing)
 - [x] it-tools, omni-tools and cyberchef (Tools for IT)
-- [x] Open-WebUI + Ollama (Local chatGPT)
-- [x] Privatebin (Pastebin)
+- [x] Privatebin
 - [x] Memos (Note-taking)
 - [x] Stirling PDF (PDF tools)
 - [x] Wordpress (Via FASTCGI/caddy)
-- [X] Satisfactory
-- [x] 7 days to die
-- [x] Minecraft
-- [x] Team Fortress 2
+- [x] Dependency-Track (SBOM / vulnerability tracking)
+- [X] Game (Satisfactory, Minecraft, 7 Days to Die, Team Fortress 2 etc...)
 
 ## Architecture
 
@@ -50,7 +44,7 @@ The homepage is a dashboard with many widgets and services.
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 - [Web domain](https://www.ovh.com/world/domains/) (I use OVH)
-- [Open port 80, 443, 22, 2222 and 5555 on your router](http://192.168.1.1/)
+- [Open port 80, 443, 22 and 2222 on your router](http://192.168.1.1/)
 - For games server, you need to open these ports (7777, 8888, 25565, 26900, 26901, 26903)
 
 List of ports used by the services in this infrastructure:
@@ -87,7 +81,29 @@ Go to the folder
 cd infrastructure
 ```
 
-Change services you want to enable in the [Makefile](Makefile) file, by default all services are enabled (games servers included).
+### Start the infrastructure
+
+Start the website with:
+
+```sh
+make up
+```
+
+Stop the website with:
+
+```sh
+make stop
+```
+
+Remove containers with:
+
+```sh
+make down
+```
+
+Services are enabled via **preset configuration files** in the [`presets/`](presets/) directory. 
+
+The active presets are declared in the [`Makefile`](Makefile) via the `CONFIGS` variable, for example, `CONFIGS := chatgpt` loads `presets/chatgpt.conf` which activates the `main_infrastructure`, `caddy`, `openssh`, and `openwebui` profiles.
 
 ### Configure the domain
 
@@ -97,7 +113,7 @@ For all **bensuperpc.org**, you need to replace it with your domain, example: **
 find . \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i 's/bensuperpc.org/mydomain.com/g'
 ```
 
-Check if all bensuperpc.* are replaced by your domain in [Caddyfile](caddy/services/wordpress/Caddyfile)
+Check if all bensuperpc.* are replaced by your domain in [Caddyfile](infrastructure/services/caddy/config/Caddyfile)
 
 And then, caddy will generate the certificate for you and renew it automatically :D
 
@@ -105,26 +121,29 @@ And then, caddy will generate the certificate for you and renew it automatically
 | ------------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
 | [bensuperpc.org](https://bensuperpc.org)                           | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
 | [www.bensuperpc.org](https://www.bensuperpc.org)                   | Main | Homepage                                                     |
-| [open-webui.bensuperpc.org](https://open-webui.bensuperpc.org)     | Sub  | For local chatGPT                                            |
-| [wordpress.bensuperpc.org](https://wordpress.bensuperpc.org)       | Sub  | Wordpress website                                            |
+| [openwebui.bensuperpc.org](https://openwebui.bensuperpc.org)       | Sub  | For local chatGPT with ollama and openweb-ui                 |
+| [authelia.bensuperpc.org](https://authelia.bensuperpc.org)         | Sub  | Authelia for authentication                                  |
 | [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org)     | Sub  | Uptime Kuma for monitoring                                   |
 | [qbittorrent.bensuperpc.org](https://qbittorrent.bensuperpc.org)   | Sub  | Torrent client/server                                        |
+| [dozzle.bensuperpc.org](https://dozzle.bensuperpc.org)             | Sub  | Dozzle for docker logs                                       |
 | [transmission.bensuperpc.org](https://transmission.bensuperpc.org) | Sub  | Torrent client/server                                        |
 | [forgejo.bensuperpc.org](https://forgejo.bensuperpc.org/)          | Sub  | Fork of Gitea for git                                        |
 | [git.bensuperpc.org](https://git.bensuperpc.org)                   | Sub  | Fork of Gitea for git                                        |
-| [link.bensuperpc.org](https://link.bensuperpc.org)                 | Sub  | For link shortener                                           |
 | [jellyfin.bensuperpc.org](https://jellyfin.bensuperpc.org)         | Sub  | Jellyfin for media server                                    |
 | [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org)       | Sub  | SyncThing for file synchronization                           |
 | [psitransfer.bensuperpc.org](https://psitransfer.bensuperpc.org)   | Sub  | PsiTransfer for file sharing                                 |
 | [it-tools.bensuperpc.org](https://it-tools.bensuperpc.org)         | Sub  | Tools for IT                                                 |
 | [omni-tools.bensuperpc.org](https://omni-tools.bensuperpc.org)     | Sub  | Tools for IT                                                 |
-| [privatebin.bensuperpc.org](https://privatebin.bensuperpc.org)     | Sub  | Pastebin                                                     |
+| [privatebin.bensuperpc.org](https://privatebin.bensuperpc.org)     | Sub  | Privatebin                                                   |
 | [projectsend.bensuperpc.org](https://projectsend.bensuperpc.org)   | Sub  | ProjectSend for file sharing                                 |
 | [picoshare.bensuperpc.org](https://picoshare.bensuperpc.org)       | Sub  | Picoshare for file sharing                                   |
 | [dufs.bensuperpc.org](https://dufs.bensuperpc.org)                 | Sub  | Dufs for file sharing                                        |
 | [memos.bensuperpc.org](https://memos.bensuperpc.org)               | Sub  | Memos note-taking app                                        |
 | [stirlingpdf.bensuperpc.org](https://stirlingpdf.bensuperpc.org)   | Sub  | Stirling PDF tools                                           |
-| [argus.bensuperpc.org](https://argus.bensuperpc.org)   | Sub  | Argus for monitoring application updates                                  |
+| [argus.bensuperpc.org](https://argus.bensuperpc.org)               | Sub  | Argus for monitoring application updates                     |
+| [searxng.bensuperpc.org](https://searxng.bensuperpc.org)           | Sub  | SearXNG self-hosted search engine                            |
+| [dependency-track.bensuperpc.org](https://dependency-track.bensuperpc.org) | Sub | SBOM / vulnerability analysis                       |
+| [wordpress.bensuperpc.org](https://wordpress.bensuperpc.org)       | Sub  | Wordpress website                                            |
 
 ### Configure the infrastructure
 
@@ -146,27 +165,52 @@ For [caddy_backup.env](infrastructure/services/caddy/env/caddy_backup.env) file,
 RESTIC_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
 ```
 
-#### Wordpress
-
-For the [wordpress.env](infrastructure/services/wordpress/env/wordpress.env) file, you need to change the password and user for the database.
+On [caddy.env](infrastructure/services/caddy/env/caddy.env) file, you need to update some variables, like the main domain, mail domain and scheme (http or https).
 
 ```sh
-WORDPRESS_DB_USER=bensuperpc
-WORDPRESS_DB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
+MAIN_DOMAIN=bensuperpc.org
+MAIL_DOMAIN=bensuperpc@gmail.com
+# Scheme
+SCHEME=https
+# ignore_loaded_certs off
+AUTO_HTTPS_OPTIONS=ignore_loaded_certs
 ```
 
-For [wordpress_db.env](infrastructure/services/wordpress/env/wordpress_db.env) file, you need to change the password(s) and user for the database.
+#### Authelia
+
+For [authelia.env](infrastructure/services/authelia/env/authelia.env) file, you need to change the password(s) and secret key:
 
 ```sh
-MARIADB_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
-MARIADB_USER=bensuperpc
-MARIADB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
+AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET=ht87MVnXkXhBpDkMUHqKDqdg8UGBJt+Fx5jNIqXnN2k=
+AUTHELIA_SESSION_SECRET=nsvbXKGRXVZUCUkOapntlq/Zh+d75WacTK5Jgyh8zYk=
+AUTHELIA_STORAGE_ENCRYPTION_KEY=aWeIT74xIhGVd9nUOr4YTToTl5rpBEbzc/fv4jemuos=
+AUTHELIA_STORAGE_POSTGRES_HOST=authelia-postgres
+AUTHELIA_STORAGE_POSTGRES_PORT=5432
+AUTHELIA_STORAGE_POSTGRES_DATABASE=authelia_db
+AUTHELIA_STORAGE_POSTGRES_USERNAME=authelia
+AUTHELIA_STORAGE_POSTGRES_PASSWORD=sAdkxFW6k3GiMOrlBpl6OV76eb9cQz/uk95jmA2UpI8=
 ```
 
-For [wordpress_backup.env](infrastructure/services/wordpress/env/wordpress_backup.env) file, you need to change the password(s) for the restic backup.
+Same for [authelia_postgres.env](infrastructure/services/authelia/env/authelia_postgres.env) file, you need to change the password(s) and user for the database.
 
 ```sh
-RESTIC_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
+POSTGRES_USER=authelia
+POSTGRES_PASSWORD=sAdkxFW6k3GiMOrlBpl6OV76eb9cQz/uk95jmA2UpI8=
+POSTGRES_DB=authelia_db
+```
+
+You also need to update [users_database.yml](infrastructure/services/authelia/config/users_database.yml)
+
+```sh
+docker run --rm authelia/authelia:latest authelia crypto hash generate argon2 --password 'MyPassword'
+```
+
+#### Dozzle
+
+To generate a new user for dozzle, you can use the following command [users.yml](infrastructure/services/dozzle/config/users.yml):
+
+```sh
+docker run -it --rm amir20/dozzle generate bensuperpc --password mypassword --email bensuperpc@gmail.com --name "bensuperpc"
 ```
 
 #### PsiTransfer
@@ -233,37 +277,32 @@ USER_PASSWORD=rdUwf36C11PLmpU9Lvq7tP5pfFBKAuCh
 
 #### Open-WebUI
 
-For [open-webui.env](infrastructure/services/open-webui/env/open-webui.env) file, entirely optional.
+For [open-webui.env](infrastructure/services/open-webui/env/open-webui.env) file, you must change the secret key for the webui and configure its PostgreSQL backend.
 
-To download the model, you can use:
+```sh
+WEBUI_SECRET_KEY=7d83b15a417d090ba5c6b899270a05dd215c60848354c0c7574226d6ff02f39e
+```
+
+Also update [openwebui-postgres.env](infrastructure/services/open-webui/env/openwebui-postgres.env) with your own credentials.
+
+To download the model, through open-webui GUI or you can use the following command:
 
 ```sh
 docker exec -it ollama ollama run deepseek-r1:8b
 ```
 
-### Start the infrastructure
+#### Dependency-Track
 
-Start the website with:
-
-```sh
-make start-detached
-```
-
-Stop the website with:
+For [dependency-track.env](infrastructure/services/dependency-track/env/dependency-track.env) file, you need to set the database credentials and the API server URL.
 
 ```sh
-make stop
+POSTGRES_USER=dtrack
+POSTGRES_PASSWORD=<your_password>
+POSTGRES_DB=dtrack_db
+ALPINE_DATA_DIRECTORY=/data
 ```
 
-Remove countainers with:
-
-```sh
-make down
-```
-
-You can disable some services by removing the service name in PROFILES variable in the [Makefile](Makefile) file.
-
-To enable the gitea CI: [how-to-build-docker-containers-using-gitea-runners](https://medium.com/@lokanx/how-to-build-docker-containers-using-gitea-runners-600729555e07)
+The frontend is available at `https://dependency-track.bensuperpc.org` and the API server at `/api/*`. Default credentials are `admin` / `admin`, **change them on first login**.
 
 ### Homepage
 
@@ -335,7 +374,7 @@ This infrastructure uses docker volumes to store data, all configuration/data fo
 
 ### SSH access
 
-The default port for ssh/rsync is is 2222.
+The default port for SSH/rsync is 2222.
 
 You can access to the server with:
 
@@ -346,6 +385,73 @@ ssh -p 2222 admin@bensuperpc.org
 ### Qbittorrent
 
 To activate the alternative webui theme (VueTorrent), you need to go in the qbittorrent settings, then in the `webui` section, check the `Use alternative webui` and add `/vuetorrent` to text field.
+
+
+### Local testing
+
+If you want to test the infrastructure locally, you can add these lines in your `/etc/hosts` file:
+
+```sh
+127.0.0.1 openwebui.bensuperpc.org
+127.0.0.1 authelia.bensuperpc.org
+127.0.0.1 memos.bensuperpc.org
+127.0.0.1 stirlingpdf.bensuperpc.org
+127.0.0.1 public.bensuperpc.org
+127.0.0.1 private.bensuperpc.org
+127.0.0.1 jellyfin.bensuperpc.org
+127.0.0.1 syncthing.bensuperpc.org
+127.0.0.1 psitransfer.bensuperpc.org
+127.0.0.1 projectsend.bensuperpc.org
+127.0.0.1 picoshare.bensuperpc.org
+127.0.0.1 dufs.bensuperpc.org
+127.0.0.1 it-tools.bensuperpc.org
+127.0.0.1 omni-tools.bensuperpc.org
+127.0.0.1 privatebin.bensuperpc.org
+127.0.0.1 forgejo.bensuperpc.org
+127.0.0.1 git.bensuperpc.org
+127.0.0.1 qbittorrent.bensuperpc.org
+127.0.0.1 transmission.bensuperpc.org
+127.0.0.1 uptimekuma.bensuperpc.org
+127.0.0.1 wordpress.bensuperpc.org
+127.0.0.1 searxng.bensuperpc.org
+127.0.0.1 dependency-track.bensuperpc.org
+127.0.0.1 homepage.bensuperpc.org
+```
+
+Then update the [caddy.env](infrastructure/services/caddy/env/caddy.env) file with your local domain to disable the letsencrypt certificate generation and auto redirect to https:
+
+```sh
+MAIN_DOMAIN=bensuperpc.org
+# Scheme
+SCHEME=https
+# ignore_loaded_certs off
+AUTO_HTTPS_OPTIONS=ignore_loaded_certs
+```
+
+And remove all the `import authelia_middleware` in the caddyfiles, authelia need https to work.
+
+#### Wordpress
+
+For the [wordpress.env](infrastructure/services/wordpress/env/wordpress.env) file, you need to change the password and user for the database.
+
+```sh
+WORDPRESS_DB_USER=bensuperpc
+WORDPRESS_DB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
+```
+
+For [wordpress_db.env](infrastructure/services/wordpress/env/wordpress_db.env) file, you need to change the password(s) and user for the database.
+
+```sh
+MARIADB_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
+MARIADB_USER=bensuperpc
+MARIADB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
+```
+
+For [wordpress_backup.env](infrastructure/services/wordpress/env/wordpress_backup.env) file, you need to change the password(s) for the restic backup.
+
+```sh
+RESTIC_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
+```
 
 ## Sources
 
@@ -362,6 +468,7 @@ To activate the alternative webui theme (VueTorrent), you need to go in the qbit
 - [Letsencrypt](https://letsencrypt.org/)
 - [Caddy](https://caddyserver.com/)
 - [Adminer](https://www.adminer.org/)
+- [self-hosted-ai-stack](https://triedandtestedbuilds.com/self-hosted-ai-stack-part-1)
 - [Uptime Kuma](https://uptime-kuma.com/)
 - [qbittorrent](https://www.qbittorrent.org/)
 - [Transmission](https://transmissionbt.com/)
@@ -385,7 +492,9 @@ To activate the alternative webui theme (VueTorrent), you need to go in the qbit
 - [Forgejo-runner](https://huijzer.xyz/posts/55)
 - [Forgejo](https://nickcunningh.am/blog/how-to-setup-and-configure-forgejo-with-support-for-forgejo-actions-and-more)
 - [Argus](https://github.com/release-argus/Argus)
-- [Forgejo-runner](https://huijzer.xyz/posts/55)
+- [SearXNG](https://github.com/searxng/searxng)
+- [Dependency-Track](https://dependencytrack.org/)
+- [Authelia](https://www.authelia.com/)
 
 ## License
 

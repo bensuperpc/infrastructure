@@ -49,6 +49,10 @@ include:
   - services/dependency-track/docker-compose.dependency-track.yml
 # Searxng
   - services/searxng/docker-compose.searxng.yml
+# Authelia
+  - services/authelia/docker-compose.authelia.yml
+# Dozzle
+  - services/dozzle/docker-compose.dozzle.yml
 # Minecraft
   - services/minecraft-server/docker-compose.yml
 # 7daystodie

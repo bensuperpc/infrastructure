@@ -6,7 +6,7 @@ services:
       - satisfactory_backup
     depends_on:
       - satisfactory_server
-    restart: on-failure:5
+    restart: on-failure:7
     env_file:
       - ./env/satisfactory_backup.env
     volumes:

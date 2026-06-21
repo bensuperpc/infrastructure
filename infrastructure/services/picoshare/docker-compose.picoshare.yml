@@ -5,15 +5,17 @@ services:
     container_name: picoshare
     profiles:
       - picoshare
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     env_file:
       - ./env/picoshare.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     volumes:
       - picoshare_data:/data
     networks:
-      - picoshare-network
+      - caddy-files
     security_opt:
       - no-new-privileges:true
     read_only: false
@@ -21,20 +23,12 @@ services:
       - SYS_ADMIN
 #    tmpfs:
 #      - /tmp
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 512M
-        reservations:
-          cpus: '0.001'
-          memory: 20M
 
 volumes:
   picoshare_data:
     name: picoshare_data
 
 networks:
-  picoshare-network:
+  caddy-files:
     driver: bridge
-    name: picoshare-network
+    name: caddy-files

@@ -5,52 +5,38 @@ services:
     container_name: it-tools0
     profiles:
       - it-tools
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     networks:
-      - it-tools-network
+      - caddy-tools
     read_only: false
     security_opt:
       - no-new-privileges:true
     cap_drop:
       - SYS_ADMIN
-
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 512M
-        reservations:
-          cpus: '0.001'
-          memory: 20M
+    environment:
+      - TZ=${TZ:-Europe/Paris}
 
   it-tools1:
     image: ghcr.io/sharevb/it-tools:latest
     container_name: it-tools1
     profiles:
       - it-tools
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     networks:
-      - it-tools-network
+      - caddy-tools
     read_only: false
     security_opt:
       - no-new-privileges:true
     cap_drop:
       - SYS_ADMIN
-
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 512M
-        reservations:
-          cpus: '0.001'
-          memory: 20M
+    environment:
+      - TZ=${TZ:-Europe/Paris}
 
 networks:
-  it-tools-network:
+  caddy-tools:
     driver: bridge
-    name: it-tools-network
+    name: caddy-tools

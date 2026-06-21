@@ -1,57 +1,139 @@
+name: openwebui
+
 services:
   ollama:
-    image: ollama/ollama:${OLLAMA_DOCKER_TAG-latest}
-    #platform: linux/amd64
+    image: ollama/ollama:${OLLAMA_DOCKER_TAG-0.30.11}
     container_name: ollama
     profiles:
-      - open-webui
+      - openwebui
       - ollama
     depends_on:
       - caddy
-    restart: on-failure:5
+    restart: on-failure:7
     tty: true
     volumes:
-      - ollama:/root/.ollama
+      - openwebui-ollama:/root/.ollama
     # ports:
     #   - ${OLLAMA_PORT-11434}:11434
     env_file:
-      - ./env/ollama.env
+      - ./env/openwebui-ollama.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     security_opt:
       - no-new-privileges:true
     networks:
-      - open-webui-network
-    devices:
-      - /dev/dri
-      - /dev/kfd
+      - openwebui-internal
+    # devices:
+    #   - /dev/dri
+    #   - /dev/kfd
 
-  open-webui:
-    image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG-main}
-    container_name: open-webui
+  openwebui-postgres:
+    image: postgres:${POSTGRES_DOCKER_TAG-18.4-alpine3.24}
+    container_name: openwebui-postgres
     profiles:
-      - open-webui
+      - openwebui
+    env_file:
+      - ./env/openwebui-postgres.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     volumes:
-      - open-webui:/app/backend/data
+      - openwebui-postgres:/var/lib/postgresql
+    restart: on-failure:7
+    networks:
+      - openwebui-internal
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG-git-b711935}
+    container_name: openwebui
+    profiles:
+      - openwebui
+    volumes:
+      - openwebui:/app/backend/data
     depends_on:
       - ollama
       - caddy
+      - openwebui-postgres
+      - qdrant
+      - valkey
     env_file:
-      - ./env/open-webui.env
-    #environment:
+      - ./env/openwebui.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     #  - UID=${PUID:-1000}
     #  - GID=${PGID:-1000}
     # ports:
     #   - ${OPEN_WEBUI_PORT-3000}:8080
-    restart: on-failure:5
+    restart: on-failure:7
     networks:
-      - open-webui-network
+      - caddy-ai
+      - openwebui-internal
     security_opt:
       - no-new-privileges:true
 
+  qdrant:
+    image: qdrant/qdrant:${QDRANT_DOCKER_TAG-v1.18.2}
+    profiles:
+      - openwebui
+    container_name: qdrant
+    restart: on-failure:7
+    # ports:
+    #   - "6333:6333"
+    #   - "6334:6334"
+    env_file:
+      - ./env/openwebui-qdrant.env
+    volumes:
+      - openwebui-qdrant:/qdrant/storage
+    networks:
+      - openwebui-internal
+
+  valkey:
+    image: valkey/valkey:${VALKEY_DOCKER_TAG-9.1.0-alpine}
+    container_name: valkey
+    profiles:
+      - openwebui
+    env_file:
+      - ./env/openwebui-valkey.env
+    restart: on-failure:7
+    command: valkey-server --requirepass ${VALKEY_PASSWORD:-valkey_password} --maxclients 10000 --timeout 1800
+    volumes:
+      - openwebui-valkey:/data
+    networks:
+      - openwebui-internal
+
 volumes:
-  ollama: {}
-  open-webui: {}
+  openwebui: {}
+  openwebui-ollama: {}
+  openwebui-postgres: {}
+  openwebui-pgadmin: {}
+  openwebui-valkey: {}
+  openwebui-qdrant: {}
 
 networks:
-  open-webui-network:
+  caddy-ai:
     driver: bridge
-    name: open-webui-network
+    name: caddy-ai
+  openwebui-internal:
+    driver: bridge
+    name: openwebui-internal
+
+
+  # pgadmin:
+  #   image: dpage/pgadmin4:latest
+  #   container_name: pgadmin
+  #   profiles:
+  #     - openwebui
+    # env_file:
+    #   - ./env/openwebui-pgadmin.env
+  #   volumes:
+  #     - openwebui-pgadmin:/var/lib/pgadmin
+  #   restart: on-failure:7
+  #   depends_on:
+  #     openwebui-postgres:
+  #       condition: service_healthy
+  #   networks:
+  #     - openwebui-internal

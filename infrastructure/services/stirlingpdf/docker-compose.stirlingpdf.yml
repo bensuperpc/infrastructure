@@ -5,16 +5,18 @@ services:
     container_name: stirlingpdf
     profiles:
       - stirlingpdf
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     env_file:
       - ./env/stirlingpdf.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     volumes:
       - stirlingpdf_config:/configs
       - stirlingpdf_tessdata:/usr/share/tessdata
     networks:
-      - stirlingpdf-network
+      - caddy-tools
     security_opt:
       - no-new-privileges:true
     read_only: false
@@ -26,6 +28,6 @@ volumes:
     name: stirlingpdf_tessdata
 
 networks:
-  stirlingpdf-network:
+  caddy-tools:
     driver: bridge
-    name: stirlingpdf-network
+    name: caddy-tools
