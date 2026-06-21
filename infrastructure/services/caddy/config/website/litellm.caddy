@@ -1,0 +1,5 @@
+{$SCHEME}://litellm.{$MAIN_DOMAIN} {
+	import authelia_middleware
+	reverse_proxy {$LITELLM_ADDRESS} {
+    }
+}

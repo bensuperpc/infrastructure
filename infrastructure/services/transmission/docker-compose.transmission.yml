@@ -5,7 +5,7 @@ services:
     container_name: transmission
     profiles:
       - transmission
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     env_file:
@@ -18,7 +18,7 @@ services:
       - public_data:/downloads
       - transmission_watch:/watch
     networks:
-      - transmission-network
+      - caddy-media
     security_opt:
       - no-new-privileges:true
 
@@ -33,6 +33,6 @@ volumes:
     name: private_data
 
 networks:
-  transmission-network:
+  caddy-media:
     driver: bridge
-    name: transmission-network
+    name: caddy-media

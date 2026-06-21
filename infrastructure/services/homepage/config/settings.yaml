@@ -24,19 +24,15 @@ color: slate
 language: en
 
 layout:
-  Personal:
+  Public:
     style: row
     columns: 6
-  Sharing:
+  Personal:
     style: row
     columns: 6
   Admin:
     style: row
     columns: 6
-  Utils:
-    style: row
-    columns: 6
-    initiallyCollapsed: false
   Games:
     style: row
     columns: 6

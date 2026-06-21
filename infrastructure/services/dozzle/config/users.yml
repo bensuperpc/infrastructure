@@ -1,0 +1,7 @@
+users:
+  bensuperpc:
+    email: bensuperpc@gmail.com
+    name: bensuperpc
+    password: $2a$11$w56N4NICh5xD5Bbq6Z2Z2ef9/QUaa/YKleMiawn/Bru9hYsQOJyrm
+    filter: ""
+    roles: ""

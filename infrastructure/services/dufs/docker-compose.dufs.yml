@@ -6,7 +6,7 @@ services:
     profiles:
       - dufs
 #    user: ${PUID:-1000}:${PGID:-1000} 
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     env_file:
@@ -14,7 +14,7 @@ services:
     volumes:
       - public_data:/data
     networks:
-      - dufs-network
+      - caddy-files
     security_opt:
       - no-new-privileges:true
 
@@ -25,6 +25,6 @@ volumes:
     name: private_data
 
 networks:
-  dufs-network:
+  caddy-files:
     driver: bridge
-    name: dufs-network
+    name: caddy-files

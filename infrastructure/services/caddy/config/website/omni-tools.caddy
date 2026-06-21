@@ -1,4 +1,5 @@
-omni-tools.{$MAIN_DOMAIN} {
+{$SCHEME}://omni-tools.{$MAIN_DOMAIN} {
+	import authelia_middleware
 	# Load balance between 2 instances
 	reverse_proxy {
 		to omni-tools0:80 omni-tools1:80

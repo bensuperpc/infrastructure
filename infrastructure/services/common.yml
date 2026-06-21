@@ -1,0 +1,9 @@
+services:
+  service-base:
+    restart: on-failure:7
+    environment:
+      - TZ=${TZ:-Europe/Paris}
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - SYS_ADMIN

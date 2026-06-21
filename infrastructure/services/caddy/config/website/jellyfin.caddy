@@ -1,4 +1,5 @@
-jellyfin.{$MAIN_DOMAIN} {
+{$SCHEME}://jellyfin.{$MAIN_DOMAIN} {
+	import authelia_middleware
 	reverse_proxy {$JELLYFIN_ADDRESS}
 	header {
 		import header_common

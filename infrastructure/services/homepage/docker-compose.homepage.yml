@@ -5,34 +5,49 @@ services:
     container_name: homepage
     profiles:
       - homepage
-    restart: on-failure:5
+    restart: on-failure:7
 #    environment:
 #      - PUID=${PUID:-1000}
 #      - PGID=${PGID:-1000}
     depends_on:
       - caddy
+      - homepage-dockerproxy
     env_file:
       - ./env/homepage.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     volumes:
       - homepage_log:/app/logs
       - ./config:/app/config
       - ./image:/app/public/image:ro
-    #  - /var/run/docker.sock:/var/run/docker.sock:ro
-#    develop:
-#      watch:
-#        - action: sync+restart
-#          path: ./homepage/image
-#          target: /app/public/image
     networks:
-      - homepage-network
+      - caddy-infra
+      - homepage-internal
     security_opt:
       - no-new-privileges:true
+
+  homepage-dockerproxy:
+    image: tecnativa/docker-socket-proxy:latest
+    container_name: homepage-dockerproxy
+    profiles:
+      - homepage
+    restart: on-failure:7
+    environment:
+      - CONTAINERS=1
+      - POST=0
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - homepage-internal
 
 volumes:
   homepage_log:
     name: homepage_log
 
 networks:
-  homepage-network:
+  caddy-infra:
     driver: bridge
-    name: homepage-network
+    name: caddy-infra
+  homepage-internal:
+    driver: bridge
+    name: homepage-internal

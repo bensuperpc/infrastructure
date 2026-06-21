@@ -49,6 +49,10 @@ include:
   - services/dependency-track/docker-compose.dependency-track.yml
 # Searxng
   - services/searxng/docker-compose.searxng.yml
+# Authelia
+  - services/authelia/docker-compose.authelia.yml
+# Dozzle
+  - services/dozzle/docker-compose.dozzle.yml
 # Minecraft
   - services/minecraft-server/docker-compose.yml
 # 7daystodie
@@ -57,3 +61,7 @@ include:
   - services/satisfactory-server/docker-compose.yml
 # Team Fortress 2
   - services/teamfortress2-server/docker-compose.yml
+# LocalAI
+  - services/localai/docker-compose.localai.yml
+# Bentopdf
+  - services/bentopdf/docker-compose.bentopdf.yml

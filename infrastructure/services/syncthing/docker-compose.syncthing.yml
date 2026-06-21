@@ -7,18 +7,19 @@ services:
       - syncthing
     depends_on:
       - caddy
-    restart: on-failure:5
+    restart: on-failure:7
     env_file:
       - ./env/syncthing.env
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
+      - TZ=${TZ:-Europe/Paris}
     volumes:
       - syncthing_config:/config
       - public_data:/data1
       - private_data:/data2
     networks:
-      - syncthing-network
+      - caddy-media
     security_opt:
       - no-new-privileges:true
 
@@ -31,6 +32,6 @@ volumes:
     name: private_data
 
 networks:
-  syncthing-network:
+  caddy-media:
     driver: bridge
-    name: syncthing-network
+    name: caddy-media

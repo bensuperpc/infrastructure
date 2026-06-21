@@ -1,3 +1,4 @@
-searxng.{$MAIN_DOMAIN} {
+{$SCHEME}://searxng.{$MAIN_DOMAIN} {
+	import authelia_middleware
 	reverse_proxy {$SEARXNG_ADDRESS}
 }

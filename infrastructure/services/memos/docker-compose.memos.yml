@@ -5,7 +5,7 @@ services:
     container_name: memos
     profiles:
       - memos
-    restart: on-failure:5
+    restart: on-failure:7
     depends_on:
       - caddy
     env_file:
@@ -13,7 +13,7 @@ services:
     volumes:
       - memos_config:/var/opt/memos
     networks:
-      - memos-network
+      - caddy-tools
     security_opt:
       - no-new-privileges:true
 
@@ -22,6 +22,6 @@ volumes:
     name: memos_config
 
 networks:
-  memos-network:
+  caddy-tools:
     driver: bridge
-    name: memos-network
+    name: caddy-tools

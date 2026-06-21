@@ -9,15 +9,10 @@ services:
         condition: service_healthy
     env_file:
       - ./env/dependency-track.env
-    restart: on-failure:5
+    restart: on-failure:7
     networks:
-      - dependency-track-network
-    deploy:
-      resources:
-        limits:
-          memory: 4g
-      restart_policy:
-        condition: on-failure
+      - caddy-web
+      - dependency-track-internal
     volumes:
     - 'dtrack-data:/data'
 
@@ -26,9 +21,10 @@ services:
     container_name: dependency-track-frontend
     profiles:
       - dependency-track
-    restart: on-failure:5
+    restart: on-failure:7
     networks:
-      - dependency-track-network
+      - caddy-web
+      - dependency-track-internal
     depends_on:
       dependency-track-apiserver:
         condition: service_healthy
@@ -45,15 +41,15 @@ services:
     profiles:
       - dependency-track
     env_file:
-      - ./env/dependency-track.env
-    restart: on-failure:5
+      - ./env/postgres.env
+    restart: on-failure:7
     networks:
-      - dependency-track-network
+      - dependency-track-internal
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
       interval: 5s
       timeout: 3s
-      retries: 3
+      retries: 5
     volumes:
     - "dtrack-postgres-data:/var/lib/postgresql/data"
 
@@ -64,6 +60,9 @@ volumes:
     name: dtrack-postgres-data
 
 networks:
-  dependency-track-network:
+  caddy-web:
     driver: bridge
-    name: dependency-track-network
+    name: caddy-web
+  dependency-track-internal:
+    driver: bridge
+    name: dependency-track-internal

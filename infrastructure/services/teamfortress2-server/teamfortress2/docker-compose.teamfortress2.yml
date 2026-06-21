@@ -5,7 +5,7 @@ services:
     container_name: teamfortress2_server
     profiles:
       - teamfortress2_server
-    restart: on-failure:5
+    restart: on-failure:7
     ports:
      - "27015:27015/tcp"
      - "27015:27015/udp"
@@ -15,19 +15,15 @@ services:
       - teamfortress2-network
     env_file:
       - ./env/teamfortress2.env
-#    environment:
+    environment:
+      - TZ=${TZ:-Europe/Paris}
 #      - PUID=${PUID:-1000}
 #      - PGID=${PGID:-1000}
+
     security_opt:
       - no-new-privileges:true
     cap_drop:
       - SYS_ADMIN
-    deploy:
-      resources:
-        limits:
-          memory: 16G
-        reservations:
-          memory: 4G
 
 volumes:
   teamfortress2_data:

@@ -1,4 +1,5 @@
-syncthing.{$MAIN_DOMAIN} {
+{$SCHEME}://syncthing.{$MAIN_DOMAIN} {
+	import authelia_middleware
 	reverse_proxy {$SYNCTHING_ADDRESS} { 
 		header_up Host {upstream_hostport}
 	}

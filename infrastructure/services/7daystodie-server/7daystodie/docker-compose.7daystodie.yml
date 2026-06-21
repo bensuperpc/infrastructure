@@ -5,7 +5,7 @@ services:
     container_name: 7daystodie_server
     profiles:
       - 7daystodie_server
-    restart: on-failure:5
+    restart: on-failure:7
     ports:
       - "26900:26900"
       - "26901:26901"
@@ -25,16 +25,11 @@ services:
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
+      - TZ=${TZ:-Europe/Paris}
     # security_opt:
     #   - no-new-privileges:true
     # cap_drop:
     #   - SYS_ADMIN
-    deploy:
-      resources:
-        limits:
-          memory: 16G
-        reservations:
-          memory: 4G
 
 volumes:
   7daystodie_backup:

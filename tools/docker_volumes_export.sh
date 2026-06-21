@@ -13,7 +13,6 @@ volumes=(
     forgejo_data
     wordpress_db
     minecraft_proxy_data
-    minecraft_rcon_data
     minecraft_server_data
     minecraft_server_backup
     stirlingpdf_tessdata

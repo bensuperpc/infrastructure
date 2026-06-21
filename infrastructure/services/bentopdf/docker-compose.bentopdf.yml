@@ -1,0 +1,18 @@
+services:
+  bentopdf:
+    extends:
+      file: ../common.yml
+      service: service-base
+    image: ghcr.io/alam00000/bentopdf-simple:latest
+    container_name: bentopdf
+    profiles:
+      - bentopdf
+    depends_on:
+      - caddy
+    networks:
+      - caddy-tools
+
+networks:
+  caddy-tools:
+    driver: bridge
+    name: caddy-tools

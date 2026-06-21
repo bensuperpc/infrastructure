@@ -1,0 +1,56 @@
+services:
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: dozzle
+    profiles:
+      - dozzle
+    restart: on-failure:7
+    depends_on:
+      - caddy
+      - dozzle-dockerproxy
+    env_file:
+      - ./env/dozzle.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
+    volumes:
+      - dozzle_data:/data
+    secrets:
+      - source: dozzle_users
+        target: /data/users.yml
+    networks:
+      - caddy-infra
+      - dozzle-internal
+    
+  dozzle-dockerproxy:
+    image: tecnativa/docker-socket-proxy:latest
+    container_name: dozzle-dockerproxy
+    profiles:
+      - dozzle
+    restart: on-failure:7
+    environment:
+      - CONTAINERS=1
+      - POST=0
+      - PING=1
+      - VERSION=1
+      - EVENTS=1
+      - INFO=1
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - dozzle-internal
+
+networks:
+  caddy-infra:
+    driver: bridge
+    name: caddy-infra
+  dozzle-internal:
+    driver: bridge
+    name: dozzle-internal
+  
+volumes:
+  dozzle_data:
+    name: dozzle_data
+
+secrets:
+  dozzle_users:
+    file: ./config/users.yml

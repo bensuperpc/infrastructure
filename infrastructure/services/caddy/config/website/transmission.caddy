@@ -1,3 +1,4 @@
-transmission.{$MAIN_DOMAIN} {
+{$SCHEME}://transmission.{$MAIN_DOMAIN} {
+	import authelia_middleware
 	reverse_proxy {$TRANSMISSION_ADDRESS} 
 }

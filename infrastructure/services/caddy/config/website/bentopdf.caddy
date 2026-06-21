@@ -1,0 +1,4 @@
+{$SCHEME}://bentopdf.{$MAIN_DOMAIN} {
+	import authelia_middleware
+	reverse_proxy {$BENTOPDF_ADDRESS}
+}

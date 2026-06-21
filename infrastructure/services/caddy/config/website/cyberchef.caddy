@@ -1,4 +1,5 @@
-cyberchef.{$MAIN_DOMAIN} {
+{$SCHEME}://cyberchef.{$MAIN_DOMAIN} {
+	import authelia_middleware
 	# Load balance between 2 instances
 	reverse_proxy {
 		to cyberchef0:8000 cyberchef1:8000

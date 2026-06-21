@@ -1,0 +1,40 @@
+name: localai
+
+services:
+  # localai
+  localai:
+    image: localai/localai:${LOCALAI_DOCKER_TAG:-latest}
+    container_name: localai
+    profiles:
+      - localai
+    restart: on-failure:7
+    depends_on:
+      - caddy
+    env_file:
+      - ./env/localai.env
+    environment:
+      - TZ=${TZ:-Europe/Paris}
+    volumes:
+      - localai_data:/data
+      - localai_models:/models
+      - localai_backends:/backends
+      - localai_config:/config
+    networks:
+      - caddy-ai
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  localai_models:
+    name: localai_models
+  localai_backends:
+    name: localai_backends
+  localai_config:
+    name: localai_config
+  localai_data:
+    name: localai_data
+
+networks:
+  caddy-ai:
+    driver: bridge
+    name: caddy-ai

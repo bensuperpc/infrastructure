@@ -23,12 +23,42 @@ services:
     profiles:
       - main_infrastructure
     image: nickfedor/watchtower:latest
+    environment:
+      - TZ=${TZ:-Europe/Paris}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-    restart: unless-stopped
+    restart: on-failure:7
+    networks:
+      - watchtower-network
 
 volumes:
   public_data:
     name: public_data
   private_data:
     name: private_data
+
+networks:
+  watchtower-network:
+    driver: bridge
+    name: watchtower-network
+  caddy-infra:
+    driver: bridge
+    name: caddy-infra
+  caddy-media:
+    driver: bridge
+    name: caddy-media
+  caddy-tools:
+    driver: bridge
+    name: caddy-tools
+  caddy-files:
+    driver: bridge
+    name: caddy-files
+  caddy-dev:
+    driver: bridge
+    name: caddy-dev
+  caddy-ai:
+    driver: bridge
+    name: caddy-ai
+  caddy-web:
+    driver: bridge
+    name: caddy-web

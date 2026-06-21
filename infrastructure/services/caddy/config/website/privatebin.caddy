@@ -1,7 +1,4 @@
-privatebin.{$MAIN_DOMAIN} {
+{$SCHEME}://privatebin.{$MAIN_DOMAIN} {
+	import authelia_middleware
 	reverse_proxy {$PRIVATEBIN_ADDRESS}
-}
-
-pastebin.{$MAIN_DOMAIN} {
-	redir https://privatebin.{$MAIN_DOMAIN} permanent
 }
