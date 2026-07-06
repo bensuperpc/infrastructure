@@ -1,0 +1,33 @@
+services:
+  7daystodie_backup:
+    image: mazzolino/restic:${RESTIC_DOCKER_TAG:-latest}
+    container_name: 7daystodie_backup
+    profiles:
+      - 7daystodie_backup
+    depends_on:
+      - 7daystodie_server
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    env_file:
+      - ./env/7daystodie_backup.env
+    volumes:
+      - 7daystodie_backup:/mnt/restic
+      - 7daystodie_server_save:/data:ro
+    network_mode: none
+    cap_drop:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_ADMIN
+
+volumes:
+  7daystodie_backup:
+    name: 7daystodie_backup
+  7daystodie_server_save:
+    name: 7daystodie_server_save
+  7daystodie_server_config_lgsm:
+    name: 7daystodie_server_config_lgsm
+  7daystodie_server_file:
+    name: 7daystodie_server_file
+  7daystodie_server_log:
+    name: 7daystodie_server_log

@@ -1,23 +1,19 @@
 services:
   # Uptime Kuma
   uptime-kuma:
-    image: louislam/uptime-kuma:2
+    extends:
+      file: ../../common.yml
+      service: service-base
+    image: louislam/uptime-kuma:${UPTIME_KUMA_DOCKER_TAG:-2}
     container_name: uptime-kuma
     profiles:
       - uptime-kuma
     volumes:
       - uptimekuma_data:/app/data
-    environment:
-      - TZ=${TZ:-Europe/Paris}
-    restart: on-failure:7
     depends_on:
       - caddy
     networks:
       - caddy-infra
-    security_opt:
-      - no-new-privileges:true
-    cap_drop:
-      - SYS_ADMIN
 
 volumes:
   uptimekuma_data:

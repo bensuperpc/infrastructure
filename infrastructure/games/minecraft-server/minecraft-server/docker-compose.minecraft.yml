@@ -1,0 +1,69 @@
+services:
+  minecraft_proxy:
+    image: itzg/mc-proxy:${MINECRAFT_PROXY_DOCKER_TAG:-java25}
+    container_name: minecraft_proxy_server
+    profiles:
+      - minecraft_proxy
+      - minecraft_server
+    restart: on-failure:7
+    env_file:
+      - ./env/proxy.env
+    environment:
+      INIT_MEMORY: "512M"
+      MAX_MEMORY: "2048M"
+    ports:
+      #       Server Minecraft port
+      - "25565:25577"
+      #       Server Minecraft Bedrock port (GeyserMC)
+      #- "19132:19132/udp"
+      #       Rcon port
+      #- "25576:25575"
+      #       Plan port
+      # - "8806:8804"
+    volumes:
+      - minecraft_proxy_data:/server
+    networks:
+      - minecraft-network
+
+  mc-server:
+    image: itzg/minecraft-server:${MINECRAFT_SERVER_DOCKER_TAG:-java25}
+    container_name: minecraft_server
+    profiles:
+      - minecraft_server
+    depends_on:
+      - minecraft_proxy
+    restart: on-failure:7
+    ports:
+      #       Server Minecraft port (Disable if you use proxy)
+      # - "25565:25565"
+      #       Rcon port
+      # - "25575:25575"
+      #       Server Minecraft Bedrock port (GeyserMC)
+      # - "19132:19132/udp"
+      #       Dynmap port
+      # - "8123:8123"
+      #       BlueMap port
+      - "8100:8100"
+      #       Plan port
+      - "8804:8804"
+    env_file:
+      - ./env/server.env
+      - ./env/world.env
+      - ./env/mods_plugins.env
+    environment:
+      MAX_MEMORY: "${MAX_MEMORY:-24G}"
+    volumes:
+      - minecraft_server_data:/data
+#      - ./asset_links/plugins.txt:/extras/plugins.txt:ro
+    networks:
+      - minecraft-network
+volumes:
+  minecraft_server_data:
+    name: minecraft_server_data
+  minecraft_proxy_data:
+    name: minecraft_proxy_data
+
+networks:
+  minecraft-network:
+    driver: bridge
+    name: minecraft-network

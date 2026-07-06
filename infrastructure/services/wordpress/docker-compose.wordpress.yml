@@ -1,7 +1,7 @@
 services:
   # Wordpress
   wordpress:
-    image: wordpress:fpm
+    image: wordpress:${WORDPRESS_DOCKER_TAG:-fpm}
     container_name: wordpress
     profiles:
       - wordpress
@@ -24,14 +24,16 @@ services:
 
   # Database wordpress
   wordpress_db:
-    image: mariadb:latest
+    image: mariadb:${WORDPRESS_DB_DOCKER_TAG:-latest}
     container_name: wordpress_db
     profiles:
       - database
       - wordpress
     depends_on:
       - caddy
-    restart: on-failure:7
+    extends:
+      file: ../../common.yml
+      service: service-base
     volumes:
       - wordpress_db:/var/lib/mysql:rw
     env_file:
@@ -41,11 +43,9 @@ services:
     command: '--default-authentication-plugin=mysql_native_password'
     networks:
       - wordpress-internal
-    security_opt:
-      - no-new-privileges:true
 
   wordpress_backup:
-    image: mazzolino/restic:latest
+    image: mazzolino/restic:${RESTIC_DOCKER_TAG:-latest}
     container_name: wordpress_backup
     profiles:
       - wordpress

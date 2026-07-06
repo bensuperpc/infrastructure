@@ -1,36 +1,32 @@
 services:
   # cyberchef
   cyberchef0:
-    image: mpepping/cyberchef:latest
+    extends:
+      file: ../../common.yml
+      service: service-base
+    image: mpepping/cyberchef:${CYBERCHEF_DOCKER_TAG:-latest}
     container_name: cyberchef0
     profiles:
       - cyberchef
-    restart: on-failure:7
     depends_on:
       - caddy
     networks:
       - caddy-tools
     read_only: false
-    security_opt:
-      - no-new-privileges:true
-    cap_drop:
-      - SYS_ADMIN
 
   cyberchef1:
-    image: mpepping/cyberchef:latest
+    extends:
+      file: ../../common.yml
+      service: service-base
+    image: mpepping/cyberchef:${CYBERCHEF_DOCKER_TAG:-latest}
     container_name: cyberchef1
     profiles:
       - cyberchef
-    restart: on-failure:7
     depends_on:
       - caddy
     networks:
       - caddy-tools
     read_only: false
-    security_opt:
-      - no-new-privileges:true
-    cap_drop:
-      - SYS_ADMIN
 
 networks:
   caddy-tools:

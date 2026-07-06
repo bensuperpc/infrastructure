@@ -1,7 +1,7 @@
 services:
   # argus
   argus:
-    image: releaseargus/argus:latest
+    image: releaseargus/argus:${ARGUS_DOCKER_TAG:-latest}
     container_name: argus
     profiles:
       - argus

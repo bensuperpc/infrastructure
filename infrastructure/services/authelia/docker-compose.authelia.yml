@@ -1,41 +1,41 @@
 services:
   authelia:
     container_name: authelia    
-    image: authelia/authelia:latest
+    image: authelia/authelia:${AUTHELIA_DOCKER_TAG:-4.39.20}
     profiles:
       - authelia
       - caddy
     depends_on:
       authelia-postgres:
         condition: service_healthy
+    extends:
+      file: ../../common.yml
+      service: service-base
     # environment:
     #   - TZ=America/New_York
 #       - PUID=${PUID:-1000}
 #       - PGID=${PGID:-1000}
     env_file:
       - ./env/authelia.env
-    environment:
-      - TZ=${TZ:-Europe/Paris}
     volumes:
       - ./config:/config
     networks:
       - caddy-infra
       - authelia-internal
-    restart: on-failure:7
 
   authelia-postgres:
-    image: postgres:17-alpine
+    image: postgres:${AUTHELIA_POSTGRES_DOCKER_TAG:-18.4-alpine3.24}
     container_name: authelia-postgres
-    restart: on-failure:7
+    extends:
+      file: ../../common.yml
+      service: service-base
     volumes:
-      - authelia_db_data:/var/lib/postgresql/data
+      - authelia_db_data:/var/lib/postgresql
     env_file:
       - ./env/authelia_postgres.env
     profiles:
       - authelia
       - caddy
-    environment:
-      - TZ=${TZ:-Europe/Paris}
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
       interval: 5s

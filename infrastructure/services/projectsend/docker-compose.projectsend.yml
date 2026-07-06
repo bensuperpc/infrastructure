@@ -1,11 +1,13 @@
 services:
   # projectsend
   projectsend:
-    image: linuxserver/projectsend:latest
+    extends:
+      file: ../../common.yml
+      service: service-base
+    image: linuxserver/projectsend:${PROJECTSEND_DOCKER_TAG:-latest}
     container_name: projectsend
     profiles:
       - projectsend
-    restart: on-failure:7
     depends_on:
       - caddy
     env_file:
@@ -16,32 +18,25 @@ services:
     networks:
       - caddy-files
       - projectsend-internal
-    security_opt:
-      - no-new-privileges:true
-    cap_drop:
-      - SYS_ADMIN
 
   # Database projectsend
   projectsend_db:
-    image: mariadb:latest
+    image: mariadb:${PROJECTSEND_DB_DOCKER_TAG:-latest}
     container_name: projectsend_db
     profiles:
-      - database
       - projectsend
+    extends:
+      file: ../../common.yml
+      service: service-base
     depends_on:
       - caddy
-    restart: on-failure:7
     volumes:
       - projectsend_db:/var/lib/mysql:rw
     env_file:
       - ./env/projectsend_db.env
-    environment:
-      - TZ=${TZ:-Europe/Paris}
     command: '--default-authentication-plugin=mysql_native_password'
     networks:
       - projectsend-internal
-    security_opt:
-      - no-new-privileges:true
 
 volumes:
   projectsend_db:

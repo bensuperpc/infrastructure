@@ -152,6 +152,13 @@
         # ping: transmission.bensuperpc.org
         container: transmission
         server: my-docker
+    - vscode-server:
+        icon: https://cdn.jsdelivr.net/gh/walkxcode/dashboard-icons@master/png/vscode.png
+        href: https://vscode.bensuperpc.org/
+        description: VS Code Server
+        # ping: vscode.bensuperpc.org
+        container: vscode-server
+        server: my-docker
 
 - Games:
     - minecraft:

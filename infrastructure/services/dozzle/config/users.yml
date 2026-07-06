@@ -1,7 +1,8 @@
 users:
-  bensuperpc:
-    email: bensuperpc@gmail.com
-    name: bensuperpc
+  admin:
+    email: me@email.net
+    name: admin
+    # docker run -it --rm amir20/dozzle generate admin --password password --email me@email.net --name "admin"
     password: $2a$11$w56N4NICh5xD5Bbq6Z2Z2ef9/QUaa/YKleMiawn/Bru9hYsQOJyrm
     filter: ""
     roles: ""

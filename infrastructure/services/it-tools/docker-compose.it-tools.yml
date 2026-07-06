@@ -2,9 +2,9 @@ services:
   # it-tools
   it-tools0:
     extends:
-      file: ../common.yml
+      file: ../../common.yml
       service: service-base
-    image: ghcr.io/sharevb/it-tools:latest
+    image: ghcr.io/sharevb/it-tools:${IT_TOOLS_DOCKER_TAG:-latest}
     container_name: it-tools0
     profiles:
       - it-tools
@@ -16,9 +16,9 @@ services:
 
   it-tools1:
     extends:
-      file: ../common.yml
+      file: ../../common.yml
       service: service-base
-    image: ghcr.io/sharevb/it-tools:latest
+    image: ghcr.io/sharevb/it-tools:${IT_TOOLS_DOCKER_TAG:-latest}
     container_name: it-tools1
     profiles:
       - it-tools

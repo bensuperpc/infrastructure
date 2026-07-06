@@ -1,12 +1,14 @@
 services:
   # dufs
   dufs:
-    image: sigoden/dufs:latest
+    image: sigoden/dufs:${DUFS_DOCKER_TAG:-latest}
     container_name: dufs
     profiles:
       - dufs
 #    user: ${PUID:-1000}:${PGID:-1000} 
-    restart: on-failure:7
+    extends:
+      file: ../../common.yml
+      service: service-base
     depends_on:
       - caddy
     env_file:
@@ -15,8 +17,6 @@ services:
       - public_data:/data
     networks:
       - caddy-files
-    security_opt:
-      - no-new-privileges:true
 
 volumes:
   public_data:

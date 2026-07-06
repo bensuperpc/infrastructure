@@ -2,14 +2,13 @@ services:
   # Caddy
   caddy:
     #image: bensuperpc/caddy-l4:latest
-    image: caddy:latest
+    image: caddy:${CADDY_DOCKER_TAG:-latest}
     container_name: caddy
     profiles:
       - caddy
     depends_on:
       main_infrastructure:
         condition: service_completed_successfully
-    restart: on-failure:7
     ports:
       - 80:80/tcp
       - 80:80/udp
@@ -32,10 +31,9 @@ services:
       - caddy-web
     env_file:
       - ./env/caddy.env
-    environment:
-      - TZ=${TZ:-Europe/Paris}
-    security_opt:
-      - no-new-privileges:true
+    extends:
+      file: ../../common.yml
+      service: service-base
     healthcheck:
       test: pidof caddy || exit 1
       interval: 120s
@@ -43,7 +41,7 @@ services:
       retries: 3
 
   caddy_backup:
-    image: mazzolino/restic:latest
+    image: mazzolino/restic:${RESTIC_DOCKER_TAG:-latest}
     container_name: caddy_backup
     profiles:
       - caddy

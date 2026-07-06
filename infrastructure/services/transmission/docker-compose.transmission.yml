@@ -1,11 +1,13 @@
 services:
   # transmission
   transmission:
-    image: lscr.io/linuxserver/transmission:latest
+    image: lscr.io/linuxserver/transmission:${TRANSMISSION_DOCKER_TAG:-latest}
     container_name: transmission
     profiles:
       - transmission
-    restart: on-failure:7
+    extends:
+      file: ../../common.yml
+      service: service-base
     depends_on:
       - caddy
     env_file:
@@ -19,8 +21,6 @@ services:
       - transmission_watch:/watch
     networks:
       - caddy-media
-    security_opt:
-      - no-new-privileges:true
 
 volumes:
   transmission_config:

@@ -151,164 +151,68 @@ And then, caddy will generate the certificate for you and renew it automatically
 
 ### Configure the infrastructure
 
-You need to configure the infrastructure with your own configuration.
-
-You can generate a password with 32 characters:
+Every service ships a `*.env.example` file, real `*.env` files are gitignored and never committed, you can generate them locally with:
 
 ```sh
-openssl rand -base64 32
+python3 tools/init_secrets.py
 ```
-
-Or online: [passwordsgenerator.net](https://passwordsgenerator.net/)
 
 #### Caddy
 
-For [caddy_backup.env](infrastructure/services/caddy/env/caddy_backup.env) file, you need to change the password(s) for the restic backup.
-
-```sh
-RESTIC_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
-```
-
-On [caddy.env](infrastructure/services/caddy/env/caddy.env) file, you need to update some variables, like the main domain, mail domain and scheme (http or https).
+Edit [caddy.env](infrastructure/services/caddy/env/caddy.env.example) to set your domain and mail address:
 
 ```sh
 MAIN_DOMAIN=bensuperpc.org
 MAIL_DOMAIN=bensuperpc@gmail.com
-# Scheme
 SCHEME=https
-# ignore_loaded_certs off
 AUTO_HTTPS_OPTIONS=ignore_loaded_certs
 ```
 
-#### Authelia
+#### Authelia - user database
 
-For [authelia.env](infrastructure/services/authelia/env/authelia.env) file, you need to change the password(s) and secret key:
-
-```sh
-AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET=ht87MVnXkXhBpDkMUHqKDqdg8UGBJt+Fx5jNIqXnN2k=
-AUTHELIA_SESSION_SECRET=nsvbXKGRXVZUCUkOapntlq/Zh+d75WacTK5Jgyh8zYk=
-AUTHELIA_STORAGE_ENCRYPTION_KEY=aWeIT74xIhGVd9nUOr4YTToTl5rpBEbzc/fv4jemuos=
-AUTHELIA_STORAGE_POSTGRES_HOST=authelia-postgres
-AUTHELIA_STORAGE_POSTGRES_PORT=5432
-AUTHELIA_STORAGE_POSTGRES_DATABASE=authelia_db
-AUTHELIA_STORAGE_POSTGRES_USERNAME=authelia
-AUTHELIA_STORAGE_POSTGRES_PASSWORD=sAdkxFW6k3GiMOrlBpl6OV76eb9cQz/uk95jmA2UpI8=
-```
-
-Same for [authelia_postgres.env](infrastructure/services/authelia/env/authelia_postgres.env) file, you need to change the password(s) and user for the database.
-
-```sh
-POSTGRES_USER=authelia
-POSTGRES_PASSWORD=sAdkxFW6k3GiMOrlBpl6OV76eb9cQz/uk95jmA2UpI8=
-POSTGRES_DB=authelia_db
-```
-
-You also need to update [users_database.yml](infrastructure/services/authelia/config/users_database.yml)
+`make init` generates all Authelia secrets automatically. [users_database.yml](infrastructure/services/authelia/config/users_database.yml) ships with a **placeholder example user** (`bensuperpc`) - replace it with your own before starting the stack, don't just add a user next to it. Generate an argon2 hash for your password:
 
 ```sh
 docker run --rm authelia/authelia:latest authelia crypto hash generate argon2 --password 'MyPassword'
 ```
 
-#### Dozzle
+Then edit the `username`, `displayname`, `password` hash and `email` fields to match.
 
-To generate a new user for dozzle, you can use the following command [users.yml](infrastructure/services/dozzle/config/users.yml):
+#### Dozzle - user account
+
+Generate a user entry for [users.yml](infrastructure/services/dozzle/config/users.yml):
 
 ```sh
 docker run -it --rm amir20/dozzle generate bensuperpc --password mypassword --email bensuperpc@gmail.com --name "bensuperpc"
 ```
 
-#### PsiTransfer
+#### OpenSSH - public key
 
-For [psitransfer.env](infrastructure/services/psitransfer/env/psitransfer.env) file, you need to change the secret key.
+Replace [id_ed25519.pub](infrastructure/services/openssh/config/authorized_keys/id_ed25519.pub) with your own public SSH key.
 
-```sh
-PSITRANSFER_ADMIN_PASS=n9jLVNT9QUotTJTT91JqH4GyBTg9pvEn
-```
+#### Open-WebUI - Ollama model
 
-For [projectsend_db.env](infrastructure/services/projectsend/env/projectsend_db.env) file, you need to change the password(s) and user for the database.
-
-```sh
-MARIADB_ROOT_PASSWORD=8O34297GrBfT3Ld34Lfg9mpotmZwbJtt
-MARIADB_USER=bensuperpc
-MARIADB_PASSWORD=wdSUa1JEZhXie5AJ5NcX1w73xmpO12EY
-```
-
-#### Picoshare
-
-For [picoshare.env](infrastructure/services/picoshare/env/picoshare.env) file, you need to change the secret key.
-
-```sh
-PS_SHARED_SECRET=CBuS4DJLqIe93xF1KGYRrnhxUFBqLD2n
-```
-
-#### Dufs
-
-For [dufs.env](infrastructure/services/dufs/env/dufs.env) file, you need to change the secret key and if you want the user name.
-
-```sh
-DUFS_AUTH="admin:heqihlOfBmJDESGFlpbPi7P7Mi6F7RkV@/:rw|@/:ro"
-```
-
-#### Stirling PDF
-
-For [stirlingpdf.env](infrastructure/services/stirlingpdf/env/stirlingpdf.env) file, it's **completly optional**, you can change the password(s) and user.
-
-```sh
-# Enable security, optional
-DOCKER_ENABLE_SECURITY=true
-SECURITY_ENABLE_LOGIN=true
-# Can be disabled after initial login, optional,
-# default it admin:stirling
-SECURITY_INITIALLOGIN_USERNAME=admin
-SECURITY_INITIALLOGIN_PASSWORD=Jw9U039f5xc2mFcacvGvPD9RjwIh4DzO
-```
-
-#### OpenSSH
-
-You can need to add/change the public ssh key [id_ed25519.pub](infrastructure/services/openssh/config/authorized_keys/id_ed25519.pub) (its my public key), also change the config/password in [openssh.env](infrastructure/services/openssh/env/openssh.env):
-
-```sh
-SUDO_ACCESS=true
-#PUBLIC_KEY_URL=https://github.com/bensuperpc.keys
-PUBLIC_KEY_DIR=/authorized_ssh_keys
-USER_PASSWORD=rdUwf36C11PLmpU9Lvq7tP5pfFBKAuCh
-
-#PUBLIC_KEY=yourpublickey
-#PUBLIC_KEY_FILE=/path/to/file
-#PUBLIC_KEY_DIR=/path/to/directory/containing/_only_/pubkeys
-#USER_PASSWORD_FILE=/path/to/file
-```
-
-#### Open-WebUI
-
-For [open-webui.env](infrastructure/services/open-webui/env/openwebui.env) file, you must change the secret key for the webui and configure its PostgreSQL backend.
-
-```sh
-WEBUI_SECRET_KEY=7d83b15a417d090ba5c6b899270a05dd215c60848354c0c7574226d6ff02f39e
-DATABASE_URL=postgresql://postgres:securepassword123@openwebui-postgres:5432/openwebui
-REDIS_URL=redis://:valkey_password@valkey:6379/0
-```
-
-Also update [openwebui-postgres.env](infrastructure/services/open-webui/env/openwebui-postgres.env) and [openwebui-valkey.env](infrastructure/services/open-webui/env/openwebui-valkey.env) with your own credentials.
-
-To download the model, through open-webui GUI or you can use the following command:
+After starting the stack, pull a model via the Open-WebUI GUI or with:
 
 ```sh
 docker exec -it ollama ollama run deepseek-r1:8b
 ```
 
-#### Dependency-Track
+#### Team Fortress 2 - Steam GSLT
 
-For [dependency-track.env](infrastructure/services/dependency-track/env/dependency-track.env) file, you need to set the database credentials and the API server URL.
+`make init` will remind you: set `SRCDS_TOKEN` in [teamfortress2.env](infrastructure/services/teamfortress2-server/teamfortress2/env/teamfortress2.env) with your token from [steamcommunity.com/dev/managegameservers](https://steamcommunity.com/dev/managegameservers).
+
+#### Dependency-Track - first login
+
+Default credentials are `admin` / `admin` - **change them on first login**.
+
+#### Forgejo - installation lock
+
+After the first-run installation wizard completes, set in [forgejo.env](infrastructure/services/forgejo/env/forgejo.env.example):
 
 ```sh
-POSTGRES_USER=dtrack
-POSTGRES_PASSWORD=<your_password>
-POSTGRES_DB=dtrack_db
-ALPINE_DATA_DIRECTORY=/data
+FORGEJO__security__INSTALL_LOCK=true
 ```
-
-The frontend is available at `https://dependency-track.bensuperpc.org` and the API server at `/api/*`. Default credentials are `admin` / `admin`, **change them on first login**.
 
 ### Homepage
 
@@ -318,16 +222,6 @@ You can change the homepage config in these files:
 - [services.yaml](infrastructure/services/homepage/config/services.yaml)
 - [settings.yaml](infrastructure/services/homepage/config/settings.yaml)
 - [widgets.yaml](infrastructure/services/homepage/config/widgets.yaml)
-
-### Forgejo
-
-For Forgejo installation, you must change the password(s) and user in [forgejo_db.env](infrastructure/services/forgejo/env/forgejo_db.env) file and [forgejo.env](infrastructure/services/forgejo/env/forgejo.env) file.
-
-Once the installation is complete, you need to set the installation lock:
-
-```sh
-FORGEJO__security__INSTALL_LOCK=true
-```
 
 ### Forgejo Runner (Out of date)
 
@@ -435,29 +329,6 @@ AUTO_HTTPS_OPTIONS=ignore_loaded_certs
 ```
 
 And remove all the `import authelia_middleware` in the caddyfiles, authelia need https to work.
-
-#### Wordpress
-
-For the [wordpress.env](infrastructure/services/wordpress/env/wordpress.env) file, you need to change the password and user for the database.
-
-```sh
-WORDPRESS_DB_USER=bensuperpc
-WORDPRESS_DB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
-```
-
-For [wordpress_db.env](infrastructure/services/wordpress/env/wordpress_db.env) file, you need to change the password(s) and user for the database.
-
-```sh
-MARIADB_ROOT_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
-MARIADB_USER=bensuperpc
-MARIADB_PASSWORD=lEOEf8cndnDjp84O4Uv5D9zJLJDFatLw
-```
-
-For [wordpress_backup.env](infrastructure/services/wordpress/env/wordpress_backup.env) file, you need to change the password(s) for the restic backup.
-
-```sh
-RESTIC_PASSWORD=7L1Ncbquax0B2TCOmrjaQl9n5mnY88bQ
-```
 
 ## Sources
 

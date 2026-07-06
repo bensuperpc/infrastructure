@@ -1,22 +1,20 @@
 services:
   # privatebin
   privatebin:
-    image: privatebin/nginx-fpm-alpine:latest
+    image: privatebin/nginx-fpm-alpine:${PRIVATEBIN_DOCKER_TAG:-latest}
     container_name: privatebin
     profiles:
       - privatebin
-    restart: on-failure:7
+    extends:
+      file: ../../common.yml
+      service: service-base
     depends_on:
       - caddy
     volumes:
       - privatebin_data:/srv/data
       - ./config/conf.php:/srv/cfg/conf.php:ro
-    environment:
-      - TZ=${TZ:-Europe/Paris}
     networks:
       - caddy-tools
-    security_opt:
-      - no-new-privileges:true
     read_only: true
 
 volumes:

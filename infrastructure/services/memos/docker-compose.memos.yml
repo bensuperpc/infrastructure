@@ -1,11 +1,13 @@
 services:
   # memos
   memos:
-    image: neosmemo/memos:latest
+    image: neosmemo/memos:${MEMOS_DOCKER_TAG:-latest}
     container_name: memos
     profiles:
       - memos
-    restart: on-failure:7
+    extends:
+      file: ../../common.yml
+      service: service-base
     depends_on:
       - caddy
     env_file:
@@ -14,8 +16,6 @@ services:
       - memos_config:/var/opt/memos
     networks:
       - caddy-tools
-    security_opt:
-      - no-new-privileges:true
 
 volumes:
   memos_config:

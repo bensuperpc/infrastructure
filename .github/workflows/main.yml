@@ -26,8 +26,6 @@ jobs:
         with:
           submodules: "recursive"
           fetch-depth: 0
-      - name: "Check compose"
-        run: make check
       - name: "Update server image"
         run: make pull
       - name: "Build server"

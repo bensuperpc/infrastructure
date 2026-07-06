@@ -1,11 +1,13 @@
 services:
   # Jellyfin
   jellyfin:
-    image: lscr.io/linuxserver/jellyfin:latest
+    image: lscr.io/linuxserver/jellyfin:${JELLYFIN_DOCKER_TAG:-latest}
     container_name: jellyfin
     profiles:
       - jellyfin
-    restart: on-failure:7
+    extends:
+      file: ../../common.yml
+      service: service-base
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
@@ -24,8 +26,6 @@ services:
       - /dev/dri:/dev/dri
     networks:
       - caddy-media
-    security_opt:
-      - no-new-privileges:true
 
 volumes:
   jellyfin_config:

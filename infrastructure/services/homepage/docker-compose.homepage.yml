@@ -1,11 +1,13 @@
 services:
   # homepage
   homepage:
-    image: ghcr.io/gethomepage/homepage:latest
+    image: ghcr.io/gethomepage/homepage:${HOMEPAGE_DOCKER_TAG:-latest}
     container_name: homepage
     profiles:
       - homepage
-    restart: on-failure:7
+    extends:
+      file: ../../common.yml
+      service: service-base
 #    environment:
 #      - PUID=${PUID:-1000}
 #      - PGID=${PGID:-1000}
@@ -14,8 +16,6 @@ services:
       - homepage-dockerproxy
     env_file:
       - ./env/homepage.env
-    environment:
-      - TZ=${TZ:-Europe/Paris}
     volumes:
       - homepage_log:/app/logs
       - ./config:/app/config
@@ -23,11 +23,8 @@ services:
     networks:
       - caddy-infra
       - homepage-internal
-    security_opt:
-      - no-new-privileges:true
-
   homepage-dockerproxy:
-    image: tecnativa/docker-socket-proxy:latest
+    image: tecnativa/docker-socket-proxy:${DOCKER_SOCKET_PROXY_DOCKER_TAG:-latest}
     container_name: homepage-dockerproxy
     profiles:
       - homepage

@@ -1,0 +1,50 @@
+services:
+  # vscode-server
+  vscode-server:
+    restart: on-failure:7
+    image: lscr.io/linuxserver/code-server:${VSCODE_SERVER_DOCKER_TAG:-latest}
+    container_name: vscode-server
+    ports:
+      - 8443:8443
+    environment:
+      - TZ=${TZ:-Europe/Paris}
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+    env_file:
+      - env/vscode-server.env
+    profiles:
+      - vscode-server
+    depends_on:
+      - docker-dind
+    volumes:
+      - vscode-server_config:/config:rw
+    networks:
+      - vscode-server
+
+  # docker-dind
+  docker-dind:
+    image: docker:dind
+    container_name: docker-dind
+    restart: on-failure:7
+    privileged: true
+    entrypoint: ["dockerd"]
+    command:
+      - --host=unix:///var/run/docker.sock
+      - --host=tcp://0.0.0.0:2375
+    volumes:
+      - docker-dind-data:/var/lib/docker
+    networks:
+      - vscode-server
+    profiles:
+      - vscode-server
+
+networks:
+  vscode-server:
+    driver: bridge
+    name: vscode-server
+
+volumes:
+  vscode-server_config:
+    name: vscode-server_config
+  docker-dind-data:
+    name: docker-dind-data

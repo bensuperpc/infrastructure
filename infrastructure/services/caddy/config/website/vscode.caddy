@@ -1,0 +1,6 @@
+{$SCHEME}://vscode.{$MAIN_DOMAIN} {
+	import authelia_middleware
+	reverse_proxy {$VSCODE_SERVER_ADDRESS} {
+		header_up Host {upstream_hostport}
+	}
+}

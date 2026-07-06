@@ -7,13 +7,13 @@ services:
     container_name: localai
     profiles:
       - localai
-    restart: on-failure:7
+    extends:
+      file: ../../common.yml
+      service: service-base
     depends_on:
       - caddy
     env_file:
       - ./env/localai.env
-    environment:
-      - TZ=${TZ:-Europe/Paris}
     volumes:
       - localai_data:/data
       - localai_models:/models
@@ -21,8 +21,6 @@ services:
       - localai_config:/config
     networks:
       - caddy-ai
-    security_opt:
-      - no-new-privileges:true
 
 volumes:
   localai_models:

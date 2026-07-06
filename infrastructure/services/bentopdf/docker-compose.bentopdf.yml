@@ -1,9 +1,9 @@
 services:
   bentopdf:
     extends:
-      file: ../common.yml
+      file: ../../common.yml
       service: service-base
-    image: ghcr.io/alam00000/bentopdf-simple:latest
+    image: ghcr.io/alam00000/bentopdf-simple:${BENTOPDF_DOCKER_TAG:-latest}
     container_name: bentopdf
     profiles:
       - bentopdf

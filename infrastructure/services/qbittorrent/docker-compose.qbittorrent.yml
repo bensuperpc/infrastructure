@@ -1,11 +1,13 @@
 services:
   # qBittorrent
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:latest
+    image: lscr.io/linuxserver/qbittorrent:${QBITTORRENT_DOCKER_TAG:-latest}
     container_name: qbittorrent
     profiles:
       - qbittorrent
-    restart: on-failure:7
+    extends:
+      file: ../../common.yml
+      service: service-base
     depends_on:
       - caddy
     env_file:
@@ -13,7 +15,6 @@ services:
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
-      - TZ=${TZ:-Europe/Paris}
     ports:
       - 6881:6881
       - 6881:6881/udp
@@ -23,8 +24,6 @@ services:
       - private_data:/private_downloads
     networks:
       - caddy-media
-    security_opt:
-      - no-new-privileges:true
 
 volumes:
   qbittorrent_config:

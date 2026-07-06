@@ -1,0 +1,31 @@
+services:
+  minecraft_backup:
+    image: mazzolino/restic:${RESTIC_DOCKER_TAG:-latest}
+    container_name: minecraft_backup
+    profiles:
+      - minecraft_backup
+    depends_on:
+      - mc-server
+      - minecraft_proxy
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    env_file:
+      - ./env/backup.env
+    volumes:
+      - minecraft_server_backup:/mnt/restic
+      - minecraft_server_data:/data/minecraft_server_data:ro
+      - minecraft_proxy_data:/data/minecraft_proxy_data:ro
+    network_mode: none
+    cap_drop:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_ADMIN
+
+volumes:
+  minecraft_server_backup:
+    name: minecraft_server_backup
+  minecraft_server_data:
+    name: minecraft_server_data
+  minecraft_proxy_data:
+    name: minecraft_proxy_data

@@ -1,24 +1,22 @@
 services:
   # psitransfer
   psitransfer:
-    image: psitrax/psitransfer:latest
+    image: psitrax/psitransfer:${PSITRANSFER_DOCKER_TAG:-latest}
     container_name: psitransfer
     profiles:
       - psitransfer
-    restart: on-failure:7
+    extends:
+      file: ../../common.yml
+      service: service-base
 #    user: ${PUID:-1000}:${PGID:-1000} 
     depends_on:
       - caddy
     env_file:
       - ./env/psitransfer.env
-    environment:
-      - TZ=${TZ:-Europe/Paris}
     volumes:
       - psitransfer_data:/data
     networks:
       - caddy-files
-    security_opt:
-      - no-new-privileges:true
     read_only: true
 
 volumes:

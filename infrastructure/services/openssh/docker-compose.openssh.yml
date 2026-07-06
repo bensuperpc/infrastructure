@@ -1,7 +1,7 @@
 services:
   # openssh
   openssh:
-    image: linuxserver/openssh-server:latest
+    image: linuxserver/openssh-server:${OPENSSH_DOCKER_TAG:-latest}
     container_name: openssh
     profiles:
       - openssh
@@ -30,12 +30,8 @@ services:
       - minecraft_server_backup:/minecraft_server_backup:rw
       - minecraft_server_data:/minecraft_server_data:rw
       - minecraft_proxy_data:/minecraft_proxy_data:rw
-      - forgejo_data:/forgejo_data:rw
-      - forgejo_db:/forgejo_db:rw
-      - teamfortress2_backup:/teamfortress2_backup:rw
-      - teamfortress2_data:/teamfortress2_data:rw
-      - argus_data:/argus_data:rw
       - qbittorrent_config:/qbittorrent_config:rw
+      - vscode-server_config:/vscode-server_config:rw
     networks:
       - openssh-network
     security_opt:
@@ -83,16 +79,11 @@ volumes:
     name: teamfortress2_backup
   teamfortress2_data:
     name: teamfortress2_data
-# forgejo
-  forgejo_data:
-    name: forgejo_data
-  forgejo_db:
-    name: forgejo_db
 # argus
-  argus_data:
-    name: argus_data
   qbittorrent_config:
     name: qbittorrent_config
+  vscode-server_config:
+    name: vscode-server_config
 
 networks:
   openssh-network:

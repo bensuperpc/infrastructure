@@ -1,6 +1,6 @@
 services:
   dozzle:
-    image: amir20/dozzle:latest
+    image: amir20/dozzle:${DOZZLE_DOCKER_TAG:-latest}
     container_name: dozzle
     profiles:
       - dozzle
@@ -22,7 +22,7 @@ services:
       - dozzle-internal
     
   dozzle-dockerproxy:
-    image: tecnativa/docker-socket-proxy:latest
+    image: tecnativa/docker-socket-proxy:${DOCKER_SOCKET_PROXY_DOCKER_TAG:-latest}
     container_name: dozzle-dockerproxy
     profiles:
       - dozzle

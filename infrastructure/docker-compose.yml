@@ -53,15 +53,17 @@ include:
   - services/authelia/docker-compose.authelia.yml
 # Dozzle
   - services/dozzle/docker-compose.dozzle.yml
-# Minecraft
-  - services/minecraft-server/docker-compose.yml
-# 7daystodie
-  - services/7daystodie-server/docker-compose.yml
-# Satisfactory
-  - services/satisfactory-server/docker-compose.yml
-# Team Fortress 2
-  - services/teamfortress2-server/docker-compose.yml
 # LocalAI
   - services/localai/docker-compose.localai.yml
 # Bentopdf
   - services/bentopdf/docker-compose.bentopdf.yml
+# Code-server
+  - services/code-server/docker-compose.vscode-server.yml
+# Minecraft
+  - games/minecraft-server/docker-compose.yml
+# 7daystodie
+  - games/7daystodie-server/docker-compose.yml
+# Satisfactory
+  - games/satisfactory-server/docker-compose.yml
+# Team Fortress 2
+  - games/teamfortress2-server/docker-compose.yml

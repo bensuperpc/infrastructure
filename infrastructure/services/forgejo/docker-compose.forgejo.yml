@@ -1,7 +1,7 @@
 services:
   # forgejo
   forgejo:
-    image: codeberg.org/forgejo/forgejo:15
+    image: codeberg.org/forgejo/forgejo:${FORGEJO_DOCKER_TAG:-15}
     container_name: forgejo
     profiles:
       - forgejo
@@ -26,13 +26,15 @@ services:
   
   # Database forgejo
   database_forgejo:
-    image: mariadb:latest
+    image: mariadb:${FORGEJO_DB_DOCKER_TAG:-latest}
     container_name: database_forgejo
     profiles:
       - forgejo
     depends_on:
       - caddy
-    restart: on-failure:7
+    extends:
+      file: ../../common.yml
+      service: service-base
     volumes:
       - forgejo_db:/var/lib/mysql:rw
     env_file:
@@ -40,12 +42,10 @@ services:
     command: '--default-authentication-plugin=mysql_native_password'
     networks:
       - forgejo-internal
-    security_opt:
-      - no-new-privileges:true
 
   # forgejo-runner
   docker-in-docker:
-    image: code.forgejo.org/oci/docker:dind
+    image: code.forgejo.org/oci/docker:${FORGEJO_DIND_DOCKER_TAG:-dind}
     container_name: 'docker_dind'
     hostname: docker
     networks:
@@ -60,7 +60,7 @@ services:
       - forgejo_certs:/certs
 
   forgejo_runner:
-    image: data.forgejo.org/forgejo/runner:12
+    image: data.forgejo.org/forgejo/runner:${FORGEJO_RUNNER_DOCKER_TAG:-12}
     networks:
       - forgejo-internal
     profiles:

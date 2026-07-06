@@ -1,2 +1,7 @@
 
 /*.tar.gz
+
+infrastructure/services/**/env/*.env
+infrastructure/services/**/config/*.env
+!infrastructure/services/**/env/*.env.example
+!infrastructure/services/**/config/*.env.example

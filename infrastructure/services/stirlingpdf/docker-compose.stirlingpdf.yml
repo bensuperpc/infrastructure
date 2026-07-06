@@ -1,24 +1,22 @@
 services:
   # stirlingpdf
   stirlingpdf:
-    image: frooodle/s-pdf:latest
+    image: frooodle/s-pdf:${STIRLINGPDF_DOCKER_TAG:-latest}
     container_name: stirlingpdf
     profiles:
       - stirlingpdf
-    restart: on-failure:7
+    extends:
+      file: ../../common.yml
+      service: service-base
     depends_on:
       - caddy
     env_file:
       - ./env/stirlingpdf.env
-    environment:
-      - TZ=${TZ:-Europe/Paris}
     volumes:
       - stirlingpdf_config:/configs
       - stirlingpdf_tessdata:/usr/share/tessdata
     networks:
       - caddy-tools
-    security_opt:
-      - no-new-privileges:true
     read_only: false
 
 volumes:

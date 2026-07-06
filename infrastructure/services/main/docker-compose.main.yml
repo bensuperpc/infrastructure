@@ -1,15 +1,16 @@
 services:
   main_infrastructure:
     container_name: main_infrastructure
-    image: alpine:latest
+    image: alpine:${ALPINE_DOCKER_TAG:-latest}
     profiles:
       - main_infrastructure
     volumes:
       - public_data:/public_data:rw
       - private_data:/private_data:rw
     read_only: true
-    security_opt:
-      - no-new-privileges:true
+    extends:
+      file: ../../common.yml
+      service: service-base
     cap_drop:
       - ALL
     cap_add:
@@ -22,7 +23,7 @@ services:
     container_name: watchtower
     profiles:
       - main_infrastructure
-    image: nickfedor/watchtower:latest
+    image: nickfedor/watchtower:${WATCHTOWER_DOCKER_TAG:-latest}
     environment:
       - TZ=${TZ:-Europe/Paris}
     volumes:

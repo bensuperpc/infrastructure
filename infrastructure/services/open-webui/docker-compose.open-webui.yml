@@ -2,14 +2,16 @@ name: openwebui
 
 services:
   ollama:
-    image: ollama/ollama:${OLLAMA_DOCKER_TAG:-0.30.11}
+    image: ollama/ollama:${OLLAMA_DOCKER_TAG:-0.32.4}
     container_name: ollama
     profiles:
       - openwebui
       - ollama
     depends_on:
       - caddy
-    restart: on-failure:7
+    extends:
+      file: ../../common.yml
+      service: service-base
     tty: true
     volumes:
       - openwebui-ollama:/root/.ollama
@@ -17,10 +19,6 @@ services:
     #   - ${OLLAMA_PORT:-11434}:11434
     env_file:
       - ./env/openwebui-ollama.env
-    environment:
-      - TZ=${TZ:-Europe/Paris}
-    security_opt:
-      - no-new-privileges:true
     networks:
       - openwebui-internal
     # devices:
@@ -28,24 +26,22 @@ services:
     #   - /dev/kfd
 
   litellm:
-    image: ghcr.io/berriai/litellm:${LITELLM_DOCKER_TAG:-v1.89.6}
+    image: ghcr.io/berriai/litellm:${LITELLM_DOCKER_TAG:-v1.93.0}
     container_name: litellm
     profiles:
       - openwebui
-    restart: on-failure:7
+    extends:
+      file: ../../common.yml
+      service: service-base
     depends_on:
       litellm-postgres:
         condition: service_healthy
     env_file:
       - ./env/litellm.env
-    environment:
-      - TZ=${TZ:-Europe/Paris}
     command: ["--port", "4000", "--detailed_debug"] 
     networks:
       - caddy-ai
       - openwebui-internal
-    security_opt:
-      - no-new-privileges:true
 
   litellm-postgres:
     image: postgres:${POSTGRES_DOCKER_TAG:-18.4-alpine3.24}
@@ -54,11 +50,11 @@ services:
       - openwebui
     env_file:
       - ./env/litellm-postgres.env
-    environment:
-      - TZ=${TZ:-Europe/Paris}
     volumes:
       - litellm-postgres:/var/lib/postgresql
-    restart: on-failure:7
+    extends:
+      file: ../../common.yml
+      service: service-base
     networks:
       - openwebui-internal
     healthcheck:
@@ -74,11 +70,11 @@ services:
       - openwebui
     env_file:
       - ./env/openwebui-postgres.env
-    environment:
-      - TZ=${TZ:-Europe/Paris}
+    extends:
+      file: ../../common.yml
+      service: service-base
     volumes:
       - openwebui-postgres:/var/lib/postgresql
-    restart: on-failure:7
     networks:
       - openwebui-internal
     healthcheck:
@@ -88,10 +84,13 @@ services:
       retries: 5
 
   openwebui:
-    image: ghcr.io/open-webui/open-webui:${WEBUI_DOCKER_TAG:-git-ecd48e2}
+    image: ghcr.io/open-webui/open-webui:${OPEN_WEBUI_DOCKER_TAG:-v0.11.0}
     container_name: openwebui
     profiles:
       - openwebui
+    extends:
+      file: ../../common.yml
+      service: service-base
     volumes:
       - openwebui:/app/backend/data
     depends_on:
@@ -102,40 +101,37 @@ services:
       - valkey
     env_file:
       - ./env/openwebui.env
-    environment:
-      - TZ=${TZ:-Europe/Paris}
     #  - UID=${PUID:-1000}
     #  - GID=${PGID:-1000}
     # ports:
     #   - ${OPEN_WEBUI_PORT:-3000}:8080
-    restart: on-failure:7
     networks:
       - caddy-ai
       - openwebui-internal
-    security_opt:
-      - no-new-privileges:true
 
   openwebui-pipelines:
     image: ghcr.io/open-webui/pipelines:${WEBUI_PIPELINE_DOCKER_TAG:-git-039f9c5}
     container_name: openwebui-pipelines
     profiles:
       - openwebui
+    extends:
+      file: ../../common.yml
+      service: service-base
     networks:
       - openwebui-internal
     env_file:
       - ./env/openwebui-pipelines.env
-    restart: on-failure:7
     volumes:
       - openwebui-pipelines:/app/pipelines
-    security_opt:
-      - no-new-privileges:true
 
   qdrant:
-    image: qdrant/qdrant:${QDRANT_DOCKER_TAG:-v1.18.2}
+    image: qdrant/qdrant:${QDRANT_DOCKER_TAG:-v1.18.3}
     profiles:
       - openwebui
     container_name: qdrant
-    restart: on-failure:7
+    extends:
+      file: ../../common.yml
+      service: service-base
     # ports:
     #   - "6333:6333"
     #   - "6334:6334"
@@ -147,14 +143,18 @@ services:
       - openwebui-internal
 
   valkey:
-    image: valkey/valkey:${VALKEY_DOCKER_TAG:-9.1.0-alpine}
+    image: valkey/valkey:${VALKEY_DOCKER_TAG:-9.1.1-alpine}
     container_name: valkey
     profiles:
       - openwebui
     env_file:
       - ./env/openwebui-valkey.env
-    restart: on-failure:7
-    command: valkey-server --requirepass ${VALKEY_PASSWORD:-valkey_password} --maxclients 10000 --timeout 1800
+    extends:
+      file: ../../common.yml
+      service: service-base
+    # $$VALKEY_PASSWORD (not ${VALKEY_PASSWORD}) so it's expanded at container
+    # runtime from env_file, not at compose-parse time from the host shell.
+    command: sh -c 'exec valkey-server --requirepass "$$VALKEY_PASSWORD" --maxclients 10000 --timeout 1800'
     volumes:
       - openwebui-valkey:/data
     networks:

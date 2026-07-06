@@ -1,27 +1,26 @@
 services:
   # syncthing
   syncthing:
-    image: linuxserver/syncthing:latest
+    image: linuxserver/syncthing:${SYNCTHING_DOCKER_TAG:-latest}
     container_name: syncthing
     profiles:
       - syncthing
     depends_on:
       - caddy
-    restart: on-failure:7
+    extends:
+      file: ../../common.yml
+      service: service-base
     env_file:
       - ./env/syncthing.env
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
-      - TZ=${TZ:-Europe/Paris}
     volumes:
       - syncthing_config:/config
       - public_data:/data1
       - private_data:/data2
     networks:
       - caddy-media
-    security_opt:
-      - no-new-privileges:true
 
 volumes:
   syncthing_config:

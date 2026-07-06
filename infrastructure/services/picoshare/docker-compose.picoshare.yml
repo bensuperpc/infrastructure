@@ -1,26 +1,22 @@
 services:
   # picoshare
   picoshare:
-    image: mtlynch/picoshare:latest
+    extends:
+      file: ../../common.yml
+      service: service-base
+    image: mtlynch/picoshare:${PICOSHARE_DOCKER_TAG:-latest}
     container_name: picoshare
     profiles:
       - picoshare
-    restart: on-failure:7
     depends_on:
       - caddy
     env_file:
       - ./env/picoshare.env
-    environment:
-      - TZ=${TZ:-Europe/Paris}
     volumes:
       - picoshare_data:/data
     networks:
       - caddy-files
-    security_opt:
-      - no-new-privileges:true
     read_only: false
-    cap_drop:
-      - SYS_ADMIN
 #    tmpfs:
 #      - /tmp
 

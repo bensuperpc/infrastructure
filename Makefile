@@ -24,8 +24,8 @@
 
 PROJECT_DIRECTORY := infrastructure
 CONFIG_DIRECTORY := presets
-# 7dtd minecraft satisfactory torrent
-CONFIGS := ia torrent tools
+# 7dtd minecraft satisfactory torrent ia torrent tools
+CONFIGS := 7dtd
 #DOCKER_PROFILES := 
 
 include DockerCompose.mk

@@ -10,6 +10,9 @@ authentication_backend:
   file:
     path: /config/users_database.yml
 
+# totp:
+#   issuer: bensuperpc.org
+
 access_control:
   default_policy: deny
   rules:
@@ -25,7 +28,7 @@ access_control:
         - "homepage.bensuperpc.org"
         - "forgejo.bensuperpc.org"
       policy: bypass
-    - domain: 
+    - domain:
         - "jellyfin.bensuperpc.org"
         - "openwebui.bensuperpc.org"
         - "qbittorrent.bensuperpc.org"
@@ -37,8 +40,8 @@ access_control:
       subject:
       - 'group:admins'
       - 'group:users'
-      policy: one_factor      
-    - domain: 
+      policy: one_factor
+    - domain:
         - "*.bensuperpc.org"
       subject:
       - 'group:admins'
@@ -69,3 +72,7 @@ storage:
 notifier:
   filesystem:
     filename: /config/notification.txt
+  # smtp:
+  #   address: "submission://smtp.example.com:587"
+  #   username: bensuperpc
+  #   sender: "Authelia <authelia@bensuperpc.org>"

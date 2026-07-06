@@ -47,3 +47,4 @@ import website/dozzle.caddy
 import website/litellm.caddy
 import website/localai.caddy
 import website/bentopdf.caddy
+import website/vscode.caddy
