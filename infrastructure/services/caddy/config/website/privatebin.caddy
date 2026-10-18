@@ -1,4 +1,1 @@
-{$SCHEME}://privatebin.{$MAIN_DOMAIN} {
-	import authelia_middleware
-	reverse_proxy {$PRIVATEBIN_ADDRESS}
-}
+import app privatebin privatebin:8080

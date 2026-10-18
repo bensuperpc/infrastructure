@@ -1,13 +1,13 @@
 services:
   # openssh
   openssh:
-    image: linuxserver/openssh-server:${OPENSSH_DOCKER_TAG:-latest}
+    image: linuxserver/openssh-server:${OPENSSH_DOCKER_TAG:-10.3_p1-r2-ls243}
     container_name: openssh
     profiles:
       - openssh
     restart: on-failure:7
     env_file:
-      - ./env/openssh.env
+      - ./openssh.env
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}

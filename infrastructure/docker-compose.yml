@@ -39,8 +39,6 @@ include:
   - services/transmission/docker-compose.transmission.yml
 # Uptime-kuma
   - services/uptime-kuma/docker-compose.uptime-kuma.yml
-# open-webui
-  - services/open-webui/docker-compose.open-webui.yml
 # Memos
   - services/memos/docker-compose.memos.yml
 # Argus
@@ -53,12 +51,22 @@ include:
   - services/authelia/docker-compose.authelia.yml
 # Dozzle
   - services/dozzle/docker-compose.dozzle.yml
-# LocalAI
-  - services/localai/docker-compose.localai.yml
 # Bentopdf
   - services/bentopdf/docker-compose.bentopdf.yml
 # Code-server
   - services/code-server/docker-compose.vscode-server.yml
+# Compiler Explorer
+  - services/compiler-explorer/docker-compose.compiler-explorer.yml
+# local_ai: Ollama, Open WebUI, OpenCode and the services they use
+  - services/ollama/docker-compose.ollama.yml
+  - services/open-webui/docker-compose.open-webui.yml
+  - services/litellm/docker-compose.litellm.yml
+  - services/opencode/docker-compose.opencode.yml
+  - services/local-ai-init/docker-compose.local-ai-init.yml
+  - services/dind/docker-compose.dind.yml
+  - services/kiwix/docker-compose.kiwix.yml
+  - services/docling/docker-compose.docling.yml
+  - services/kroki/docker-compose.kroki.yml
 # Minecraft
   - games/minecraft-server/docker-compose.yml
 # 7daystodie

@@ -1,8 +1,8 @@
-{$SCHEME}://cyberchef.{$MAIN_DOMAIN} {
-	import authelia_middleware
+cyberchef.{$DOMAIN} {
+	import protected
 	# Load balance between 2 instances
 	reverse_proxy {
-		to cyberchef0:8000 cyberchef1:8000
+		to cyberchef0:8080 cyberchef1:8080
 		lb_policy round_robin
 		lb_retries 3
 		lb_try_interval 1s

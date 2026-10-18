@@ -1,7 +1,7 @@
 services:
   # forgejo
   forgejo:
-    image: codeberg.org/forgejo/forgejo:${FORGEJO_DOCKER_TAG:-15}
+    image: codeberg.org/forgejo/forgejo:${FORGEJO_DOCKER_TAG:-15.0.11}
     container_name: forgejo
     profiles:
       - forgejo
@@ -12,7 +12,7 @@ services:
     ports:
       - "22:2222"
     env_file:
-      - ./env/forgejo.env
+      - ./forgejo.env
     volumes:
       - forgejo_data:/data
       - /etc/timezone:/etc/timezone:ro
@@ -26,7 +26,7 @@ services:
   
   # Database forgejo
   database_forgejo:
-    image: mariadb:${FORGEJO_DB_DOCKER_TAG:-latest}
+    image: mariadb:${FORGEJO_DB_DOCKER_TAG:-13.0.2}
     container_name: database_forgejo
     profiles:
       - forgejo
@@ -38,14 +38,14 @@ services:
     volumes:
       - forgejo_db:/var/lib/mysql:rw
     env_file:
-      - ./env/forgejo_db.env
+      - ./forgejo_db.env
     command: '--default-authentication-plugin=mysql_native_password'
     networks:
       - forgejo-internal
 
   # forgejo-runner
   docker-in-docker:
-    image: code.forgejo.org/oci/docker:${FORGEJO_DIND_DOCKER_TAG:-dind}
+    image: code.forgejo.org/oci/docker:${FORGEJO_DIND_DOCKER_TAG:-29-dind@sha256:7bf70dcb85c822e3fa6f2d332143e474b99147b9d7b39102b0cfe8b04a7dd61b}
     container_name: 'docker_dind'
     hostname: docker
     networks:
@@ -60,7 +60,7 @@ services:
       - forgejo_certs:/certs
 
   forgejo_runner:
-    image: data.forgejo.org/forgejo/runner:${FORGEJO_RUNNER_DOCKER_TAG:-12}
+    image: data.forgejo.org/forgejo/runner:${FORGEJO_RUNNER_DOCKER_TAG:-12.13.2}
     networks:
       - forgejo-internal
     profiles:
@@ -70,7 +70,7 @@ services:
         condition: service_started
     container_name: 'forgejo_runner'
     env_file:
-      - ./env/forgejo_runner.env
+      - ./forgejo_runner.env
 #    user: ${PUID:-1000}:${PGID:-1000} 
     volumes:
 #      - ./config/forgejo_runner/config.yaml:/config.yaml:ro

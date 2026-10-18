@@ -4,7 +4,7 @@ services:
     extends:
       file: ../../../common.yml
       service: service-base
-    image: cm2network/tf2:${TEAMFORTRESS2_DOCKER_TAG:-sourcemod-x64}
+    image: cm2network/tf2:${TEAMFORTRESS2_DOCKER_TAG:-sourcemod-x64@sha256:5b24ddb507bfdd55e238c2c22363232e3903679cf401730c11c0b79fc898ac39}
     container_name: teamfortress2_server
     profiles:
       - teamfortress2_server
@@ -16,7 +16,7 @@ services:
     networks:
       - teamfortress2-network
     env_file:
-      - ./env/teamfortress2.env
+      - ./teamfortress2.env
 #    environment:
 #      - PUID=${PUID:-1000}
 #      - PGID=${PGID:-1000}

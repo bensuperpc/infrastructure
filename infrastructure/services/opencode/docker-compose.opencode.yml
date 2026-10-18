@@ -1,0 +1,71 @@
+services:
+  opencode:
+    build:
+      context: ../../images/dev
+      target: opencode
+      args:
+        HOST_UID: ${PUID:-1000}
+        HOST_GID: ${PGID:-1000}
+        DEBIAN_DOCKER_TAG: ${DEBIAN_DOCKER_TAG:-trixie-20261104-slim}
+        NODE_DOCKER_TAG: ${NODE_DOCKER_TAG:-22.23.5-trixie-slim}
+        OPENCODE_VERSION: ${OPENCODE_VERSION:-2.3.0}
+        CODE_SERVER_VERSION: ${CODE_SERVER_VERSION:-4.145.2}
+        CODELLDB_VERSION: ${CODELLDB_VERSION:-1.12.3}
+        COMPILER_EXPLORER_VERSION: ${COMPILER_EXPLORER_VERSION:-gh-20364}
+    image: infrastructure/opencode
+    container_name: opencode
+    profiles:
+      - local_ai
+    extends:
+      file: ../../common.yml
+      service: service-base
+    labels:
+      - com.centurylinklabs.watchtower.enable=false
+    depends_on:
+      local-ai-init:
+        condition: service_completed_successfully
+      ollama:
+        condition: service_healthy
+      mcp-searxng:
+        condition: service_healthy
+      openzim-mcp:
+        condition: service_healthy
+      dind:
+        condition: service_healthy
+    env_file:
+      - ./opencode.env
+    volumes:
+      - ${LOCAL_AI_WORKSPACE:-local_ai_workspace}:/workspace
+      - ${LOCAL_AI_DOCS:-local_ai_docs}:/docs:ro
+      - opencode_home:/home/dev
+      - ./config:/etc/opencode:ro
+      - type: volume
+        source: dind_certs
+        target: /certs/client
+        read_only: true
+        volume:
+          subpath: client
+    # No internet: only the stack's services
+    networks:
+      - local-ai
+      - dind-internal
+
+volumes:
+  opencode_home:
+    name: opencode_home
+  local_ai_workspace:
+    name: local_ai_workspace
+  local_ai_docs:
+    name: local_ai_docs
+  dind_certs:
+    name: dind_certs
+
+networks:
+  local-ai:
+    driver: bridge
+    name: local-ai
+    internal: true
+  dind-internal:
+    driver: bridge
+    name: dind-internal
+    internal: true

@@ -4,14 +4,14 @@ services:
     extends:
       file: ../../common.yml
       service: service-base
-    image: linuxserver/projectsend:${PROJECTSEND_DOCKER_TAG:-latest}
+    image: linuxserver/projectsend:${PROJECTSEND_DOCKER_TAG:-r2098-ls8}
     container_name: projectsend
     profiles:
       - projectsend
     depends_on:
       - caddy
     env_file:
-      - ./env/projectsend.env
+      - ./projectsend.env
     volumes:
       - projectsend_config:/config
       - projectsend_share:/data
@@ -21,7 +21,7 @@ services:
 
   # Database projectsend
   projectsend_db:
-    image: mariadb:${PROJECTSEND_DB_DOCKER_TAG:-latest}
+    image: mariadb:${PROJECTSEND_DB_DOCKER_TAG:-13.0.2}
     container_name: projectsend_db
     profiles:
       - projectsend
@@ -33,7 +33,7 @@ services:
     volumes:
       - projectsend_db:/var/lib/mysql:rw
     env_file:
-      - ./env/projectsend_db.env
+      - ./projectsend_db.env
     command: '--default-authentication-plugin=mysql_native_password'
     networks:
       - projectsend-internal

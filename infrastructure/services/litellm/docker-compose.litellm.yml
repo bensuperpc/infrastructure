@@ -1,0 +1,66 @@
+services:
+  # OpenAI-compatible proxy for openwebui: external APIs (OpenAI, Anthropic...) and Ollama, with keys and spend tracking
+  litellm:
+    image: ghcr.io/berriai/litellm:${LITELLM_DOCKER_TAG:-v1.109.1}
+    container_name: litellm
+    profiles:
+      - local_ai
+    extends:
+      file: ../../common.yml
+      service: service-base
+    depends_on:
+      litellm-postgres:
+        condition: service_healthy
+    env_file:
+      - ./litellm.env
+    command: ["--port", "4000", "--telemetry", "False"]
+    networks:
+      - local-ai
+      - litellm-db
+      - litellm-internet
+    healthcheck:
+      test: [CMD, python3, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:4000/health/liveliness')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 120s
+      start_interval: 2s
+
+  litellm-postgres:
+    image: postgres:${LITELLM_POSTGRES_DOCKER_TAG:-18.7-alpine3.24}
+    container_name: litellm-postgres
+    profiles:
+      - local_ai
+    extends:
+      file: ../../common.yml
+      service: service-base
+    env_file:
+      - ./litellm-postgres.env
+    volumes:
+      - litellm_postgres:/var/lib/postgresql
+    networks:
+      - litellm-db
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 120s
+      start_interval: 2s
+
+volumes:
+  litellm_postgres:
+    name: litellm_postgres
+
+networks:
+  local-ai:
+    driver: bridge
+    name: local-ai
+    internal: true
+  litellm-db:
+    driver: bridge
+    name: litellm-db
+    internal: true
+  litellm-internet:
+    driver: bridge
+    name: litellm-internet

@@ -1,4 +1,1 @@
-{$SCHEME}://stirlingpdf.{$MAIN_DOMAIN} {
-	import authelia_middleware
-	reverse_proxy {$STIRLINGPDF_ADDRESS}
-}
+import app stirlingpdf stirlingpdf:8080

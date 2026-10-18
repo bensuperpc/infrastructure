@@ -24,8 +24,16 @@
 
 PROJECT_DIRECTORY := infrastructure
 CONFIG_DIRECTORY := presets
-# 7dtd minecraft satisfactory torrent ia torrent tools
+# 7dtd minecraft satisfactory torrent local_ai tools
 CONFIGS := 7dtd
 #DOCKER_PROFILES := 
 
 include DockerCompose.mk
+
+.PHONY: init
+init:
+	python3 tools/init_secrets.py
+
+.PHONY: caddy-root
+caddy-root:
+	$(DOCKER_EXEC) cp caddy:/data/caddy/pki/authorities/local/root.crt caddy-root.crt

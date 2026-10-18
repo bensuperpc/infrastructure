@@ -1,9 +1,9 @@
-{$SCHEME}://transfer.{$MAIN_DOMAIN} {
-	import authelia_middleware
-	reverse_proxy {$PSITRANSFER_ADDRESS}
+transfer.{$DOMAIN} {
+	import protected
+	reverse_proxy psitransfer:3000
 }
 
-{$SCHEME}://psitransfer.{$MAIN_DOMAIN} {
-	import authelia_middleware
-	redir https://transfer.{$MAIN_DOMAIN}{uri} permanent
+psitransfer.{$DOMAIN} {
+	import protected
+	redir https://transfer.{$DOMAIN}{uri} permanent
 }

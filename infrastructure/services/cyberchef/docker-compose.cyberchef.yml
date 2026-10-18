@@ -4,7 +4,7 @@ services:
     extends:
       file: ../../common.yml
       service: service-base
-    image: mpepping/cyberchef:${CYBERCHEF_DOCKER_TAG:-latest}
+    image: ghcr.io/gchq/cyberchef:${CYBERCHEF_DOCKER_TAG:-11.5.0}
     container_name: cyberchef0
     profiles:
       - cyberchef
@@ -18,7 +18,7 @@ services:
     extends:
       file: ../../common.yml
       service: service-base
-    image: mpepping/cyberchef:${CYBERCHEF_DOCKER_TAG:-latest}
+    image: ghcr.io/gchq/cyberchef:${CYBERCHEF_DOCKER_TAG:-11.5.0}
     container_name: cyberchef1
     profiles:
       - cyberchef

@@ -1,4 +1,1 @@
-{$SCHEME}://argus.{$MAIN_DOMAIN} {
-	import authelia_middleware
-	reverse_proxy {$ARGUS_ADDRESS}
-}
+import app argus argus:8080

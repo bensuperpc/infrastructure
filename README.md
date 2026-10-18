@@ -6,7 +6,8 @@ _Open source, decentralized and self-hosted infrastructure for many local servic
 
 - [x] caddy 2 HTTP/S reverse proxy
 - [x] Authelia (SSO / authentication middleware)
-- [x] Open-WebUI + Ollama (Local chatGPT)
+- [x] local_ai: Ollama (ROCm), Open WebUI, OpenCode coding agent, VS Code server, Kiwix, Docling, Kroki ([docs](docs/local_ai/))
+- [x] Compiler Explorer
 - [x] qbittorrent and transmission (Torrent client/server)
 - [x] Docker / docker-compose
 - [x] Homepage (Dashboard)
@@ -83,6 +84,16 @@ cd infrastructure
 
 ### Start the infrastructure
 
+```sh
+make init
+```
+
+Build the local images (opencode, vscode-server, compiler-explorer), before the first start and after changing [images/dev](infrastructure/images/dev/Dockerfile):
+
+```sh
+make build
+```
+
 Start the website with:
 
 ```sh
@@ -103,25 +114,32 @@ make down
 
 Services are enabled via **preset configuration files** in the [`presets/`](presets/) directory. 
 
-The active presets are declared in the [`Makefile`](Makefile) via the `CONFIGS` variable, for example, `CONFIGS := chatgpt` loads `presets/chatgpt.conf` which activates the `main_infrastructure`, `caddy`, `openssh`, and `openwebui` profiles.
+The active presets are declared in the [`Makefile`](Makefile) via the `CONFIGS` variable, for example, `CONFIGS := local_ai` loads `presets/local_ai.conf` which activates the `main_infrastructure`, `caddy`, `homepage` and `local_ai` profiles. It can also be set for one command: `make CONFIGS="local_ai tools" up`.
 
 ### Configure the domain
 
-For all **bensuperpc.org**, you need to replace it with your domain, example: **mydomain.com**, so the same for **bensuperpc.com** ect...
+The domain and the certificates are set once, in [infrastructure/.env](infrastructure/.env.example) (created by `make init`), for every service:
 
 ```sh
-find . \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i 's/bensuperpc.org/mydomain.com/g'
+DOMAIN=bensuperpc.org
+TLS=bensuperpc@gmail.com
+LISTEN_ADDRESS=0.0.0.0
 ```
 
-Check if all bensuperpc.* are replaced by your domain in [Caddyfile](infrastructure/services/caddy/config/Caddyfile)
-
-And then, caddy will generate the certificate for you and renew it automatically :D
+Online, Caddy gets a Let's Encrypt certificate for each subdomain with the `TLS` e-mail, and renews it automatically. To test locally, see [Local testing](#local-testing).
 
 | Domain name                                                        | Type | Description                                                  |
 | ------------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
 | [bensuperpc.org](https://bensuperpc.org)                           | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
 | [www.bensuperpc.org](https://www.bensuperpc.org)                   | Main | Homepage                                                     |
-| [openwebui.bensuperpc.org](https://openwebui.bensuperpc.org)       | Sub  | For local chatGPT with ollama and openweb-ui                 |
+| [openwebui.bensuperpc.org](https://openwebui.bensuperpc.org)       | Sub  | Open WebUI: chat and RAG with Ollama (local_ai)              |
+| [litellm.bensuperpc.org](https://litellm.bensuperpc.org)           | Sub  | LiteLLM proxy for Open WebUI: external APIs (local_ai)       |
+| [opencode.bensuperpc.org](https://opencode.bensuperpc.org)         | Sub  | OpenCode coding agent (local_ai)                             |
+| [vscode.bensuperpc.org](https://vscode.bensuperpc.org)             | Sub  | VS Code server, same tools as OpenCode                       |
+| [kiwix.bensuperpc.org](https://kiwix.bensuperpc.org)               | Sub  | Offline documentation (local_ai)                             |
+| [docling.bensuperpc.org](https://docling.bensuperpc.org)           | Sub  | Documents to Markdown (local_ai)                             |
+| [kroki.bensuperpc.org](https://kroki.bensuperpc.org)               | Sub  | Diagrams from text (local_ai)                                |
+| [compiler-explorer.bensuperpc.org](https://compiler-explorer.bensuperpc.org) | Sub | Compiler Explorer                                  |
 | [authelia.bensuperpc.org](https://authelia.bensuperpc.org)         | Sub  | Authelia for authentication                                  |
 | [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org)     | Sub  | Uptime Kuma for monitoring                                   |
 | [qbittorrent.bensuperpc.org](https://qbittorrent.bensuperpc.org)   | Sub  | Torrent client/server                                        |
@@ -143,40 +161,25 @@ And then, caddy will generate the certificate for you and renew it automatically
 | [argus.bensuperpc.org](https://argus.bensuperpc.org)               | Sub  | Argus for monitoring application updates                     |
 | [searxng.bensuperpc.org](https://searxng.bensuperpc.org)           | Sub  | SearXNG self-hosted search engine                            |
 | [dependency-track.bensuperpc.org](https://dependency-track.bensuperpc.org) | Sub | SBOM / vulnerability analysis                       |
-| [litellm.bensuperpc.org](https://litellm.bensuperpc.org)           | Sub  | LiteLLM llm proxy for open-webui                             |
-| [localai.bensuperpc.org](https://localai.bensuperpc.org)           | Sub  | For local chatGPT with multi-backend                         |
- [wordpress.bensuperpc.org](https://wordpress.bensuperpc.org)       | Sub  | Wordpress website                                            |
- [bentopdf.bensuperpc.org](https://bentopdf.bensuperpc.org)       | Sub  | BentoPDF                                                     |
+| [wordpress.bensuperpc.org](https://wordpress.bensuperpc.org)       | Sub  | Wordpress website                                            |
+| [bentopdf.bensuperpc.org](https://bentopdf.bensuperpc.org)         | Sub  | BentoPDF                                                     |
 
 
 ### Configure the infrastructure
 
-Every service ships a `*.env.example` file, real `*.env` files are gitignored and never committed, you can generate them locally with:
+Every secret is in one file, `infrastructure/.env` (gitignored), created by `make init` from [.env.example](infrastructure/.env.example): each `__GENERATE__` becomes a random value. 
 
-```sh
-python3 tools/init_secrets.py
-```
-
-#### Caddy
-
-Edit [caddy.env](infrastructure/services/caddy/env/caddy.env.example) to set your domain and mail address:
-
-```sh
-MAIN_DOMAIN=bensuperpc.org
-MAIL_DOMAIN=bensuperpc@gmail.com
-SCHEME=https
-AUTO_HTTPS_OPTIONS=ignore_loaded_certs
-```
+The services' `<name>.env` files, next to their compose file, are tracked in git and hold no secret: they read them as `${NAME}`, e.g. `DATABASE_URL=postgresql://litellm:${LITELLM_DB_PASSWORD}@litellm-postgres:5432/litellm`, so a database and its client share the same value. Run `make init` again after a `git pull`: it only adds the new keys.
 
 #### Authelia - user database
 
-`make init` generates all Authelia secrets automatically. [users_database.yml](infrastructure/services/authelia/config/users_database.yml) ships with a **placeholder example user** (`bensuperpc`) - replace it with your own before starting the stack, don't just add a user next to it. Generate an argon2 hash for your password:
+`make init` writes `infrastructure/services/authelia/config/users_database.yml` (gitignored) with one admin, from `AUTHELIA_ADMIN_USER`, `AUTHELIA_ADMIN_EMAIL` and `AUTHELIA_ADMIN_PASSWORD` in `infrastructure/.env`, if the file does not exist yet. To change the password or add users, edit the file with an argon2 hash:
 
 ```sh
-docker run --rm authelia/authelia:latest authelia crypto hash generate argon2 --password 'MyPassword'
+docker run --rm authelia/authelia:4.39.28 authelia crypto hash generate argon2 --password 'MyPassword'
 ```
 
-Then edit the `username`, `displayname`, `password` hash and `email` fields to match.
+After 5 wrong passwords in 3 minutes, Authelia refuses logins for 30 minutes.
 
 #### Dozzle - user account
 
@@ -190,17 +193,38 @@ docker run -it --rm amir20/dozzle generate bensuperpc --password mypassword --em
 
 Replace [id_ed25519.pub](infrastructure/services/openssh/config/authorized_keys/id_ed25519.pub) with your own public SSH key.
 
-#### Open-WebUI - Ollama model
+#### local_ai
 
-After starting the stack, pull a model via the Open-WebUI GUI or with:
+The `local_ai` profile runs a local AI stack for C/C++, Qt, Python and embedded development, usable offline once downloaded (about 20 GB):
 
-```sh
-docker exec -it ollama ollama run deepseek-r1:8b
+- Ollama (ROCm: needs an AMD GPU, `/dev/kfd` and `/dev/dri`) with `OLLAMA_MODEL` and `EMBEDDING_MODEL` from `infrastructure/.env`, pulled by `ollama-pull` at start if missing.
+- LiteLLM: OpenAI-compatible proxy used by Open WebUI for external APIs (OpenAI, Anthropic...); add models and keys in its UI at `litellm.<DOMAIN>` (user `admin`, password `LITELLM_UI_PASSWORD` in `infrastructure/.env`).
+- Open WebUI (chat, RAG through Docling), OpenCode (coding agent with SearXNG and offline docs through Kiwix), and VS Code server.
+- `kiwix-zim` and `local-ai-init` download the offline docs at start if missing, then exit.
+- `dind`: rootless Docker with TLS for OpenCode and VS Code server, separate from the host's Docker.
+
+OpenCode asks for a pairing link on its first visit: `docker exec opencode opencode pair --url https://opencode.bensuperpc.org`, open WebUI's first account is its admin; VS Code server's password is `VSCODE_SERVER_PASSWORD` in `infrastructure/.env`.
+
+Networks: OpenCode, Open WebUI, Kiwix, Docling and Kroki have no internet (`local-ai` is internal); OpenCode reaches the web only through `mcp-searxng`.
+
+For additional models, use the `ollama pull` command as shown below.
+
+```bash
+docker exec ollama ollama pull gemma4:12b
+docker exec ollama ollama show qwen3.8:27b
+docker exec ollama ollama pull qwen3.5:9b
+```
+
+For Hugging Face models, use the `hf.co/<author>/<repo>:<version>` format as shown below.
+
+```bash
+docker exec ollama ollama pull hf.co/byteshape/Qwen3.8-27B-GGUF:IQ4_XS-3.84bpw
+docker exec ollama ollama show hf.co/byteshape/Qwen3.8-27B-GGUF:IQ4_XS-3.84bpw
 ```
 
 #### Team Fortress 2 - Steam GSLT
 
-`make init` will remind you: set `SRCDS_TOKEN` in [teamfortress2.env](infrastructure/services/teamfortress2-server/teamfortress2/env/teamfortress2.env) with your token from [steamcommunity.com/dev/managegameservers](https://steamcommunity.com/dev/managegameservers).
+`make init` will remind you: set `TEAMFORTRESS2_SRCDS_TOKEN` in `infrastructure/.env` with your token from [steamcommunity.com/dev/managegameservers](https://steamcommunity.com/dev/managegameservers).
 
 #### Dependency-Track - first login
 
@@ -208,7 +232,7 @@ Default credentials are `admin` / `admin` - **change them on first login**.
 
 #### Forgejo - installation lock
 
-After the first-run installation wizard completes, set in [forgejo.env](infrastructure/services/forgejo/env/forgejo.env.example):
+After the first-run installation wizard completes, set in [forgejo.env](infrastructure/services/forgejo/forgejo.env):
 
 ```sh
 FORGEJO__security__INSTALL_LOCK=true
@@ -289,46 +313,21 @@ To activate the alternative webui theme (VueTorrent), you need to go in the qbit
 
 ### Local testing
 
-If you want to test the infrastructure locally, you can add these lines in your `/etc/hosts` file:
+Set in `infrastructure/.env`:
 
 ```sh
-127.0.0.1 openwebui.bensuperpc.org
-127.0.0.1 authelia.bensuperpc.org
-127.0.0.1 memos.bensuperpc.org
-127.0.0.1 stirlingpdf.bensuperpc.org
-127.0.0.1 public.bensuperpc.org
-127.0.0.1 private.bensuperpc.org
-127.0.0.1 jellyfin.bensuperpc.org
-127.0.0.1 syncthing.bensuperpc.org
-127.0.0.1 psitransfer.bensuperpc.org
-127.0.0.1 projectsend.bensuperpc.org
-127.0.0.1 picoshare.bensuperpc.org
-127.0.0.1 dufs.bensuperpc.org
-127.0.0.1 it-tools.bensuperpc.org
-127.0.0.1 omni-tools.bensuperpc.org
-127.0.0.1 privatebin.bensuperpc.org
-127.0.0.1 forgejo.bensuperpc.org
-127.0.0.1 git.bensuperpc.org
-127.0.0.1 qbittorrent.bensuperpc.org
-127.0.0.1 transmission.bensuperpc.org
-127.0.0.1 uptimekuma.bensuperpc.org
-127.0.0.1 wordpress.bensuperpc.org
-127.0.0.1 searxng.bensuperpc.org
-127.0.0.1 dependency-track.bensuperpc.org
-127.0.0.1 homepage.bensuperpc.org
+DOMAIN=bensuperpc.localhost
+TLS=internal
+LISTEN_ADDRESS=127.0.0.1
 ```
 
-Then update the [caddy.env](infrastructure/services/caddy/env/caddy.env) file with your local domain to disable the letsencrypt certificate generation and auto redirect to https:
+`*.localhost` names resolve to 127.0.0.1 without `/etc/hosts`, and Caddy signs the certificates with its own CA, so Authelia works as online, after the first start, import Caddy's root certificate in your browser:
 
 ```sh
-MAIN_DOMAIN=bensuperpc.org
-# Scheme
-SCHEME=https
-# ignore_loaded_certs off
-AUTO_HTTPS_OPTIONS=ignore_loaded_certs
+make caddy-root
 ```
 
-And remove all the `import authelia_middleware` in the caddyfiles, authelia need https to work.
+Variables exported in your shell (`DOMAIN`, `OLLAMA_MODEL`...) take precedence over `infrastructure/.env`: unset them before `make`.
 
 ## Sources
 

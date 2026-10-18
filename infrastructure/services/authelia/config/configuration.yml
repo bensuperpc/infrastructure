@@ -2,6 +2,12 @@ theme: auto
 
 server:
   address: "tcp://0.0.0.0:9091"
+  endpoints:
+    authz:
+      forward-auth:
+        implementation: ForwardAuth
+        authn_strategies:
+          - name: CookieSession
 
 log:
   level: info
@@ -11,46 +17,47 @@ authentication_backend:
     path: /config/users_database.yml
 
 # totp:
-#   issuer: bensuperpc.org
+#   issuer: '{{ env "DOMAIN" }}'
 
 access_control:
   default_policy: deny
   rules:
     - domain:
-        - "authelia.bensuperpc.org"
-        - "www.bensuperpc.org"
-        - "public.bensuperpc.org"
-        - "it-tools.bensuperpc.org"
-        - "omni-tools.bensuperpc.org"
-        - "cyberchef.bensuperpc.org"
-        - "bentopdf.bensuperpc.org"
-        - "wordpress.bensuperpc.org"
-        - "homepage.bensuperpc.org"
-        - "forgejo.bensuperpc.org"
+        - 'authelia.{{ env "DOMAIN" }}'
+        - 'www.{{ env "DOMAIN" }}'
+        - 'public.{{ env "DOMAIN" }}'
+        - 'it-tools.{{ env "DOMAIN" }}'
+        - 'omni-tools.{{ env "DOMAIN" }}'
+        - 'cyberchef.{{ env "DOMAIN" }}'
+        - 'bentopdf.{{ env "DOMAIN" }}'
+        - 'wordpress.{{ env "DOMAIN" }}'
+        - 'homepage.{{ env "DOMAIN" }}'
+        - 'forgejo.{{ env "DOMAIN" }}'
       policy: bypass
     - domain:
-        - "jellyfin.bensuperpc.org"
-        - "openwebui.bensuperpc.org"
-        - "qbittorrent.bensuperpc.org"
-        - "syncthing.bensuperpc.org"
-        - "torrent.bensuperpc.org"
-        - "litellm.bensuperpc.org"
-        - "searxng.bensuperpc.org"
-        - "localai.bensuperpc.org"
+        - 'jellyfin.{{ env "DOMAIN" }}'
+        - 'openwebui.{{ env "DOMAIN" }}'
+        - 'kiwix.{{ env "DOMAIN" }}'
+        - 'qbittorrent.{{ env "DOMAIN" }}'
+        - 'syncthing.{{ env "DOMAIN" }}'
+        - 'torrent.{{ env "DOMAIN" }}'
+        - 'searxng.{{ env "DOMAIN" }}'
+        - 'litellm.{{ env "DOMAIN" }}'
       subject:
       - 'group:admins'
       - 'group:users'
       policy: one_factor
+    # Everything else, including opencode, vscode, compiler-explorer, docling and kroki: admins only
     - domain:
-        - "*.bensuperpc.org"
+        - '*.{{ env "DOMAIN" }}'
       subject:
       - 'group:admins'
       policy: one_factor
-    # - domain: "dependency-track.bensuperpc.org"
+    # - domain: 'dependency-track.{{ env "DOMAIN" }}'
     #   resources:
     #     - "^/api/.*"
     #   policy: bypass
-#    - domain: "*.bensuperpc.org"
+#    - domain: '*.{{ env "DOMAIN" }}'
 #      policy: two_factor
 
 session:
@@ -58,8 +65,8 @@ session:
   inactivity: 60m
   remember_me: 1M
   cookies:
-    - domain: "bensuperpc.org"
-      authelia_url: "https://authelia.bensuperpc.org"
+    - domain: '{{ env "DOMAIN" }}'
+      authelia_url: 'https://authelia.{{ env "DOMAIN" }}'
 
 regulation:
   max_retries: 5
@@ -71,8 +78,8 @@ storage:
 
 notifier:
   filesystem:
-    filename: /config/notification.txt
+    filename: /data/notification.txt
   # smtp:
   #   address: "submission://smtp.example.com:587"
   #   username: bensuperpc
-  #   sender: "Authelia <authelia@bensuperpc.org>"
+  #   sender: 'Authelia <authelia@{{ env "DOMAIN" }}>'

@@ -1,7 +1,7 @@
 services:
   # memos
   memos:
-    image: neosmemo/memos:${MEMOS_DOCKER_TAG:-latest}
+    image: neosmemo/memos:${MEMOS_DOCKER_TAG:-26.11.0}
     container_name: memos
     profiles:
       - memos
@@ -11,7 +11,7 @@ services:
     depends_on:
       - caddy
     env_file:
-      - ./env/memos.env
+      - ./memos.env
     volumes:
       - memos_config:/var/opt/memos
     networks:

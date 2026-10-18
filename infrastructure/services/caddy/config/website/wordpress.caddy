@@ -1,7 +1,7 @@
-{$SCHEME}://wordpress.{$MAIN_DOMAIN} {
-	import authelia_middleware
+wordpress.{$DOMAIN} {
+	import protected
 	root * /var/www/html
-	php_fastcgi {$WORDPRESS_ADDRESS}
+	php_fastcgi wordpress:9000
 
 	file_server
 	encode zstd gzip

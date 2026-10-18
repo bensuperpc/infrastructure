@@ -1,0 +1,48 @@
+services:
+  # Rootless Docker with TLS
+  dind:
+    image: docker:${DIND_DOCKER_TAG:-29.9.3-dind-rootless}
+    container_name: dind
+    profiles:
+      - local_ai
+      - vscode-server
+    restart: on-failure:7
+    privileged: true
+    environment:
+      - TZ=${TZ:-Europe/Paris}
+    depends_on:
+      local-ai-init:
+        condition: service_completed_successfully
+    env_file:
+      - ./dind.env
+    volumes:
+      - dind_data:/home/rootless/.local/share/docker
+      - dind_certs:/certs
+      - ${LOCAL_AI_WORKSPACE:-local_ai_workspace}:/workspace
+    networks:
+      - dind-internal
+      - local-ai-internet
+    healthcheck:
+      test: [CMD, docker, info]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 120s
+      start_interval: 2s
+
+volumes:
+  dind_data:
+    name: dind_data
+  dind_certs:
+    name: dind_certs
+  local_ai_workspace:
+    name: local_ai_workspace
+
+networks:
+  dind-internal:
+    driver: bridge
+    name: dind-internal
+    internal: true
+  local-ai-internet:
+    driver: bridge
+    name: local-ai-internet

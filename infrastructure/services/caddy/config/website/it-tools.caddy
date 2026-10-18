@@ -1,5 +1,5 @@
-{$SCHEME}://it-tools.{$MAIN_DOMAIN} {
-	import authelia_middleware
+it-tools.{$DOMAIN} {
+	import protected
 	# Load balance between 2 instances
 	reverse_proxy {
 		to it-tools0:8080 it-tools1:8080

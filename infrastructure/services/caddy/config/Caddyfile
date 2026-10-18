@@ -1,6 +1,6 @@
 {
-	email {$MAIL_DOMAIN}
 	key_type p384
+	skip_install_trust
 
 	log {
 		output file /data/logs/access.log {
@@ -10,41 +10,61 @@
 		}
 		format json
 	}
-
-    auto_https {$AUTO_HTTPS_OPTIONS}
 }
 
 # Common settings
 import website/header.caddy
 import website/authelia_middleware.caddy
 
+(common) {
+	tls {$TLS}
+}
+
+(protected) {
+	import common
+	import authelia_middleware
+}
+
+# import app <subdomain> <upstream>: site behind Authelia
+(app) {
+	{args[0]}.{$DOMAIN} {
+		import protected
+		header ?X-Frame-Options SAMEORIGIN
+		reverse_proxy {args[1]}
+	}
+}
+
 # All website configurations
 import website/main.caddy
-import website/cyberchef.caddy
-import website/forgejo.caddy
-import website/homepage.caddy
-import website/jellyfin.caddy
-import website/memos.caddy
-import website/openwebui.caddy
-import website/privatebin.caddy
-import website/psitransfer.caddy
-import website/stirlingpdf.caddy
-import website/transmission.caddy
-import website/wordpress.caddy
-import website/dufs.caddy
-import website/it-tools.caddy
-import website/omni-tools.caddy
-import website/picoshare.caddy
-import website/projectsend.caddy
-import website/qbittorrent.caddy
-import website/syncthing.caddy
-import website/uptimekuma.caddy
-import website/argus.caddy
-import website/dependency-track.caddy
-import website/searxng.caddy
 import website/authelia.caddy
-import website/dozzle.caddy
-import website/litellm.caddy
-import website/localai.caddy
+import website/homepage.caddy
+import website/argus.caddy
 import website/bentopdf.caddy
+import website/compiler-explorer.caddy
+import website/cyberchef.caddy
+import website/dependency-track.caddy
+import website/docling.caddy
+import website/dozzle.caddy
+import website/dufs.caddy
+import website/forgejo.caddy
+import website/it-tools.caddy
+import website/jellyfin.caddy
+import website/kiwix.caddy
+import website/kroki.caddy
+import website/litellm.caddy
+import website/memos.caddy
+import website/omni-tools.caddy
+import website/opencode.caddy
+import website/openwebui.caddy
+import website/picoshare.caddy
+import website/privatebin.caddy
+import website/projectsend.caddy
+import website/psitransfer.caddy
+import website/qbittorrent.caddy
+import website/searxng.caddy
+import website/stirlingpdf.caddy
+import website/syncthing.caddy
+import website/transmission.caddy
+import website/uptimekuma.caddy
 import website/vscode.caddy
+import website/wordpress.caddy

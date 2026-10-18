@@ -2,7 +2,7 @@ services:
   # Caddy
   caddy:
     #image: bensuperpc/caddy-l4:latest
-    image: caddy:${CADDY_DOCKER_TAG:-latest}
+    image: caddy:${CADDY_DOCKER_TAG:-2.11.9-alpine}
     container_name: caddy
     profiles:
       - caddy
@@ -10,10 +10,10 @@ services:
       main_infrastructure:
         condition: service_completed_successfully
     ports:
-      - 80:80/tcp
-      - 80:80/udp
-      - 443:443/tcp
-      - 443:443/udp
+      - ${LISTEN_ADDRESS:-0.0.0.0}:80:80/tcp
+      - ${LISTEN_ADDRESS:-0.0.0.0}:80:80/udp
+      - ${LISTEN_ADDRESS:-0.0.0.0}:443:443/tcp
+      - ${LISTEN_ADDRESS:-0.0.0.0}:443:443/udp
     volumes:
       - caddy_data:/data:rw
       - caddy_config:/config:rw
@@ -27,10 +27,11 @@ services:
       - caddy-tools
       - caddy-files
       - caddy-dev
-      - caddy-ai
       - caddy-web
+      - local-ai
+      - caddy-compiler-explorer
     env_file:
-      - ./env/caddy.env
+      - ./caddy.env
     extends:
       file: ../../common.yml
       service: service-base
@@ -41,7 +42,7 @@ services:
       retries: 3
 
   caddy_backup:
-    image: mazzolino/restic:${RESTIC_DOCKER_TAG:-latest}
+    image: mazzolino/restic:${RESTIC_DOCKER_TAG:-1.8.2}
     container_name: caddy_backup
     profiles:
       - caddy
@@ -49,7 +50,7 @@ services:
       - caddy
     restart: on-failure:7
     env_file:
-      - ./env/caddy_backup.env
+      - ./caddy_backup.env
     environment:
       - TZ=${TZ:-Europe/Paris}
     volumes:
@@ -89,9 +90,14 @@ networks:
   caddy-dev:
     driver: bridge
     name: caddy-dev
-  caddy-ai:
-    driver: bridge
-    name: caddy-ai
   caddy-web:
     driver: bridge
     name: caddy-web
+  local-ai:
+    driver: bridge
+    name: local-ai
+    internal: true
+  caddy-compiler-explorer:
+    driver: bridge
+    name: caddy-compiler-explorer
+    internal: true

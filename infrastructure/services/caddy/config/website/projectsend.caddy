@@ -1,4 +1,1 @@
-{$SCHEME}://projectsend.{$MAIN_DOMAIN} {
-	import authelia_middleware
-	reverse_proxy {$PROJECTSEND_ADDRESS}
-}
+import app projectsend projectsend:80

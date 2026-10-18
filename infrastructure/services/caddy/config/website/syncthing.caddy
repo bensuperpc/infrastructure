@@ -1,6 +1,6 @@
-{$SCHEME}://syncthing.{$MAIN_DOMAIN} {
-	import authelia_middleware
-	reverse_proxy {$SYNCTHING_ADDRESS} { 
+syncthing.{$DOMAIN} {
+	import protected
+	reverse_proxy syncthing:8384 {
 		header_up Host {upstream_hostport}
 	}
 }

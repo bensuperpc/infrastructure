@@ -1,7 +1,7 @@
 services:
   # homepage
   homepage:
-    image: ghcr.io/gethomepage/homepage:${HOMEPAGE_DOCKER_TAG:-latest}
+    image: ghcr.io/gethomepage/homepage:${HOMEPAGE_DOCKER_TAG:-v2.8.0}
     container_name: homepage
     profiles:
       - homepage
@@ -15,7 +15,7 @@ services:
       - caddy
       - homepage-dockerproxy
     env_file:
-      - ./env/homepage.env
+      - ./homepage.env
     volumes:
       - homepage_log:/app/logs
       - ./config:/app/config
@@ -24,7 +24,7 @@ services:
       - caddy-infra
       - homepage-internal
   homepage-dockerproxy:
-    image: tecnativa/docker-socket-proxy:${DOCKER_SOCKET_PROXY_DOCKER_TAG:-latest}
+    image: tecnativa/docker-socket-proxy:${DOCKER_SOCKET_PROXY_DOCKER_TAG:-v0.5.0}
     container_name: homepage-dockerproxy
     profiles:
       - homepage

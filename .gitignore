@@ -1,7 +1,9 @@
 
 /*.tar.gz
 
-infrastructure/services/**/env/*.env
-infrastructure/services/**/config/*.env
-!infrastructure/services/**/env/*.env.example
-!infrastructure/services/**/config/*.env.example
+# Secrets: all in infrastructure/.env; the services' <name>.env files are tracked and read them as ${NAME}
+infrastructure/.env
+# Old per-service secret files, until tools/migrate_secrets.py has moved them to infrastructure/.env
+infrastructure/**/env/*.env
+infrastructure/services/authelia/config/users_database.yml
+caddy-root.crt

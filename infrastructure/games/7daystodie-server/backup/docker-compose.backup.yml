@@ -1,6 +1,6 @@
 services:
   7daystodie_backup:
-    image: mazzolino/restic:${RESTIC_DOCKER_TAG:-latest}
+    image: mazzolino/restic:${RESTIC_DOCKER_TAG:-1.8.2}
     container_name: 7daystodie_backup
     profiles:
       - 7daystodie_backup
@@ -10,7 +10,7 @@ services:
       file: ../../../common.yml
       service: service-base
     env_file:
-      - ./env/7daystodie_backup.env
+      - ./7daystodie_backup.env
     volumes:
       - 7daystodie_backup:/mnt/restic
       - 7daystodie_server_save:/data:ro

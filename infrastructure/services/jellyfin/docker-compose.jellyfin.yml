@@ -1,7 +1,7 @@
 services:
   # Jellyfin
   jellyfin:
-    image: lscr.io/linuxserver/jellyfin:${JELLYFIN_DOCKER_TAG:-latest}
+    image: lscr.io/linuxserver/jellyfin:${JELLYFIN_DOCKER_TAG:-12.4ubu2604-ls59}
     container_name: jellyfin
     profiles:
       - jellyfin
@@ -15,7 +15,7 @@ services:
     depends_on:
       - caddy
     env_file:
-      - ./env/jellyfin.env
+      - ./jellyfin.env
     volumes:
       - jellyfin_config:/config
       - jellyfin_cache:/cache

@@ -6,7 +6,7 @@ title: Bensuperpc
 
 description: Bensuperpc's homepage
 
-base: https://www.bensuperpc.org
+base: https://www.{{HOMEPAGE_VAR_DOMAIN}}
 
 favicon: /image/favicon.ico
 
@@ -28,6 +28,9 @@ layout:
     style: row
     columns: 6
   Personal:
+    style: row
+    columns: 6
+  Local AI:
     style: row
     columns: 6
   Admin:

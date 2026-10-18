@@ -1,4 +1,1 @@
-{$SCHEME}://transmission.{$MAIN_DOMAIN} {
-	import authelia_middleware
-	reverse_proxy {$TRANSMISSION_ADDRESS} 
-}
+import app transmission transmission:9091

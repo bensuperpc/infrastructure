@@ -1,6 +1,6 @@
 services:
   teamfortress2_backup:
-    image: mazzolino/restic:${RESTIC_DOCKER_TAG:-latest}
+    image: mazzolino/restic:${RESTIC_DOCKER_TAG:-1.8.2}
     container_name: teamfortress2_backup
     profiles:
       - teamfortress2_backup
@@ -8,7 +8,7 @@ services:
       - teamfortress2_server
     restart: on-failure:7
     env_file:
-      - ./env/teamfortress2_backup.env
+      - ./teamfortress2_backup.env
     volumes:
       - teamfortress2_backup:/mnt/restic
       - teamfortress2_data:/data:ro

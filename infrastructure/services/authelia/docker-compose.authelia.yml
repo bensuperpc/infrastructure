@@ -1,7 +1,7 @@
 services:
   authelia:
     container_name: authelia    
-    image: authelia/authelia:${AUTHELIA_DOCKER_TAG:-4.39.20}
+    image: authelia/authelia:${AUTHELIA_DOCKER_TAG:-4.39.28}
     profiles:
       - authelia
       - caddy
@@ -16,15 +16,17 @@ services:
 #       - PUID=${PUID:-1000}
 #       - PGID=${PGID:-1000}
     env_file:
-      - ./env/authelia.env
+      - ./authelia.env
     volumes:
-      - ./config:/config
+      - ./config/configuration.yml:/config/configuration.yml:ro
+      - ./config/users_database.yml:/config/users_database.yml:ro
+      - authelia_data:/data
     networks:
       - caddy-infra
       - authelia-internal
 
   authelia-postgres:
-    image: postgres:${AUTHELIA_POSTGRES_DOCKER_TAG:-18.4-alpine3.24}
+    image: postgres:${AUTHELIA_POSTGRES_DOCKER_TAG:-18.7-alpine3.24}
     container_name: authelia-postgres
     extends:
       file: ../../common.yml
@@ -32,7 +34,7 @@ services:
     volumes:
       - authelia_db_data:/var/lib/postgresql
     env_file:
-      - ./env/authelia_postgres.env
+      - ./authelia_postgres.env
     profiles:
       - authelia
       - caddy
@@ -54,3 +56,5 @@ networks:
 
 volumes:
   authelia_db_data: {}
+  authelia_data:
+    name: authelia_data

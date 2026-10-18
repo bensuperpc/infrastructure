@@ -1,4 +1,1 @@
-{$SCHEME}://memos.{$MAIN_DOMAIN} {
-	import authelia_middleware
-	reverse_proxy {$MEMOS_ADDRESS}
-}
+import app memos memos:5230

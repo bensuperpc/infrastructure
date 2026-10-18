@@ -4,7 +4,7 @@ services:
     extends:
       file: ../../../common.yml
       service: service-base
-    image: wolveix/satisfactory-server:${SATISFACTORY_DOCKER_TAG:-latest}
+    image: wolveix/satisfactory-server:${SATISFACTORY_DOCKER_TAG:-v1.9.11}
     container_name: satisfactory_server
     profiles:
       - satisfactory_server
@@ -17,7 +17,7 @@ services:
     networks:
       - satisfactory-network
     env_file:
-      - ./env/satisfactory.env
+      - ./satisfactory.env
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}

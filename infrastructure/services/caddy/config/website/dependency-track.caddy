@@ -1,5 +1,5 @@
-{$SCHEME}://dependency-track.{$MAIN_DOMAIN} {
-	import authelia_middleware
-	reverse_proxy /api/* {$DEPENDENCY_TRACK_APISERVER_ADDRESS}
-	reverse_proxy {$DEPENDENCY_TRACK_FRONTEND_ADDRESS}
+dependency-track.{$DOMAIN} {
+	import protected
+	reverse_proxy /api/* dependency-track-apiserver:8080
+	reverse_proxy dependency-track-frontend:8080
 }

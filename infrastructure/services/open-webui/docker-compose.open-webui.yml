@@ -1,196 +1,59 @@
-name: openwebui
-
 services:
-  ollama:
-    image: ollama/ollama:${OLLAMA_DOCKER_TAG:-0.32.4}
-    container_name: ollama
-    profiles:
-      - openwebui
-      - ollama
-    depends_on:
-      - caddy
-    extends:
-      file: ../../common.yml
-      service: service-base
-    tty: true
-    volumes:
-      - openwebui-ollama:/root/.ollama
-    # ports:
-    #   - ${OLLAMA_PORT:-11434}:11434
-    env_file:
-      - ./env/openwebui-ollama.env
-    networks:
-      - openwebui-internal
-    # devices:
-    #   - /dev/dri
-    #   - /dev/kfd
-
-  litellm:
-    image: ghcr.io/berriai/litellm:${LITELLM_DOCKER_TAG:-v1.93.0}
-    container_name: litellm
-    profiles:
-      - openwebui
-    extends:
-      file: ../../common.yml
-      service: service-base
-    depends_on:
-      litellm-postgres:
-        condition: service_healthy
-    env_file:
-      - ./env/litellm.env
-    command: ["--port", "4000", "--detailed_debug"] 
-    networks:
-      - caddy-ai
-      - openwebui-internal
-
-  litellm-postgres:
-    image: postgres:${POSTGRES_DOCKER_TAG:-18.4-alpine3.24}
-    container_name: litellm-postgres
-    profiles:
-      - openwebui
-    env_file:
-      - ./env/litellm-postgres.env
-    volumes:
-      - litellm-postgres:/var/lib/postgresql
-    extends:
-      file: ../../common.yml
-      service: service-base
-    networks:
-      - openwebui-internal
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-
-  openwebui-postgres:
-    image: postgres:${POSTGRES_DOCKER_TAG:-18.4-alpine3.24}
-    container_name: openwebui-postgres
-    profiles:
-      - openwebui
-    env_file:
-      - ./env/openwebui-postgres.env
-    extends:
-      file: ../../common.yml
-      service: service-base
-    volumes:
-      - openwebui-postgres:/var/lib/postgresql
-    networks:
-      - openwebui-internal
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-
   openwebui:
-    image: ghcr.io/open-webui/open-webui:${OPEN_WEBUI_DOCKER_TAG:-v0.11.0}
+    image: ghcr.io/open-webui/open-webui:${OPEN_WEBUI_DOCKER_TAG:-v0.13.3-slim}
     container_name: openwebui
     profiles:
-      - openwebui
+      - local_ai
     extends:
       file: ../../common.yml
       service: service-base
-    volumes:
-      - openwebui:/app/backend/data
     depends_on:
-      - ollama
-      - caddy
-      - openwebui-postgres
-      - qdrant
-      - valkey
+      ollama:
+        condition: service_healthy
+      openwebui-postgres:
+        condition: service_healthy
     env_file:
-      - ./env/openwebui.env
-    #  - UID=${PUID:-1000}
-    #  - GID=${PGID:-1000}
-    # ports:
-    #   - ${OPEN_WEBUI_PORT:-3000}:8080
+      - ./openwebui.env
+    volumes:
+      - openwebui_data:/app/backend/data
     networks:
-      - caddy-ai
-      - openwebui-internal
+      - local-ai
+      - openwebui-db
 
-  openwebui-pipelines:
-    image: ghcr.io/open-webui/pipelines:${WEBUI_PIPELINE_DOCKER_TAG:-git-039f9c5}
-    container_name: openwebui-pipelines
+  openwebui-postgres:
+    image: pgvector/pgvector:${PGVECTOR_DOCKER_TAG:-0.8.7-pg18}
+    container_name: openwebui-postgres
     profiles:
-      - openwebui
+      - local_ai
     extends:
       file: ../../common.yml
       service: service-base
-    networks:
-      - openwebui-internal
     env_file:
-      - ./env/openwebui-pipelines.env
+      - ./openwebui-postgres.env
     volumes:
-      - openwebui-pipelines:/app/pipelines
-
-  qdrant:
-    image: qdrant/qdrant:${QDRANT_DOCKER_TAG:-v1.18.3}
-    profiles:
-      - openwebui
-    container_name: qdrant
-    extends:
-      file: ../../common.yml
-      service: service-base
-    # ports:
-    #   - "6333:6333"
-    #   - "6334:6334"
-    env_file:
-      - ./env/openwebui-qdrant.env
-    volumes:
-      - openwebui-qdrant:/qdrant/storage
+      - openwebui_postgres:/var/lib/postgresql
     networks:
-      - openwebui-internal
-
-  valkey:
-    image: valkey/valkey:${VALKEY_DOCKER_TAG:-9.1.1-alpine}
-    container_name: valkey
-    profiles:
-      - openwebui
-    env_file:
-      - ./env/openwebui-valkey.env
-    extends:
-      file: ../../common.yml
-      service: service-base
-    # $$VALKEY_PASSWORD (not ${VALKEY_PASSWORD}) so it's expanded at container
-    # runtime from env_file, not at compose-parse time from the host shell.
-    command: sh -c 'exec valkey-server --requirepass "$$VALKEY_PASSWORD" --maxclients 10000 --timeout 1800'
-    volumes:
-      - openwebui-valkey:/data
-    networks:
-      - openwebui-internal
+      - openwebui-db
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 120s
+      start_interval: 2s
 
 volumes:
-  openwebui: {}
-  openwebui-ollama: {}
-  openwebui-postgres: {}
-  openwebui-pgadmin: {}
-  openwebui-valkey: {}
-  openwebui-qdrant: {}
-  litellm-postgres: {}
-  openwebui-pipelines: {}
+  openwebui_data:
+    name: openwebui_data
+  openwebui_postgres:
+    name: openwebui_postgres
 
 networks:
-  caddy-ai:
+  local-ai:
     driver: bridge
-    name: caddy-ai
-  openwebui-internal:
+    name: local-ai
+    internal: true
+  openwebui-db:
     driver: bridge
-    name: openwebui-internal
-
-
-  # pgadmin:
-  #   image: dpage/pgadmin4:latest
-  #   container_name: pgadmin
-  #   profiles:
-  #     - openwebui
-    # env_file:
-    #   - ./env/openwebui-pgadmin.env
-  #   volumes:
-  #     - openwebui-pgadmin:/var/lib/pgadmin
-  #   restart: on-failure:7
-  #   depends_on:
-  #     openwebui-postgres:
-  #       condition: service_healthy
-  #   networks:
-  #     - openwebui-internal
+    name: openwebui-db
+    internal: true

@@ -1,5 +1,5 @@
-{$SCHEME}://www.{$MAIN_DOMAIN} {
-	import authelia_middleware
+www.{$DOMAIN} {
+	import protected
 	header {
 		Cache-Control "public, max-age=10"
 		import header_common
@@ -7,17 +7,19 @@
 
 	handle_errors {
 		@notFound expression `{http.error.status_code} == 404`
-		redir @notFound https://www.{$MAIN_DOMAIN} permanent
+		redir @notFound https://www.{$DOMAIN} permanent
 	}
 
 	reverse_proxy homepage:3000
 }
 
-{$SCHEME}://{$MAIN_DOMAIN} {
-	redir https://www.{$MAIN_DOMAIN}{uri} permanent
+{$DOMAIN} {
+	import common
+	redir https://www.{$DOMAIN}{uri} permanent
 }
 
-{$SCHEME}://public.{$MAIN_DOMAIN} {
+public.{$DOMAIN} {
+	import common
 	root * /public_data
 	file_server browse
 

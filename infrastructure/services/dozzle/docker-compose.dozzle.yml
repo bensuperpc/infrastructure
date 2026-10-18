@@ -1,6 +1,6 @@
 services:
   dozzle:
-    image: amir20/dozzle:${DOZZLE_DOCKER_TAG:-latest}
+    image: amir20/dozzle:${DOZZLE_DOCKER_TAG:-v11.4.3}
     container_name: dozzle
     profiles:
       - dozzle
@@ -9,7 +9,7 @@ services:
       - caddy
       - dozzle-dockerproxy
     env_file:
-      - ./env/dozzle.env
+      - ./dozzle.env
     environment:
       - TZ=${TZ:-Europe/Paris}
     volumes:
@@ -22,7 +22,7 @@ services:
       - dozzle-internal
     
   dozzle-dockerproxy:
-    image: tecnativa/docker-socket-proxy:${DOCKER_SOCKET_PROXY_DOCKER_TAG:-latest}
+    image: tecnativa/docker-socket-proxy:${DOCKER_SOCKET_PROXY_DOCKER_TAG:-v0.5.0}
     container_name: dozzle-dockerproxy
     profiles:
       - dozzle

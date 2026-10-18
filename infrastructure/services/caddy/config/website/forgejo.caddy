@@ -1,9 +1,9 @@
-{$SCHEME}://git.{$MAIN_DOMAIN} {
-	import authelia_middleware
-	reverse_proxy {$FORGEJO_ADDRESS}
+git.{$DOMAIN} {
+	import protected
+	reverse_proxy forgejo:3000
 }
 
-{$SCHEME}://forgejo.{$MAIN_DOMAIN} {
-	import authelia_middleware
-	redir https://git.{$MAIN_DOMAIN}{uri} permanent
+forgejo.{$DOMAIN} {
+	import protected
+	redir https://git.{$DOMAIN}{uri} permanent
 }

@@ -1,4 +1,4 @@
-{$SCHEME}://homepage.{$MAIN_DOMAIN} {
-	import authelia_middleware
-	redir https://www.{$MAIN_DOMAIN}{uri} permanent
+homepage.{$DOMAIN} {
+	import protected
+	redir https://www.{$DOMAIN}{uri} permanent
 }

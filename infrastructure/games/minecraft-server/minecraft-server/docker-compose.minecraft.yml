@@ -1,13 +1,13 @@
 services:
   minecraft_proxy:
-    image: itzg/mc-proxy:${MINECRAFT_PROXY_DOCKER_TAG:-java25}
+    image: itzg/mc-proxy:${MINECRAFT_PROXY_DOCKER_TAG:-2026.11.1-java25}
     container_name: minecraft_proxy_server
     profiles:
       - minecraft_proxy
       - minecraft_server
     restart: on-failure:7
     env_file:
-      - ./env/proxy.env
+      - ./proxy.env
     environment:
       INIT_MEMORY: "512M"
       MAX_MEMORY: "2048M"
@@ -26,7 +26,7 @@ services:
       - minecraft-network
 
   mc-server:
-    image: itzg/minecraft-server:${MINECRAFT_SERVER_DOCKER_TAG:-java25}
+    image: itzg/minecraft-server:${MINECRAFT_SERVER_DOCKER_TAG:-2026.11.0-java25}
     container_name: minecraft_server
     profiles:
       - minecraft_server
@@ -47,9 +47,9 @@ services:
       #       Plan port
       - "8804:8804"
     env_file:
-      - ./env/server.env
-      - ./env/world.env
-      - ./env/mods_plugins.env
+      - ./server.env
+      - ./world.env
+      - ./mods_plugins.env
     environment:
       MAX_MEMORY: "${MAX_MEMORY:-24G}"
     volumes:

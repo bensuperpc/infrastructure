@@ -2,7 +2,7 @@ x-omni-tools: &omni-tools
   extends:
     file: ../../common.yml
     service: service-base
-  image: iib0011/omni-tools:${OMNI_TOOLS_DOCKER_TAG:-latest}
+  image: iib0011/omni-tools:${OMNI_TOOLS_DOCKER_TAG:-0.7.0}
   profiles:
     - omni-tools
   depends_on:

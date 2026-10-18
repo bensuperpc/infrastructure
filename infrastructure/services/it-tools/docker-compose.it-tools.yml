@@ -4,7 +4,7 @@ services:
     extends:
       file: ../../common.yml
       service: service-base
-    image: ghcr.io/sharevb/it-tools:${IT_TOOLS_DOCKER_TAG:-latest}
+    image: ghcr.io/sharevb/it-tools:${IT_TOOLS_DOCKER_TAG:-2026.10.25}
     container_name: it-tools0
     profiles:
       - it-tools
@@ -18,7 +18,7 @@ services:
     extends:
       file: ../../common.yml
       service: service-base
-    image: ghcr.io/sharevb/it-tools:${IT_TOOLS_DOCKER_TAG:-latest}
+    image: ghcr.io/sharevb/it-tools:${IT_TOOLS_DOCKER_TAG:-2026.10.25}
     container_name: it-tools1
     profiles:
       - it-tools

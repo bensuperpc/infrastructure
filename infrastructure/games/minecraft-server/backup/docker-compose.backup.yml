@@ -1,6 +1,6 @@
 services:
   minecraft_backup:
-    image: mazzolino/restic:${RESTIC_DOCKER_TAG:-latest}
+    image: mazzolino/restic:${RESTIC_DOCKER_TAG:-1.8.2}
     container_name: minecraft_backup
     profiles:
       - minecraft_backup
@@ -11,7 +11,7 @@ services:
       file: ../../../common.yml
       service: service-base
     env_file:
-      - ./env/backup.env
+      - ./backup.env
     volumes:
       - minecraft_server_backup:/mnt/restic
       - minecraft_server_data:/data/minecraft_server_data:ro

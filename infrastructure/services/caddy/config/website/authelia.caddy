@@ -1,3 +1,4 @@
-{$SCHEME}://authelia.{$MAIN_DOMAIN} {
-	reverse_proxy {$AUTHELIA_ADDRESS}
+authelia.{$DOMAIN} {
+	import common
+	reverse_proxy authelia:9091
 }

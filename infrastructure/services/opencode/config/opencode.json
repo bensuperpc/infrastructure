@@ -1,0 +1,104 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "update": "disable",
+  "share": "disabled",
+  "websearch": false,
+  "model": "ollama/{env:OLLAMA_MODEL}",
+  "policies": [
+    { "action": "provider.use", "resource": "*", "effect": "deny" },
+    { "action": "provider.use", "resource": "ollama", "effect": "allow" }
+  ],
+  "providers": {
+    "ollama": {
+      "name": "Ollama",
+      "package": "aisdk:@ai-sdk/openai-compatible",
+      "settings": {
+        "baseURL": "http://ollama:11434/v1",
+        "chunkTimeout": 7200000
+      },
+      "models": {
+        "{env:OLLAMA_MODEL}": {
+          "name": "{env:OLLAMA_MODEL}",
+          "limit": {
+            "context": 65536,
+            "output": 8192
+          }
+        }
+      }
+    }
+  },
+  "instructions": ["/etc/opencode/instructions.md"],
+  "skills": ["/etc/opencode/skills"],
+  "formatter": true,
+  "mcp": {
+    "servers": {
+      "searxng": {
+        "type": "remote",
+        "url": "http://mcp-searxng:3000/mcp",
+        "oauth": false,
+        "codemode": false
+      },
+      "zim": {
+        "type": "remote",
+        "url": "http://openzim-mcp:8000/mcp",
+        "oauth": false,
+        "codemode": false,
+        "headers": {
+          "Authorization": "Bearer {env:OPENZIM_MCP_AUTH_TOKEN}"
+        }
+      }
+    }
+  },
+  "permissions": [
+    { "action": "webfetch", "resource": "*", "effect": "deny" },
+    { "action": "shell", "resource": "docker *", "effect": "ask" },
+    { "action": "skill", "resource": "*", "effect": "deny" },
+    { "action": "skill", "resource": "boost", "effect": "allow" },
+    { "action": "skill", "resource": "ci", "effect": "allow" },
+    { "action": "skill", "resource": "containers", "effect": "allow" },
+    { "action": "skill", "resource": "cplusplus", "effect": "allow" },
+    { "action": "skill", "resource": "cpp-testing", "effect": "allow" },
+    { "action": "skill", "resource": "diagrams", "effect": "allow" },
+    { "action": "skill", "resource": "documents", "effect": "allow" },
+    { "action": "skill", "resource": "mermaid", "effect": "allow" },
+    { "action": "skill", "resource": "opencv", "effect": "allow" },
+    { "action": "skill", "resource": "protobuf", "effect": "allow" },
+    { "action": "skill", "resource": "python", "effect": "allow" },
+    { "action": "skill", "resource": "qt6", "effect": "allow" },
+    { "action": "skill", "resource": "shell", "effect": "allow" },
+    { "action": "skill", "resource": "binutils", "effect": "allow" },
+    { "action": "skill", "resource": "dynamic-linking", "effect": "allow" },
+    { "action": "skill", "resource": "elf-inspection", "effect": "allow" },
+    { "action": "skill", "resource": "linkers-lto", "effect": "allow" },
+    { "action": "skill", "resource": "build-acceleration", "effect": "allow" },
+    { "action": "skill", "resource": "cmake", "effect": "allow" },
+    { "action": "skill", "resource": "include-what-you-use", "effect": "allow" },
+    { "action": "skill", "resource": "make", "effect": "allow" },
+    { "action": "skill", "resource": "ninja", "effect": "allow" },
+    { "action": "skill", "resource": "static-analysis", "effect": "allow" },
+    { "action": "skill", "resource": "clang", "effect": "allow" },
+    { "action": "skill", "resource": "cpp-modules", "effect": "allow" },
+    { "action": "skill", "resource": "cpp-templates", "effect": "allow" },
+    { "action": "skill", "resource": "cross-gcc", "effect": "allow" },
+    { "action": "skill", "resource": "gcc", "effect": "allow" },
+    { "action": "skill", "resource": "llvm", "effect": "allow" },
+    { "action": "skill", "resource": "pgo", "effect": "allow" },
+    { "action": "skill", "resource": "concurrency-debugging", "effect": "allow" },
+    { "action": "skill", "resource": "core-dumps", "effect": "allow" },
+    { "action": "skill", "resource": "debug-optimized-builds", "effect": "allow" },
+    { "action": "skill", "resource": "dwarf-debug-format", "effect": "allow" },
+    { "action": "skill", "resource": "gdb", "effect": "allow" },
+    { "action": "skill", "resource": "lldb", "effect": "allow" },
+    { "action": "skill", "resource": "cpu-cache-opt", "effect": "allow" },
+    { "action": "skill", "resource": "linux-kernel-modules", "effect": "allow" },
+    { "action": "skill", "resource": "flamegraphs", "effect": "allow" },
+    { "action": "skill", "resource": "hardware-counters", "effect": "allow" },
+    { "action": "skill", "resource": "heaptrack", "effect": "allow" },
+    { "action": "skill", "resource": "linux-perf", "effect": "allow" },
+    { "action": "skill", "resource": "strace-ltrace", "effect": "allow" },
+    { "action": "skill", "resource": "valgrind", "effect": "allow" },
+    { "action": "skill", "resource": "binary-hardening", "effect": "allow" },
+    { "action": "skill", "resource": "fuzzing", "effect": "allow" },
+    { "action": "skill", "resource": "sanitizers", "effect": "allow" }
+  ]
+}

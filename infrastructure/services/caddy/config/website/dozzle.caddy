@@ -1,4 +1,1 @@
-{$SCHEME}://dozzle.{$MAIN_DOMAIN} {
-	import authelia_middleware
-	reverse_proxy {$DOZZLE_ADDRESS}
-}
+import app dozzle dozzle:8080

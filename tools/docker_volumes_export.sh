@@ -23,7 +23,12 @@ volumes=(
 #    public_data
     projectsend_db
     projectsend_config
-    open-webui
+    openwebui_data
+    openwebui_postgres
+    opencode_home
+    vscode-server_home
+    local_ai_workspace
+    local_ai_docs
     jellyfin_cache
     caddy_backup
     caddy_config
@@ -32,7 +37,8 @@ volumes=(
     syncthing_config
     openssh_config
     qbittorrent_config
-    ollama
+    ollama_data
+    litellm_postgres
     stirlingpdf_config
     uptimekuma_data
 #    private_data

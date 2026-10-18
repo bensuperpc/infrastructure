@@ -1,7 +1,7 @@
 services:
   # syncthing
   syncthing:
-    image: linuxserver/syncthing:${SYNCTHING_DOCKER_TAG:-latest}
+    image: linuxserver/syncthing:${SYNCTHING_DOCKER_TAG:-v2.1.7-ls237}
     container_name: syncthing
     profiles:
       - syncthing
@@ -11,7 +11,7 @@ services:
       file: ../../common.yml
       service: service-base
     env_file:
-      - ./env/syncthing.env
+      - ./syncthing.env
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}

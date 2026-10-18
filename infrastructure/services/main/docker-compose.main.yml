@@ -1,7 +1,7 @@
 services:
   main_infrastructure:
     container_name: main_infrastructure
-    image: alpine:${ALPINE_DOCKER_TAG:-latest}
+    image: alpine:${ALPINE_DOCKER_TAG:-3.24.4}
     profiles:
       - main_infrastructure
     volumes:
@@ -23,7 +23,7 @@ services:
     container_name: watchtower
     profiles:
       - main_infrastructure
-    image: nickfedor/watchtower:${WATCHTOWER_DOCKER_TAG:-latest}
+    image: nickfedor/watchtower:${WATCHTOWER_DOCKER_TAG:-1.24.0}
     environment:
       - TZ=${TZ:-Europe/Paris}
     volumes:
@@ -57,9 +57,6 @@ networks:
   caddy-dev:
     driver: bridge
     name: caddy-dev
-  caddy-ai:
-    driver: bridge
-    name: caddy-ai
   caddy-web:
     driver: bridge
     name: caddy-web

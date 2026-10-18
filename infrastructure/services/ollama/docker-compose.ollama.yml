@@ -1,0 +1,62 @@
+services:
+  ollama:
+    image: ollama/ollama:${OLLAMA_DOCKER_TAG:-0.40.16-rocm}
+    container_name: ollama
+    profiles:
+      - local_ai
+    extends:
+      file: ../../common.yml
+      service: service-base
+    devices:
+      - /dev/kfd
+      - /dev/dri
+    env_file:
+      - ./ollama.env
+    volumes:
+      - ollama_data:/root/.ollama
+    ports:
+      - 127.0.0.1:11434:11434
+    networks:
+      - local-ai
+      - local-ai-internet
+    healthcheck:
+      test: [CMD, ollama, list]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 120s
+      start_interval: 2s
+
+  ollama-pull:
+    image: ollama/ollama:${OLLAMA_DOCKER_TAG:-0.40.16-rocm}
+    container_name: ollama-pull
+    profiles:
+      - local_ai
+    extends:
+      file: ../../common.yml
+      service: service-base
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      - OLLAMA_HOST=ollama:11434
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-gemma4:12b}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-nomic-embed-text-v2-moe}
+    entrypoint: [sh, -c]
+    command:
+      - for m in "$$OLLAMA_MODEL" "$$EMBEDDING_MODEL"; do ollama show "$$m" > /dev/null 2>&1 || ollama pull "$$m" || exit 1; done
+    networks:
+      - local-ai
+
+volumes:
+  ollama_data:
+    name: ollama_data
+
+networks:
+  local-ai:
+    driver: bridge
+    name: local-ai
+    internal: true
+  local-ai-internet:
+    driver: bridge
+    name: local-ai-internet

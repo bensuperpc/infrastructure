@@ -1,77 +1,54 @@
 #!/usr/bin/env python3
 
 from pathlib import Path
-import secrets
 import re
+import secrets
+import subprocess
+import sys
 
-ROOT_DIR = Path(__file__).resolve().parent.parent
-SERVICES_DIR = ROOT_DIR / "infrastructure"
-
-# Exemples :
-# __GENERATE_32__ -> 32 caractères
-# __GENERATE_64__ -> 64 caractères
-TOKEN_RE = re.compile(r"__GENERATE_(\d+)__")
-
-CHANGE_ME = "CHANGEME_"
-ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-
-created = 0
-skipped = 0
+PROJECT_DIR = Path(__file__).resolve().parent.parent / "infrastructure"
+EXAMPLE, ENV = PROJECT_DIR / ".env.example", PROJECT_DIR / ".env"
+USERS_DATABASE = PROJECT_DIR / "services/authelia/config/users_database.yml"
+LINE_RE = re.compile(r"^([A-Za-z_]\w*)=(.*)$", re.M)
 
 
-def generate_token(length: int) -> str:
-    """Generate an alphanumeric token of exactly `length` characters."""
-    return "".join(secrets.choice(ALPHABET) for _ in range(length))
+def read_env(path: Path) -> dict:
+    return dict(LINE_RE.findall(path.read_text())) if path.exists() else {}
 
 
-# Create .env files from .env.example
-for example in sorted(SERVICES_DIR.rglob("*.env.example")):
-    target = Path(str(example)[:-len(".example")])
+def fill(line: str) -> str:
+    return re.sub(r"=__GENERATE__$", lambda _: "=" + secrets.token_hex(24), line)
 
-    if target.exists():
-        skipped += 1
-        continue
+existing = read_env(ENV)
+added = [fill(line) for line in EXAMPLE.read_text().splitlines()
+         if not existing or ((match := LINE_RE.match(line)) and match[1] not in existing)]
+if added:
+    text = ENV.read_text() if ENV.exists() else ""
+    ENV.write_text(text + ("\n" if text and not text.endswith("\n") else "") + "\n".join(added) + "\n")
+ENV.chmod(0o600)
+print(f"infrastructure/.env: {sum(bool(LINE_RE.match(line)) for line in added)} key(s) added.")
 
-    target.write_bytes(example.read_bytes())
-    created += 1
+env = {**read_env(PROJECT_DIR / "versions.env"), **read_env(ENV)}
+if not USERS_DATABASE.exists():
+    digest = subprocess.run(
+        ["docker", "run", "--rm", f"authelia/authelia:{env['AUTHELIA_DOCKER_TAG']}", "authelia", "crypto", "hash",
+         "generate", "argon2", "--password", env["AUTHELIA_ADMIN_PASSWORD"]],
+        check=True, capture_output=True, text=True,
+    ).stdout.strip().removeprefix("Digest: ")
+    user = env["AUTHELIA_ADMIN_USER"]
+    USERS_DATABASE.write_text(
+        "users:\n"
+        f"  {user}:\n"
+        f'    displayname: "{user}"\n'
+        f'    password: "{digest}"\n'
+        f'    email: "{env["AUTHELIA_ADMIN_EMAIL"]}"\n'
+        "    groups:\n"
+        "      - admins\n"
+        "      - users\n"
+    )
+    USERS_DATABASE.chmod(0o600)
+    print(f"Created {USERS_DATABASE.relative_to(PROJECT_DIR.parent)} with user {user} "
+          "(password: AUTHELIA_ADMIN_PASSWORD in infrastructure/.env).")
 
-
-# Find all .env files
-targets = list(SERVICES_DIR.rglob("*.env"))
-
-# Generate one value per unique token
-generated = {}
-
-for path in targets:
-    content = path.read_text()
-
-    for token, length in set(TOKEN_RE.findall(content)):
-        token_name = f"__GENERATE_{length}__"
-
-        if token_name not in generated:
-            generated[token_name] = generate_token(int(length))
-
-
-# Replace generated tokens
-for path in targets:
-    content = path.read_text()
-
-    for token, value in generated.items():
-        content = content.replace(token, value)
-
-    path.write_text(content)
-
-
-print(f"Created {created} env file(s), left {skipped} existing one(s) untouched.")
-
-
-# Find files that still contain CHANGEME_
-remaining = [
-    path for path in targets
-    if CHANGE_ME in path.read_text()
-]
-
-if remaining:
-    print("\nThese files still need a value you must fill in by hand:")
-    for path in remaining:
-        print(path)
+if todo := [key for key, value in env.items() if value.startswith("CHANGEME_")]:
+    print("\nStill to fill in by hand in infrastructure/.env: " + ", ".join(todo))

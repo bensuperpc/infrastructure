@@ -1,7 +1,7 @@
 services:
   # 7 days to die server
   7daystodie_server:
-    image: vinanrra/7dtd-server:${SEVENDAYSTODIE_DOCKER_TAG:-latest}
+    image: vinanrra/7dtd-server:${SEVENDAYSTODIE_DOCKER_TAG:-v0.10.0}
     container_name: 7daystodie_server
     profiles:
       - 7daystodie_server
@@ -21,7 +21,7 @@ services:
     networks:
       - 7daystodie-network
     env_file:
-      - ./env/7daystodie.env
+      - ./7daystodie.env
     environment:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}

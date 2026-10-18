@@ -26,6 +26,8 @@ PROFILE_CMD ?= $(addprefix --profile ,$(DOCKER_PROFILES) $(EXTRA_PROFILES))
 
 COMPOSE_FILES ?=  $(shell find ./$(PROJECT_DIRECTORY) -maxdepth 1 -name 'docker-compose*.yml' -type f | sed -e 's/^/--file /')
 COMPOSE_DIR ?= --project-directory ./$(PROJECT_DIRECTORY)
+ENV_FILES ?= $(wildcard ./$(PROJECT_DIRECTORY)/versions.env) $(wildcard ./$(PROJECT_DIRECTORY)/.env)
+ENV_FILE_CMD ?= $(addprefix --env-file ,$(ENV_FILES))
 
 UID ?= 1000
 GID ?= 1000
@@ -33,12 +35,12 @@ TZ ?= Europe/Paris
 
 ENV_ARG_VAR ?= PUID=$(UID) PGID=$(GID) TZ=$(TZ)
 
-DOCKER_COMPOSE_COMMAND ?= $(ENV_ARG_VAR) $(DOCKER_EXEC) compose $(COMPOSE_DIR) $(COMPOSE_FILES) $(PROFILE_CMD)
+DOCKER_COMPOSE_COMMAND ?= $(ENV_ARG_VAR) $(DOCKER_EXEC) compose $(COMPOSE_DIR) $(ENV_FILE_CMD) $(COMPOSE_FILES) $(PROFILE_CMD)
 
 .PHONY: build all
 all: start
 
-GENERIC_TARGETS := build down up run config logs pull images start restart stop
+GENERIC_TARGETS := down up run config logs pull images start restart stop build
 
 .PHONY: $(GENERIC_TARGETS)
 $(GENERIC_TARGETS):
@@ -75,4 +77,4 @@ clean:
 
 .PHONY: purge
 purge:
-	$(ENV_ARG_VAR) $(DOCKER_EXEC) compose $(COMPOSE_DIR) $(COMPOSE_FILES) down -v --rmi all
+	$(ENV_ARG_VAR) $(DOCKER_EXEC) compose $(COMPOSE_DIR) $(ENV_FILE_CMD) $(COMPOSE_FILES) down -v --rmi all

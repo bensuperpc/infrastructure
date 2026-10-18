@@ -1,7 +1,7 @@
-{$SCHEME}://torrent.{$MAIN_DOMAIN} {
-	import authelia_middleware
-	reverse_proxy {$QBITTORRENT_ADDRESS} {
-		header_up Referer "{$SCHEME}://torrent.{$MAIN_DOMAIN}"
+torrent.{$DOMAIN} {
+	import protected
+	reverse_proxy qbittorrent:8080 {
+		header_up Referer "https://torrent.{$DOMAIN}"
 	}
 	header {
 		Cache-Control "no-store"
@@ -9,7 +9,7 @@
 	}
 }
 
-{$SCHEME}://qbittorrent.{$MAIN_DOMAIN} {
-	import authelia_middleware
-	redir https://torrent.{$MAIN_DOMAIN} permanent
+qbittorrent.{$DOMAIN} {
+	import protected
+	redir https://torrent.{$DOMAIN} permanent
 }

@@ -4,14 +4,14 @@ services:
     extends:
       file: ../../common.yml
       service: service-base
-    image: mtlynch/picoshare:${PICOSHARE_DOCKER_TAG:-latest}
+    image: mtlynch/picoshare:${PICOSHARE_DOCKER_TAG:-v1.5.4}
     container_name: picoshare
     profiles:
       - picoshare
     depends_on:
       - caddy
     env_file:
-      - ./env/picoshare.env
+      - ./picoshare.env
     volumes:
       - picoshare_data:/data
     networks:
