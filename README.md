@@ -6,7 +6,7 @@ _Open source, decentralized and self-hosted infrastructure for many local servic
 
 - [x] caddy 2 HTTP/S reverse proxy
 - [x] Authelia (SSO / authentication middleware)
-- [x] local_ai: Ollama (ROCm), Open WebUI, OpenCode coding agent, VS Code server, Kiwix, Docling, Kroki ([docs](docs/local_ai/))
+- [x] local_ai: Ollama (ROCm), Open WebUI, OpenCode, VS Code server, Kiwix, Docling, Kroki
 - [x] Compiler Explorer
 - [x] qbittorrent and transmission (Torrent client/server)
 - [x] Docker / docker-compose
@@ -194,14 +194,6 @@ docker run -it --rm amir20/dozzle generate bensuperpc --password mypassword --em
 Replace [id_ed25519.pub](infrastructure/services/openssh/config/authorized_keys/id_ed25519.pub) with your own public SSH key.
 
 #### local_ai
-
-The `local_ai` profile runs a local AI stack for C/C++, Qt, Python and embedded development, usable offline once downloaded (about 20 GB):
-
-- Ollama (ROCm: needs an AMD GPU, `/dev/kfd` and `/dev/dri`) with `OLLAMA_MODEL` and `EMBEDDING_MODEL` from `infrastructure/.env`, pulled by `ollama-pull` at start if missing.
-- LiteLLM: OpenAI-compatible proxy used by Open WebUI for external APIs (OpenAI, Anthropic...); add models and keys in its UI at `litellm.<DOMAIN>` (user `admin`, password `LITELLM_UI_PASSWORD` in `infrastructure/.env`).
-- Open WebUI (chat, RAG through Docling), OpenCode (coding agent with SearXNG and offline docs through Kiwix), and VS Code server.
-- `kiwix-zim` and `local-ai-init` download the offline docs at start if missing, then exit.
-- `dind`: rootless Docker with TLS for OpenCode and VS Code server, separate from the host's Docker.
 
 OpenCode asks for a pairing link on its first visit: `docker exec opencode opencode pair --url https://opencode.bensuperpc.org`, open WebUI's first account is its admin; VS Code server's password is `VSCODE_SERVER_PASSWORD` in `infrastructure/.env`.
 
