@@ -59,7 +59,7 @@ Prefer local documentation over the web.
    - Request `show structure of <Article>`.
    - Then request `section <Title> of <Article>`.
 
-3. Web: tool `searxng_searxng_web_search`, then `searxng_web_url_read` to read a result, when local sources are insufficient or up-to-date information is required.
+3. Web: tool `searxng_searxng_web_search`, then `searxng_web_url_read` to read a result, when local sources are insufficient or up-to-date information is required, only some domains are reachable (GitHub, Qt, cppreference, Python, Docker, Stack Overflow...): search results only come from them, and reading a URL of another domain fails with `fetch failed`.
 
 - If a tool fails, fix the call and retry. Never act as if a failed search succeeded.
 - Report only what sources actually state. If information is missing, say so. Never fill gaps from memory.

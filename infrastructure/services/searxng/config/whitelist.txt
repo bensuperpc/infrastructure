@@ -1,0 +1,42 @@
+# Code hosting
+.github.com
+.githubusercontent.com
+.github.io
+.gitlab.com
+
+# C, C++ and toolchains
+.cppreference.com
+.isocpp.org
+.gnu.org
+.llvm.org
+.cmake.org
+.ninja-build.org
+.sourceware.org
+.valgrind.org
+.kernel.org
+.man7.org
+.brendangregg.com
+
+# Libraries
+.qt.io
+.boost.org
+.opencv.org
+.protobuf.dev
+.python.org
+.pypi.org
+.pytest.org
+.numpy.org
+.readthedocs.io
+
+# Tools
+.docker.com
+.git-scm.com
+.mermaid.js.org
+.plantuml.com
+.graphviz.org
+.d2lang.com
+
+# Q&A and reference
+.stackoverflow.com
+.stackexchange.com
+.wikipedia.org

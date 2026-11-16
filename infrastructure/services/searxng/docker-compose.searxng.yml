@@ -12,13 +12,49 @@ services:
       - ./searxng.env
     networks:
       - caddy-tools
-      - searxng-internal
     volumes:
       - ./config/settings.yml:/etc/searxng/settings.yml:ro
       - searxng-data:/var/cache/searxng/
     dns:
       - 1.1.1.1
       - 8.8.8.8
+
+  searxng-ai:
+    container_name: searxng-ai
+    image: docker.io/searxng/searxng:${SEARXNG_DOCKER_TAG:-2026.11.15-2d500cb6b}
+    profiles:
+      - local_ai
+    extends:
+      file: ../../common.yml
+      service: service-base
+    env_file:
+      - ./searxng-ai.env
+    volumes:
+      - ./config/settings-ai.yml:/etc/searxng/settings.yml:ro
+      - ./config/hostnames-remove.yml:/etc/searxng/hostnames-remove.yml:ro
+    networks:
+      - mcp-searxng-internal
+      - mcp-searxng-internet
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+
+  mcp-searxng-proxy:
+    image: docker.io/ubuntu/squid:${SQUID_DOCKER_TAG:-7.2-26.04_edge}
+    container_name: mcp-searxng-proxy
+    profiles:
+      - local_ai
+    extends:
+      file: ../../common.yml
+      service: service-base
+    # Squid's logs in docker logs
+    command: [--verbose]
+    volumes:
+      - ./config/squid.conf:/etc/squid/squid.conf:ro
+      - ./config/whitelist.txt:/etc/squid/whitelist.txt:ro
+    networks:
+      - mcp-searxng-internal
+      - mcp-searxng-internet
 
   mcp-searxng:
     image: isokoliuk/mcp-searxng:${MCP_SEARXNG_DOCKER_TAG:-2.10.1}
@@ -29,14 +65,15 @@ services:
       file: ../../common.yml
       service: service-base
     depends_on:
-      - searxng
+      - searxng-ai
+      - mcp-searxng-proxy
     env_file:
       - ./mcp-searxng.env
     networks:
       - local-ai
-      - searxng-internal
+      - mcp-searxng-internal
     healthcheck:
-      test: [CMD, node, -e, "Promise.all(['http://127.0.0.1:3000/health', 'http://searxng:8080/healthz'].map(u => fetch(u).then(r => r.ok || Promise.reject()))).then(() => process.exit(0), () => process.exit(1))"]
+      test: [CMD, node, -e, "Promise.all(['http://127.0.0.1:3000/health', 'http://searxng-ai:8080/healthz'].map(u => fetch(u).then(r => r.ok || Promise.reject()))).then(() => process.exit(0), () => process.exit(1))"]
       interval: 30s
       timeout: 5s
       retries: 3
@@ -47,13 +84,17 @@ networks:
   caddy-tools:
     driver: bridge
     name: caddy-tools
-  searxng-internal:
-    driver: bridge
-    name: searxng-internal
   local-ai:
     driver: bridge
     name: local-ai
     internal: true
+  mcp-searxng-internal:
+    driver: bridge
+    name: mcp-searxng-internal
+    internal: true
+  mcp-searxng-internet:
+    driver: bridge
+    name: mcp-searxng-internet
 
 volumes:
   searxng-data: {}

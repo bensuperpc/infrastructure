@@ -197,7 +197,7 @@ Replace [id_ed25519.pub](infrastructure/services/openssh/config/authorized_keys/
 
 OpenCode asks for a pairing link on its first visit: `docker exec opencode opencode pair --url https://opencode.bensuperpc.org`, open WebUI's first account is its admin; VS Code server's password is `VSCODE_SERVER_PASSWORD` in `infrastructure/.env`.
 
-Networks: OpenCode, Open WebUI, Kiwix, Docling and Kroki have no internet (`local-ai` is internal); OpenCode reaches the web only through `mcp-searxng`.
+Networks: OpenCode, Open WebUI, Kiwix, Docling and Kroki have no internet (`local-ai` is internal); OpenCode reaches the web only through `mcp-searxng`, it searches with `searxng-ai`, which keeps only the results from the domains of `infrastructure/services/searxng/config/hostnames-remove.yml`, and reads pages through `mcp-searxng-proxy` (Squid), which refuses the domains missing from `config/whitelist.txt`.
 
 For additional models, use the `ollama pull` command as shown below.
 
