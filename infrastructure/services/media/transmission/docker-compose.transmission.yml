@@ -1,7 +1,7 @@
 services:
   # transmission
   transmission:
-    image: lscr.io/linuxserver/transmission:${TRANSMISSION_DOCKER_TAG:-4.1.4-r0-ls369}
+    image: lscr.io/linuxserver/transmission:${TRANSMISSION_DOCKER_TAG:-4.1.4-r0-ls370}
     container_name: transmission
     profiles:
       - transmission

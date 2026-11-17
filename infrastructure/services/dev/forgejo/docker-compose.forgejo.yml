@@ -1,7 +1,7 @@
 services:
   # forgejo
   forgejo:
-    image: codeberg.org/forgejo/forgejo:${FORGEJO_DOCKER_TAG:-15.0.11}
+    image: codeberg.org/forgejo/forgejo:${FORGEJO_DOCKER_TAG:-17.0.1}
     container_name: forgejo
     profiles:
       - forgejo
@@ -10,7 +10,7 @@ services:
       - database_forgejo
       - caddy
     ports:
-      - "22:2222"
+      - "${LISTEN_ADDRESS:-0.0.0.0}:22:2222"
     env_file:
       - ./forgejo.env
     volumes:
@@ -39,47 +39,86 @@ services:
       - forgejo_db:/var/lib/mysql:rw
     env_file:
       - ./forgejo_db.env
-    command: '--default-authentication-plugin=mysql_native_password'
     networks:
       - forgejo-internal
 
-  # forgejo-runner
+  # forgejo-runner: Docker in Docker for the jobs, with TLS
   docker-in-docker:
-    image: code.forgejo.org/oci/docker:${FORGEJO_DIND_DOCKER_TAG:-29-dind@sha256:7bf70dcb85c822e3fa6f2d332143e474b99147b9d7b39102b0cfe8b04a7dd61b}
-    container_name: 'docker_dind'
+    image: code.forgejo.org/oci/docker:${FORGEJO_DIND_DOCKER_TAG:-29-dind@sha256:4bbc7223f81db790097c6dea42fb93e05b8fead4f0431fbe6ccaba6e8473201c}
+    container_name: docker_dind
     hostname: docker
-    networks:
-      - forgejo-internal
     profiles:
       - forgejo-runner
+    restart: on-failure:7
     privileged: true
     environment:
-      DOCKER_TLS_CERTDIR: /certs
-      DOCKER_HOST: docker-in-docker
+      - DOCKER_TLS_CERTDIR=/certs
     volumes:
       - forgejo_certs:/certs
-
-  forgejo_runner:
-    image: data.forgejo.org/forgejo/runner:${FORGEJO_RUNNER_DOCKER_TAG:-12.13.2}
+      - forgejo_dind_data:/var/lib/docker
     networks:
       - forgejo-internal
+    healthcheck:
+      test: [CMD, docker, info]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 120s
+      start_interval: 2s
+
+  forgejo_runner_register:
+    image: codeberg.org/forgejo/forgejo:${FORGEJO_DOCKER_TAG:-17.0.1}
+    container_name: forgejo_runner_register
     profiles:
       - forgejo-runner
+    restart: on-failure:7
+    # After forgejo_runner, which creates forgejo_runner owned by its user (1000)
     depends_on:
-      docker-in-docker:
-        condition: service_started
-    container_name: 'forgejo_runner'
+      - forgejo
+      - forgejo_runner
+    user: 1000:1000
     env_file:
       - ./forgejo_runner.env
-#    user: ${PUID:-1000}:${PGID:-1000} 
     volumes:
-#      - ./config/forgejo_runner/config.yaml:/config.yaml:ro
-      - forgejo_runner:/data
-      - forgejo_certs:/certs
-    restart: on-failure:7
+      - forgejo_data:/data
+      - forgejo_runner:/runner
+    entrypoint: [sh, -c]
+    command:
+      - >-
+        rm -f /runner/registered;
+        until grep -qE '^INSTALL_LOCK *= *true' /data/gitea/conf/app.ini 2>/dev/null
+        && wget -qO /dev/null http://forgejo:3000/api/v1/version
+        && forgejo forgejo-cli actions register --name runner --secret "$$FORGEJO_RUNNER_SECRET" > /dev/null;
+        do sleep 10; done;
+        touch /runner/registered
+    networks:
+      - forgejo-internal
 
-#    command: '/bin/sh -c "while : ; do sleep 1 ; done ;"'
-    command: '/bin/sh -c "sleep 5; forgejo-runner -c /data/config.yml daemon"'
+  forgejo_runner:
+    image: data.forgejo.org/forgejo/runner:${FORGEJO_RUNNER_DOCKER_TAG:-13.2.1}
+    container_name: forgejo_runner
+    profiles:
+      - forgejo-runner
+    restart: on-failure:7
+    # docker-in-docker creates forgejo_certs/client at start
+    depends_on:
+      docker-in-docker:
+        condition: service_healthy
+    env_file:
+      - ./forgejo_runner.env
+    volumes:
+      - forgejo_runner:/data
+      - ./config/runner.yml:/config/runner.yml:ro
+      - ./runner.sh:/runner.sh:ro
+      - type: volume
+        source: forgejo_certs
+        target: /certs/client
+        read_only: true
+        volume:
+          subpath: client
+    command: [sh, /runner.sh]
+    networks:
+      - forgejo-internal
 
 volumes:
   forgejo_data:
@@ -90,6 +129,8 @@ volumes:
     name: forgejo_certs
   forgejo_runner:
     name: forgejo_runner
+  forgejo_dind_data:
+    name: forgejo_dind_data
 
 networks:
   caddy-dev:

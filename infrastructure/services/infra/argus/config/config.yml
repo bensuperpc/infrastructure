@@ -1,87 +1,132 @@
 settings:
   log:
-    level: DEBUG
+    level: INFO
 defaults:
   service:
-    latest_version:
-      access_token: <secret>
-    deployed_version:
-      allow_invalid_certs: true
-notify:
-  default_gotify:
-    type: gotify
-    url_fields:
-      host: gotify.example.io
-      token: <secret>
-  default_mattermost:
-    type: mattermost
-    url_fields:
-      host: localhost
-      port: "8081"
-      token: <secret>
-webhook:
-  awx_more:
-    type: github
-    url: http://localhost:8081
-    secret: <secret>
-    silent_fails: true
-  awx_other:
-    type: github
-    url: https://localhost:8081/api/v2/job_templates/36/github/
-    secret: <secret>
-    silent_fails: true
+    options:
+      interval: 1h
 service:
+  # infra
+  caddy:
+    latest_version: {type: github, url: caddyserver/caddy}
+    dashboard: {tags: [infra]}
+  authelia:
+    latest_version: {type: github, url: authelia/authelia}
+    dashboard: {tags: [infra]}
+  homepage:
+    latest_version: {type: github, url: gethomepage/homepage}
+    dashboard: {tags: [infra]}
+  uptime-kuma:
+    latest_version: {type: github, url: louislam/uptime-kuma}
+    dashboard: {tags: [infra]}
+  dozzle:
+    latest_version: {type: github, url: amir20/dozzle}
+    dashboard: {tags: [infra]}
+  argus:
+    latest_version: {type: github, url: release-argus/Argus}
+    dashboard: {tags: [infra]}
+  watchtower:
+    latest_version: {type: github, url: nicholas-fedor/watchtower}
+    dashboard: {tags: [infra]}
+  # ai
+  ollama:
+    latest_version: {type: github, url: ollama/ollama}
+    dashboard: {tags: [ai]}
+  open-webui:
+    latest_version: {type: github, url: open-webui/open-webui}
+    dashboard: {tags: [ai]}
+  opencode:
+    latest_version:
+      type: github
+      url: anomalyco/opencode
+      # The repository also publishes 1.x maintenance and process-daemon releases
+      require: {regex_version: ^2\.}
+    dashboard: {tags: [ai]}
+  docling-serve:
+    latest_version: {type: github, url: docling-project/docling-serve}
+    dashboard: {tags: [ai]}
+  kroki:
+    latest_version: {type: github, url: yuzutech/kroki}
+    dashboard: {tags: [ai]}
+  kiwix-tools:
+    latest_version: {type: github, url: kiwix/kiwix-tools}
+    dashboard: {tags: [ai]}
+  openzim-mcp:
+    latest_version: {type: github, url: cameronrye/openzim-mcp}
+    dashboard: {tags: [ai]}
+  mcp-searxng:
+    latest_version: {type: github, url: ihor-sokoliuk/mcp-searxng}
+    dashboard: {tags: [ai]}
+  speaches:
+    latest_version: {type: github, url: speaches-ai/speaches, use_prerelease: true}
+    dashboard: {tags: [ai]}
+  vllm:
+    latest_version:
+      type: github
+      url: vllm-project/vllm
+      require: {regex_version: '^v?[0-9]+\.[0-9]+\.[0-9]+$'}
+    dashboard: {tags: [ai]}
+  # dev
   forgejo:
-    latest_version:
-      type: url
-      url: https://code.forgejo.org/api/v1/repos/forgejo/forgejo/releases
-      url_commands:
-        - type: regex
-          regex: "['\"]tag_name['\"]: *['\"]v?([0-9.]+(?:-dev)?)['\"]"
-    deployed_version:
-      type: url
-      url: https://code.forgejo.org
-      regex: Powered by Forgejo.*\s+Version:\s+([0-9.]+(?:-dev)?)
-    dashboard:
-      web_url: https://codeberg.org/forgejo/forgejo/src/branch/forgejo/release-notes-published/{{ version }}.md
-      icon: https://code.forgejo.org/assets/img/logo.svg
-      tags:
-        - go
-  svt-av1:
-    latest_version:
-      type: url
-      url: https://gitlab.com/api/v4/projects/AOMediaCodec%2FSVT-AV1/repository/tags?order_by=version&sort=desc
-      url_commands:
-        - type: regex
-          regex: '"name":"v?([0-9.]+(?:-rc[0-9]+)?)"'
-    dashboard:
-      icon: https://upload.wikimedia.org/wikipedia/commons/8/84/AV1_logo_2018.svg
-      web_url: https://gitlab.com/AOMediaCodec/SVT-AV1/-/releases/v{{ version }}
-    tags:
-      - av1
-      - video
-      - encoder
-  ffmpeg:
-    latest_version:
-      type: url
-      url: https://api.github.com/repos/FFmpeg/FFmpeg/tags
-      url_commands:
-        - type: regex
-          regex: '"name":"n?([0-9.]+)"'
-    dashboard:
-      icon: https://upload.wikimedia.org/wikipedia/commons/7/76/FFmpeg_icon.svg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original
-      web_url: https://github.com/FFmpeg/FFmpeg/releases/tag/n{{ version }}
+    latest_version: {type: forgejo, host: https://codeberg.org, url: forgejo/forgejo}
+    dashboard: {tags: [dev]}
+  forgejo-runner:
+    latest_version: {type: forgejo, host: https://code.forgejo.org, url: forgejo/runner}
+    dashboard: {tags: [dev]}
+  code-server:
+    latest_version: {type: github, url: coder/code-server}
+    dashboard: {tags: [dev]}
+  dependency-track:
+    latest_version: {type: github, url: DependencyTrack/dependency-track}
+    dashboard: {tags: [dev]}
+  # tools
+  it-tools:
+    latest_version: {type: github, url: sharevb/it-tools}
+    dashboard: {tags: [tools]}
+  omni-tools:
+    latest_version: {type: github, url: iib0011/omni-tools}
+    dashboard: {tags: [tools]}
+  cyberchef:
+    latest_version: {type: github, url: gchq/CyberChef}
+    dashboard: {tags: [tools]}
+  bentopdf:
+    latest_version: {type: github, url: alam00000/bentopdf}
+    dashboard: {tags: [tools]}
+  stirling-pdf:
+    latest_version: {type: github, url: Stirling-Tools/Stirling-PDF}
+    dashboard: {tags: [tools]}
+  privatebin:
+    latest_version: {type: github, url: PrivateBin/PrivateBin}
+    dashboard: {tags: [tools]}
+  memos:
+    latest_version: {type: github, url: usememos/memos}
+    dashboard: {tags: [tools]}
+  # files and media
+  dufs:
+    latest_version: {type: github, url: sigoden/dufs}
+    dashboard: {tags: [files]}
+  picoshare:
+    latest_version: {type: github, url: mtlynch/picoshare}
+    dashboard: {tags: [files]}
+  psitransfer:
+    latest_version: {type: github, url: psi-4ward/psitransfer}
+    dashboard: {tags: [files]}
+  syncthing:
+    latest_version: {type: github, url: syncthing/syncthing}
+    dashboard: {tags: [files]}
+  jellyfin:
+    latest_version: {type: github, url: jellyfin/jellyfin}
+    dashboard: {tags: [media]}
+  immich:
+    latest_version: {type: github, url: immich-app/immich}
+    dashboard: {tags: [media]}
   qbittorrent:
     latest_version:
-      type: url
-      url: https://api.github.com/repos/qbittorrent/qBittorrent/releases/latest
+      type: github
+      url: qbittorrent/qBittorrent
       url_commands:
-        - type: regex
-          regex: '"tag_name":"release-([0-9.]+)"'
-    dashboard:
-      icon: https://upload.wikimedia.org/wikipedia/commons/6/66/New_qBittorrent_Logo.svg
-      web_url: https://github.com/qbittorrent/qBittorrent/releases/tag/release-{{ version }}
-    tags:
-      - bittorrent
-      - qt
-      - cplusplus
+        - {type: regex, regex: '^release-([0-9.]+)$'}
+    dashboard: {tags: [media]}
+  transmission:
+    latest_version: {type: github, url: transmission/transmission}
+    dashboard: {tags: [media]}

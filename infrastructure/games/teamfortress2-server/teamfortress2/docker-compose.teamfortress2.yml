@@ -9,8 +9,8 @@ services:
     profiles:
       - teamfortress2_server
     ports:
-     - "27015:27015/tcp"
-     - "27015:27015/udp"
+     - "${LISTEN_ADDRESS:-0.0.0.0}:27015:27015/tcp"
+     - "${LISTEN_ADDRESS:-0.0.0.0}:27015:27015/udp"
     volumes:
       - teamfortress2_data:/home/steam/tf-dedicated
     networks:

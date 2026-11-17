@@ -37,7 +37,7 @@ services:
     security_opt:
       - no-new-privileges:false
     ports:
-      - 2222:2222
+      - ${LISTEN_ADDRESS:-0.0.0.0}:2222:2222
 volumes:
   openssh_config:
     name: openssh_config

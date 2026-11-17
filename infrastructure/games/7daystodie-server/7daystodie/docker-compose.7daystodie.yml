@@ -7,9 +7,9 @@ services:
       - 7daystodie_server
     restart: on-failure:7
     ports:
-      - "26900:26900"
-      - "26901:26901"
-      - "26902:26902"
+      - "${LISTEN_ADDRESS:-0.0.0.0}:26900:26900"
+      - "${LISTEN_ADDRESS:-0.0.0.0}:26901:26901"
+      - "${LISTEN_ADDRESS:-0.0.0.0}:26902:26902"
 #      - "8080:8080" # WEBADMIN
 #      - "8081:8081" # TELNET
 #      - "8082:8082" # WEBSERVER

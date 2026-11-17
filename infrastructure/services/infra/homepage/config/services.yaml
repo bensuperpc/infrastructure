@@ -63,6 +63,13 @@
         # ping: jellyfin.{{HOMEPAGE_VAR_DOMAIN}}
         container: jellyfin
         server: my-docker
+    - immich:
+        icon: immich.png
+        href: https://immich.{{HOMEPAGE_VAR_DOMAIN}}/
+        description: Immich
+        # ping: immich.{{HOMEPAGE_VAR_DOMAIN}}
+        container: immich-server
+        server: my-docker
     - memos:
         icon: memos.png
         href: https://memos.{{HOMEPAGE_VAR_DOMAIN}}/

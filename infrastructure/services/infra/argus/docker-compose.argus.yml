@@ -9,6 +9,7 @@ services:
       - ARGUS_UID=${PUID:-1000}
       - ARGUS_GID=${PGID:-1000}
       - TZ=${TZ:-Europe/Paris}
+      - ARGUS_SERVICE_LATEST_VERSION_GITHUB_ACCESS_TOKEN=${ARGUS_GITHUB_TOKEN:-}
     restart: on-failure:7
     depends_on:
       - caddy

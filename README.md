@@ -6,13 +6,14 @@ _Open source, decentralized and self-hosted infrastructure for many local servic
 
 - [x] caddy 2 HTTP/S reverse proxy
 - [x] Authelia (SSO / authentication middleware)
-- [x] local_ai: Ollama (ROCm), Open WebUI, OpenCode, VS Code server, Kiwix, Docling, Kroki
+- [x] local_ai: Ollama (ROCm), Open WebUI, OpenCode, VS Code server, Kiwix, Docling, Kroki, Speaches (voice)
 - [x] Compiler Explorer
 - [x] qbittorrent and transmission (Torrent client/server)
 - [x] Docker / docker-compose
 - [x] Homepage (Dashboard)
 - [x] SearXNG (Self-hosted search engine)
 - [x] Jellyfin (Eg Netflix, Disney+)
+- [x] Immich (Photo and video library, Eg Google Photos)
 - [x] Forgejo (Git server, fork of Gitea)
 - [x] Uptime Kuma (Monitoring)
 - [x] Argus (Application update monitoring)
@@ -116,6 +117,23 @@ Services are enabled via **preset configuration files** in the [`presets/`](pres
 
 The active presets are declared in the [`Makefile`](Makefile) via the `CONFIGS` variable, for example, `CONFIGS := local_ai` loads `presets/local_ai.conf` which activates the `main_infrastructure`, `caddy`, `homepage` and `local_ai` profiles. It can also be set for one command: `make CONFIGS="local_ai tools" up`.
 
+| Preset             | Services                                                                     |
+| ------------------ | ---------------------------------------------------------------------------- |
+| `local_ai`         | Ollama, Open WebUI, LiteLLM, OpenCode, VS Code server, Kiwix, Docling, Kroki, SearXNG, Speaches |
+| `tools`            | it-tools, omni-tools, CyberChef, BentoPDF, VS Code server, Compiler Explorer |
+| `forgejo`          | Forgejo and its runner                                                       |
+| `dependency-track` | Dependency-Track                                                             |
+| `files`            | Dufs, PicoShare, ProjectSend, PsiTransfer, Syncthing                         |
+| `office`           | Memos, Stirling PDF, PrivateBin                                              |
+| `media`            | Jellyfin                                                                     |
+| `immich`           | Immich (photos and videos)                                                   |
+| `torrent`          | qBittorrent, OpenSSH, Uptime Kuma, Dozzle                                    |
+| `transmission`     | Transmission (instead of qBittorrent)                                        |
+| `web`              | WordPress                                                                    |
+| `monitoring`       | Uptime Kuma, Dozzle, Argus                                                   |
+| `7dtd`, `minecraft`, `satisfactory`, `tf2` | Game servers                                         |
+
+
 ### Configure the domain
 
 The domain and the certificates are set once, in [infrastructure/.env](infrastructure/.env.example) (created by `make init`):
@@ -133,6 +151,8 @@ DOMAIN=bensuperpc.localhost
 TLS=internal
 LISTEN_ADDRESS=127.0.0.1
 ```
+
+`LISTEN_ADDRESS` applies to every published port: Caddy, SSH (Forgejo, OpenSSH), qBittorrent and the game servers.
 
 Online, Caddy gets a Let's Encrypt certificate for each subdomain with the `TLS` e-mail, and renews it automatically. To test locally, see [Local testing](#local-testing).
 
@@ -156,6 +176,7 @@ Online, Caddy gets a Let's Encrypt certificate for each subdomain with the `TLS`
 | [forgejo.bensuperpc.org](https://forgejo.bensuperpc.org/)          | Sub  | Fork of Gitea for git                                        |
 | [git.bensuperpc.org](https://git.bensuperpc.org)                   | Sub  | Fork of Gitea for git                                        |
 | [jellyfin.bensuperpc.org](https://jellyfin.bensuperpc.org)         | Sub  | Jellyfin for media server                                    |
+| [immich.bensuperpc.org](https://immich.bensuperpc.org)             | Sub  | Immich for photos and videos                                 |
 | [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org)       | Sub  | SyncThing for file synchronization                           |
 | [psitransfer.bensuperpc.org](https://psitransfer.bensuperpc.org)   | Sub  | PsiTransfer for file sharing                                 |
 | [it-tools.bensuperpc.org](https://it-tools.bensuperpc.org)         | Sub  | Tools for IT                                                 |
@@ -177,7 +198,7 @@ Online, Caddy gets a Let's Encrypt certificate for each subdomain with the `TLS`
 
 Every secret is in one file, `infrastructure/.env` (gitignored), created by `make init` from [.env.example](infrastructure/.env.example): each `__GENERATE__` becomes a random value. 
 
-The services' `<name>.env` files, next to their compose file, are tracked in git and hold no secret: they read them as `${NAME}`, e.g. `DATABASE_URL=postgresql://litellm:${LITELLM_DB_PASSWORD}@litellm-postgres:5432/litellm`, so a database and its client share the same value. Run `make init` again after a `git pull`: it only adds the new keys.
+The services' `<name>.env` files, next to their compose file, are tracked in git and hold no secret: they read them as `${NAME}`, e.g. `DATABASE_URL=postgresql://litellm:${LITELLM_DB_PASSWORD}@litellm-postgres:5432/litellm`, so a database and its client share the same value.
 
 #### Authelia - user database
 
@@ -203,25 +224,28 @@ Replace [id_ed25519.pub](infrastructure/services/infra/openssh/config/authorized
 
 #### local_ai
 
-OpenCode asks for a pairing link on its first visit: `docker exec opencode opencode pair --url https://opencode.bensuperpc.org`, open WebUI's first account is its admin; VS Code server's password is `VSCODE_SERVER_PASSWORD` in `infrastructure/.env`.
+The `local_ai` profile runs a local AI stack that works offline once downloaded (about 20 GB), it needs an AMD GPU (ROCm, `/dev/kfd` and `/dev/dri`), an NVIDIA GPU or Intel GPU.
 
-VS Code server's password is `VSCODE_SERVER_PASSWORD` in `infrastructure/.env`.
+| Service | Role | First access |
+| --- | --- | --- |
+| Open WebUI | Chat, RAG, voice | The first account created is admin |
+| OpenCode | Coding agent with offline docs (Kiwix) | `docker exec opencode opencode pair --url https://opencode.<DOMAIN>` |
+| VS Code server | Editor | Password: `VSCODE_SERVER_PASSWORD` |
+| LiteLLM | Proxy for external APIs (OpenAI, Anthropic...) | `litellm.<DOMAIN>`, `admin` / `LITELLM_UI_PASSWORD` |
+| Ollama | Local models (`OLLAMA_MODEL`, `EMBEDDING_MODEL`) | - |
+| Speaches | Speech to text and text to speech (CPU) | - |
+| vLLM | Hugging Face models (`VLLM_MODEL`), optional `vllm` profile | Add it in LiteLLM, see below |
 
-Networks: OpenCode, Open WebUI, Kiwix, Docling and Kroki have no internet (`local-ai` is internal), openCode reaches the web only through `mcp-searxng`, it searches with `searxng-ai`, which keeps only the results from the domains of `infrastructure/services/ai/searxng/config/hostnames-remove.yml`, and reads pages through `mcp-searxng-proxy` (Squid), which refuses the domains missing from `config/whitelist.txt`.
+Open WebUI and OpenCode have no direct internet access: web search goes through SearXNG, limited to the domains in [whitelist.txt](infrastructure/services/ai/searxng/config/whitelist.txt).
 
-For additional models, use the `ollama pull` command as shown below.
+To add models (Ollama library or Hugging Face GGUF):
 
 ```bash
+docker exec ollama ollama pull qwen3.8:27b
+docker exec ollama ollama pull nomic-embed-text-v2-moe # Mandatory embedding model
 docker exec ollama ollama pull gemma4:12b
-docker exec ollama ollama show qwen3.8:27b
 docker exec ollama ollama pull qwen3.5:9b
-```
-
-For Hugging Face models, use the `hf.co/<author>/<repo>:<version>` format as shown below.
-
-```bash
-docker exec ollama ollama pull hf.co/byteshape/Qwen3.8-27B-GGUF:IQ4_XS-3.84bpw
-docker exec ollama ollama show hf.co/byteshape/Qwen3.8-27B-GGUF:IQ4_XS-3.84bpw
+docker exec ollama ollama pull hf.co/<author>/<repo>:<quant>
 ```
 
 #### Team Fortress 2 - Steam GSLT
@@ -232,13 +256,13 @@ docker exec ollama ollama show hf.co/byteshape/Qwen3.8-27B-GGUF:IQ4_XS-3.84bpw
 
 Default credentials are `admin` / `admin` - **change them on first login**.
 
-#### Forgejo - installation lock
+#### Argus - GitHub token
 
-After the first-run installation wizard completes, set in [forgejo.env](infrastructure/services/dev/forgejo/forgejo.env):
+Argus checks about 30 GitHub projects every hour, within GitHub's 60 requests per hour without a token. For more, set `ARGUS_GITHUB_TOKEN` in `infrastructure/.env` with a fine-grained token without any permission.
 
-```sh
-FORGEJO__security__INSTALL_LOCK=true
-```
+#### Forgejo - installation
+
+On the first start, `git.<DOMAIN>` shows the installation wizard, filled in from [forgejo.env](infrastructure/services/dev/forgejo/forgejo.env): create the administrator account there. The wizard writes `INSTALL_LOCK = true` to Forgejo's `app.ini`: do not set `FORGEJO__security__INSTALL_LOCK` in `forgejo.env`, Forgejo applies the `FORGEJO__*` variables at every start and `false` would break the installation.
 
 ### Homepage
 
@@ -249,45 +273,16 @@ You can change the homepage config in these files:
 - [settings.yaml](infrastructure/services/infra/homepage/config/settings.yaml)
 - [widgets.yaml](infrastructure/services/infra/homepage/config/widgets.yaml)
 
-### Forgejo Runner (Out of date)
+### Forgejo Runner
 
-```sh
-docker exec -it forgejo_runner /bin/bash
-```
+The `forgejo` preset starts a runner, registered without any manual step:
 
-```sh
-forgejo-runner generate-config > /data/config.yml
-```
+- `forgejo_runner_register` waits for the end of the installation wizard, registers the runner in Forgejo with `FORGEJO_RUNNER_SECRET` (generated by `make init`), then exits.
+- `forgejo_runner` then starts with [runner.yml](infrastructure/services/dev/forgejo/config/runner.yml).
 
-Now update the config.yml file to support docker-in-docker:
+Labels for `runs-on:`: `docker` (Node 22), `ubuntu-latest`, `ubuntu-24.04` and `ubuntu-22.04` (`ghcr.io/catthehacker/ubuntu` images). Edit them in `runner.yml`, then `docker restart forgejo_runner`.
 
-```yml
-  envs:
-    DOCKER_TLS_VERIFY: 1
-    DOCKER_CERT_PATH: /certs/client
-    DOCKER_HOST: tcp://docker:2376
-  labels: ["ubuntu-latest:docker://node:20-bookworm", "ubuntu-22.04:docker://node:20-bookworm"]
-  network: host
-  options: -v /certs/client:/certs/client
-  valid_volumes:
-     - /certs/client
-```
-
-Register the runner with your Forgejo instance:
-
-
-```sh
-forgejo-runner register
-```
-
-You will need to provide the following information:
-
-```sh
-https://forgejo.bensuperpc.org/
-<Your Registration Token, in https://forgejo.bensuperpc.org/admin/actions/runners>
-ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:act-24.04
-main
-```
+`actions/checkout` and the other actions are downloaded from `https://data.forgejo.org`. Jobs reach Forgejo directly at `http://forgejo:3000`, without Authelia.
 
 ### Docker volumes
 
@@ -352,6 +347,7 @@ Variables exported in your shell (`DOMAIN`, `OLLAMA_MODEL`...) take precedence o
 - [Transmission](https://transmissionbt.com/)
 - [Gitea](https://gitea.io/)
 - [Jellyfin](https://jellyfin.org/)
+- [Immich](https://immich.app/)
 - [SyncThing](https://syncthing.net/)
 - [PsiTransfer](https://psitransfer.com/)
 - [It-tools](https://github.com/CorentinTh/it-tools)

@@ -1,0 +1,27 @@
+services:
+  searxng:
+    container_name: searxng
+    image: docker.io/searxng/searxng:${SEARXNG_DOCKER_TAG:-2026.11.17-d3a35cf45}
+    profiles:
+      - searxng
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    env_file:
+      - ./searxng.env
+    networks:
+      - caddy-tools
+    volumes:
+      - ./config/settings.yml:/etc/searxng/settings.yml:ro
+      - searxng-data:/var/cache/searxng/
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+
+networks:
+  caddy-tools:
+    driver: bridge
+    name: caddy-tools
+
+volumes:
+  searxng-data: {}

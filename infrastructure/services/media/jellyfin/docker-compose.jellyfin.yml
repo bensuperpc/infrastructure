@@ -1,7 +1,7 @@
 services:
   # Jellyfin
   jellyfin:
-    image: lscr.io/linuxserver/jellyfin:${JELLYFIN_DOCKER_TAG:-12.4ubu2604-ls59}
+    image: lscr.io/linuxserver/jellyfin:${JELLYFIN_DOCKER_TAG:-12.4ubu2604-ls60}
     container_name: jellyfin
     profiles:
       - jellyfin

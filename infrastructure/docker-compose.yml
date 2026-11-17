@@ -10,6 +10,7 @@ include:
   - services/infra/argus/docker-compose.argus.yml
 # ai (local_ai): Ollama, Open WebUI, OpenCode and the services they use
   - services/ai/ollama/docker-compose.ollama.yml
+  - services/ai/vllm/docker-compose.vllm.yml
   - services/ai/open-webui/docker-compose.open-webui.yml
   - services/ai/litellm/docker-compose.litellm.yml
   - services/ai/opencode/docker-compose.opencode.yml
@@ -19,6 +20,7 @@ include:
   - services/ai/docling/docker-compose.docling.yml
   - services/ai/kroki/docker-compose.kroki.yml
   - services/ai/searxng/docker-compose.searxng.yml
+  - services/ai/speaches/docker-compose.speaches.yml
 # dev: git forge, IDE, compiler explorer, SBOM analysis
   - services/dev/forgejo/docker-compose.forgejo.yml
   - services/dev/code-server/docker-compose.vscode-server.yml
@@ -38,12 +40,14 @@ include:
   - services/files/projectsend/docker-compose.projectsend.yml
   - services/files/psitransfer/docker-compose.psitransfer.yml
   - services/files/syncthing/docker-compose.syncthing.yml
-# media: streaming and torrents
+# media: streaming, photos and torrents
   - services/media/jellyfin/docker-compose.jellyfin.yml
+  - services/media/immich/docker-compose.immich.yml
   - services/media/qbittorrent/docker-compose.qbittorrent.yml
   - services/media/transmission/docker-compose.transmission.yml
 # web: websites
   - services/web/wordpress/docker-compose.wordpress.yml
+  - services/web/searxng/docker-compose.searxng.yml
 # games
   - games/minecraft-server/docker-compose.yml
   - games/7daystodie-server/docker-compose.yml

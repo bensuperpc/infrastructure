@@ -1,0 +1,49 @@
+services:
+  # Shared vLLM service for Hugging Face models (AWQ, GPTQ, FP8...)
+  vllm:
+    # image: vllm/vllm-openai-cpu:${VLLM_DOCKER_TAG:-v0.34.0}
+    # image: vllm/vllm-openai:v0.34.0
+    image: vllm/vllm-openai-rocm:${VLLM_DOCKER_TAG:-v0.34.0}
+    container_name: vllm
+    profiles:
+      - vllm
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    devices:
+      - /dev/kfd
+      - /dev/dri
+    shm_size: 2gb
+    env_file:
+      - ./vllm.env
+    command:
+      - ${VLLM_MODEL:-Qwen/Qwen3-4B-Instruct-2507-FP8}
+      - --max-model-len=32768
+      - --gpu-memory-utilization=0.8
+      - --max-num-seqs=4
+      - --kv-cache-dtype=fp8
+    volumes:
+      - vllm_cache:/root/.cache
+    networks:
+      - local-ai
+      - local-ai-internet
+    healthcheck:
+      test: [CMD, python3, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 1800s
+      start_interval: 5s
+
+volumes:
+  vllm_cache:
+    name: vllm_cache
+
+networks:
+  local-ai:
+    driver: bridge
+    name: local-ai
+    internal: true
+  local-ai-internet:
+    driver: bridge
+    name: local-ai-internet

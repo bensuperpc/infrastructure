@@ -1,27 +1,7 @@
 services:
-  searxng:
-    container_name: searxng
-    image: docker.io/searxng/searxng:${SEARXNG_DOCKER_TAG:-2026.11.15-2d500cb6b}
-    profiles:
-      - searxng
-      - local_ai
-    extends:
-      file: ../../../common.yml
-      service: service-base
-    env_file:
-      - ./searxng.env
-    networks:
-      - caddy-tools
-    volumes:
-      - ./config/settings.yml:/etc/searxng/settings.yml:ro
-      - searxng-data:/var/cache/searxng/
-    dns:
-      - 1.1.1.1
-      - 8.8.8.8
-
   searxng-ai:
     container_name: searxng-ai
-    image: docker.io/searxng/searxng:${SEARXNG_DOCKER_TAG:-2026.11.15-2d500cb6b}
+    image: docker.io/searxng/searxng:${SEARXNG_DOCKER_TAG:-2026.11.17-d3a35cf45}
     profiles:
       - local_ai
     extends:
@@ -57,7 +37,7 @@ services:
       - mcp-searxng-internet
 
   mcp-searxng:
-    image: isokoliuk/mcp-searxng:${MCP_SEARXNG_DOCKER_TAG:-2.10.1}
+    image: isokoliuk/mcp-searxng:${MCP_SEARXNG_DOCKER_TAG:-2.11.0}
     container_name: mcp-searxng
     profiles:
       - local_ai
@@ -81,9 +61,6 @@ services:
       start_interval: 2s
 
 networks:
-  caddy-tools:
-    driver: bridge
-    name: caddy-tools
   local-ai:
     driver: bridge
     name: local-ai
@@ -95,6 +72,3 @@ networks:
   mcp-searxng-internet:
     driver: bridge
     name: mcp-searxng-internet
-
-volumes:
-  searxng-data: {}

@@ -13,7 +13,8 @@
 
 PROJECT_DIRECTORY := infrastructure
 CONFIG_DIRECTORY := presets
-# Presets in presets/: 7dtd forgejo local_ai minecraft satisfactory tf2 tools torrent
+# Presets in presets/: local_ai tools forgejo dependency-track files office media torrent transmission web monitoring
+# Games: 7dtd minecraft satisfactory tf2
 CONFIGS := local_ai
 #DOCKER_PROFILES := 
 

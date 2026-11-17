@@ -1,7 +1,7 @@
 services:
   # Rootless Docker with TLS
   dind:
-    image: docker:${DIND_DOCKER_TAG:-29.9.3-dind-rootless}
+    image: docker:${DIND_DOCKER_TAG:-29.10.0-dind-rootless}
     container_name: dind
     profiles:
       - local_ai

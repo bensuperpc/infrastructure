@@ -1,0 +1,37 @@
+log:
+  level: info
+  job_level: info
+
+runner:
+  capacity: 1
+  timeout: 3h
+  envs:
+    DOCKER_HOST: tcp://docker:2376
+    DOCKER_TLS_VERIFY: "1"
+    DOCKER_CERT_PATH: /certs/client
+  # runs-on: <label> in workflows
+  labels:
+    - docker:docker://docker.io/library/node:22-trixie
+    - ubuntu-latest:docker://ghcr.io/catthehacker/ubuntu:act-24.04
+    - ubuntu-24.04:docker://ghcr.io/catthehacker/ubuntu:act-24.04
+    - ubuntu-22.04:docker://ghcr.io/catthehacker/ubuntu:act-22.04
+
+cache:
+  enabled: true
+  dir: /data/cache
+
+container:
+  network: host
+  options: -v /certs/client:/certs/client:ro
+  valid_volumes:
+    - /certs/client
+
+host:
+  workdir_parent: /data/workdir
+
+server:
+  connections:
+    forgejo:
+      url: http://forgejo:3000/
+      uuid: "@UUID@"
+      token_url: file:/data/token

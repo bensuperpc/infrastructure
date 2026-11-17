@@ -13,7 +13,7 @@ services:
       MAX_MEMORY: "2048M"
     ports:
       #       Server Minecraft port
-      - "25565:25577"
+      - "${LISTEN_ADDRESS:-0.0.0.0}:25565:25577"
       #       Server Minecraft Bedrock port (GeyserMC)
       #- "19132:19132/udp"
       #       Rcon port
@@ -43,9 +43,9 @@ services:
       #       Dynmap port
       # - "8123:8123"
       #       BlueMap port
-      - "8100:8100"
+      - "${LISTEN_ADDRESS:-0.0.0.0}:8100:8100"
       #       Plan port
-      - "8804:8804"
+      - "${LISTEN_ADDRESS:-0.0.0.0}:8804:8804"
     env_file:
       - ./server.env
       - ./world.env

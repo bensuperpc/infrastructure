@@ -1,7 +1,7 @@
 services:
   # stirlingpdf
   stirlingpdf:
-    image: frooodle/s-pdf:${STIRLINGPDF_DOCKER_TAG:-3.3.0}
+    image: stirlingtools/stirling-pdf:${STIRLINGPDF_DOCKER_TAG:-3.3.0}
     container_name: stirlingpdf
     profiles:
       - stirlingpdf

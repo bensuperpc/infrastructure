@@ -12,7 +12,7 @@ services:
         OPENCODE_VERSION: ${OPENCODE_VERSION:-2.3.0}
         CODE_SERVER_VERSION: ${CODE_SERVER_VERSION:-4.145.2}
         CODELLDB_VERSION: ${CODELLDB_VERSION:-1.12.3}
-        COMPILER_EXPLORER_VERSION: ${COMPILER_EXPLORER_VERSION:-gh-20364}
+        COMPILER_EXPLORER_VERSION: ${COMPILER_EXPLORER_VERSION:-gh-20403}
     image: infrastructure/vscode-server
     container_name: vscode-server
     profiles:

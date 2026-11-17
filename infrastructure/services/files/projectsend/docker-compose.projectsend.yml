@@ -34,7 +34,6 @@ services:
       - projectsend_db:/var/lib/mysql:rw
     env_file:
       - ./projectsend_db.env
-    command: '--default-authentication-plugin=mysql_native_password'
     networks:
       - projectsend-internal
 

@@ -47,6 +47,7 @@ import website/docling.caddy
 import website/dozzle.caddy
 import website/dufs.caddy
 import website/forgejo.caddy
+import website/immich.caddy
 import website/it-tools.caddy
 import website/jellyfin.caddy
 import website/kiwix.caddy

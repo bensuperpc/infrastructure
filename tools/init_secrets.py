@@ -3,12 +3,14 @@
 from pathlib import Path
 import re
 import secrets
+from string import Template
 import subprocess
 import sys
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent / "infrastructure"
 EXAMPLE, ENV = PROJECT_DIR / ".env.example", PROJECT_DIR / ".env"
 USERS_DATABASE = PROJECT_DIR / "services/infra/authelia/config/users_database.yml"
+USERS_EXAMPLE = USERS_DATABASE.with_name("users_database.yml.example")
 LINE_RE = re.compile(r"^([A-Za-z_]\w*)=(.*)$", re.M)
 
 
@@ -16,8 +18,10 @@ def read_env(path: Path) -> dict:
     return dict(LINE_RE.findall(path.read_text())) if path.exists() else {}
 
 
+# __GENERATE__: 48 hexadecimal characters, __GENERATE_<N>__: N characters (N even)
 def fill(line: str) -> str:
-    return re.sub(r"=__GENERATE__$", lambda _: "=" + secrets.token_hex(24), line)
+    return re.sub(r"=__GENERATE(?:_(\d+))?__$",
+                  lambda m: "=" + secrets.token_hex(int(m[1] or 48) // 2), line)
 
 existing = read_env(ENV)
 added = [fill(line) for line in EXAMPLE.read_text().splitlines()
@@ -35,19 +39,9 @@ if not USERS_DATABASE.exists():
          "generate", "argon2", "--password", env["AUTHELIA_ADMIN_PASSWORD"]],
         check=True, capture_output=True, text=True,
     ).stdout.strip().removeprefix("Digest: ")
-    user = env["AUTHELIA_ADMIN_USER"]
-    USERS_DATABASE.write_text(
-        "users:\n"
-        f"  {user}:\n"
-        f'    displayname: "{user}"\n'
-        f'    password: "{digest}"\n'
-        f'    email: "{env["AUTHELIA_ADMIN_EMAIL"]}"\n'
-        "    groups:\n"
-        "      - admins\n"
-        "      - users\n"
-    )
+    USERS_DATABASE.write_text(Template(USERS_EXAMPLE.read_text()).substitute(env, AUTHELIA_ADMIN_PASSWORD_DIGEST=digest))
     USERS_DATABASE.chmod(0o600)
-    print(f"Created {USERS_DATABASE.relative_to(PROJECT_DIR.parent)} with user {user} "
+    print(f"Created {USERS_DATABASE.relative_to(PROJECT_DIR.parent)} with user {env['AUTHELIA_ADMIN_USER']} "
           "(password: AUTHELIA_ADMIN_PASSWORD in infrastructure/.env).")
 
 if todo := [key for key, value in env.items() if value.startswith("CHANGEME_")]:

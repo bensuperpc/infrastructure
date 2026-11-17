@@ -36,6 +36,7 @@ access_control:
       policy: bypass
     - domain:
         - 'jellyfin.{{ env "DOMAIN" }}'
+        - 'immich.{{ env "DOMAIN" }}'
         - 'openwebui.{{ env "DOMAIN" }}'
         - 'kiwix.{{ env "DOMAIN" }}'
         - 'qbittorrent.{{ env "DOMAIN" }}'

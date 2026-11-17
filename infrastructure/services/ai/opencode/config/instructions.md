@@ -53,7 +53,7 @@ Prefer local documentation over the web.
 1. `/docs`: read-only Markdown documentation. Search with `grep` and `glob`, then read matching files. It contains the user's documents and these folders: `googletest`, `benchmark`, `protobuf`, `nanopb`, `opencv`, `gitlab-ci`, `github-actions`, `mermaid`.
 2. Tool `zim_zim_query`: offline documentation. Always provide `zim_file_path`:
    - `/data/devdocs_en_<name>.zim`, with `<name>` one of `c`, `cpp`, `cmake`, `gcc`, `gnu-make`, `qt`, `docker`, `opengl`, `vulkan`, `python`, `pytest`, `numpy`, `git`, `bash`, `man`.
-   - French Wikipedia: `/data/wikipedia_fr_all_nopic_2026-05.zim`
+   - Other archives, if any: query `list files`.
 
    Articles initially display only their introduction. To retrieve more:
    - Request `show structure of <Article>`.
