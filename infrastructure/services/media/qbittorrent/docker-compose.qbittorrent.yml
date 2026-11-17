@@ -1,0 +1,39 @@
+services:
+  # qBittorrent
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:${QBITTORRENT_DOCKER_TAG:-5.3.0_v2.1.2-ls487}
+    container_name: qbittorrent
+    profiles:
+      - qbittorrent
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    depends_on:
+      - caddy
+    env_file:
+      - ./qbittorrent.env
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+    ports:
+      - 6881:6881
+      - 6881:6881/udp
+    volumes:
+      - qbittorrent_config:/config
+      - public_data:/downloads
+      - private_data:/private_downloads
+    networks:
+      - caddy-media
+
+volumes:
+  qbittorrent_config:
+    name: qbittorrent_config
+  public_data:
+    name: public_data
+  private_data:
+    name: private_data
+
+networks:
+  caddy-media:
+    driver: bridge
+    name: caddy-media

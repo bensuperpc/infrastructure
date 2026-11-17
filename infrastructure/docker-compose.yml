@@ -1,77 +1,51 @@
 include:
-# Main
-  - services/main/docker-compose.main.yml 
-# WordPress
-  - services/wordpress/docker-compose.wordpress.yml
-# Caddy
-  - services/caddy/docker-compose.caddy.yml
-# Dufs
-  - services/dufs/docker-compose.dufs.yml
-# Forgejo
-  - services/forgejo/docker-compose.forgejo.yml
-# Homepage
-  - services/homepage/docker-compose.homepage.yml
-# It-tools
-  - services/it-tools/docker-compose.it-tools.yml
-# omni-tools
-  - services/omni-tools/docker-compose.omni-tools.yml
-# cyberchef
-  - services/cyberchef/docker-compose.cyberchef.yml
-# Jellyfin
-  - services/jellyfin/docker-compose.jellyfin.yml
-# Openssh
-  - services/openssh/docker-compose.openssh.yml
-# Picoshare
-  - services/picoshare/docker-compose.picoshare.yml
-# Privatebin
-  - services/privatebin/docker-compose.privatebin.yml
-# Projectsend
-  - services/projectsend/docker-compose.projectsend.yml
-# Psitransfer
-  - services/psitransfer/docker-compose.psitransfer.yml
-# Qbittorrent
-  - services/qbittorrent/docker-compose.qbittorrent.yml
-# Stirlingpdf
-  - services/stirlingpdf/docker-compose.stirlingpdf.yml
-# Syncthing
-  - services/syncthing/docker-compose.syncthing.yml
-# Transmission
-  - services/transmission/docker-compose.transmission.yml
-# Uptime-kuma
-  - services/uptime-kuma/docker-compose.uptime-kuma.yml
-# Memos
-  - services/memos/docker-compose.memos.yml
-# Argus
-  - services/argus/docker-compose.argus.yml
-# Dependency-Track
-  - services/dependency-track/docker-compose.dependency-track.yml
-# Searxng
-  - services/searxng/docker-compose.searxng.yml
-# Authelia
-  - services/authelia/docker-compose.authelia.yml
-# Dozzle
-  - services/dozzle/docker-compose.dozzle.yml
-# Bentopdf
-  - services/bentopdf/docker-compose.bentopdf.yml
-# Code-server
-  - services/code-server/docker-compose.vscode-server.yml
-# Compiler Explorer
-  - services/compiler-explorer/docker-compose.compiler-explorer.yml
-# local_ai: Ollama, Open WebUI, OpenCode and the services they use
-  - services/ollama/docker-compose.ollama.yml
-  - services/open-webui/docker-compose.open-webui.yml
-  - services/litellm/docker-compose.litellm.yml
-  - services/opencode/docker-compose.opencode.yml
-  - services/local-ai-init/docker-compose.local-ai-init.yml
-  - services/dind/docker-compose.dind.yml
-  - services/kiwix/docker-compose.kiwix.yml
-  - services/docling/docker-compose.docling.yml
-  - services/kroki/docker-compose.kroki.yml
-# Minecraft
+# infra: base volumes/networks, reverse proxy, auth, dashboard, admin, monitoring
+  - services/infra/main/docker-compose.main.yml
+  - services/infra/caddy/docker-compose.caddy.yml
+  - services/infra/authelia/docker-compose.authelia.yml
+  - services/infra/homepage/docker-compose.homepage.yml
+  - services/infra/openssh/docker-compose.openssh.yml
+  - services/infra/dozzle/docker-compose.dozzle.yml
+  - services/infra/uptime-kuma/docker-compose.uptime-kuma.yml
+  - services/infra/argus/docker-compose.argus.yml
+# ai (local_ai): Ollama, Open WebUI, OpenCode and the services they use
+  - services/ai/ollama/docker-compose.ollama.yml
+  - services/ai/open-webui/docker-compose.open-webui.yml
+  - services/ai/litellm/docker-compose.litellm.yml
+  - services/ai/opencode/docker-compose.opencode.yml
+  - services/ai/local-ai-init/docker-compose.local-ai-init.yml
+  - services/ai/dind/docker-compose.dind.yml
+  - services/ai/kiwix/docker-compose.kiwix.yml
+  - services/ai/docling/docker-compose.docling.yml
+  - services/ai/kroki/docker-compose.kroki.yml
+  - services/ai/searxng/docker-compose.searxng.yml
+# dev: git forge, IDE, compiler explorer, SBOM analysis
+  - services/dev/forgejo/docker-compose.forgejo.yml
+  - services/dev/code-server/docker-compose.vscode-server.yml
+  - services/dev/compiler-explorer/docker-compose.compiler-explorer.yml
+  - services/dev/dependency-track/docker-compose.dependency-track.yml
+# tools: web utilities, PDF, pastebin, notes
+  - services/tools/it-tools/docker-compose.it-tools.yml
+  - services/tools/omni-tools/docker-compose.omni-tools.yml
+  - services/tools/cyberchef/docker-compose.cyberchef.yml
+  - services/tools/bentopdf/docker-compose.bentopdf.yml
+  - services/tools/stirlingpdf/docker-compose.stirlingpdf.yml
+  - services/tools/privatebin/docker-compose.privatebin.yml
+  - services/tools/memos/docker-compose.memos.yml
+# files: file sharing and sync
+  - services/files/dufs/docker-compose.dufs.yml
+  - services/files/picoshare/docker-compose.picoshare.yml
+  - services/files/projectsend/docker-compose.projectsend.yml
+  - services/files/psitransfer/docker-compose.psitransfer.yml
+  - services/files/syncthing/docker-compose.syncthing.yml
+# media: streaming and torrents
+  - services/media/jellyfin/docker-compose.jellyfin.yml
+  - services/media/qbittorrent/docker-compose.qbittorrent.yml
+  - services/media/transmission/docker-compose.transmission.yml
+# web: websites
+  - services/web/wordpress/docker-compose.wordpress.yml
+# games
   - games/minecraft-server/docker-compose.yml
-# 7daystodie
   - games/7daystodie-server/docker-compose.yml
-# Satisfactory
   - games/satisfactory-server/docker-compose.yml
-# Team Fortress 2
   - games/teamfortress2-server/docker-compose.yml

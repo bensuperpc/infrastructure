@@ -1,0 +1,30 @@
+services:
+  # picoshare
+  picoshare:
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    image: mtlynch/picoshare:${PICOSHARE_DOCKER_TAG:-v1.5.4}
+    container_name: picoshare
+    profiles:
+      - picoshare
+    depends_on:
+      - caddy
+    env_file:
+      - ./picoshare.env
+    volumes:
+      - picoshare_data:/data
+    networks:
+      - caddy-files
+    read_only: false
+#    tmpfs:
+#      - /tmp
+
+volumes:
+  picoshare_data:
+    name: picoshare_data
+
+networks:
+  caddy-files:
+    driver: bridge
+    name: caddy-files

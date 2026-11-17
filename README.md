@@ -181,7 +181,7 @@ The services' `<name>.env` files, next to their compose file, are tracked in git
 
 #### Authelia - user database
 
-`make init` writes `infrastructure/services/authelia/config/users_database.yml` (gitignored) with one admin, from `AUTHELIA_ADMIN_USER`, `AUTHELIA_ADMIN_EMAIL` and `AUTHELIA_ADMIN_PASSWORD` in `infrastructure/.env`, if the file does not exist yet. To change the password or add users, edit the file with an argon2 hash:
+`make init` writes `infrastructure/services/infra/authelia/config/users_database.yml` (gitignored) with one admin, from `AUTHELIA_ADMIN_USER`, `AUTHELIA_ADMIN_EMAIL` and `AUTHELIA_ADMIN_PASSWORD` in `infrastructure/.env`, if the file does not exist yet. To change the password or add users, edit the file with an argon2 hash:
 
 ```sh
 docker run --rm authelia/authelia:4.39.28 authelia crypto hash generate argon2 --password 'MyPassword'
@@ -191,7 +191,7 @@ After 5 wrong passwords in 3 minutes, Authelia refuses logins for 30 minutes.
 
 #### Dozzle - user account
 
-Generate a user entry for [users.yml](infrastructure/services/dozzle/config/users.yml):
+Generate a user entry for [users.yml](infrastructure/services/infra/dozzle/config/users.yml):
 
 ```sh
 docker run -it --rm amir20/dozzle generate bensuperpc --password mypassword --email bensuperpc@gmail.com --name "bensuperpc"
@@ -199,7 +199,7 @@ docker run -it --rm amir20/dozzle generate bensuperpc --password mypassword --em
 
 #### OpenSSH - public key
 
-Replace [id_ed25519.pub](infrastructure/services/openssh/config/authorized_keys/id_ed25519.pub) with your own public SSH key.
+Replace [id_ed25519.pub](infrastructure/services/infra/openssh/config/authorized_keys/id_ed25519.pub) with your own public SSH key.
 
 #### local_ai
 
@@ -207,7 +207,7 @@ OpenCode asks for a pairing link on its first visit: `docker exec opencode openc
 
 VS Code server's password is `VSCODE_SERVER_PASSWORD` in `infrastructure/.env`.
 
-Networks: OpenCode, Open WebUI, Kiwix, Docling and Kroki have no internet (`local-ai` is internal), openCode reaches the web only through `mcp-searxng`, it searches with `searxng-ai`, which keeps only the results from the domains of `infrastructure/services/searxng/config/hostnames-remove.yml`, and reads pages through `mcp-searxng-proxy` (Squid), which refuses the domains missing from `config/whitelist.txt`.
+Networks: OpenCode, Open WebUI, Kiwix, Docling and Kroki have no internet (`local-ai` is internal), openCode reaches the web only through `mcp-searxng`, it searches with `searxng-ai`, which keeps only the results from the domains of `infrastructure/services/ai/searxng/config/hostnames-remove.yml`, and reads pages through `mcp-searxng-proxy` (Squid), which refuses the domains missing from `config/whitelist.txt`.
 
 For additional models, use the `ollama pull` command as shown below.
 
@@ -234,7 +234,7 @@ Default credentials are `admin` / `admin` - **change them on first login**.
 
 #### Forgejo - installation lock
 
-After the first-run installation wizard completes, set in [forgejo.env](infrastructure/services/forgejo/forgejo.env):
+After the first-run installation wizard completes, set in [forgejo.env](infrastructure/services/dev/forgejo/forgejo.env):
 
 ```sh
 FORGEJO__security__INSTALL_LOCK=true
@@ -244,10 +244,10 @@ FORGEJO__security__INSTALL_LOCK=true
 
 You can change the homepage config in these files:
 
-- [bookmarks.yaml](infrastructure/services/homepage/config/bookmarks.yaml)
-- [services.yaml](infrastructure/services/homepage/config/services.yaml)
-- [settings.yaml](infrastructure/services/homepage/config/settings.yaml)
-- [widgets.yaml](infrastructure/services/homepage/config/widgets.yaml)
+- [bookmarks.yaml](infrastructure/services/infra/homepage/config/bookmarks.yaml)
+- [services.yaml](infrastructure/services/infra/homepage/config/services.yaml)
+- [settings.yaml](infrastructure/services/infra/homepage/config/settings.yaml)
+- [widgets.yaml](infrastructure/services/infra/homepage/config/widgets.yaml)
 
 ### Forgejo Runner (Out of date)
 

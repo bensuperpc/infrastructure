@@ -8,7 +8,7 @@ import sys
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent / "infrastructure"
 EXAMPLE, ENV = PROJECT_DIR / ".env.example", PROJECT_DIR / ".env"
-USERS_DATABASE = PROJECT_DIR / "services/authelia/config/users_database.yml"
+USERS_DATABASE = PROJECT_DIR / "services/infra/authelia/config/users_database.yml"
 LINE_RE = re.compile(r"^([A-Za-z_]\w*)=(.*)$", re.M)
 
 

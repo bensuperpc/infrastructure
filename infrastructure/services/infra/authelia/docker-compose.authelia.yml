@@ -1,0 +1,60 @@
+services:
+  authelia:
+    container_name: authelia    
+    image: authelia/authelia:${AUTHELIA_DOCKER_TAG:-4.39.28}
+    profiles:
+      - authelia
+      - caddy
+    depends_on:
+      authelia-postgres:
+        condition: service_healthy
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    # environment:
+    #   - TZ=America/New_York
+#       - PUID=${PUID:-1000}
+#       - PGID=${PGID:-1000}
+    env_file:
+      - ./authelia.env
+    volumes:
+      - ./config/configuration.yml:/config/configuration.yml:ro
+      - ./config/users_database.yml:/config/users_database.yml:ro
+      - authelia_data:/data
+    networks:
+      - caddy-infra
+      - authelia-internal
+
+  authelia-postgres:
+    image: postgres:${AUTHELIA_POSTGRES_DOCKER_TAG:-18.7-alpine3.24}
+    container_name: authelia-postgres
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    volumes:
+      - authelia_db_data:/var/lib/postgresql
+    env_file:
+      - ./authelia_postgres.env
+    profiles:
+      - authelia
+      - caddy
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - authelia-internal
+
+networks:
+  caddy-infra:
+    driver: bridge
+    name: caddy-infra
+  authelia-internal:
+    driver: bridge
+    name: authelia-internal
+
+volumes:
+  authelia_db_data: {}
+  authelia_data:
+    name: authelia_data

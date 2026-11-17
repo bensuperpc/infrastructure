@@ -1,0 +1,72 @@
+services:
+  # Downloads the ZIM files read by kiwix and openzim-mcp if missing, then exits
+  kiwix-zim:
+    image: alpine:${ALPINE_DOCKER_TAG:-3.24.4}
+    container_name: kiwix-zim
+    profiles:
+      - local_ai
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    volumes:
+      - kiwix_zim:/data
+      - ./download_zim.sh:/download_zim.sh:ro
+    command: [sh, /download_zim.sh]
+    networks:
+      - local-ai-internet
+
+  kiwix:
+    image: ghcr.io/kiwix/kiwix-serve:${KIWIX_DOCKER_TAG:-3.8.2}
+    container_name: kiwix
+    profiles:
+      - local_ai
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    depends_on:
+      kiwix-zim:
+        condition: service_completed_successfully
+    command: ["*.zim"]
+    volumes:
+      - kiwix_zim:/data:ro
+    networks:
+      - local-ai
+
+  # The same ZIM files for opencode, as an MCP server
+  openzim-mcp:
+    image: ghcr.io/cameronrye/openzim-mcp:${OPENZIM_MCP_DOCKER_TAG:-3.4.0}
+    container_name: openzim-mcp
+    profiles:
+      - local_ai
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    depends_on:
+      kiwix-zim:
+        condition: service_completed_successfully
+    env_file:
+      - ./openzim-mcp.env
+    volumes:
+      - kiwix_zim:/data:ro
+    networks:
+      - local-ai
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/readyz')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 120s
+      start_interval: 2s
+
+volumes:
+  kiwix_zim:
+    name: kiwix_zim
+
+networks:
+  local-ai:
+    driver: bridge
+    name: local-ai
+    internal: true
+  local-ai-internet:
+    driver: bridge
+    name: local-ai-internet

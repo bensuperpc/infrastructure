@@ -1,0 +1,26 @@
+x-omni-tools: &omni-tools
+  extends:
+    file: ../../../common.yml
+    service: service-base
+  image: iib0011/omni-tools:${OMNI_TOOLS_DOCKER_TAG:-0.7.0}
+  profiles:
+    - omni-tools
+  depends_on:
+    - caddy
+  networks:
+    - caddy-tools
+  read_only: false
+
+services:
+  omni-tools0:
+    <<: *omni-tools
+    container_name: omni-tools0
+
+  omni-tools1:
+    <<: *omni-tools
+    container_name: omni-tools1
+
+networks:
+  caddy-tools:
+    driver: bridge
+    name: caddy-tools

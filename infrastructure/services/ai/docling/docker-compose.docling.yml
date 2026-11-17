@@ -1,0 +1,27 @@
+services:
+  # Converts PDF, Word, PowerPoint... to Markdown, for openwebui and opencode
+  docling:
+    image: ghcr.io/docling-project/docling-serve-cpu:${DOCLING_DOCKER_TAG:-v1.38.2}
+    container_name: docling
+    profiles:
+      - local_ai
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    env_file:
+      - ./docling.env
+    networks:
+      - local-ai
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5001/health')"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 120s
+      start_interval: 2s
+
+networks:
+  local-ai:
+    driver: bridge
+    name: local-ai
+    internal: true

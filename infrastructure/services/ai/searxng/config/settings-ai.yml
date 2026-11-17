@@ -1,0 +1,18 @@
+use_default_settings:
+  engines:
+    remove:
+      - ahmia
+      - torch
+
+server:
+  limiter: false
+  image_proxy: false
+
+search:
+  formats:
+    - html
+    - json
+
+# Removes the results whose domain is not in hostnames-remove.yml
+hostnames:
+  remove: 'hostnames-remove.yml'

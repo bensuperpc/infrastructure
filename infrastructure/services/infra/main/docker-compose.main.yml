@@ -1,0 +1,62 @@
+services:
+  main_infrastructure:
+    container_name: main_infrastructure
+    image: alpine:${ALPINE_DOCKER_TAG:-3.24.4}
+    profiles:
+      - main_infrastructure
+    volumes:
+      - public_data:/public_data:rw
+      - private_data:/private_data:rw
+    read_only: true
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - DAC_OVERRIDE
+    # Fix root permissions on mounted volumes
+    command: chown -R ${PUID:-1000}:${PGID:-1000} /public_data /private_data
+
+  watchtower:
+    container_name: watchtower
+    profiles:
+      - main_infrastructure
+    image: nickfedor/watchtower:${WATCHTOWER_DOCKER_TAG:-1.24.0}
+    environment:
+      - TZ=${TZ:-Europe/Paris}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: on-failure:7
+    networks:
+      - watchtower-network
+
+volumes:
+  public_data:
+    name: public_data
+  private_data:
+    name: private_data
+
+networks:
+  watchtower-network:
+    driver: bridge
+    name: watchtower-network
+  caddy-infra:
+    driver: bridge
+    name: caddy-infra
+  caddy-media:
+    driver: bridge
+    name: caddy-media
+  caddy-tools:
+    driver: bridge
+    name: caddy-tools
+  caddy-files:
+    driver: bridge
+    name: caddy-files
+  caddy-dev:
+    driver: bridge
+    name: caddy-dev
+  caddy-web:
+    driver: bridge
+    name: caddy-web

@@ -1,0 +1,25 @@
+services:
+  # Uptime Kuma
+  uptime-kuma:
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    image: louislam/uptime-kuma:${UPTIME_KUMA_DOCKER_TAG:-2.5.11}
+    container_name: uptime-kuma
+    profiles:
+      - uptime-kuma
+    volumes:
+      - uptimekuma_data:/app/data
+    depends_on:
+      - caddy
+    networks:
+      - caddy-infra
+
+volumes:
+  uptimekuma_data:
+    name: uptimekuma_data
+
+networks:
+  caddy-infra:
+    driver: bridge
+    name: caddy-infra

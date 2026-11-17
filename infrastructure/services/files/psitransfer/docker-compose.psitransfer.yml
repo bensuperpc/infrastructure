@@ -1,0 +1,29 @@
+services:
+  # psitransfer
+  psitransfer:
+    image: psitrax/psitransfer:${PSITRANSFER_DOCKER_TAG:-v2.4.6}
+    container_name: psitransfer
+    profiles:
+      - psitransfer
+    extends:
+      file: ../../../common.yml
+      service: service-base
+#    user: ${PUID:-1000}:${PGID:-1000} 
+    depends_on:
+      - caddy
+    env_file:
+      - ./psitransfer.env
+    volumes:
+      - psitransfer_data:/data
+    networks:
+      - caddy-files
+    read_only: true
+
+volumes:
+  psitransfer_data:
+    name: psitransfer_data
+
+networks:
+  caddy-files:
+    driver: bridge
+    name: caddy-files

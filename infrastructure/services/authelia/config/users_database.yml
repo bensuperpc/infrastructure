@@ -1,8 +1,0 @@
-users:
-  bensuperpc:
-    displayname: "bensuperpc"
-    password: "$argon2id$v=19$m=65536,t=3,p=4$rmBvy3gIDEnEw4a2+vMH+g$P8/BTSYOE9YI1XPKqmAmBNyXZ4JWpqTJMyTiQzYLtcY"
-    email: "bensuperpc@gmail.com"
-    groups:
-      - admins
-      - users

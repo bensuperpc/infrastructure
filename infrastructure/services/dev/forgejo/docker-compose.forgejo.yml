@@ -1,0 +1,100 @@
+services:
+  # forgejo
+  forgejo:
+    image: codeberg.org/forgejo/forgejo:${FORGEJO_DOCKER_TAG:-15.0.11}
+    container_name: forgejo
+    profiles:
+      - forgejo
+    restart: on-failure:7
+    depends_on:
+      - database_forgejo
+      - caddy
+    ports:
+      - "22:2222"
+    env_file:
+      - ./forgejo.env
+    volumes:
+      - forgejo_data:/data
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - caddy-dev
+      - forgejo-internal
+#    user: ${PUID:-1000}:${PGID:-1000} 
+    security_opt:
+      - no-new-privileges:true
+  
+  # Database forgejo
+  database_forgejo:
+    image: mariadb:${FORGEJO_DB_DOCKER_TAG:-13.0.2}
+    container_name: database_forgejo
+    profiles:
+      - forgejo
+    depends_on:
+      - caddy
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    volumes:
+      - forgejo_db:/var/lib/mysql:rw
+    env_file:
+      - ./forgejo_db.env
+    command: '--default-authentication-plugin=mysql_native_password'
+    networks:
+      - forgejo-internal
+
+  # forgejo-runner
+  docker-in-docker:
+    image: code.forgejo.org/oci/docker:${FORGEJO_DIND_DOCKER_TAG:-29-dind@sha256:7bf70dcb85c822e3fa6f2d332143e474b99147b9d7b39102b0cfe8b04a7dd61b}
+    container_name: 'docker_dind'
+    hostname: docker
+    networks:
+      - forgejo-internal
+    profiles:
+      - forgejo-runner
+    privileged: true
+    environment:
+      DOCKER_TLS_CERTDIR: /certs
+      DOCKER_HOST: docker-in-docker
+    volumes:
+      - forgejo_certs:/certs
+
+  forgejo_runner:
+    image: data.forgejo.org/forgejo/runner:${FORGEJO_RUNNER_DOCKER_TAG:-12.13.2}
+    networks:
+      - forgejo-internal
+    profiles:
+      - forgejo-runner
+    depends_on:
+      docker-in-docker:
+        condition: service_started
+    container_name: 'forgejo_runner'
+    env_file:
+      - ./forgejo_runner.env
+#    user: ${PUID:-1000}:${PGID:-1000} 
+    volumes:
+#      - ./config/forgejo_runner/config.yaml:/config.yaml:ro
+      - forgejo_runner:/data
+      - forgejo_certs:/certs
+    restart: on-failure:7
+
+#    command: '/bin/sh -c "while : ; do sleep 1 ; done ;"'
+    command: '/bin/sh -c "sleep 5; forgejo-runner -c /data/config.yml daemon"'
+
+volumes:
+  forgejo_data:
+    name: forgejo_data
+  forgejo_db:
+    name: forgejo_db
+  forgejo_certs:
+    name: forgejo_certs
+  forgejo_runner:
+    name: forgejo_runner
+
+networks:
+  caddy-dev:
+    driver: bridge
+    name: caddy-dev
+  forgejo-internal:
+    driver: bridge
+    name: forgejo-internal

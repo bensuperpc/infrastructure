@@ -1,0 +1,72 @@
+services:
+  dependency-track-apiserver:
+    image: dependencytrack/apiserver:${DEPENDENCY_TRACK_API_DOCKER_TAG:-4.14.6}
+    container_name: dependency-track-apiserver
+    profiles:
+      - dependency-track
+    depends_on:
+      dependency-track-postgres:
+        condition: service_healthy
+    env_file:
+      - ./dependency-track.env
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    networks:
+      - caddy-web
+      - dependency-track-internal
+    volumes:
+    - 'dtrack-data:/data'
+
+  dependency-track-frontend:
+    image: dependencytrack/frontend:${DEPENDENCY_TRACK_FRONTEND_DOCKER_TAG:-4.14.6}
+    container_name: dependency-track-frontend
+    profiles:
+      - dependency-track
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    networks:
+      - caddy-web
+      - dependency-track-internal
+    depends_on:
+      dependency-track-apiserver:
+        condition: service_healthy
+      caddy:
+        condition: service_healthy
+    env_file:
+      - ./dependency-track.env
+
+  dependency-track-postgres:
+    image: postgres:${DEPENDENCY_TRACK_POSTGRES_DOCKER_TAG:-17.12-alpine3.24}
+    container_name: dependency-track-postgres
+    profiles:
+      - dependency-track
+    env_file:
+      - ./postgres.env
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    networks:
+      - dependency-track-internal
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    volumes:
+    - "dtrack-postgres-data:/var/lib/postgresql/data"
+
+volumes:
+  dtrack-data:
+    name: dtrack-data
+  dtrack-postgres-data:
+    name: dtrack-postgres-data
+
+networks:
+  caddy-web:
+    driver: bridge
+    name: caddy-web
+  dependency-track-internal:
+    driver: bridge
+    name: dependency-track-internal

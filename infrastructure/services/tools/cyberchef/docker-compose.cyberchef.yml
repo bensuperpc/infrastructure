@@ -1,0 +1,34 @@
+services:
+  # cyberchef
+  cyberchef0:
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    image: ghcr.io/gchq/cyberchef:${CYBERCHEF_DOCKER_TAG:-11.5.0}
+    container_name: cyberchef0
+    profiles:
+      - cyberchef
+    depends_on:
+      - caddy
+    networks:
+      - caddy-tools
+    read_only: false
+
+  cyberchef1:
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    image: ghcr.io/gchq/cyberchef:${CYBERCHEF_DOCKER_TAG:-11.5.0}
+    container_name: cyberchef1
+    profiles:
+      - cyberchef
+    depends_on:
+      - caddy
+    networks:
+      - caddy-tools
+    read_only: false
+
+networks:
+  caddy-tools:
+    driver: bridge
+    name: caddy-tools

@@ -11,20 +11,9 @@
 #//                                                          //
 #//////////////////////////////////////////////////////////////
 
-#ADMIN_SERVICES := openssh
-# uptime-kuma
-#BLOG_SERVICES := wordpress
-#IA_SERVICES := open-webui
-#SHARING_SERVICES := privatebin
-# jellyfin
-# psitransfer picoshare projectsend dufs syncthing
-#UTILS_SERVICES := it-tools omni-tools cyberchef
-# homepage
-# stirlingpdf
-
 PROJECT_DIRECTORY := infrastructure
 CONFIG_DIRECTORY := presets
-# 7dtd minecraft satisfactory torrent local_ai tools
+# Presets in presets/: 7dtd forgejo local_ai minecraft satisfactory tf2 tools torrent
 CONFIGS := local_ai
 #DOCKER_PROFILES := 
 
