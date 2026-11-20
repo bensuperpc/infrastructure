@@ -1,0 +1,64 @@
+services:
+  # DNS server for the DNS-01 challenge of Caddy's wildcard certificate (TLS=acme-dns)
+  acme-dns:
+    image: joohoi/acme-dns:v2.0.2
+    container_name: acme-dns
+    profiles: [core]
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    ports:
+      - ${LISTEN_ADDRESS:-0.0.0.0}:53:53/tcp
+      - ${LISTEN_ADDRESS:-0.0.0.0}:53:53/udp
+    configs:
+      - source: acme-dns
+        target: /etc/acme-dns/config.cfg
+    volumes:
+      - acme_dns_data:/var/lib/acme-dns
+    networks:
+      - core
+    healthcheck:
+      test: [CMD, wget, -q, -O, /dev/null, http://127.0.0.1/health]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+      start_interval: 2s
+
+configs:
+  acme-dns:
+    content: |
+      [general]
+      listen = "0.0.0.0:53"
+      protocol = "both"
+      domain = "acme.${DOMAIN}"
+      nsname = "ns-acme.${DOMAIN}"
+      nsadmin = "hostmaster.${DOMAIN}"
+      records = ["acme.${DOMAIN}. NS ns-acme.${DOMAIN}."]
+
+      [database]
+      engine = "sqlite"
+      connection = "/var/lib/acme-dns/acme-dns.db"
+
+      # HTTP API for Caddy, only on the core network (not published)
+      [api]
+      ip = "0.0.0.0"
+      port = "80"
+      tls = "none"
+      disable_registration = false
+      corsorigins = []
+      use_header = false
+      header_name = "X-Forwarded-For"
+
+      [logconfig]
+      loglevel = "info"
+      logtype = "stdout"
+      logformat = "text"
+
+volumes:
+  acme_dns_data:
+    name: acme_dns_data

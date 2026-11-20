@@ -4,6 +4,6 @@ git.{$DOMAIN} {
 }
 
 forgejo.{$DOMAIN} {
-	import protected
+	import public
 	redir https://git.{$DOMAIN}{uri} permanent
 }

@@ -1,10 +1,18 @@
 services:
   # Converts PDF, Word, PowerPoint... to Markdown, for openwebui and opencode
   docling:
-    image: ghcr.io/docling-project/docling-serve-cpu:${DOCLING_DOCKER_TAG:-v1.38.2}
+    image: ghcr.io/docling-project/docling-serve-cpu:v1.38.2
     container_name: docling
-    profiles:
-      - local_ai
+    profiles: [local_ai]
+    # Memory cap: a heavy job cannot take all the RAM of the host
+    mem_limit: 8g
+    labels:
+      homepage.instance.private.group: Local AI
+      homepage.instance.private.name: docling
+      homepage.instance.private.weight: "60"
+      homepage.instance.private.icon: docling.png
+      homepage.instance.private.href: https://docling.${DOMAIN}/
+      homepage.instance.private.description: Documents to Markdown
     extends:
       file: ../../../common.yml
       service: service-base
@@ -19,9 +27,3 @@ services:
       retries: 3
       start_period: 120s
       start_interval: 2s
-
-networks:
-  local-ai:
-    driver: bridge
-    name: local-ai
-    internal: true

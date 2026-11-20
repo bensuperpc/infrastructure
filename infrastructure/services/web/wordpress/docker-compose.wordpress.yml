@@ -1,14 +1,19 @@
 services:
   # Wordpress
   wordpress:
-    image: wordpress:${WORDPRESS_DOCKER_TAG:-7.1.4-php8.5-fpm}
+    image: wordpress:7.1.4-php8.5-fpm
     container_name: wordpress
-    profiles:
-      - wordpress
+    profiles: [wordpress]
+    labels:
+      homepage.group: Public
+      homepage.name: wordpress
+      homepage.weight: "60"
+      homepage.icon: wordpress.png
+      homepage.href: https://wordpress.${DOMAIN}/
+      homepage.description: Wordpress
     restart: on-failure:7
     depends_on:
       - wordpress_db
-      - caddy
     env_file:
       - ./wordpress.env
     environment:
@@ -17,20 +22,16 @@ services:
       - ./config/wordpress/php.ini:/usr/local/etc/php/conf.d/custom.ini:ro
       - wordpress:/var/www/html:rw
     networks:
-      - caddy-web
-      - wordpress-internal
+      - wordpress
+      - proxy
     security_opt:
       - no-new-privileges:true
 
   # Database wordpress
   wordpress_db:
-    image: mariadb:${WORDPRESS_DB_DOCKER_TAG:-13.0.2}
+    image: mariadb:13.0.2
     container_name: wordpress_db
-    profiles:
-      - database
-      - wordpress
-    depends_on:
-      - caddy
+    profiles: [wordpress]
     extends:
       file: ../../../common.yml
       service: service-base
@@ -41,42 +42,29 @@ services:
     environment:
       - TZ=${TZ:-Europe/Paris}
     networks:
-      - wordpress-internal
+      - wordpress
 
   wordpress_backup:
-    image: mazzolino/restic:${RESTIC_DOCKER_TAG:-1.8.2}
     container_name: wordpress_backup
-    profiles:
-      - wordpress
+    profiles: [wordpress]
+    extends:
+      file: ../../../common.yml
+      service: backup-base
     depends_on:
       - wordpress
-    restart: on-failure:7
     env_file:
       - ./wordpress_backup.env
-    environment:
-      - TZ=${TZ:-Europe/Paris}
     volumes:
       - wordpress_backup:/mnt/restic
       - wordpress_db:/data/wordpress_db:ro
       - wordpress:/data/wordpress:ro
-    network_mode: none
-    cap_drop:
-      - NET_ADMIN
-      - NET_RAW
-      - SYS_ADMIN
 
 volumes:
+  wordpress: { name: wordpress }
   wordpress_db:
     name: wordpress_db
-  wordpress:
-    name: wordpress
   wordpress_backup:
     name: wordpress_backup
 
 networks:
-  caddy-web:
-    driver: bridge
-    name: caddy-web
-  wordpress-internal:
-    driver: bridge
-    name: wordpress-internal
+  wordpress: {}

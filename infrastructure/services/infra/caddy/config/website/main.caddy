@@ -1,5 +1,5 @@
 www.{$DOMAIN} {
-	import protected
+	import public
 	header {
 		Cache-Control "public, max-age=10"
 		import header_common
@@ -14,12 +14,12 @@ www.{$DOMAIN} {
 }
 
 {$DOMAIN} {
-	import common
+	import public
 	redir https://www.{$DOMAIN}{uri} permanent
 }
 
 public.{$DOMAIN} {
-	import common
+	import public
 	root * /public_data
 	file_server browse
 

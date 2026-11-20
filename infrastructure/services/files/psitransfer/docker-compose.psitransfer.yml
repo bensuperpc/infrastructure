@@ -1,22 +1,27 @@
 services:
   # psitransfer
   psitransfer:
-    image: psitrax/psitransfer:${PSITRANSFER_DOCKER_TAG:-v2.4.6}
+    image: psitrax/psitransfer:v2.4.6
     container_name: psitransfer
-    profiles:
-      - psitransfer
+    profiles: [psitransfer]
+    labels:
+      homepage.instance.private.group: Personal
+      homepage.instance.private.name: psitransfer
+      homepage.instance.private.weight: "80"
+      homepage.instance.private.icon: psitransfer.png
+      homepage.instance.private.href: https://transfer.${DOMAIN}/
+      homepage.instance.private.description: PsiTransfer
     extends:
       file: ../../../common.yml
       service: service-base
 #    user: ${PUID:-1000}:${PGID:-1000} 
-    depends_on:
-      - caddy
     env_file:
       - ./psitransfer.env
     volumes:
       - psitransfer_data:/data
     networks:
-      - caddy-files
+      - psitransfer
+      - proxy-private
     read_only: true
 
 volumes:
@@ -24,6 +29,4 @@ volumes:
     name: psitransfer_data
 
 networks:
-  caddy-files:
-    driver: bridge
-    name: caddy-files
+  psitransfer: {}

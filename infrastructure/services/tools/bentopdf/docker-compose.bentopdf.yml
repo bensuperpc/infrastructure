@@ -3,16 +3,19 @@ services:
     extends:
       file: ../../../common.yml
       service: service-base
-    image: ghcr.io/alam00000/bentopdf-simple:${BENTOPDF_DOCKER_TAG:-v2.8.11}
+    image: ghcr.io/alam00000/bentopdf-simple:v2.8.11
     container_name: bentopdf
-    profiles:
-      - bentopdf
-    depends_on:
-      - caddy
+    profiles: [bentopdf]
+    labels:
+      homepage.group: Public
+      homepage.name: bentopdf
+      homepage.weight: "40"
+      homepage.icon: bentopdf.png
+      homepage.href: https://bentopdf.${DOMAIN}/
+      homepage.description: BentoPDF
     networks:
-      - caddy-tools
+      - bentopdf
+      - proxy
 
 networks:
-  caddy-tools:
-    driver: bridge
-    name: caddy-tools
+  bentopdf: {}

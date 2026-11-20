@@ -1,5 +1,5 @@
 wordpress.{$DOMAIN} {
-	import protected
+	import public
 	root * /var/www/html
 	php_fastcgi wordpress:9000
 

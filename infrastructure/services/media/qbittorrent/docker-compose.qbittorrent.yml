@@ -1,15 +1,19 @@
 services:
   # qBittorrent
   qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent:${QBITTORRENT_DOCKER_TAG:-5.3.0_v2.1.2-ls487}
+    image: lscr.io/linuxserver/qbittorrent:5.3.0_v2.1.2-ls487
     container_name: qbittorrent
-    profiles:
-      - qbittorrent
+    profiles: [qbittorrent]
+    labels:
+      homepage.instance.private.group: Personal
+      homepage.instance.private.name: qbittorrent
+      homepage.instance.private.weight: "120"
+      homepage.instance.private.icon: qbittorrent.png
+      homepage.instance.private.href: https://torrent.${DOMAIN}/
+      homepage.instance.private.description: qBittorrent
     extends:
       file: ../../../common.yml
       service: service-base
-    depends_on:
-      - caddy
     env_file:
       - ./qbittorrent.env
     environment:
@@ -23,17 +27,11 @@ services:
       - public_data:/downloads
       - private_data:/private_downloads
     networks:
-      - caddy-media
+      - qbittorrent
+      - proxy-torrent
 
 volumes:
-  qbittorrent_config:
-    name: qbittorrent_config
-  public_data:
-    name: public_data
-  private_data:
-    name: private_data
+  qbittorrent_config: { name: qbittorrent_config }
 
 networks:
-  caddy-media:
-    driver: bridge
-    name: caddy-media
+  qbittorrent: {}

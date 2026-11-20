@@ -1,12 +1,11 @@
 services:
   # Shared vLLM service for Hugging Face models (AWQ, GPTQ, FP8...)
   vllm:
-    # image: vllm/vllm-openai-cpu:${VLLM_DOCKER_TAG:-v0.34.0}
+    # image: vllm/vllm-openai-cpu:v0.34.0
     # image: vllm/vllm-openai:v0.34.0
-    image: vllm/vllm-openai-rocm:${VLLM_DOCKER_TAG:-v0.34.0}
+    image: vllm/vllm-openai-rocm:v0.34.0
     container_name: vllm
-    profiles:
-      - vllm
+    profiles: [vllm]
     extends:
       file: ../../../common.yml
       service: service-base
@@ -38,12 +37,3 @@ services:
 volumes:
   vllm_cache:
     name: vllm_cache
-
-networks:
-  local-ai:
-    driver: bridge
-    name: local-ai
-    internal: true
-  local-ai-internet:
-    driver: bridge
-    name: local-ai-internet

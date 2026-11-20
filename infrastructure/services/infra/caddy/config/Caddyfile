@@ -12,16 +12,19 @@
 	}
 }
 
-# Common settings
-import website/header.caddy
-import website/authelia_middleware.caddy
+# Snippets: header_common, authelia_middleware
+import snippets/*.caddy
 
-(common) {
-	tls {$TLS}
+# Access, in each website/*.caddy file:
+# - public: no login
+# - protected: Authelia login; admins only, unless the site is in the users list of Authelia's configuration.yml
+# TLS=internal (local: Caddy's own CA) or TLS=acme-dns (online: Let's Encrypt wildcard)
+(public) {
+	import tls/{$TLS}.caddy
 }
 
 (protected) {
-	import common
+	import public
 	import authelia_middleware
 }
 
@@ -34,38 +37,13 @@ import website/authelia_middleware.caddy
 	}
 }
 
-# All website configurations
-import website/main.caddy
-import website/authelia.caddy
-import website/homepage.caddy
-import website/argus.caddy
-import website/bentopdf.caddy
-import website/compiler-explorer.caddy
-import website/cyberchef.caddy
-import website/dependency-track.caddy
-import website/docling.caddy
-import website/dozzle.caddy
-import website/dufs.caddy
-import website/forgejo.caddy
-import website/immich.caddy
-import website/it-tools.caddy
-import website/jellyfin.caddy
-import website/kiwix.caddy
-import website/kroki.caddy
-import website/litellm.caddy
-import website/memos.caddy
-import website/omni-tools.caddy
-import website/opencode.caddy
-import website/openwebui.caddy
-import website/picoshare.caddy
-import website/privatebin.caddy
-import website/projectsend.caddy
-import website/psitransfer.caddy
-import website/qbittorrent.caddy
-import website/searxng.caddy
-import website/stirlingpdf.caddy
-import website/syncthing.caddy
-import website/transmission.caddy
-import website/uptimekuma.caddy
-import website/vscode.caddy
-import website/wordpress.caddy
+# import public_app <subdomain> <upstream>: site without login
+(public_app) {
+	{args[0]}.{$DOMAIN} {
+		import public
+		header ?X-Frame-Options SAMEORIGIN
+		reverse_proxy {args[1]}
+	}
+}
+
+import website/*.caddy

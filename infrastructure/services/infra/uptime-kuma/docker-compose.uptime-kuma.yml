@@ -4,22 +4,27 @@ services:
     extends:
       file: ../../../common.yml
       service: service-base
-    image: louislam/uptime-kuma:${UPTIME_KUMA_DOCKER_TAG:-2.5.12}
+    image: louislam/uptime-kuma:2.5.12
+    user: ${PUID:-1000}:${PGID:-1000}
     container_name: uptime-kuma
-    profiles:
-      - uptime-kuma
+    profiles: [uptime-kuma]
+    labels:
+      homepage.instance.private.group: Admin
+      homepage.instance.private.name: uptime-kuma
+      homepage.instance.private.weight: "10"
+      homepage.instance.private.icon: uptime-kuma.png
+      homepage.instance.private.href: https://uptimekuma.${DOMAIN}/
+      homepage.instance.private.description: Uptime Kuma
+      homepage.instance.private.ping: uptimekuma.${DOMAIN}
     volumes:
       - uptimekuma_data:/app/data
-    depends_on:
-      - caddy
     networks:
-      - caddy-infra
+      - uptime-kuma
+      - proxy-private
 
 volumes:
   uptimekuma_data:
     name: uptimekuma_data
 
 networks:
-  caddy-infra:
-    driver: bridge
-    name: caddy-infra
+  uptime-kuma: {}

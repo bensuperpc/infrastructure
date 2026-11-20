@@ -1,9 +1,9 @@
 services:
   dependency-track-apiserver:
-    image: dependencytrack/apiserver:${DEPENDENCY_TRACK_API_DOCKER_TAG:-5.2.1}
+    image: dependencytrack/apiserver:5.2.1
     container_name: dependency-track-apiserver
-    profiles:
-      - dependency-track
+    profiles: [dependency-track]
+    mem_limit: 8g
     depends_on:
       dependency-track-postgres:
         condition: service_healthy
@@ -13,49 +13,47 @@ services:
       file: ../../../common.yml
       service: service-base
     networks:
-      - caddy-web
-      - dependency-track-internal
+      - dependency-track
+      - proxy-private
     volumes:
     - 'dtrack-data:/data'
 
   dependency-track-frontend:
-    image: dependencytrack/frontend:${DEPENDENCY_TRACK_FRONTEND_DOCKER_TAG:-5.2.1}
+    image: dependencytrack/frontend:5.2.1
     container_name: dependency-track-frontend
-    profiles:
-      - dependency-track
+    profiles: [dependency-track]
+    labels:
+      homepage.instance.private.group: Admin
+      homepage.instance.private.name: dependency-track
+      homepage.instance.private.weight: "50"
+      homepage.instance.private.icon: dependency-track.png
+      homepage.instance.private.href: https://dependency-track.${DOMAIN}/
+      homepage.instance.private.description: SBOM and vulnerabilities
     extends:
       file: ../../../common.yml
       service: service-base
     networks:
-      - caddy-web
-      - dependency-track-internal
+      - dependency-track
+      - proxy-private
     depends_on:
       dependency-track-apiserver:
-        condition: service_healthy
-      caddy:
         condition: service_healthy
     env_file:
       - ./dependency-track-frontend.env
 
   dependency-track-postgres:
-    image: postgres:${DEPENDENCY_TRACK_POSTGRES_DOCKER_TAG:-18.7-alpine3.24}
+    image: postgres:18.7-alpine3.24
     container_name: dependency-track-postgres
-    profiles:
-      - dependency-track
+    profiles: [dependency-track]
     env_file:
       - ./postgres.env
     extends:
       file: ../../../common.yml
-      service: service-base
-    networks:
-      - dependency-track-internal
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
-      interval: 5s
-      timeout: 3s
-      retries: 5
+      service: postgres-base
     volumes:
     - "dtrack-postgres-data:/var/lib/postgresql"
+    networks:
+      - dependency-track
 
 volumes:
   dtrack-data:
@@ -64,9 +62,4 @@ volumes:
     name: dtrack-postgres-data
 
 networks:
-  caddy-web:
-    driver: bridge
-    name: caddy-web
-  dependency-track-internal:
-    driver: bridge
-    name: dependency-track-internal
+  dependency-track: {}

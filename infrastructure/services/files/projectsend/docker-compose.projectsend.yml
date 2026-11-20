@@ -4,38 +4,39 @@ services:
     extends:
       file: ../../../common.yml
       service: service-base
-    image: linuxserver/projectsend:${PROJECTSEND_DOCKER_TAG:-r2098-ls8}
+    image: linuxserver/projectsend:r2098-ls8
     container_name: projectsend
-    profiles:
-      - projectsend
-    depends_on:
-      - caddy
+    profiles: [projectsend]
+    labels:
+      homepage.instance.private.group: Personal
+      homepage.instance.private.name: projectsend
+      homepage.instance.private.weight: "60"
+      homepage.instance.private.icon: projectsend.png
+      homepage.instance.private.href: https://projectsend.${DOMAIN}/
+      homepage.instance.private.description: ProjectSend
     env_file:
       - ./projectsend.env
     volumes:
       - projectsend_config:/config
       - projectsend_share:/data
     networks:
-      - caddy-files
-      - projectsend-internal
+      - projectsend
+      - proxy-private
 
   # Database projectsend
   projectsend_db:
-    image: mariadb:${PROJECTSEND_DB_DOCKER_TAG:-13.0.2}
+    image: mariadb:13.0.2
     container_name: projectsend_db
-    profiles:
-      - projectsend
+    profiles: [projectsend]
     extends:
       file: ../../../common.yml
       service: service-base
-    depends_on:
-      - caddy
     volumes:
       - projectsend_db:/var/lib/mysql:rw
     env_file:
       - ./projectsend_db.env
     networks:
-      - projectsend-internal
+      - projectsend
 
 volumes:
   projectsend_db:
@@ -45,11 +46,5 @@ volumes:
   projectsend_share:
     name: projectsend_share
 
-
 networks:
-  caddy-files:
-    driver: bridge
-    name: caddy-files
-  projectsend-internal:
-    driver: bridge
-    name: projectsend-internal
+  projectsend: {}

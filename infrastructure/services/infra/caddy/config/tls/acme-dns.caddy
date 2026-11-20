@@ -1,0 +1,10 @@
+# Online: Let's Encrypt, DNS-01 challenge answered by acme-dns
+tls {
+	dns acmedns {
+		username {$ACME_DNS_USERNAME}
+		password {env.ACME_DNS_PASSWORD}
+		subdomain {$ACME_DNS_SUBDOMAIN}
+		server_url http://acme-dns
+	}
+	propagation_timeout -1
+}

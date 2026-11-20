@@ -1,0 +1,99 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "timezone": "Europe/Paris",
+  "description": "Renovate GitHub App, at night only: no hourly limit, at most 10 open pull requests (prConcurrentLimit)",
+  "schedule": ["* 0-5 * * *"],
+  "prHourlyLimit": 0,
+  "jenkins": {
+    "enabled": false
+  },
+  "docker-compose": {
+    "description": "Also common.yml: image of backup-base",
+    "managerFilePatterns": ["/(^|/)(?:docker-)?compose[^/]*\\.ya?ml$/", "/(^|/)common\\.yml$/"]
+  },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Tool versions in the local Dockerfiles: ARG after a # renovate: comment",
+      "managerFilePatterns": ["/(^|/)Dockerfile$/"],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>\\S+) depName=(?<depName>\\S+)(?: versioning=(?<versioning>\\S+))?(?: extractVersion=(?<extractVersion>\\S+))?\\s+ARG \\w+=(?<currentValue>\\S+)"
+      ]
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "Images built locally by make build",
+      "matchPackageNames": ["infrastructure/**"],
+      "enabled": false
+    },
+    {
+      "description": "Database major upgrades need a dump and restore: by hand",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["postgres", "pgvector/pgvector", "ghcr.io/immich-app/postgres", "mariadb"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    },
+    {
+      "description": "Immich server and machine learning must have the same version",
+      "matchPackageNames": ["ghcr.io/immich-app/immich-*"],
+      "groupName": "immich"
+    },
+    {
+      "description": "Dependency-Track API server and frontend",
+      "matchPackageNames": ["dependencytrack/*"],
+      "groupName": "dependency-track"
+    },
+    {
+      "description": "Debian dated tags: trixie-YYYYMMDD-slim",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["debian"],
+      "versioning": "regex:^trixie-(?<major>\\d+)-slim$"
+    },
+    {
+      "description": "linuxserver.io tags: <version>-ls<build>",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["**/linuxserver/syncthing"],
+      "versioning": "regex:^v(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-ls(?<build>\\d+)$"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["**/linuxserver/transmission"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-r(?<revision>\\d+)-ls(?<build>\\d+)$"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["**/linuxserver/openssh-server"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)_p(?<patch>\\d+)-r(?<revision>\\d+)-ls(?<build>\\d+)$"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["**/linuxserver/jellyfin"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)(?:\\.(?<patch>\\d+))?(?<compatibility>ubu\\d+)-ls(?<build>\\d+)$"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["**/linuxserver/qbittorrent"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)_v\\d+\\.\\d+\\.\\d+-ls(?<build>\\d+)$"
+    },
+    {
+      "description": "Its -ls counter restarted (r2098-ls286 is older than r2098-ls10): upstream version only",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["**/linuxserver/projectsend"],
+      "versioning": "regex:^r(?<major>\\d+)-ls\\d+$"
+    },
+    {
+      "description": "Daily tags: <date>-<commit>",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["**/searxng/searxng"],
+      "versioning": "regex:^(?<major>\\d{4})\\.(?<minor>\\d+)\\.(?<patch>\\d+)-[0-9a-f]+$"
+    },
+    {
+      "description": "Tags: <version>[-rc.<n>]-<variant>, the variant (cpu, cuda) stays the same",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["ghcr.io/speaches-ai/speaches"],
+      "versioning": "regex:^(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)(?:-rc\\.(?<prerelease>\\d+))?-(?<compatibility>.+)$"
+    }
+  ]
+}

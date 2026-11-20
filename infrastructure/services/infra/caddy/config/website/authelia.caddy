@@ -1,4 +1,4 @@
 authelia.{$DOMAIN} {
-	import common
+	import public
 	reverse_proxy authelia:9091
 }

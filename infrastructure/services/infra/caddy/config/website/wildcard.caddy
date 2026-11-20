@@ -1,0 +1,6 @@
+# Wildcard certificate: Caddy serves every subdomain with it instead of one certificate each.
+# Unknown subdomains go to the homepage.
+*.{$DOMAIN} {
+	import public
+	redir https://www.{$DOMAIN}
+}

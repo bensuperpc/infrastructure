@@ -1,10 +1,16 @@
 services:
   # Diagrams written as text (Mermaid, PlantUML, Graphviz...) rendered as SVG or PNG
   kroki:
-    image: yuzutech/kroki:${KROKI_DOCKER_TAG:-0.36.0}
+    image: yuzutech/kroki:0.36.0
     container_name: kroki
-    profiles:
-      - local_ai
+    profiles: [local_ai]
+    labels:
+      homepage.instance.private.group: Local AI
+      homepage.instance.private.name: kroki
+      homepage.instance.private.weight: "70"
+      homepage.instance.private.icon: mdi-sitemap
+      homepage.instance.private.href: https://kroki.${DOMAIN}/
+      homepage.instance.private.description: Diagrams from text
     extends:
       file: ../../../common.yml
       service: service-base
@@ -23,18 +29,11 @@ services:
       start_interval: 2s
 
   kroki-mermaid:
-    image: yuzutech/kroki-mermaid:${KROKI_DOCKER_TAG:-0.36.0}
+    image: yuzutech/kroki-mermaid:0.36.0
     container_name: kroki-mermaid
-    profiles:
-      - local_ai
+    profiles: [local_ai]
     extends:
       file: ../../../common.yml
       service: service-base
     networks:
       - local-ai
-
-networks:
-  local-ai:
-    driver: bridge
-    name: local-ai
-    internal: true

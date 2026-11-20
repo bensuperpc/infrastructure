@@ -1,12 +1,6 @@
 it-tools.{$DOMAIN} {
-	import protected
-	# Load balance between 2 instances
-	reverse_proxy {
-		to it-tools0:8080 it-tools1:8080
-		lb_policy round_robin
-		lb_retries 3
-		lb_try_interval 1s
-	}
+	import public
+	reverse_proxy it-tools:8080
 	header {
 		import header_common
 	}

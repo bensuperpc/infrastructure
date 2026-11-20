@@ -4,17 +4,16 @@ services:
     extends:
       file: ../../../common.yml
       service: service-base
-    image: cm2network/tf2:${TEAMFORTRESS2_DOCKER_TAG:-sourcemod-x64@sha256:5b24ddb507bfdd55e238c2c22363232e3903679cf401730c11c0b79fc898ac39}
+    image: cm2network/tf2:sourcemod-x64@sha256:5b24ddb507bfdd55e238c2c22363232e3903679cf401730c11c0b79fc898ac39
     container_name: teamfortress2_server
-    profiles:
-      - teamfortress2_server
+    profiles: [teamfortress2]
     ports:
      - "${LISTEN_ADDRESS:-0.0.0.0}:27015:27015/tcp"
      - "${LISTEN_ADDRESS:-0.0.0.0}:27015:27015/udp"
     volumes:
       - teamfortress2_data:/home/steam/tf-dedicated
     networks:
-      - teamfortress2-network
+      - teamfortress2
     env_file:
       - ./teamfortress2.env
 #    environment:
@@ -22,10 +21,8 @@ services:
 #      - PGID=${PGID:-1000}
 
 volumes:
-  teamfortress2_data:
-    name: teamfortress2_data
+  teamfortress2_backup: { name: teamfortress2_backup }
+  teamfortress2_data: { name: teamfortress2_data }
 
 networks:
-  teamfortress2-network:
-    driver: bridge
-    name: teamfortress2-network
+  teamfortress2: {}

@@ -1,0 +1,2 @@
+# Local: certificates signed by Caddy's own CA (make caddy-root)
+tls internal

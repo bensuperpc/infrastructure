@@ -1,10 +1,9 @@
 services:
   # Downloads the ZIM files read by kiwix and openzim-mcp if missing, then exits
   kiwix-zim:
-    image: alpine:${ALPINE_DOCKER_TAG:-3.24.4}
+    image: alpine:3.24.4
     container_name: kiwix-zim
-    profiles:
-      - local_ai
+    profiles: [local_ai]
     extends:
       file: ../../../common.yml
       service: service-base
@@ -16,10 +15,16 @@ services:
       - local-ai-internet
 
   kiwix:
-    image: ghcr.io/kiwix/kiwix-serve:${KIWIX_DOCKER_TAG:-3.8.2}
+    image: ghcr.io/kiwix/kiwix-serve:3.8.2
     container_name: kiwix
-    profiles:
-      - local_ai
+    profiles: [local_ai]
+    labels:
+      homepage.instance.private.group: Local AI
+      homepage.instance.private.name: kiwix
+      homepage.instance.private.weight: "50"
+      homepage.instance.private.icon: kiwix.png
+      homepage.instance.private.href: https://kiwix.${DOMAIN}/
+      homepage.instance.private.description: Offline documentation
     extends:
       file: ../../../common.yml
       service: service-base
@@ -34,10 +39,9 @@ services:
 
   # The same ZIM files for opencode, as an MCP server
   openzim-mcp:
-    image: ghcr.io/cameronrye/openzim-mcp:${OPENZIM_MCP_DOCKER_TAG:-3.4.0}
+    image: ghcr.io/cameronrye/openzim-mcp:3.4.0
     container_name: openzim-mcp
-    profiles:
-      - local_ai
+    profiles: [local_ai]
     extends:
       file: ../../../common.yml
       service: service-base
@@ -61,12 +65,3 @@ services:
 volumes:
   kiwix_zim:
     name: kiwix_zim
-
-networks:
-  local-ai:
-    driver: bridge
-    name: local-ai
-    internal: true
-  local-ai-internet:
-    driver: bridge
-    name: local-ai-internet

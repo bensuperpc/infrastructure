@@ -1,25 +1,30 @@
 services:
   # 7 days to die server
   7daystodie_server:
-    image: vinanrra/7dtd-server:${SEVENDAYSTODIE_DOCKER_TAG:-v0.10.0}
+    image: vinanrra/7dtd-server:v0.10.0
     container_name: 7daystodie_server
-    profiles:
-      - 7daystodie_server
+    profiles: [ 7daystodie ]
+    labels:
+      homepage.group: Games
+      homepage.name: 7dtd
+      homepage.weight: "20"
+      homepage.icon: 7-days-to-die.png
+      homepage.description: 7 Days to Die server
     restart: on-failure:7
     ports:
       - "${LISTEN_ADDRESS:-0.0.0.0}:26900:26900"
       - "${LISTEN_ADDRESS:-0.0.0.0}:26901:26901"
       - "${LISTEN_ADDRESS:-0.0.0.0}:26902:26902"
-#      - "8080:8080" # WEBADMIN
-#      - "8081:8081" # TELNET
-#      - "8082:8082" # WEBSERVER
+    #      - "8080:8080" # WEBADMIN
+    #      - "8081:8081" # TELNET
+    #      - "8082:8082" # WEBSERVER
     volumes:
-      - 7daystodie_server_save:/home/sdtdserver/.local/share/7DaysToDie     # 7 Days To Die world saves
-      - 7daystodie_server_config_lgsm:/home/sdtdserver/lgsm/config-lgsm/sdtdserver  # LGSM config folder
-      - 7daystodie_server_file:/home/sdtdserver/serverfiles                # Optional - serverfiles folder
-      - 7daystodie_server_log:/home/sdtdserver/log   
+      - 7daystodie_server_save:/home/sdtdserver/.local/share/7DaysToDie # 7 Days To Die world saves
+      - 7daystodie_server_config_lgsm:/home/sdtdserver/lgsm/config-lgsm/sdtdserver # LGSM config folder
+      - 7daystodie_server_file:/home/sdtdserver/serverfiles # Optional - serverfiles folder
+      - 7daystodie_server_log:/home/sdtdserver/log
     networks:
-      - 7daystodie-network
+      - 7daystodie
     env_file:
       - ./7daystodie.env
     environment:
@@ -31,20 +36,12 @@ services:
     # cap_drop:
     #   - SYS_ADMIN
 
-volumes:
-  7daystodie_backup:
-    name: 7daystodie_backup
-  7daystodie_server_save:
-    name: 7daystodie_server_save
-  7daystodie_server_config_lgsm:
-    name: 7daystodie_server_config_lgsm
-  7daystodie_server_file:
-    name: 7daystodie_server_file
-  7daystodie_server_log:
-    name: 7daystodie_server_log
-
 networks:
-  7daystodie-network:
-    driver: bridge
-    name: 7daystodie-network
+  7daystodie: {}
 
+volumes:
+  7daystodie_backup: { name: 7daystodie_backup }
+  7daystodie_server_save: { name: 7daystodie_server_save }
+  7daystodie_server_config_lgsm: { name: 7daystodie_server_config_lgsm }
+  7daystodie_server_file: { name: 7daystodie_server_file }
+  7daystodie_server_log: { name: 7daystodie_server_log }

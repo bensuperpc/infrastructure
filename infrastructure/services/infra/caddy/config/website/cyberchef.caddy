@@ -1,10 +1,1 @@
-cyberchef.{$DOMAIN} {
-	import protected
-	# Load balance between 2 instances
-	reverse_proxy {
-		to cyberchef0:8080 cyberchef1:8080
-		lb_policy round_robin
-		lb_retries 3
-		lb_try_interval 1s
-	}
-}
+import public_app cyberchef cyberchef:8080

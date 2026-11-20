@@ -1,10 +1,16 @@
 services:
   # Jellyfin
   jellyfin:
-    image: lscr.io/linuxserver/jellyfin:${JELLYFIN_DOCKER_TAG:-12.4ubu2604-ls60}
+    image: lscr.io/linuxserver/jellyfin:12.4ubu2604-ls60
     container_name: jellyfin
-    profiles:
-      - jellyfin
+    profiles: [jellyfin]
+    labels:
+      homepage.instance.private.group: Personal
+      homepage.instance.private.name: jellyfin
+      homepage.instance.private.weight: "20"
+      homepage.instance.private.icon: jellyfin.png
+      homepage.instance.private.href: https://jellyfin.${DOMAIN}/
+      homepage.instance.private.description: Jellyfin
     extends:
       file: ../../../common.yml
       service: service-base
@@ -12,8 +18,6 @@ services:
       - PUID=${PUID:-1000}
       - PGID=${PGID:-1000}
       - TZ=${TZ:-Europe/Paris}
-    depends_on:
-      - caddy
     env_file:
       - ./jellyfin.env
     volumes:
@@ -25,19 +29,14 @@ services:
     devices:
       - /dev/dri:/dev/dri
     networks:
-      - caddy-media
+      - jellyfin
+      - proxy-private
 
 volumes:
   jellyfin_config:
     name: jellyfin_config
   jellyfin_cache:
     name: jellyfin_cache
-  public_data:
-    name: public_data
-  private_data:
-    name: private_data
 
 networks:
-  caddy-media:
-    driver: bridge
-    name: caddy-media
+  jellyfin: {}

@@ -1,9 +1,9 @@
 services:
   searxng-ai:
     container_name: searxng-ai
-    image: docker.io/searxng/searxng:${SEARXNG_DOCKER_TAG:-2026.11.17-d3a35cf45}
-    profiles:
-      - local_ai
+    profiles: [local_ai]
+    image: docker.io/searxng/searxng:2026.11.17-d3a35cf45
+    user: 977:977
     extends:
       file: ../../../common.yml
       service: service-base
@@ -20,10 +20,9 @@ services:
       - 8.8.8.8
 
   mcp-searxng-proxy:
-    image: docker.io/ubuntu/squid:${SQUID_DOCKER_TAG:-7.2-26.04_edge}
+    image: docker.io/ubuntu/squid:7.2-26.04_edge
     container_name: mcp-searxng-proxy
-    profiles:
-      - local_ai
+    profiles: [local_ai]
     extends:
       file: ../../../common.yml
       service: service-base
@@ -37,10 +36,9 @@ services:
       - mcp-searxng-internet
 
   mcp-searxng:
-    image: isokoliuk/mcp-searxng:${MCP_SEARXNG_DOCKER_TAG:-2.11.0}
+    image: isokoliuk/mcp-searxng:2.11.0
     container_name: mcp-searxng
-    profiles:
-      - local_ai
+    profiles: [local_ai]
     extends:
       file: ../../../common.yml
       service: service-base
@@ -61,10 +59,6 @@ services:
       start_interval: 2s
 
 networks:
-  local-ai:
-    driver: bridge
-    name: local-ai
-    internal: true
   mcp-searxng-internal:
     driver: bridge
     name: mcp-searxng-internal

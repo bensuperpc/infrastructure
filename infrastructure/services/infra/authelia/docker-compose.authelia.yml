@@ -1,10 +1,15 @@
 services:
   authelia:
     container_name: authelia    
-    image: authelia/authelia:${AUTHELIA_DOCKER_TAG:-4.39.28}
-    profiles:
-      - authelia
-      - caddy
+    profiles: [core]
+    labels:
+      homepage.instance.private.group: Admin
+      homepage.instance.private.name: authelia
+      homepage.instance.private.weight: "20"
+      homepage.instance.private.icon: authelia.png
+      homepage.instance.private.href: https://authelia.${DOMAIN}/
+      homepage.instance.private.description: Authelia
+    image: authelia/authelia:4.39.28
     depends_on:
       authelia-postgres:
         condition: service_healthy
@@ -22,39 +27,30 @@ services:
       - ./config/users_database.yml:/config/users_database.yml:ro
       - authelia_data:/data
     networks:
-      - caddy-infra
-      - authelia-internal
+      - core
+      - authelia-db
 
   authelia-postgres:
-    image: postgres:${AUTHELIA_POSTGRES_DOCKER_TAG:-18.7-alpine3.24}
+    image: postgres:18.7-alpine3.24
     container_name: authelia-postgres
+    profiles: [core]
     extends:
       file: ../../../common.yml
-      service: service-base
+      service: postgres-base
     volumes:
       - authelia_db_data:/var/lib/postgresql
     env_file:
       - ./authelia_postgres.env
-    profiles:
-      - authelia
-      - caddy
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}" ]
-      interval: 5s
-      timeout: 3s
-      retries: 5
     networks:
-      - authelia-internal
+      - authelia-db
 
 networks:
-  caddy-infra:
-    driver: bridge
-    name: caddy-infra
-  authelia-internal:
-    driver: bridge
-    name: authelia-internal
+  authelia-db:
+    name: authelia-db
+    internal: true
 
 volumes:
-  authelia_db_data: {}
+  authelia_db_data:
+    name: authelia_db_data
   authelia_data:
     name: authelia_data

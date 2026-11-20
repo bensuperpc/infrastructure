@@ -1,9 +1,15 @@
 services:
   openwebui:
-    image: ghcr.io/open-webui/open-webui:${OPEN_WEBUI_DOCKER_TAG:-v0.13.4-slim}
+    image: ghcr.io/open-webui/open-webui:v0.13.4-slim
     container_name: openwebui
-    profiles:
-      - local_ai
+    profiles: [local_ai]
+    labels:
+      homepage.instance.private.group: Local AI
+      homepage.instance.private.name: open-webui
+      homepage.instance.private.weight: "10"
+      homepage.instance.private.icon: open-webui.png
+      homepage.instance.private.href: https://openwebui.${DOMAIN}/
+      homepage.instance.private.description: Chat and RAG with Ollama
     extends:
       file: ../../../common.yml
       service: service-base
@@ -21,26 +27,18 @@ services:
       - openwebui-db
 
   openwebui-postgres:
-    image: pgvector/pgvector:${PGVECTOR_DOCKER_TAG:-0.8.7-pg18}
+    image: pgvector/pgvector:0.8.7-pg18
     container_name: openwebui-postgres
-    profiles:
-      - local_ai
+    profiles: [local_ai]
     extends:
       file: ../../../common.yml
-      service: service-base
+      service: postgres-base
     env_file:
       - ./openwebui-postgres.env
     volumes:
       - openwebui_postgres:/var/lib/postgresql
     networks:
       - openwebui-db
-    healthcheck:
-      test: [CMD-SHELL, pg_isready -U "$$POSTGRES_USER" -d "$$POSTGRES_DB"]
-      interval: 30s
-      timeout: 5s
-      retries: 3
-      start_period: 120s
-      start_interval: 2s
 
 volumes:
   openwebui_data:
@@ -49,10 +47,6 @@ volumes:
     name: openwebui_postgres
 
 networks:
-  local-ai:
-    driver: bridge
-    name: local-ai
-    internal: true
   openwebui-db:
     driver: bridge
     name: openwebui-db

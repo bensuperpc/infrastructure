@@ -1,12 +1,17 @@
 services:
   dozzle:
-    image: amir20/dozzle:${DOZZLE_DOCKER_TAG:-v11.4.3}
+    image: amir20/dozzle:v11.4.3
     container_name: dozzle
-    profiles:
-      - dozzle
+    profiles: [dozzle]
+    labels:
+      homepage.instance.private.group: Admin
+      homepage.instance.private.name: dozzle
+      homepage.instance.private.weight: "30"
+      homepage.instance.private.icon: dozzle.png
+      homepage.instance.private.href: https://dozzle.${DOMAIN}/
+      homepage.instance.private.description: Dozzle
     restart: on-failure:7
     depends_on:
-      - caddy
       - dozzle-dockerproxy
     env_file:
       - ./dozzle.env
@@ -18,14 +23,14 @@ services:
       - source: dozzle_users
         target: /data/users.yml
     networks:
-      - caddy-infra
+      - dozzle
+      - proxy-private
       - dozzle-internal
     
   dozzle-dockerproxy:
-    image: tecnativa/docker-socket-proxy:${DOCKER_SOCKET_PROXY_DOCKER_TAG:-v0.5.0}
+    image: tecnativa/docker-socket-proxy:v0.5.0
     container_name: dozzle-dockerproxy
-    profiles:
-      - dozzle
+    profiles: [dozzle]
     restart: on-failure:7
     environment:
       - CONTAINERS=1
@@ -40,9 +45,7 @@ services:
       - dozzle-internal
 
 networks:
-  caddy-infra:
-    driver: bridge
-    name: caddy-infra
+  dozzle: {}
   dozzle-internal:
     driver: bridge
     name: dozzle-internal

@@ -33,7 +33,6 @@ volumes=(
     caddy_backup
     caddy_config
     caddy_data
-    homepage_log
     syncthing_config
     openssh_config
     qbittorrent_config
