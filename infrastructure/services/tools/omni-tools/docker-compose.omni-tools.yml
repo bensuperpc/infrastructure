@@ -1,26 +1,22 @@
-x-omni-tools: &omni-tools
-  extends:
-    file: ../../../common.yml
-    service: service-base
-  image: iib0011/omni-tools:${OMNI_TOOLS_DOCKER_TAG:-0.7.0}
-  profiles:
-    - omni-tools
-  depends_on:
-    - caddy
-  networks:
-    - caddy-tools
-  read_only: false
-
 services:
-  omni-tools0:
-    <<: *omni-tools
-    container_name: omni-tools0
-
-  omni-tools1:
-    <<: *omni-tools
-    container_name: omni-tools1
+  omni-tools:
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    image: iib0011/omni-tools:0.7.0
+    container_name: omni-tools
+    profiles: [omni-tools]
+    labels:
+      homepage.group: Public
+      homepage.name: omni-tools
+      homepage.weight: "20"
+      homepage.icon: omni-tools.png
+      homepage.href: https://omni-tools.${DOMAIN}/
+      homepage.description: Omni Tools
+    networks:
+      - omni-tools
+      - proxy
+    read_only: false
 
 networks:
-  caddy-tools:
-    driver: bridge
-    name: caddy-tools
+  omni-tools: {}

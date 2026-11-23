@@ -1,33 +1,59 @@
 services:
-  # homepage
+  # Public page (www): only the services with plain homepage.* labels
   homepage:
-    image: ghcr.io/gethomepage/homepage:${HOMEPAGE_DOCKER_TAG:-v2.8.0}
+    image: ghcr.io/gethomepage/homepage:v2.8.0
     container_name: homepage
-    profiles:
-      - homepage
+    profiles: [core]
     extends:
       file: ../../../common.yml
       service: service-base
-#    environment:
-#      - PUID=${PUID:-1000}
-#      - PGID=${PGID:-1000}
     depends_on:
       - caddy
       - homepage-dockerproxy
     env_file:
       - ./homepage.env
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - HOMEPAGE_VAR_INSTANCE=public
+      - HOMEPAGE_VAR_HOST=www.${DOMAIN}
+      - LOG_TARGETS=stdout
     volumes:
-      - homepage_log:/app/logs
       - ./config:/app/config
       - ./image:/app/public/image:ro
     networks:
-      - caddy-infra
+      - core
       - homepage-internal
+
+  # Private page (homepage.<DOMAIN>, behind Authelia): every service, homepage.instance.private.* labels included
+  homepage-private:
+    image: ghcr.io/gethomepage/homepage:v2.8.0
+    container_name: homepage-private
+    profiles: [core]
+    extends:
+      file: ../../../common.yml
+      service: service-base
+    depends_on:
+      - homepage-dockerproxy
+    env_file:
+      - ./homepage.env
+    environment:
+      - PUID=${PUID:-1000}
+      - PGID=${PGID:-1000}
+      - HOMEPAGE_VAR_INSTANCE=private
+      - HOMEPAGE_VAR_HOST=homepage.${DOMAIN}
+      - LOG_TARGETS=stdout
+    volumes:
+      - ./config:/app/config
+      - ./image:/app/public/image:ro
+    networks:
+      - core
+      - homepage-internal
+
   homepage-dockerproxy:
-    image: tecnativa/docker-socket-proxy:${DOCKER_SOCKET_PROXY_DOCKER_TAG:-v0.5.0}
+    image: tecnativa/docker-socket-proxy:v0.5.0
     container_name: homepage-dockerproxy
-    profiles:
-      - homepage
+    profiles: [core]
     restart: on-failure:7
     environment:
       - CONTAINERS=1
@@ -37,14 +63,7 @@ services:
     networks:
       - homepage-internal
 
-volumes:
-  homepage_log:
-    name: homepage_log
-
 networks:
-  caddy-infra:
-    driver: bridge
-    name: caddy-infra
   homepage-internal:
     driver: bridge
     name: homepage-internal

@@ -1,10 +1,9 @@
 services:
-  # openssh
+  # openssh: rsync access to the data, to Caddy's certificates and to the game servers
   openssh:
-    image: linuxserver/openssh-server:${OPENSSH_DOCKER_TAG:-10.3_p1-r2-ls243}
+    image: linuxserver/openssh-server:10.3_p1-r2-ls243
     container_name: openssh
-    profiles:
-      - openssh
+    profiles: [openssh]
     restart: on-failure:7
     env_file:
       - ./openssh.env
@@ -17,75 +16,32 @@ services:
       - ./config/authorized_keys:/authorized_ssh_keys:ro
       - public_data:/public_data:rw
       - private_data:/private_data:rw
-      - caddy_data:/caddy_data:rw
-      - caddy_config:/caddy_config:rw
+      - caddy_data:/caddy_data:ro
+      - caddy_config:/caddy_config:ro
       - caddy_backup:/caddy_backup:rw
       - 7daystodie_backup:/7daystodie_backup:rw
       - 7daystodie_server_save:/7daystodie_server_save:rw
       - 7daystodie_server_config_lgsm:/7daystodie_server_config_lgsm:rw
       - 7daystodie_server_file:/7daystodie_server_file:rw
       - 7daystodie_server_log:/7daystodie_server_log:rw
-      - satisfactory_backup:/satisfactory_backup:rw
-      - satisfactory_server_config:/satisfactory_server_config:rw
       - minecraft_server_backup:/minecraft_server_backup:rw
       - minecraft_server_data:/minecraft_server_data:rw
       - minecraft_proxy_data:/minecraft_proxy_data:rw
+      - satisfactory_backup:/satisfactory_backup:rw
+      - satisfactory_server_config:/satisfactory_server_config:rw
+      - teamfortress2_backup:/teamfortress2_backup:rw
+      - teamfortress2_data:/teamfortress2_data:rw
       - qbittorrent_config:/qbittorrent_config:rw
-      - vscode-server_config:/vscode-server_config:rw
     networks:
-      - openssh-network
+      - openssh
     security_opt:
       - no-new-privileges:false
     ports:
       - ${LISTEN_ADDRESS:-0.0.0.0}:2222:2222
+
 volumes:
   openssh_config:
     name: openssh_config
-  public_data:
-    name: public_data
-  private_data:
-    name: private_data
-  caddy_data:
-    name: caddy_data
-  caddy_config:
-    name: caddy_config
-  caddy_backup:
-    name: caddy_backup
-# 7daystodie-server
-  7daystodie_backup:
-    name: 7daystodie_backup
-  7daystodie_server_save:
-    name: 7daystodie_server_save
-  7daystodie_server_config_lgsm:
-    name: 7daystodie_server_config_lgsm
-  7daystodie_server_file:
-    name: 7daystodie_server_file
-  7daystodie_server_log:
-    name: 7daystodie_server_log
-# satisfactory-server
-  satisfactory_backup:
-    name: satisfactory_backup
-  satisfactory_server_config:
-    name: satisfactory_server_config
-# minecraft-server
-  minecraft_server_backup:
-    name: minecraft_server_backup
-  minecraft_server_data:
-    name: minecraft_server_data
-  minecraft_proxy_data:
-    name: minecraft_proxy_data
-# teamfortress2
-  teamfortress2_backup:
-    name: teamfortress2_backup
-  teamfortress2_data:
-    name: teamfortress2_data
-# argus
-  qbittorrent_config:
-    name: qbittorrent_config
-  vscode-server_config:
-    name: vscode-server_config
 
 networks:
-  openssh-network:
-    driver: bridge
-    name: openssh-network
+  openssh: {}

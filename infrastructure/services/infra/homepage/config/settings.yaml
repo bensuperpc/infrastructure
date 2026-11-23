@@ -6,11 +6,12 @@ title: Bensuperpc
 
 description: Bensuperpc's homepage
 
-base: https://www.{{HOMEPAGE_VAR_DOMAIN}}
+base: https://{{HOMEPAGE_VAR_HOST}}
+
+instanceName: {{HOMEPAGE_VAR_INSTANCE}}
 
 favicon: /image/favicon.ico
-
-logpath: /app/logs
+# logpath: /app/logs
 
 background: 
   image: /image/background.jpg

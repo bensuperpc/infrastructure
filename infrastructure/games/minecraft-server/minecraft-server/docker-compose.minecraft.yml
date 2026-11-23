@@ -1,10 +1,8 @@
 services:
   minecraft_proxy:
-    image: itzg/mc-proxy:${MINECRAFT_PROXY_DOCKER_TAG:-2026.11.1-java25}
+    image: itzg/mc-proxy:2026.11.1-java25
     container_name: minecraft_proxy_server
-    profiles:
-      - minecraft_proxy
-      - minecraft_server
+    profiles: [minecraft]
     restart: on-failure:7
     env_file:
       - ./proxy.env
@@ -23,13 +21,18 @@ services:
     volumes:
       - minecraft_proxy_data:/server
     networks:
-      - minecraft-network
+      - minecraft
 
   mc-server:
-    image: itzg/minecraft-server:${MINECRAFT_SERVER_DOCKER_TAG:-2026.11.0-java25}
+    image: itzg/minecraft-server:2026.11.0-java25
     container_name: minecraft_server
-    profiles:
-      - minecraft_server
+    profiles: [minecraft]
+    labels:
+      homepage.group: Games
+      homepage.name: minecraft
+      homepage.weight: "10"
+      homepage.icon: minecraft.png
+      homepage.description: Minecraft server
     depends_on:
       - minecraft_proxy
     restart: on-failure:7
@@ -54,16 +57,14 @@ services:
       MAX_MEMORY: "${MAX_MEMORY:-24G}"
     volumes:
       - minecraft_server_data:/data
-#      - ./asset_links/plugins.txt:/extras/plugins.txt:ro
     networks:
-      - minecraft-network
+      - minecraft
+#      - ./asset_links/plugins.txt:/extras/plugins.txt:ro
+
 volumes:
-  minecraft_server_data:
-    name: minecraft_server_data
-  minecraft_proxy_data:
-    name: minecraft_proxy_data
+  minecraft_server_backup: { name: minecraft_server_backup }
+  minecraft_server_data: { name: minecraft_server_data }
+  minecraft_proxy_data: { name: minecraft_proxy_data }
 
 networks:
-  minecraft-network:
-    driver: bridge
-    name: minecraft-network
+  minecraft: {}

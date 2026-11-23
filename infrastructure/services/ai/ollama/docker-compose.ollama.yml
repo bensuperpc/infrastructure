@@ -1,9 +1,8 @@
 services:
   ollama:
-    image: ollama/ollama:${OLLAMA_DOCKER_TAG:-0.40.16-rocm}
+    image: ollama/ollama:0.40.17-rocm
     container_name: ollama
-    profiles:
-      - local_ai
+    profiles: [local_ai]
     extends:
       file: ../../../common.yml
       service: service-base
@@ -30,12 +29,3 @@ services:
 volumes:
   ollama_data:
     name: ollama_data
-
-networks:
-  local-ai:
-    driver: bridge
-    name: local-ai
-    internal: true
-  local-ai-internet:
-    driver: bridge
-    name: local-ai-internet

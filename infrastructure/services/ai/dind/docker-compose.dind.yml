@@ -1,11 +1,9 @@
 services:
   # Rootless Docker with TLS
   dind:
-    image: docker:${DIND_DOCKER_TAG:-29.10.0-dind-rootless}
+    image: docker:29.10.0-dind-rootless
     container_name: dind
-    profiles:
-      - local_ai
-      - vscode-server
+    profiles: [local_ai]
     restart: on-failure:7
     privileged: true
     environment:
@@ -33,16 +31,3 @@ services:
 volumes:
   dind_data:
     name: dind_data
-  dind_certs:
-    name: dind_certs
-  local_ai_workspace:
-    name: local_ai_workspace
-
-networks:
-  dind-internal:
-    driver: bridge
-    name: dind-internal
-    internal: true
-  local-ai-internet:
-    driver: bridge
-    name: local-ai-internet

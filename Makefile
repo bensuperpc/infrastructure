@@ -12,17 +12,22 @@
 #//////////////////////////////////////////////////////////////
 
 PROJECT_DIRECTORY := infrastructure
-CONFIG_DIRECTORY := presets
-# Presets in presets/: local_ai tools forgejo dependency-track files office media torrent transmission web monitoring
-# Games: 7dtd minecraft satisfactory tf2
-CONFIGS := local_ai
-#DOCKER_PROFILES := 
 
 include DockerCompose.mk
 
 .PHONY: init
 init:
 	python3 tools/init_secrets.py
+
+.PHONY: check
+check:
+	tools/check.sh
+
+# Online (TLS=acme-dns): start acme-dns, register Caddy's account (once) and print the CNAME to create
+.PHONY: acme-dns-register
+acme-dns-register:
+	$(COMPOSE) up -d --wait acme-dns
+	python3 tools/acme_dns_register.py
 
 .PHONY: caddy-root
 caddy-root:

@@ -23,18 +23,6 @@ access_control:
   default_policy: deny
   rules:
     - domain:
-        - 'authelia.{{ env "DOMAIN" }}'
-        - 'www.{{ env "DOMAIN" }}'
-        - 'public.{{ env "DOMAIN" }}'
-        - 'it-tools.{{ env "DOMAIN" }}'
-        - 'omni-tools.{{ env "DOMAIN" }}'
-        - 'cyberchef.{{ env "DOMAIN" }}'
-        - 'bentopdf.{{ env "DOMAIN" }}'
-        - 'wordpress.{{ env "DOMAIN" }}'
-        - 'homepage.{{ env "DOMAIN" }}'
-        - 'forgejo.{{ env "DOMAIN" }}'
-      policy: bypass
-    - domain:
         - 'jellyfin.{{ env "DOMAIN" }}'
         - 'immich.{{ env "DOMAIN" }}'
         - 'openwebui.{{ env "DOMAIN" }}'

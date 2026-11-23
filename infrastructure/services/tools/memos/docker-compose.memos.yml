@@ -1,27 +1,30 @@
 services:
   # memos
   memos:
-    image: neosmemo/memos:${MEMOS_DOCKER_TAG:-26.11.1}
+    image: neosmemo/memos:26.11.1
     container_name: memos
-    profiles:
-      - memos
+    profiles: [memos]
+    labels:
+      homepage.instance.private.group: Personal
+      homepage.instance.private.name: memos
+      homepage.instance.private.weight: "40"
+      homepage.instance.private.icon: memos.png
+      homepage.instance.private.href: https://memos.${DOMAIN}/
+      homepage.instance.private.description: Memos
     extends:
       file: ../../../common.yml
       service: service-base
-    depends_on:
-      - caddy
     env_file:
       - ./memos.env
     volumes:
       - memos_config:/var/opt/memos
     networks:
-      - caddy-tools
+      - memos
+      - proxy-private
 
 volumes:
   memos_config:
     name: memos_config
 
 networks:
-  caddy-tools:
-    driver: bridge
-    name: caddy-tools
+  memos: {}

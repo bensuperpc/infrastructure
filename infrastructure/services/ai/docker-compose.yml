@@ -1,0 +1,20 @@
+include:
+  # local_ai (vllm: own profile)
+  - dind/docker-compose.dind.yml
+  - docling/docker-compose.docling.yml
+  - kiwix/docker-compose.kiwix.yml
+  - kroki/docker-compose.kroki.yml
+  - litellm/docker-compose.litellm.yml
+  - local-ai-init/docker-compose.local-ai-init.yml
+  - ollama/docker-compose.ollama.yml
+  - opencode/docker-compose.opencode.yml
+  - open-webui/docker-compose.open-webui.yml
+  - searxng/docker-compose.searxng.yml
+  - speaches/docker-compose.speaches.yml
+  - vllm/docker-compose.vllm.yml
+
+volumes:
+  # local_ai
+  local_ai_workspace: { name: local_ai_workspace }
+  local_ai_docs: { name: local_ai_docs }
+  dind_certs: { name: dind_certs }

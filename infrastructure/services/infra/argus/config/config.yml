@@ -10,6 +10,9 @@ service:
   caddy:
     latest_version: {type: github, url: caddyserver/caddy}
     dashboard: {tags: [infra]}
+  acme-dns:
+    latest_version: {type: github, url: acme-dns/acme-dns}
+    dashboard: {tags: [infra]}
   authelia:
     latest_version: {type: github, url: authelia/authelia}
     dashboard: {tags: [infra]}
@@ -24,9 +27,6 @@ service:
     dashboard: {tags: [infra]}
   argus:
     latest_version: {type: github, url: release-argus/Argus}
-    dashboard: {tags: [infra]}
-  watchtower:
-    latest_version: {type: github, url: nicholas-fedor/watchtower}
     dashboard: {tags: [infra]}
   # ai
   ollama:

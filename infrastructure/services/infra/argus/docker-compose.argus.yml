@@ -1,20 +1,25 @@
 services:
   # argus
   argus:
-    image: releaseargus/argus:${ARGUS_DOCKER_TAG:-0.39.0}
+    image: releaseargus/argus:0.39.0
     container_name: argus
-    profiles:
-      - argus
+    profiles: [argus]
+    labels:
+      homepage.instance.private.group: Admin
+      homepage.instance.private.name: argus
+      homepage.instance.private.weight: "40"
+      homepage.instance.private.icon: mdi-update
+      homepage.instance.private.href: https://argus.${DOMAIN}/
+      homepage.instance.private.description: Application updates
     environment:
       - ARGUS_UID=${PUID:-1000}
       - ARGUS_GID=${PGID:-1000}
       - TZ=${TZ:-Europe/Paris}
       - ARGUS_SERVICE_LATEST_VERSION_GITHUB_ACCESS_TOKEN=${ARGUS_GITHUB_TOKEN:-}
     restart: on-failure:7
-    depends_on:
-      - caddy
     networks:
-      - caddy-infra
+      - argus
+      - proxy-private
     volumes:
       - argus_data:/app/data/
       - ./config/config.yml:/app/config.yml
@@ -30,6 +35,4 @@ volumes:
     name: argus_data
 
 networks:
-  caddy-infra:
-    driver: bridge
-    name: caddy-infra
+  argus: {}

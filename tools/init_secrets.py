@@ -31,13 +31,13 @@ class SecretsInit:
         self.root = project_dir.parent
         self.env_file = project_dir / ".env"
         self.env_example = project_dir / ".env.example"
-        self.versions_file = project_dir / "versions.env"
+        self.authelia_compose = project_dir / "services/infra/authelia/docker-compose.authelia.yml"
         self.users_db = project_dir / "services/infra/authelia/config/users_database.yml"
         self.users_example = self.users_db.with_name("users_database.yml.example")
 
     def run(self) -> None:
         self.update_env()
-        env = {**read_env(self.versions_file), **read_env(self.env_file)}
+        env = read_env(self.env_file)
         if not self.users_db.exists():
             self.create_users_db(env)
         self.print_todo(env)
@@ -61,17 +61,21 @@ class SecretsInit:
         print(f"{self.rel(self.env_file)}: {added} key(s) added.")
 
     def create_users_db(self, env: dict[str, str]) -> None:
-        digest = self.hash_password(env["AUTHELIA_DOCKER_TAG"], env["AUTHELIA_ADMIN_PASSWORD"])
+        digest = self.hash_password(self.authelia_image(), env["AUTHELIA_ADMIN_PASSWORD"])
         template = Template(self.users_example.read_text())
         self.users_db.write_text(template.substitute(env, AUTHELIA_ADMIN_PASSWORD_DIGEST=digest))
         self.users_db.chmod(0o600)
         print(f"Created {self.rel(self.users_db)} with user {env['AUTHELIA_ADMIN_USER']} "
               f"(password: AUTHELIA_ADMIN_PASSWORD in {self.rel(self.env_file)}).")
 
+    def authelia_image(self) -> str:
+        """The Authelia image pinned in its compose file."""
+        return re.search(r"image:\s*(\S*authelia/authelia:\S+)", self.authelia_compose.read_text())[1]
+
     @staticmethod
-    def hash_password(authelia_tag: str, password: str) -> str:
+    def hash_password(authelia_image: str, password: str) -> str:
         """Argon2 digest computed by Authelia itself, in a throwaway container."""
-        cmd = ["docker", "run", "--rm", f"authelia/authelia:{authelia_tag}",
+        cmd = ["docker", "run", "--rm", authelia_image,
                "authelia", "crypto", "hash", "generate", "argon2", "--password", password]
         try:
             result = subprocess.run(cmd, check=True, capture_output=True, text=True)

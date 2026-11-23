@@ -1,20 +1,25 @@
 services:
   # privatebin
   privatebin:
-    image: privatebin/nginx-fpm-alpine:${PRIVATEBIN_DOCKER_TAG:-2.1.1}
+    image: privatebin/nginx-fpm-alpine:2.1.1
     container_name: privatebin
-    profiles:
-      - privatebin
+    profiles: [privatebin]
+    labels:
+      homepage.instance.private.group: Personal
+      homepage.instance.private.name: privatebin
+      homepage.instance.private.weight: "90"
+      homepage.instance.private.icon: privatebin.png
+      homepage.instance.private.href: https://privatebin.${DOMAIN}/
+      homepage.instance.private.description: PrivateBin
     extends:
       file: ../../../common.yml
       service: service-base
-    depends_on:
-      - caddy
     volumes:
       - privatebin_data:/srv/data
       - ./config/conf.php:/srv/cfg/conf.php:ro
     networks:
-      - caddy-tools
+      - privatebin
+      - proxy-private
     read_only: true
 
 volumes:
@@ -22,6 +27,4 @@ volumes:
     name: privatebin_data
 
 networks:
-  caddy-tools:
-    driver: bridge
-    name: caddy-tools
+  privatebin: {}

@@ -4,18 +4,23 @@ services:
     extends:
       file: ../../../common.yml
       service: service-base
-    image: mtlynch/picoshare:${PICOSHARE_DOCKER_TAG:-v1.5.5}
+    image: mtlynch/picoshare:v1.5.5
     container_name: picoshare
-    profiles:
-      - picoshare
-    depends_on:
-      - caddy
+    profiles: [picoshare]
+    labels:
+      homepage.instance.private.group: Personal
+      homepage.instance.private.name: picoshare
+      homepage.instance.private.weight: "70"
+      homepage.instance.private.icon: mdi-share-variant
+      homepage.instance.private.href: https://picoshare.${DOMAIN}/
+      homepage.instance.private.description: PicoShare
     env_file:
       - ./picoshare.env
     volumes:
       - picoshare_data:/data
     networks:
-      - caddy-files
+      - picoshare
+      - proxy-private
     read_only: false
 #    tmpfs:
 #      - /tmp
@@ -25,6 +30,4 @@ volumes:
     name: picoshare_data
 
 networks:
-  caddy-files:
-    driver: bridge
-    name: caddy-files
+  picoshare: {}

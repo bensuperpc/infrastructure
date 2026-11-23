@@ -1,9 +1,5 @@
-ARG DEBIAN_DOCKER_TAG=trixie-20261104-slim
-ARG NODE_DOCKER_TAG=22.23.5-trixie-slim
-
-FROM debian:${DEBIAN_DOCKER_TAG} AS opencode
-
-ARG OPENCODE_VERSION=2.3.0
+FROM debian:trixie-20261104-slim AS opencode
+ARG OPENCODE_VERSION=2.4.1
 ARG HOST_UID=1000
 ARG HOST_GID=1000
 
@@ -87,7 +83,7 @@ CMD ["code-server", "--bind-addr", "0.0.0.0:8443", "--extensions-dir", "/opt/cod
      "--disable-telemetry", "--disable-update-check", "/workspace"]
 
 
-FROM node:${NODE_DOCKER_TAG} AS node
+FROM node:22.23.5-trixie-slim AS node
 
 FROM opencode AS compiler-explorer
 

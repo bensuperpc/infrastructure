@@ -1,14 +1,19 @@
 services:
   # forgejo
   forgejo:
-    image: codeberg.org/forgejo/forgejo:${FORGEJO_DOCKER_TAG:-17.0.1}
+    image: codeberg.org/forgejo/forgejo:17.0.1
     container_name: forgejo
-    profiles:
-      - forgejo
+    profiles: [forgejo]
+    labels:
+      homepage.instance.private.group: Personal
+      homepage.instance.private.name: forgejo
+      homepage.instance.private.weight: "10"
+      homepage.instance.private.icon: forgejo.png
+      homepage.instance.private.href: https://git.${DOMAIN}/
+      homepage.instance.private.description: Forgejo
     restart: on-failure:7
     depends_on:
       - database_forgejo
-      - caddy
     ports:
       - "${LISTEN_ADDRESS:-0.0.0.0}:22:2222"
     env_file:
@@ -18,20 +23,17 @@ services:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
     networks:
-      - caddy-dev
-      - forgejo-internal
+      - forgejo
+      - proxy-private
 #    user: ${PUID:-1000}:${PGID:-1000} 
     security_opt:
       - no-new-privileges:true
   
   # Database forgejo
   database_forgejo:
-    image: mariadb:${FORGEJO_DB_DOCKER_TAG:-13.0.2}
+    image: mariadb:13.0.2
     container_name: database_forgejo
-    profiles:
-      - forgejo
-    depends_on:
-      - caddy
+    profiles: [forgejo]
     extends:
       file: ../../../common.yml
       service: service-base
@@ -40,15 +42,14 @@ services:
     env_file:
       - ./forgejo_db.env
     networks:
-      - forgejo-internal
+      - forgejo
 
   # forgejo-runner: Docker in Docker for the jobs, with TLS
   docker-in-docker:
-    image: code.forgejo.org/oci/docker:${FORGEJO_DIND_DOCKER_TAG:-29-dind@sha256:4bbc7223f81db790097c6dea42fb93e05b8fead4f0431fbe6ccaba6e8473201c}
+    image: code.forgejo.org/oci/docker:29-dind@sha256:4bbc7223f81db790097c6dea42fb93e05b8fead4f0431fbe6ccaba6e8473201c
     container_name: docker_dind
+    profiles: [forgejo]
     hostname: docker
-    profiles:
-      - forgejo-runner
     restart: on-failure:7
     privileged: true
     environment:
@@ -57,7 +58,7 @@ services:
       - forgejo_certs:/certs
       - forgejo_dind_data:/var/lib/docker
     networks:
-      - forgejo-internal
+      - forgejo
     healthcheck:
       test: [CMD, docker, info]
       interval: 30s
@@ -67,10 +68,9 @@ services:
       start_interval: 2s
 
   forgejo_runner_register:
-    image: codeberg.org/forgejo/forgejo:${FORGEJO_DOCKER_TAG:-17.0.1}
+    image: codeberg.org/forgejo/forgejo:17.0.1
     container_name: forgejo_runner_register
-    profiles:
-      - forgejo-runner
+    profiles: [forgejo]
     restart: on-failure:7
     # After forgejo_runner, which creates forgejo_runner owned by its user (1000)
     depends_on:
@@ -82,6 +82,8 @@ services:
     volumes:
       - forgejo_data:/data
       - forgejo_runner:/runner
+    networks:
+      - forgejo
     entrypoint: [sh, -c]
     command:
       - >-
@@ -91,14 +93,11 @@ services:
         && forgejo forgejo-cli actions register --name runner --secret "$$FORGEJO_RUNNER_SECRET" > /dev/null;
         do sleep 10; done;
         touch /runner/registered
-    networks:
-      - forgejo-internal
 
   forgejo_runner:
-    image: data.forgejo.org/forgejo/runner:${FORGEJO_RUNNER_DOCKER_TAG:-13.2.1}
+    image: data.forgejo.org/forgejo/runner:13.2.1
     container_name: forgejo_runner
-    profiles:
-      - forgejo-runner
+    profiles: [forgejo]
     restart: on-failure:7
     # docker-in-docker creates forgejo_certs/client at start
     depends_on:
@@ -116,9 +115,9 @@ services:
         read_only: true
         volume:
           subpath: client
-    command: [sh, /runner.sh]
     networks:
-      - forgejo-internal
+      - forgejo
+    command: [sh, /runner.sh]
 
 volumes:
   forgejo_data:
@@ -133,9 +132,4 @@ volumes:
     name: forgejo_dind_data
 
 networks:
-  caddy-dev:
-    driver: bridge
-    name: caddy-dev
-  forgejo-internal:
-    driver: bridge
-    name: forgejo-internal
+  forgejo: {}

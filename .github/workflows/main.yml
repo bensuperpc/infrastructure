@@ -11,38 +11,17 @@ on:
   pull_request:
     branches:
       - "*"
-  schedule:
-    - cron: "0 9 * * 2" # every tuesday at 9:00 https://crontab.guru/#0_7_*_*_1
   workflow_dispatch:
 
 jobs:
-  image:
-    name: infrastructure
+  check:
+    name: check
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - name: "Checkout Code"
         uses: actions/checkout@v5
-        with:
-          submodules: "recursive"
-          fetch-depth: 0
       - name: "Generate secrets"
         run: make init
-      - name: "Update server image"
-        run: make pull
-      - name: "Build server"
-        run: make build
-#      - name: "Start server"
-#        run: make start
-      - name: "Logs server"
-        run: make logs
-      - name: "State server"
-        run: make state
-      - name: "Stop server"
-        run: make stop
-      - name: "Down server"
-        run: make down
-      - name: "Clean server"
-        run: make clean
-      - name: "Purge server"
-        run: make purge
+      - name: "Check: compose files, access of the websites, Dockerfiles, Caddyfile"
+        run: make check

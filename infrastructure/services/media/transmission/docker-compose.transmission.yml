@@ -1,15 +1,19 @@
 services:
   # transmission
   transmission:
-    image: lscr.io/linuxserver/transmission:${TRANSMISSION_DOCKER_TAG:-4.1.4-r0-ls370}
+    image: lscr.io/linuxserver/transmission:4.1.4-r0-ls370
     container_name: transmission
-    profiles:
-      - transmission
+    profiles: [transmission]
+    labels:
+      homepage.instance.private.group: Personal
+      homepage.instance.private.name: transmission
+      homepage.instance.private.weight: "130"
+      homepage.instance.private.icon: transmission.png
+      homepage.instance.private.href: https://transmission.${DOMAIN}/
+      homepage.instance.private.description: Transmission
     extends:
       file: ../../../common.yml
       service: service-base
-    depends_on:
-      - caddy
     env_file:
       - ./transmission.env
     environment:
@@ -20,19 +24,14 @@ services:
       - public_data:/downloads
       - transmission_watch:/watch
     networks:
-      - caddy-media
+      - transmission
+      - proxy-torrent
 
 volumes:
   transmission_config:
     name: transmission_config
   transmission_watch:
     name: transmission_watch
-  public_data:
-    name: public_data
-  private_data:
-    name: private_data
 
 networks:
-  caddy-media:
-    driver: bridge
-    name: caddy-media
+  transmission: {}

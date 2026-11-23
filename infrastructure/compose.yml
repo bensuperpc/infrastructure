@@ -1,0 +1,62 @@
+# The whole infrastructure, one Compose project. Each app has its own profile COMPOSE_PROFILES set in .env
+name: infrastructure
+
+include:
+  # core: Caddy, acme-dns, Authelia, Homepage
+  - services/infra/main/docker-compose.main.yml
+  - services/infra/caddy/docker-compose.caddy.yml
+  - services/infra/acme-dns/docker-compose.acme-dns.yml
+  - services/infra/authelia/docker-compose.authelia.yml
+  - services/infra/homepage/docker-compose.homepage.yml
+  # Admin
+  - services/infra/openssh/docker-compose.openssh.yml
+  - services/infra/uptime-kuma/docker-compose.uptime-kuma.yml
+  - services/infra/dozzle/docker-compose.dozzle.yml
+  - services/infra/argus/docker-compose.argus.yml
+  # local_ai (vllm: own profile)
+  - services/ai/docker-compose.yml
+  - services/dev/code-server/docker-compose.vscode-server.yml
+  # Dev
+  - services/dev/forgejo/docker-compose.forgejo.yml
+  - services/dev/compiler-explorer/docker-compose.compiler-explorer.yml
+  - services/dev/dependency-track/docker-compose.dependency-track.yml
+  # Tools
+  - services/tools/docker-compose.yml
+  # Files
+  - services/files/dufs/docker-compose.dufs.yml
+  - services/files/picoshare/docker-compose.picoshare.yml
+  - services/files/projectsend/docker-compose.projectsend.yml
+  - services/files/psitransfer/docker-compose.psitransfer.yml
+  - services/files/syncthing/docker-compose.syncthing.yml
+  # Media
+  - services/media/jellyfin/docker-compose.jellyfin.yml
+  - services/media/immich/docker-compose.immich.yml
+  - services/media/qbittorrent/docker-compose.qbittorrent.yml
+  - services/media/transmission/docker-compose.transmission.yml
+  # Web
+  - services/web/wordpress/docker-compose.wordpress.yml
+  - services/web/searxng/docker-compose.searxng.yml
+  # Games (each with its backup)
+  - games/7daystodie-server/docker-compose.yml
+  - games/minecraft-server/docker-compose.yml
+  - games/satisfactory-server/docker-compose.yml
+  - games/teamfortress2-server/docker-compose.yml
+
+# Networks used by several files: declared here only
+networks:
+  # Caddy, Authelia, Homepage and acme-dns
+  core: {}
+  # Caddy to the websites, by access
+  proxy: { name: proxy, internal: true }
+  proxy-private: { name: proxy-private, internal: true }
+  proxy-torrent: { name: proxy-torrent, internal: true }
+  proxy-compiler-explorer: { name: proxy-compiler-explorer, internal: true }
+  local-ai: { name: local-ai, internal: true }
+  # local_ai
+  local-ai-internet: { name: local-ai-internet }
+  dind-internal: { name: dind-internal, internal: true }
+
+volumes:
+  # Your data
+  public_data: { name: public_data }
+  private_data: { name: private_data }

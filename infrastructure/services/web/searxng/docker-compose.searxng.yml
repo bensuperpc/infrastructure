@@ -1,27 +1,34 @@
 services:
   searxng:
     container_name: searxng
-    image: docker.io/searxng/searxng:${SEARXNG_DOCKER_TAG:-2026.11.17-d3a35cf45}
-    profiles:
-      - searxng
+    profiles: [searxng]
+    labels:
+      homepage.instance.private.group: Personal
+      homepage.instance.private.name: searxng
+      homepage.instance.private.weight: "50"
+      homepage.instance.private.icon: searxng.png
+      homepage.instance.private.href: https://searxng.${DOMAIN}/
+      homepage.instance.private.description: SearXNG
+    image: docker.io/searxng/searxng:2026.11.17-d3a35cf45
+    user: 977:977
     extends:
       file: ../../../common.yml
       service: service-base
     env_file:
       - ./searxng.env
     networks:
-      - caddy-tools
+      - searxng
+      - proxy-private
     volumes:
       - ./config/settings.yml:/etc/searxng/settings.yml:ro
-      - searxng-data:/var/cache/searxng/
+      - searxng_data:/var/cache/searxng/
     dns:
       - 1.1.1.1
       - 8.8.8.8
 
-networks:
-  caddy-tools:
-    driver: bridge
-    name: caddy-tools
-
 volumes:
-  searxng-data: {}
+  searxng_data:
+    name: searxng_data
+
+networks:
+  searxng: {}

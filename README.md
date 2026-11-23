@@ -4,70 +4,104 @@ _Open source, decentralized and self-hosted infrastructure for many local servic
 
 ## Features
 
-- [x] caddy 2 HTTP/S reverse proxy
+- [x] caddy 2 HTTP/S reverse proxy, Let's Encrypt wildcard certificate with acme-dns
 - [x] Authelia (SSO / authentication middleware)
-- [x] local_ai: Ollama (ROCm), Open WebUI, OpenCode, VS Code server, Kiwix, Docling, Kroki, Speaches (voice)
+- [x] local_ai: Ollama (ROCm), Open WebUI, LiteLLM, OpenCode, VS Code server, Kiwix, Docling, Kroki, SearXNG, Speaches (voice), vLLM (optional)
 - [x] Compiler Explorer
 - [x] qbittorrent and transmission (Torrent client/server)
 - [x] Docker / docker-compose
-- [x] Homepage (Dashboard)
+- [x] Homepage (Public and private dashboards, services declared by Docker labels)
 - [x] SearXNG (Self-hosted search engine)
 - [x] Jellyfin (Eg Netflix, Disney+)
 - [x] Immich (Photo and video library, Eg Google Photos)
-- [x] Forgejo (Git server, fork of Gitea)
-- [x] Uptime Kuma (Monitoring)
+- [x] Forgejo (Git server, fork of Gitea) and its Actions runner
+- [x] Uptime Kuma (Monitoring) and Dozzle (Docker logs)
 - [x] Argus (Application update monitoring)
+- [x] Renovate (pull requests for new image versions, on GitHub)
 - [x] SyncThing (File synchronization)
 - [x] Dufs (File server)
 - [x] PsiTransfer, ProjectSend, Picoshare (File sharing)
 - [x] it-tools, omni-tools and cyberchef (Tools for IT)
 - [x] Privatebin
 - [x] Memos (Note-taking)
-- [x] Stirling PDF (PDF tools)
+- [x] Stirling PDF and BentoPDF (PDF tools)
 - [x] Wordpress (Via FASTCGI/caddy)
 - [x] Dependency-Track (SBOM / vulnerability tracking)
-- [X] Game (Satisfactory, Minecraft, 7 Days to Die, Team Fortress 2 etc...)
+- [x] OpenSSH (SFTP / rsync access to the data)
+- [x] Restic backups (Caddy, Wordpress, game servers)
+- [X] Game (Satisfactory, Minecraft, 7 Days to Die, Team Fortress 2)
 
 ## Architecture
 
-![Architecture](ressources/arch_infra.png)
+A summary, not every service:
 
-## Screenshots
+```mermaid
+flowchart LR
+    internet((Internet))
 
-The homepage is a dashboard with many widgets and services.
+    subgraph core["core"]
+        caddy["Caddy<br/>HTTPS, wildcard certificate"]
+        acme["acme-dns"]
+        authelia["Authelia<br/>login"]
+        homepage["Homepage<br/>public and private"]
+    end
 
-![Homepage](ressources/homepagev1.jpg)
+    pubsites["Public websites<br/>IT tools, PDF tools, Wordpress, public files"]
+    privsites["Protected websites<br/>Forgejo, Jellyfin, Immich, file sharing, monitoring..."]
+
+    subgraph ai["local_ai"]
+        openwebui["Open WebUI"]
+        opencode["OpenCode, VS Code server"]
+        litellm["LiteLLM"]
+        ollama["Ollama (GPU)"]
+        vllm["vLLM (optional)"]
+        aitools["SearXNG, Kiwix, Docling, Speaches"]
+    end
+
+    games["Game servers<br/>Minecraft, Satisfactory, 7 Days to Die, TF2"]
+    ssh["OpenSSH"]
+
+    internet -- "80, 443" --> caddy
+    internet -- "53" --> acme
+    caddy -- "certificate" --> acme
+    caddy -- "login" --> authelia
+    caddy --> homepage
+    caddy --> pubsites
+    caddy -- "after login" --> privsites
+    caddy -- "after login" --> openwebui & opencode
+    openwebui --> ollama & litellm & aitools
+    opencode --> ollama & aitools
+    litellm --> vllm
+    internet -- "game ports" --> games
+    internet -- "2222" --> ssh
+```
 
 ## Installation and configuration
 
 ### Requirements
 
-- [Docker](https://docs.docker.com/install/)
-- [Docker Compose](https://docs.docker.com/compose/install/)
-- [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+- [Docker](https://docs.docker.com/install/) and [Docker Compose](https://docs.docker.com/compose/install/)
+- [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git), GNU Make and Python 3
 - [Web domain](https://www.ovh.com/world/domains/) (I use OVH)
-- [Open port 80, 443, 22 and 2222 on your router](http://192.168.1.1/)
-- For games server, you need to open these ports (7777, 8888, 25565, 26900, 26901, 26903)
+- On your router, open the ports of the apps you run, see below
 
 List of ports used by the services in this infrastructure:
 
-| Port number | Service       | Description       |
-| ----------- | ------------- | ----------------- |
-| 80          | Caddy         | HTTP traffic      |
-| 443         | Caddy         | HTTPS traffic     |
-| 22          | Forgejo       | Git/SSH access    |
-| 2222        | OpenSSH       | Global SSH access |
-| 7777        | Satisfactory  | Game server port  |
-| 8888        | Satisfactory  | Game server port  |
-| 25565       | Minecraft     | Game server port  |
-| 8100        | Bluemap Minecraft | Web map port  |
-| 26900       | 7 Days to Die | Game server port  |
-| 26901       | 7 Days to Die | Game server port  |
-| 26903       | 7 Days to Die | Game server port  |
-| 27015       | Team Fortress 2 | Game server port |
+| Port number | Profile | Service       | Description       |
+| ----------- | ------- | ------------- | ----------------- |
+| 53 (TCP and UDP) | `core` | acme-dns | DNS for the wildcard certificate |
+| 80, 443 (TCP and UDP) | `core` | Caddy | HTTP and HTTPS traffic |
+| 22          | `forgejo` | Forgejo   | Git/SSH access    |
+| 2222        | `openssh` | OpenSSH   | Global SSH access (SFTP, rsync) |
+| 6881 (TCP and UDP) | `qbittorrent` | qBittorrent | Torrent peers |
+| 7777 (TCP and UDP), 8888 | `satisfactory` | Satisfactory | Game server ports |
+| 25565       | `minecraft` | Minecraft | Game server port  |
+| 8100        | `minecraft` | BlueMap   | Minecraft web map |
+| 8804        | `minecraft` | Plan      | Minecraft player statistics |
+| 26900 to 26902 | `7daystodie` | 7 Days to Die | Game server ports |
+| 27015 (TCP and UDP) | `teamfortress2` | Team Fortress 2 | Game server port |
 
-
-**To avoid get rate limit from letsencrypt (10 certificates per 3 hours), you need to disable some certificates in the caddyfiles and enable them 3h later...**
+Ollama also listens on 127.0.0.1:11434, for the host only.
 
 ### Clone
 
@@ -89,49 +123,62 @@ cd infrastructure
 make init
 ```
 
-Build the local images (opencode, vscode-server, compiler-explorer), before the first start and after changing [images/dev](infrastructure/images/dev/Dockerfile):
+`make init` creates `infrastructure/.env`, where `COMPOSE_PROFILES` selects the apps to run: see [Apps and profiles](#apps-and-profiles).
 
-```sh
-make build
-```
+`make up` builds the local images (caddy, opencode, vscode-server, compiler-explorer) the first time, and again when their [Dockerfiles](infrastructure/images/) change. They are never pulled: a registry could serve another image under the same name.
 
-Start the website with:
+Start (in the background), stop, or remove the containers with:
 
 ```sh
 make up
-```
-
-Stop the website with:
-
-```sh
 make stop
-```
-
-Remove containers with:
-
-```sh
 make down
 ```
 
-Services are enabled via **preset configuration files** in the [`presets/`](presets/) directory. 
+### Apps and profiles
 
-The active presets are declared in the [`Makefile`](Makefile) via the `CONFIGS` variable, for example, `CONFIGS := local_ai` loads `presets/local_ai.conf` which activates the `main_infrastructure`, `caddy`, `homepage` and `local_ai` profiles. It can also be set for one command: `make CONFIGS="local_ai tools" up`.
+The infrastructure is one Docker Compose project, [infrastructure/compose.yml](infrastructure/compose.yml), which includes the compose file of each app. Each app has its own profile, named after it, and `COMPOSE_PROFILES` in `infrastructure/.env` selects the apps to run:
 
-| Preset             | Services                                                                     |
-| ------------------ | ---------------------------------------------------------------------------- |
-| `local_ai`         | Ollama, Open WebUI, LiteLLM, OpenCode, VS Code server, Kiwix, Docling, Kroki, SearXNG, Speaches |
-| `tools`            | it-tools, omni-tools, CyberChef, BentoPDF, VS Code server, Compiler Explorer |
-| `forgejo`          | Forgejo and its runner                                                       |
-| `dependency-track` | Dependency-Track                                                             |
-| `files`            | Dufs, PicoShare, ProjectSend, PsiTransfer, Syncthing                         |
-| `office`           | Memos, Stirling PDF, PrivateBin                                              |
-| `media`            | Jellyfin                                                                     |
-| `immich`           | Immich (photos and videos)                                                   |
-| `torrent`          | qBittorrent, OpenSSH, Uptime Kuma, Dozzle                                    |
-| `transmission`     | Transmission (instead of qBittorrent)                                        |
-| `web`              | WordPress                                                                    |
-| `monitoring`       | Uptime Kuma, Dozzle, Argus                                                   |
-| `7dtd`, `minecraft`, `satisfactory`, `tf2` | Game servers                                         |
+```sh
+COMPOSE_PROFILES=core,local_ai,openssh
+```
+
+| Profile | Services |
+| ------- | -------- |
+| `core` | Caddy, acme-dns, Authelia, Homepage: needed by the websites, not by the game servers |
+| `local_ai` | Ollama, Open WebUI, LiteLLM, OpenCode, VS Code server, Kiwix, Docling, Kroki, SearXNG (for the AI), Speaches: one profile, they depend on each other |
+| `vllm` | vLLM, with `local_ai` |
+| `openssh` | OpenSSH, port 2222: your data, Caddy's certificates and the game servers |
+| `forgejo`, `dependency-track`, `compiler-explorer` | Forgejo and its runner, Dependency-Track, Compiler Explorer |
+| `it-tools`, `omni-tools`, `cyberchef`, `bentopdf`, `memos`, `stirlingpdf`, `privatebin` | Tools |
+| `dufs`, `picoshare`, `projectsend`, `psitransfer`, `syncthing` | File sharing and synchronization |
+| `jellyfin`, `immich`, `qbittorrent`, `transmission` | Media |
+| `wordpress`, `searxng` | Websites |
+| `uptime-kuma`, `dozzle`, `argus` | Monitoring |
+| `7daystodie`, `minecraft`, `satisfactory`, `teamfortress2` | Game servers and their backup (`teamfortress2_backup` for Team Fortress 2) |
+
+`make` runs `docker compose` in `infrastructure/`, which you can also use directly:
+
+```sh
+cd infrastructure
+docker compose up -d                       # the apps of COMPOSE_PROFILES
+docker compose --profile jellyfin up -d    # one more app, the others are not touched
+docker compose --profile jellyfin down     # stops only this app
+docker compose --profile '*' down          # stops every app, like make down
+docker compose --profile local_ai up -d kroki   # one service of an app, for a test
+```
+
+
+The whole project can create over 30 networks, you can increase the number of available networks by configuring Docker's default address pools in `/etc/docker/daemon.json`, then restarting Docker:
+
+```json
+{
+  "default-address-pools": [
+    { "base": "172.30.0.0/16", "size": 24 },
+    { "base": "172.31.0.0/16", "size": 24 }
+  ]
+}
+```
 
 
 ### Configure the domain
@@ -139,12 +186,16 @@ The active presets are declared in the [`Makefile`](Makefile) via the `CONFIGS` 
 The domain and the certificates are set once, in [infrastructure/.env](infrastructure/.env.example) (created by `make init`):
 
 ```sh
-DOMAIN=bensuperpc.org
-TLS=bensuperpc@gmail.com
+DOMAIN=example.com
+TLS=acme-dns
 LISTEN_ADDRESS=0.0.0.0
 ```
 
-For local testing:
+Online (`TLS=acme-dns`), Caddy gets a single wildcard certificate for `*.<DOMAIN>` (and one for `<DOMAIN>`) from Let's Encrypt, and renews it automatically: see [Wildcard certificate](#wildcard-certificate-acme-dns). To test locally, see [Local testing](#local-testing).
+
+### Local testing
+
+Set in `infrastructure/.env` (the default of `make init`):
 
 ```sh
 DOMAIN=bensuperpc.localhost
@@ -152,46 +203,58 @@ TLS=internal
 LISTEN_ADDRESS=127.0.0.1
 ```
 
-`LISTEN_ADDRESS` applies to every published port: Caddy, SSH (Forgejo, OpenSSH), qBittorrent and the game servers.
+`*.localhost` names resolve to 127.0.0.1 without `/etc/hosts`, and Caddy signs the certificates with its own CA, so Authelia works as online. After the first start, import Caddy's root certificate (`caddy-root.crt`, written by this command) in your browser:
 
-Online, Caddy gets a Let's Encrypt certificate for each subdomain with the `TLS` e-mail, and renews it automatically. To test locally, see [Local testing](#local-testing).
+```sh
+make caddy-root
+```
 
-| Domain name                                                        | Type | Description                                                  |
-| ------------------------------------------------------------------ | ---- | ------------------------------------------------------------ |
-| [bensuperpc.org](https://bensuperpc.org)                           | Main | Redirect to [www.bensuperpc.org](https://www.bensuperpc.org) |
-| [www.bensuperpc.org](https://www.bensuperpc.org)                   | Main | Homepage                                                     |
-| [openwebui.bensuperpc.org](https://openwebui.bensuperpc.org)       | Sub  | Open WebUI: chat and RAG with Ollama (local_ai)              |
-| [litellm.bensuperpc.org](https://litellm.bensuperpc.org)           | Sub  | LiteLLM proxy for Open WebUI: external APIs (local_ai)       |
-| [opencode.bensuperpc.org](https://opencode.bensuperpc.org)         | Sub  | OpenCode coding agent (local_ai)                             |
-| [vscode.bensuperpc.org](https://vscode.bensuperpc.org)             | Sub  | VS Code server, same tools as OpenCode                       |
-| [kiwix.bensuperpc.org](https://kiwix.bensuperpc.org)               | Sub  | Offline documentation (local_ai)                             |
-| [docling.bensuperpc.org](https://docling.bensuperpc.org)           | Sub  | Documents to Markdown (local_ai)                             |
-| [kroki.bensuperpc.org](https://kroki.bensuperpc.org)               | Sub  | Diagrams from text (local_ai)                                |
-| [compiler-explorer.bensuperpc.org](https://compiler-explorer.bensuperpc.org) | Sub | Compiler Explorer                                  |
-| [authelia.bensuperpc.org](https://authelia.bensuperpc.org)         | Sub  | Authelia for authentication                                  |
-| [uptimekuma.bensuperpc.org](https://uptimekuma.bensuperpc.org)     | Sub  | Uptime Kuma for monitoring                                   |
-| [qbittorrent.bensuperpc.org](https://qbittorrent.bensuperpc.org)   | Sub  | Torrent client/server                                        |
-| [dozzle.bensuperpc.org](https://dozzle.bensuperpc.org)             | Sub  | Dozzle for docker logs                                       |
-| [transmission.bensuperpc.org](https://transmission.bensuperpc.org) | Sub  | Torrent client/server                                        |
-| [forgejo.bensuperpc.org](https://forgejo.bensuperpc.org/)          | Sub  | Fork of Gitea for git                                        |
-| [git.bensuperpc.org](https://git.bensuperpc.org)                   | Sub  | Fork of Gitea for git                                        |
-| [jellyfin.bensuperpc.org](https://jellyfin.bensuperpc.org)         | Sub  | Jellyfin for media server                                    |
-| [immich.bensuperpc.org](https://immich.bensuperpc.org)             | Sub  | Immich for photos and videos                                 |
-| [syncthing.bensuperpc.org](https://syncthing.bensuperpc.org)       | Sub  | SyncThing for file synchronization                           |
-| [psitransfer.bensuperpc.org](https://psitransfer.bensuperpc.org)   | Sub  | PsiTransfer for file sharing                                 |
-| [it-tools.bensuperpc.org](https://it-tools.bensuperpc.org)         | Sub  | Tools for IT                                                 |
-| [omni-tools.bensuperpc.org](https://omni-tools.bensuperpc.org)     | Sub  | Tools for IT                                                 |
-| [privatebin.bensuperpc.org](https://privatebin.bensuperpc.org)     | Sub  | Privatebin                                                   |
-| [projectsend.bensuperpc.org](https://projectsend.bensuperpc.org)   | Sub  | ProjectSend for file sharing                                 |
-| [picoshare.bensuperpc.org](https://picoshare.bensuperpc.org)       | Sub  | Picoshare for file sharing                                   |
-| [dufs.bensuperpc.org](https://dufs.bensuperpc.org)                 | Sub  | Dufs for file sharing                                        |
-| [memos.bensuperpc.org](https://memos.bensuperpc.org)               | Sub  | Memos note-taking app                                        |
-| [stirlingpdf.bensuperpc.org](https://stirlingpdf.bensuperpc.org)   | Sub  | Stirling PDF tools                                           |
-| [argus.bensuperpc.org](https://argus.bensuperpc.org)               | Sub  | Argus for monitoring application updates                     |
-| [searxng.bensuperpc.org](https://searxng.bensuperpc.org)           | Sub  | SearXNG self-hosted search engine                            |
-| [dependency-track.bensuperpc.org](https://dependency-track.bensuperpc.org) | Sub | SBOM / vulnerability analysis                       |
-| [wordpress.bensuperpc.org](https://wordpress.bensuperpc.org)       | Sub  | Wordpress website                                            |
-| [bentopdf.bensuperpc.org](https://bentopdf.bensuperpc.org)         | Sub  | BentoPDF                                                     |
+acme-dns starts too, on 127.0.0.1:53, but is not used locally.
+
+Variables exported in your shell (`DOMAIN`, `COMPOSE_PROFILES`...) take precedence over `infrastructure/.env`: unset them before `make`.
+
+`LISTEN_ADDRESS` applies to every published port: Caddy, acme-dns, SSH (Forgejo, OpenSSH), qBittorrent and the game servers.
+
+Access: *Public* for everyone, *Authelia* after login for the admins, *Authelia, users* for the users too.
+
+| Domain name | Access | Description |
+| ----------- | ------ | ----------- |
+| `<DOMAIN>` | Public | Redirect to `www.<DOMAIN>`, like any unknown subdomain |
+| `www.<DOMAIN>` | Public | Homepage: public services |
+| `public.<DOMAIN>` | Public | Files of the `public_data` volume, read only |
+| `authelia.<DOMAIN>` | Public | Authelia login page |
+| `homepage.<DOMAIN>` | Authelia | Homepage (private): every service |
+| `openwebui.<DOMAIN>` | Authelia, users | Open WebUI: chat and RAG with Ollama (local_ai) |
+| `litellm.<DOMAIN>` | Authelia, users | LiteLLM proxy for Open WebUI: external APIs and vLLM (local_ai) |
+| `opencode.<DOMAIN>` | Authelia | OpenCode coding agent (local_ai) |
+| `vscode.<DOMAIN>` | Authelia | VS Code server, same tools as OpenCode (local_ai) |
+| `kiwix.<DOMAIN>` | Authelia, users | Offline documentation (local_ai) |
+| `docling.<DOMAIN>` | Authelia | Documents to Markdown (local_ai) |
+| `kroki.<DOMAIN>` | Authelia | Diagrams from text (local_ai) |
+| `searxng.<DOMAIN>` | Authelia, users | SearXNG self-hosted search engine |
+| `git.<DOMAIN>` | Authelia | Forgejo (`forgejo.<DOMAIN>` redirects here) |
+| `compiler-explorer.<DOMAIN>` | Authelia | Compiler Explorer |
+| `dependency-track.<DOMAIN>` | Authelia | SBOM / vulnerability analysis |
+| `jellyfin.<DOMAIN>` | Authelia, users | Jellyfin for media server |
+| `immich.<DOMAIN>` | Authelia, users | Immich for photos and videos |
+| `torrent.<DOMAIN>` | Authelia, users | qBittorrent (`qbittorrent.<DOMAIN>` redirects here) |
+| `transmission.<DOMAIN>` | Authelia | Transmission torrent client |
+| `syncthing.<DOMAIN>` | Authelia, users | SyncThing for file synchronization |
+| `dufs.<DOMAIN>` | Authelia | Dufs: manage the files of `public_data` |
+| `transfer.<DOMAIN>` | Authelia | PsiTransfer for file sharing (`psitransfer.<DOMAIN>` redirects here) |
+| `projectsend.<DOMAIN>` | Authelia | ProjectSend for file sharing |
+| `picoshare.<DOMAIN>` | Authelia | Picoshare for file sharing |
+| `it-tools.<DOMAIN>` | Public | Tools for IT |
+| `omni-tools.<DOMAIN>` | Public | Tools for IT |
+| `cyberchef.<DOMAIN>` | Public | CyberChef: encoding, decoding, analysis |
+| `bentopdf.<DOMAIN>` | Public | BentoPDF: PDF tools in the browser |
+| `stirlingpdf.<DOMAIN>` | Authelia | Stirling PDF tools |
+| `memos.<DOMAIN>` | Authelia | Memos note-taking app |
+| `privatebin.<DOMAIN>` | Authelia | Privatebin |
+| `wordpress.<DOMAIN>` | Public | Wordpress website |
+| `uptimekuma.<DOMAIN>` | Authelia | Uptime Kuma for monitoring |
+| `dozzle.<DOMAIN>` | Authelia | Dozzle for docker logs |
+| `argus.<DOMAIN>` | Authelia | Argus for monitoring application updates |
 
 
 ### Configure the infrastructure
@@ -200,9 +263,35 @@ Every secret is in one file, `infrastructure/.env` (gitignored), created by `mak
 
 The services' `<name>.env` files, next to their compose file, are tracked in git and hold no secret: they read them as `${NAME}`, e.g. `DATABASE_URL=postgresql://litellm:${LITELLM_DB_PASSWORD}@litellm-postgres:5432/litellm`, so a database and its client share the same value.
 
+#### Wildcard certificate (acme-dns)
+
+Online, Caddy uses one Let's Encrypt certificate for `*.<DOMAIN>` instead of one per subdomain, let's Encrypt checks the TXT record `_acme-challenge.<DOMAIN>`, answered by [acme-dns](https://github.com/acme-dns/acme-dns) on port 53.
+
+1. At the DNS provider of `<DOMAIN>` (OVH...), add once:
+
+```
+ns-acme   IN A    <public IP>
+acme      IN NS   ns-acme.<DOMAIN>.
+```
+
+2. Open port 53, UDP and TCP, to the server.
+3. Set `TLS=acme-dns` in `infrastructure/.env`, then register Caddy's account on acme-dns (written to `infrastructure/.env`):
+
+```bash
+make acme-dns-register
+```
+
+4. Add the record it prints at the DNS provider, once:
+
+```
+_acme-challenge   IN CNAME   <ACME_DNS_SUBDOMAIN>.acme.<DOMAIN>.
+```
+
+5. `make up`: `docker logs caddy 2>&1 | grep 'certificate obtained'` shows `*.<DOMAIN>` after a few seconds.
+
 #### Authelia - user database
 
-`make init` writes `infrastructure/services/infra/authelia/config/users_database.yml` (gitignored) with one admin, from `AUTHELIA_ADMIN_USER`, `AUTHELIA_ADMIN_EMAIL` and `AUTHELIA_ADMIN_PASSWORD` in `infrastructure/.env`, if the file does not exist yet. To change the password or add users, edit the file with an argon2 hash:
+`make init` writes `infrastructure/services/infra/authelia/config/users_database.yml` (gitignored) with one admin, from `AUTHELIA_ADMIN_USER`, `AUTHELIA_ADMIN_EMAIL` and `AUTHELIA_ADMIN_PASSWORD` in `infrastructure/.env`, if the file does not exist yet, to change the password or add users, edit the file with an argon2 hash:
 
 ```sh
 docker run --rm authelia/authelia:4.39.28 authelia crypto hash generate argon2 --password 'MyPassword'
@@ -224,7 +313,7 @@ Replace [id_ed25519.pub](infrastructure/services/infra/openssh/config/authorized
 
 #### local_ai
 
-The `local_ai` profile runs a local AI stack that works offline once downloaded (about 20 GB), it needs an AMD GPU (ROCm, `/dev/kfd` and `/dev/dri`), an NVIDIA GPU or Intel GPU.
+The `local_ai` app works offline once downloaded (about 20 GB), it needs an AMD GPU (ROCm, `/dev/kfd` and `/dev/dri`), an NVIDIA GPU or Intel GPU.
 
 | Service | Role | First access |
 | --- | --- | --- |
@@ -232,13 +321,13 @@ The `local_ai` profile runs a local AI stack that works offline once downloaded 
 | OpenCode | Coding agent with offline docs (Kiwix) | `docker exec opencode opencode pair --url https://opencode.<DOMAIN>` |
 | VS Code server | Editor | Password: `VSCODE_SERVER_PASSWORD` |
 | LiteLLM | Proxy for external APIs (OpenAI, Anthropic...) | `litellm.<DOMAIN>`, `admin` / `LITELLM_UI_PASSWORD` |
-| Ollama | Local models (`OLLAMA_MODEL`, `EMBEDDING_MODEL`) | - |
+| Ollama | Local models (`OLLAMA_MODEL`, `EMBEDDING_MODEL`) | Pull the models, see below |
 | Speaches | Speech to text and text to speech (CPU) | - |
-| vLLM | Hugging Face models (`VLLM_MODEL`), optional `vllm` profile | Add it in LiteLLM, see below |
+| vLLM | Hugging Face models (`VLLM_MODEL`), optional: profile `vllm` | Add it in LiteLLM, see below |
 
 Open WebUI and OpenCode have no direct internet access: web search goes through SearXNG, limited to the domains in [whitelist.txt](infrastructure/services/ai/searxng/config/whitelist.txt).
 
-To add models (Ollama library or Hugging Face GGUF):
+Ollama downloads no model by itself, to use it you need to pull the a model from the Ollama library or Hugging Face GGUF:
 
 ```bash
 docker exec ollama ollama pull qwen3.8:27b
@@ -258,24 +347,15 @@ Default credentials are `admin` / `admin` - **change them on first login**.
 
 #### Argus - GitHub token
 
-Argus checks about 30 GitHub projects every hour, within GitHub's 60 requests per hour without a token. For more, set `ARGUS_GITHUB_TOKEN` in `infrastructure/.env` with a fine-grained token without any permission.
+Argus checks about 30 GitHub projects every hour, within GitHub's 60 requests per hour without a token, for more, set `ARGUS_GITHUB_TOKEN` in `infrastructure/.env` with a fine-grained token without any permission.
 
 #### Forgejo - installation
 
 On the first start, `git.<DOMAIN>` shows the installation wizard, filled in from [forgejo.env](infrastructure/services/dev/forgejo/forgejo.env): create the administrator account there. The wizard writes `INSTALL_LOCK = true` to Forgejo's `app.ini`: do not set `FORGEJO__security__INSTALL_LOCK` in `forgejo.env`, Forgejo applies the `FORGEJO__*` variables at every start and `false` would break the installation.
 
-### Homepage
-
-You can change the homepage config in these files:
-
-- [bookmarks.yaml](infrastructure/services/infra/homepage/config/bookmarks.yaml)
-- [services.yaml](infrastructure/services/infra/homepage/config/services.yaml)
-- [settings.yaml](infrastructure/services/infra/homepage/config/settings.yaml)
-- [widgets.yaml](infrastructure/services/infra/homepage/config/widgets.yaml)
-
 ### Forgejo Runner
 
-The `forgejo` preset starts a runner, registered without any manual step:
+The `forgejo` app starts a runner, registered without any manual step:
 
 - `forgejo_runner_register` waits for the end of the installation wizard, registers the runner in Forgejo with `FORGEJO_RUNNER_SECRET` (generated by `make init`), then exits.
 - `forgejo_runner` then starts with [runner.yml](infrastructure/services/dev/forgejo/config/runner.yml).
@@ -284,23 +364,31 @@ Labels for `runs-on:`: `docker` (Node 22), `ubuntu-latest`, `ubuntu-24.04` and `
 
 `actions/checkout` and the other actions are downloaded from `https://data.forgejo.org`. Jobs reach Forgejo directly at `http://forgejo:3000`, without Authelia.
 
+### Updates (Renovate)
+
+[Renovate](https://docs.renovatebot.com/) runs on GitHub, at night, with the settings of [renovate.json](renovate.json): it opens a pull request for each new version (images, Dockerfiles, GitHub Actions), and a *Dependency Dashboard* issue that lists them all.
+
+Once: install the [Renovate GitHub App](https://github.com/apps/renovate) on the repository. It reads `renovate.json` from the default branch.
+
+
 ### Docker volumes
 
-This infrastructure uses docker volumes to store data, all configuration/data for each service are not shared between services for security and maintenance reasons, but **public_data** and **private_data** are shared between all services to store your data.
+Each service stores its data in a dedicated Docker volume, which is not shared with other services.
 
-| Volume name  | Description                                                                                                |
-| ------------ | ---------------------------------------------------------------------------------------------------------- |
-| public_data  | Public data reachable on internet via [dufs.bensuperpc.org](https://dufs.bensuperpc.org), can be disabled. |
-| private_data | Private data                                                                                               |
+For shared volumes:
+
+| Volume name  | Description |
+| ------------ | ----------- |
+| public_data  | Public data: everyone can read it at `public.<DOMAIN>` |
+| private_data | Private data: OpenSSH, SyncThing, Jellyfin and qBittorrent |
+
 
 ### SSH access
 
-The default port for SSH/rsync is 2222.
-
-You can access to the server with:
+OpenSSH (profile `openssh`) listens on port **2222**, user `admin`, with the key of [OpenSSH - public key](#openssh---public-key), it gives access (SFTP, rsync) to `public_data`, `private_data`, Caddy's certificates (read only) and backups, and the data and backups of the game servers:
 
 ```sh
-ssh -p 2222 admin@bensuperpc.org
+ssh -p 2222 admin@<DOMAIN>
 ```
 
 ### Qbittorrent
@@ -308,23 +396,6 @@ ssh -p 2222 admin@bensuperpc.org
 To activate the alternative webui theme (VueTorrent), you need to go in the qbittorrent settings, then in the `webui` section, check the `Use alternative webui` and add `/vuetorrent` to text field.
 
 
-### Local testing
-
-Set in `infrastructure/.env`:
-
-```sh
-DOMAIN=bensuperpc.localhost
-TLS=internal
-LISTEN_ADDRESS=127.0.0.1
-```
-
-`*.localhost` names resolve to 127.0.0.1 without `/etc/hosts`, and Caddy signs the certificates with its own CA, so Authelia works as online, after the first start, import Caddy's root certificate in your browser:
-
-```sh
-make caddy-root
-```
-
-Variables exported in your shell (`DOMAIN`, `OLLAMA_MODEL`...) take precedence over `infrastructure/.env`: unset them before `make`.
 
 ## Sources
 
@@ -340,7 +411,6 @@ Variables exported in your shell (`DOMAIN`, `OLLAMA_MODEL`...) take precedence o
 - [Imagisphe](https://imagisphe.re/)
 - [Letsencrypt](https://letsencrypt.org/)
 - [Caddy](https://caddyserver.com/)
-- [Adminer](https://www.adminer.org/)
 - [self-hosted-ai-stack](https://triedandtestedbuilds.com/self-hosted-ai-stack-part-1)
 - [Uptime Kuma](https://uptime-kuma.com/)
 - [qbittorrent](https://www.qbittorrent.org/)
@@ -353,12 +423,11 @@ Variables exported in your shell (`DOMAIN`, `OLLAMA_MODEL`...) take precedence o
 - [It-tools](https://github.com/CorentinTh/it-tools)
 - [Omni-tools](https://github.com/iib0011/omni-tools)
 - [Privatebin](https://github.com/PrivateBin/PrivateBin)
-- [ghost](https://ghost.org)
 - [Homepage Tuto](https://belginux.com/installer-homepage-avec-docker/)
 - [ProjectSend](https://www.projectsend.org/)
 - [Picoshare](https://github.com/mtlynch/picoshare)
 - [Dufs](https://github.com/sigoden/dufs)
-- [demos](https://github.com/usememos/memos)
+- [Memos](https://github.com/usememos/memos)
 - [Stirling PDF](https://github.com/Stirling-Tools/Stirling-PDF)
 - [open-webui](https://github.com/open-webui/open-webui)
 - [Fix docker volume](https://pratikpc.medium.com/use-docker-compose-named-volumes-as-non-root-within-your-containers-1911eb30f731)

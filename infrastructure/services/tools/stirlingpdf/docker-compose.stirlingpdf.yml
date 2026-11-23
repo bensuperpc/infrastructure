@@ -1,22 +1,28 @@
 services:
   # stirlingpdf
   stirlingpdf:
-    image: stirlingtools/stirling-pdf:${STIRLINGPDF_DOCKER_TAG:-3.3.0}
+    image: stirlingtools/stirling-pdf:3.3.0
     container_name: stirlingpdf
-    profiles:
-      - stirlingpdf
+    profiles: [stirlingpdf]
+    mem_limit: 4g
+    labels:
+      homepage.instance.private.group: Personal
+      homepage.instance.private.name: stirlingpdf
+      homepage.instance.private.weight: "100"
+      homepage.instance.private.icon: stirling-pdf.png
+      homepage.instance.private.href: https://stirlingpdf.${DOMAIN}/
+      homepage.instance.private.description: StirlingPDF
     extends:
       file: ../../../common.yml
       service: service-base
-    depends_on:
-      - caddy
     env_file:
       - ./stirlingpdf.env
     volumes:
       - stirlingpdf_config:/configs
       - stirlingpdf_tessdata:/usr/share/tessdata
     networks:
-      - caddy-tools
+      - stirlingpdf
+      - proxy-private
     read_only: false
 
 volumes:
@@ -26,6 +32,4 @@ volumes:
     name: stirlingpdf_tessdata
 
 networks:
-  caddy-tools:
-    driver: bridge
-    name: caddy-tools
+  stirlingpdf: {}

@@ -1,0 +1,8 @@
+include:
+  - it-tools/docker-compose.it-tools.yml
+  - omni-tools/docker-compose.omni-tools.yml
+  - cyberchef/docker-compose.cyberchef.yml
+  - bentopdf/docker-compose.bentopdf.yml
+  - memos/docker-compose.memos.yml
+  - stirlingpdf/docker-compose.stirlingpdf.yml
+  - privatebin/docker-compose.privatebin.yml

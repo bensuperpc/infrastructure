@@ -1,12 +1,16 @@
 services:
   # syncthing
   syncthing:
-    image: linuxserver/syncthing:${SYNCTHING_DOCKER_TAG:-v2.1.7-ls237}
+    image: linuxserver/syncthing:v2.1.7-ls237
     container_name: syncthing
-    profiles:
-      - syncthing
-    depends_on:
-      - caddy
+    profiles: [syncthing]
+    labels:
+      homepage.instance.private.group: Personal
+      homepage.instance.private.name: syncthing
+      homepage.instance.private.weight: "140"
+      homepage.instance.private.icon: syncthing.png
+      homepage.instance.private.href: https://syncthing.${DOMAIN}/
+      homepage.instance.private.description: Syncthing
     extends:
       file: ../../../common.yml
       service: service-base
@@ -20,17 +24,12 @@ services:
       - public_data:/data1
       - private_data:/data2
     networks:
-      - caddy-media
+      - syncthing
+      - proxy-private
 
 volumes:
   syncthing_config:
     name: syncthing_config
-  public_data:
-    name: public_data
-  private_data:
-    name: private_data
 
 networks:
-  caddy-media:
-    driver: bridge
-    name: caddy-media
+  syncthing: {}

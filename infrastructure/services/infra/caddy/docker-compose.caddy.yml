@@ -2,13 +2,24 @@ services:
   # Caddy
   caddy:
     #image: bensuperpc/caddy-l4:latest
-    image: caddy:${CADDY_DOCKER_TAG:-2.11.9-alpine}
+    build:
+      context: ../../../images/caddy
+    image: infrastructure/caddy
+    pull_policy: build
     container_name: caddy
-    profiles:
-      - caddy
+    profiles: [core]
+    labels:
+      homepage.group: Public
+      homepage.name: caddy
+      homepage.weight: "50"
+      homepage.icon: caddy.png
+      homepage.href: https://public.${DOMAIN}/
+      homepage.description: File browser
     depends_on:
       main_infrastructure:
         condition: service_completed_successfully
+      acme-dns:
+        condition: service_started
     ports:
       - ${LISTEN_ADDRESS:-0.0.0.0}:80:80/tcp
       - ${LISTEN_ADDRESS:-0.0.0.0}:80:80/udp
@@ -22,14 +33,12 @@ services:
       - public_data:/public_data:ro
 
     networks:
-      - caddy-infra
-      - caddy-media
-      - caddy-tools
-      - caddy-files
-      - caddy-dev
-      - caddy-web
+      - core
       - local-ai
-      - caddy-compiler-explorer
+      - proxy
+      - proxy-private
+      - proxy-torrent
+      - proxy-compiler-explorer
     env_file:
       - ./caddy.env
     extends:
@@ -42,62 +51,20 @@ services:
       retries: 3
 
   caddy_backup:
-    image: mazzolino/restic:${RESTIC_DOCKER_TAG:-1.8.2}
     container_name: caddy_backup
-    profiles:
-      - caddy
+    profiles: [core]
+    extends:
+      file: ../../../common.yml
+      service: backup-base
     depends_on:
       - caddy
-    restart: on-failure:7
     env_file:
       - ./caddy_backup.env
-    environment:
-      - TZ=${TZ:-Europe/Paris}
     volumes:
       - caddy_backup:/mnt/restic
       - caddy_data:/data:ro
-    network_mode: none
-    cap_drop:
-      - NET_ADMIN
-      - NET_RAW
-      - SYS_ADMIN
 
 volumes:
-  caddy_data:
-    name: caddy_data
-  caddy_config:
-    name: caddy_config
-  caddy_backup:
-    name: caddy_backup
-  wordpress:
-    name: wordpress
-  public_data:
-    name: public_data
-
-networks:
-  caddy-infra:
-    driver: bridge
-    name: caddy-infra
-  caddy-media:
-    driver: bridge
-    name: caddy-media
-  caddy-tools:
-    driver: bridge
-    name: caddy-tools
-  caddy-files:
-    driver: bridge
-    name: caddy-files
-  caddy-dev:
-    driver: bridge
-    name: caddy-dev
-  caddy-web:
-    driver: bridge
-    name: caddy-web
-  local-ai:
-    driver: bridge
-    name: local-ai
-    internal: true
-  caddy-compiler-explorer:
-    driver: bridge
-    name: caddy-compiler-explorer
-    internal: true
+  caddy_data: { name: caddy_data }
+  caddy_config: { name: caddy_config }
+  caddy_backup: { name: caddy_backup }
