@@ -47,6 +47,7 @@ services:
     networks:
       - local-ai
       - dind-internal
+      - proxy-compiler-explorer
 
 volumes:
   opencode_home:

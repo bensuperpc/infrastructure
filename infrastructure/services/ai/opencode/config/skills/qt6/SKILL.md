@@ -71,4 +71,4 @@ TestCase {
 ## Notes
 
 - The CMake warning "The qml plugin ... will not be linked" is harmless.
-- Docs: ZIM file `/data/devdocs_en_qt.zim`.
+- Docs: ZIM file `/data/devdocs_en_qt.zim`, JavaScript in QML: `/data/devdocs_en_javascript.zim`.

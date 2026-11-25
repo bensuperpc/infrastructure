@@ -1,13 +1,12 @@
 services:
   ollama:
-    image: ollama/ollama:0.40.17-rocm
+    image: ollama/ollama:0.40.17
     container_name: ollama
     profiles: [local_ai]
     extends:
       file: ../../../common.yml
       service: service-base
     devices:
-      - /dev/kfd
       - /dev/dri
     env_file:
       - ./ollama.env

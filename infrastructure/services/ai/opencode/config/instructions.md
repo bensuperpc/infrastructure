@@ -3,23 +3,23 @@
 Your first tool calls in every task are `skill` calls: before answering, reading, writing or running anything. Skills hold the rules of this environment (installed versions, no internet, project conventions), so an answer from memory is often wrong here.
 
 1. Find every row of this table whose keywords the task mentions or needs.
-2. Call `skill` once for each Skill ID of these rows.
+2. Call `skill` once for each Skill ID of these rows. Never load the same skill twice in a task.
 3. Then do the task, following the loaded skills.
 
 Example: "create a C++ project with GoogleTest tests" -> call `skill` with `cplusplus`, then `cmake`, then `cpp-testing`, then write the files.
 
-Do this also for questions answered only in the chat. If no row matches, load the skill whose description in the `skill` tool matches the task (compilers, debuggers, profilers, binaries, performance...).
+Do this also for questions answered only in the chat. If no row matches, load the skill whose description in the `skill` tool matches the task (compilers, build systems, binaries, static analysis...).
 
 | Task mentions | Skill ID |
 | --- | --- |
 | C, C++, compile, debug, crash | `cplusplus` |
 | CMake, CMakeLists.txt, CMakePresets.json, preset | `cmake` |
 | Makefile, make | `make` |
-| segfault, backtrace, gdb | `gdb` |
-| memory error, leak, sanitizer, data race | `sanitizers`, `valgrind` |
+| crash, plantage, segfault, backtrace, gdb, memory error, bug mémoire, leak, fuite, sanitizer, ASan, valgrind, data race, strace | `debug` |
 | clang-tidy, cppcheck, static analysis | `static-analysis` |
 | linker error, undefined symbol, shared library, ELF | `elf-inspection`, `dynamic-linking` |
 | tests, GoogleTest, GMock, Catch2, benchmark, coverage | `cpp-testing` |
+| assembly, assembleur, generated code, vectorization, vectorisation, vectorisé, inlining, optimization remarks, Compiler Explorer, godbolt | `compiler-explorer` |
 | Qt, QML, Qt Quick | `qt6` |
 | Boost, Asio, Beast | `boost` |
 | OpenCV, cv2, image processing | `opencv` |
@@ -52,7 +52,9 @@ Prefer local documentation over the web.
 
 1. `/docs`: read-only Markdown documentation. Search with `grep` and `glob`, then read matching files. It contains the user's documents and these folders: `googletest`, `benchmark`, `protobuf`, `nanopb`, `opencv`, `gitlab-ci`, `github-actions`, `mermaid`.
 2. Tool `zim_zim_query`: offline documentation. Always provide `zim_file_path`:
-   - `/data/devdocs_en_<name>.zim`, with `<name>` one of `c`, `cpp`, `cmake`, `gcc`, `gnu-make`, `qt`, `docker`, `opengl`, `vulkan`, `python`, `pytest`, `numpy`, `git`, `bash`, `man`.
+   - `/data/devdocs_en_<name>.zim`, with `<name>` one of `c`, `cpp`, `cmake`, `gcc`, `gnu-make`, `qt`, `docker`, `opengl`, `vulkan`, `python`, `pytest`, `numpy`, `git`, `bash`, `man`, `jq`, `graphviz`, `javascript`, `markdown`.
+   - `/data/archlinux_en_all_maxi.zim`: Arch Wiki (Linux, systemd, networking, drivers).
+   - `/data/wikipedia_en_computer_nopic.zim`: Wikipedia, computing (algorithms, data structures, protocols, file formats, CPU architectures).
    - Other archives, if any: query `list files`.
 
    Articles initially display only their introduction. To retrieve more:

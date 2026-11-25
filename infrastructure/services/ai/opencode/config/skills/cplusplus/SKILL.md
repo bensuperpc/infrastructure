@@ -3,17 +3,16 @@ name: C/C++
 description: Installed compilers and libraries for C or C++ projects, and which skills to load. Load for any C or C++ task.
 ---
 
-Load these skills too, now, if the task involves them:
+Load these skills too if the task involves them, except the ones already loaded:
 
 | Task | Skill |
 | --- | --- |
 | CMakeLists.txt, presets | `cmake` |
-| Compiler flags, warnings, compilation errors | `gcc`, `clang` |
-| Crash, backtrace | `gdb` |
-| Memory errors, undefined behavior, data races | `sanitizers`, then `valgrind` |
+| Crash, memory errors, leaks, undefined behavior, data races | `debug` |
 | clang-tidy, cppcheck | `static-analysis` |
 | Linker errors, undefined symbols, shared libraries | `elf-inspection`, `dynamic-linking` |
 | Tests, benchmarks, coverage | `cpp-testing` |
+| Generated assembly, vectorization, inlining | `compiler-explorer` |
 | Qt, Boost, OpenCV, protobuf or nanopb | `qt6`, `boost`, `opencv`, `protobuf` |
 
 ## Environment

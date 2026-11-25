@@ -5,7 +5,7 @@ ARG HOST_GID=1000
 
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
-        build-essential ca-certificates clang clang-format clang-tidy clangd \
+        build-essential ca-certificates clang clang-format clang-tidy clangd libclang-rt-dev llvm \
         strace elfutils libasan8 libssl-dev bison \
         cmake curl gdb git ninja-build pkg-config ripgrep valgrind \
         ccache cppcheck gcovr hyperfine jq shellcheck yamllint \

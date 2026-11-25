@@ -21,6 +21,8 @@ If the command fails, the output file contains the error: fix the diagram and re
 | Dependency graphs, generated graphs | `graphviz` | `.dot` |
 | Architecture with nested boxes | `d2` | `.d2` |
 
+Graphviz attributes and node shapes: ZIM file `/data/devdocs_en_graphviz.zim`.
+
 ## Examples
 
 Signal timing:

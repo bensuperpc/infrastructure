@@ -6,7 +6,7 @@ _Open source, decentralized and self-hosted infrastructure for many local servic
 
 - [x] caddy 2 HTTP/S reverse proxy, Let's Encrypt wildcard certificate with acme-dns
 - [x] Authelia (SSO / authentication middleware)
-- [x] local_ai: Ollama (ROCm), Open WebUI, LiteLLM, OpenCode, VS Code server, Kiwix, Docling, Kroki, SearXNG, Speaches (voice), vLLM (optional)
+- [x] local_ai: Ollama (Vulkan), Open WebUI, LiteLLM, OpenCode, VS Code server, Kiwix, Docling, Kroki, SearXNG, Speaches (voice), vLLM (optional)
 - [x] Compiler Explorer
 - [x] qbittorrent and transmission (Torrent client/server)
 - [x] Docker / docker-compose
@@ -313,7 +313,7 @@ Replace [id_ed25519.pub](infrastructure/services/infra/openssh/config/authorized
 
 #### local_ai
 
-The `local_ai` app works offline once downloaded (about 20 GB), it needs an AMD GPU (ROCm, `/dev/kfd` and `/dev/dri`), an NVIDIA GPU or Intel GPU.
+The `local_ai` app works offline once downloaded (about 20 GB), Ollama needs a Vulkan GPU (AMD or Intel, `/dev/dri`), the optional vLLM an AMD GPU with ROCm (`/dev/kfd` and `/dev/dri`).
 
 | Service | Role | First access |
 | --- | --- | --- |
