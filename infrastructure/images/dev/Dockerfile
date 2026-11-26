@@ -1,4 +1,4 @@
-FROM debian:trixie-20261104-slim AS opencode
+FROM debian:trixie-20261123-slim AS opencode
 ARG OPENCODE_VERSION=2.4.1
 ARG HOST_UID=1000
 ARG HOST_GID=1000
@@ -54,7 +54,7 @@ CMD ["opencode", "serve", "--service", "--hostname", "0.0.0.0", "--port", "4096"
 
 FROM opencode AS code-server
 
-ARG CODE_SERVER_VERSION=4.145.2
+ARG CODE_SERVER_VERSION=4.146.0
 ARG CODELLDB_VERSION=1.12.3
 
 USER root
@@ -87,7 +87,7 @@ FROM node:22.23.5-trixie-slim AS node
 
 FROM opencode AS compiler-explorer
 
-ARG COMPILER_EXPLORER_VERSION=gh-20403
+ARG COMPILER_EXPLORER_VERSION=gh-20559
 
 USER root
 

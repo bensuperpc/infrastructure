@@ -1,7 +1,7 @@
 services:
   # stirlingpdf
   stirlingpdf:
-    image: stirlingtools/stirling-pdf:3.3.0
+    image: stirlingtools/stirling-pdf:3.5.0
     container_name: stirlingpdf
     profiles: [stirlingpdf]
     mem_limit: 4g

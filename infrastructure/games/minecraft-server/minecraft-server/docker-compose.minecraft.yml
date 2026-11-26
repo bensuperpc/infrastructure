@@ -1,6 +1,6 @@
 services:
   minecraft_proxy:
-    image: itzg/mc-proxy:2026.11.1-java25
+    image: itzg/mc-proxy:2026.11.2-java25
     container_name: minecraft_proxy_server
     profiles: [minecraft]
     restart: on-failure:7
@@ -24,7 +24,7 @@ services:
       - minecraft
 
   mc-server:
-    image: itzg/minecraft-server:2026.11.0-java25
+    image: itzg/minecraft-server:2026.11.1-java25
     container_name: minecraft_server
     profiles: [minecraft]
     labels:

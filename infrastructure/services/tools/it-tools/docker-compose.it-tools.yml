@@ -4,7 +4,7 @@ services:
     extends:
       file: ../../../common.yml
       service: service-base
-    image: ghcr.io/sharevb/it-tools:2026.10.25
+    image: ghcr.io/sharevb/it-tools:2026.11.22
     container_name: it-tools
     profiles: [it-tools]
     labels:

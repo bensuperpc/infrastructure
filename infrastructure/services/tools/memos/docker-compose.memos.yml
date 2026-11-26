@@ -1,7 +1,7 @@
 services:
   # memos
   memos:
-    image: neosmemo/memos:26.11.1
+    image: neosmemo/memos:26.11.2
     container_name: memos
     profiles: [memos]
     labels:

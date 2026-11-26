@@ -14,6 +14,7 @@ services:
     extends:
       file: ../../../common.yml
       service: service-base
+    restart: "no"
     user: "0:0"
     environment:
       - PUID=${PUID:-1000}

@@ -1,7 +1,7 @@
 services:
   # Rootless Docker with TLS
   dind:
-    image: docker:29.10.0-dind-rootless
+    image: docker:29.10.1-dind-rootless
     container_name: dind
     profiles: [local_ai]
     restart: on-failure:7

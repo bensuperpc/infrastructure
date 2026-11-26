@@ -3,7 +3,7 @@ services:
     extends:
       file: ../../../common.yml
       service: service-base
-    image: ghcr.io/alam00000/bentopdf-simple:v2.8.11
+    image: ghcr.io/alam00000/bentopdf-simple:v2.8.12
     container_name: bentopdf
     profiles: [bentopdf]
     labels:

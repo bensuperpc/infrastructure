@@ -22,6 +22,9 @@
           "limit": {
             "context": 32768,
             "output": 8192
+          },
+          "body": {
+            "max_tokens": 8192
           }
         }
       }

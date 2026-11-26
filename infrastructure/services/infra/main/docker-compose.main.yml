@@ -11,6 +11,7 @@ services:
     extends:
       file: ../../../common.yml
       service: service-base
+    restart: "no"
     cap_drop:
       - ALL
     cap_add:

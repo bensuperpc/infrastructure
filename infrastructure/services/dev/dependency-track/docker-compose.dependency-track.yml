@@ -1,6 +1,6 @@
 services:
   dependency-track-apiserver:
-    image: dependencytrack/apiserver:5.2.1
+    image: dependencytrack/apiserver:5.2.2
     container_name: dependency-track-apiserver
     profiles: [dependency-track]
     mem_limit: 8g
@@ -19,7 +19,7 @@ services:
     - 'dtrack-data:/data'
 
   dependency-track-frontend:
-    image: dependencytrack/frontend:5.2.1
+    image: dependencytrack/frontend:5.2.2
     container_name: dependency-track-frontend
     profiles: [dependency-track]
     labels:

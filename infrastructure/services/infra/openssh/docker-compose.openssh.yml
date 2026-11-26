@@ -1,7 +1,7 @@
 services:
   # openssh: rsync access to the data, to Caddy's certificates and to the game servers
   openssh:
-    image: linuxserver/openssh-server:10.3_p1-r2-ls243
+    image: linuxserver/openssh-server:10.3_p1-r2-ls244
     container_name: openssh
     profiles: [openssh]
     restart: on-failure:7

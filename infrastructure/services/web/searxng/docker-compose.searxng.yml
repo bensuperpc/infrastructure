@@ -9,7 +9,7 @@ services:
       homepage.instance.private.icon: searxng.png
       homepage.instance.private.href: https://searxng.${DOMAIN}/
       homepage.instance.private.description: SearXNG
-    image: docker.io/searxng/searxng:2026.11.17-d3a35cf45
+    image: docker.io/searxng/searxng:2026.11.23-a7163d091
     user: 977:977
     extends:
       file: ../../../common.yml

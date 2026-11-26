@@ -7,6 +7,7 @@ services:
     extends:
       file: ../../../common.yml
       service: service-base
+    restart: "no"
     volumes:
       - kiwix_zim:/data
       - ./download_zim.sh:/download_zim.sh:ro
@@ -39,7 +40,7 @@ services:
 
   # The same ZIM files for opencode, as an MCP server
   openzim-mcp:
-    image: ghcr.io/cameronrye/openzim-mcp:3.4.0
+    image: ghcr.io/cameronrye/openzim-mcp:3.5.2
     container_name: openzim-mcp
     profiles: [local_ai]
     extends:

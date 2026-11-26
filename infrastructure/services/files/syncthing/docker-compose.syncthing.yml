@@ -1,7 +1,7 @@
 services:
   # syncthing
   syncthing:
-    image: linuxserver/syncthing:v2.1.7-ls237
+    image: linuxserver/syncthing:v2.1.7-ls238
     container_name: syncthing
     profiles: [syncthing]
     labels:

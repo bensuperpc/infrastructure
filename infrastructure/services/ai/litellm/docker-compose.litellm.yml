@@ -1,7 +1,7 @@
 services:
   # OpenAI-compatible proxy for openwebui: external APIs (OpenAI, Anthropic...) and Ollama, with keys and spend tracking
   litellm:
-    image: ghcr.io/berriai/litellm:v1.109.1
+    image: ghcr.io/berriai/litellm:v1.111.0
     container_name: litellm
     profiles: [local_ai]
     labels:

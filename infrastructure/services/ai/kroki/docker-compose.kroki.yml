@@ -1,7 +1,7 @@
 services:
   # Diagrams written as text (Mermaid, PlantUML, Graphviz...) rendered as SVG or PNG
   kroki:
-    image: yuzutech/kroki:0.36.0
+    image: yuzutech/kroki:0.37.1
     container_name: kroki
     profiles: [local_ai]
     labels:
@@ -29,7 +29,7 @@ services:
       start_interval: 2s
 
   kroki-mermaid:
-    image: yuzutech/kroki-mermaid:0.36.0
+    image: yuzutech/kroki-mermaid:0.37.1
     container_name: kroki-mermaid
     profiles: [local_ai]
     extends:

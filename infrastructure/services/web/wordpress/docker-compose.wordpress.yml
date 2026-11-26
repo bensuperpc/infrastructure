@@ -1,7 +1,7 @@
 services:
   # Wordpress
   wordpress:
-    image: wordpress:7.1.4-php8.5-fpm
+    image: wordpress:7.1.5-php8.5-fpm
     container_name: wordpress
     profiles: [wordpress]
     labels:

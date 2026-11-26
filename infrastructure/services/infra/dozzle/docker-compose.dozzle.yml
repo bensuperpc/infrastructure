@@ -1,6 +1,6 @@
 services:
   dozzle:
-    image: amir20/dozzle:v11.4.3
+    image: amir20/dozzle:v11.5.0
     container_name: dozzle
     profiles: [dozzle]
     labels:
