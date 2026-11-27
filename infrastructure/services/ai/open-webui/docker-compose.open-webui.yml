@@ -1,6 +1,6 @@
 services:
   openwebui:
-    image: ghcr.io/open-webui/open-webui:v0.13.4-slim
+    image: ghcr.io/open-webui/open-webui:v0.13.5-slim
     container_name: openwebui
     profiles: [local_ai]
     labels:
