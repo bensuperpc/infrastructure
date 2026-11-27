@@ -46,7 +46,7 @@ services:
       - immich
 
   immich-redis:
-    image: valkey/valkey:9.2.0
+    image: valkey/valkey:9.2.1
     container_name: immich-redis
     profiles: [immich]
     extends:
