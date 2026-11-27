@@ -1,4 +1,5 @@
 FROM debian:trixie-20261123-slim AS opencode
+# renovate: datasource=github-releases depName=anomalyco/opencode extractVersion=^v(?<version>.+)$
 ARG OPENCODE_VERSION=2.4.2
 ARG HOST_UID=1000
 ARG HOST_GID=1000
@@ -54,7 +55,9 @@ CMD ["opencode", "serve", "--service", "--hostname", "0.0.0.0", "--port", "4096"
 
 FROM opencode AS code-server
 
+# renovate: datasource=github-releases depName=coder/code-server extractVersion=^v(?<version>.+)$
 ARG CODE_SERVER_VERSION=4.146.0
+# renovate: datasource=github-releases depName=vadimcn/codelldb extractVersion=^v(?<version>.+)$
 ARG CODELLDB_VERSION=1.12.3
 
 USER root
@@ -87,6 +90,7 @@ FROM node:22.23.5-trixie-slim AS node
 
 FROM opencode AS compiler-explorer
 
+# renovate: datasource=github-tags depName=compiler-explorer/compiler-explorer versioning=regex:^gh-(?<major>\d+)$
 ARG COMPILER_EXPLORER_VERSION=gh-20559
 
 USER root

@@ -8,6 +8,7 @@ on:
       - "dev"
     paths-ignore:
       - "**/README.md"
+      - "docs/**"
   pull_request:
     branches:
       - "*"

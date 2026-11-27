@@ -1,2 +1,7 @@
 # Private page of Homepage: every service (the public one is www, in main.caddy)
 import app homepage homepage-private:3000
+
+home.{$DOMAIN} {
+	import public
+	redir https://homepage.{$DOMAIN}{uri} permanent
+}
