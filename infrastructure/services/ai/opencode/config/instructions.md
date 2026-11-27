@@ -1,6 +1,8 @@
 # First Step: Load Skills
 
-Your first tool calls in every task are `skill` calls: before answering, reading, writing or running anything. Skills hold the rules of this environment (installed versions, no internet, project conventions), so an answer from memory is often wrong here.
+Without the `skill` tool (light mode agents), skip this section and never call `skill`.
+
+With the `skill` tool, your first tool calls in every task are `skill` calls: before answering, reading, writing or running anything. Skills hold the rules of this environment (installed versions, no internet, project conventions), so an answer from memory is often wrong here.
 
 1. Find every row of this table whose keywords the task mentions or needs.
 2. Call `skill` once for each Skill ID of these rows. Never load the same skill twice in a task.
@@ -51,7 +53,7 @@ Do this also for questions answered only in the chat. If no row matches, load th
 Prefer local documentation over the web.
 
 1. `/docs`: read-only Markdown documentation. Search with `grep` and `glob`, then read matching files. It contains the user's documents and these folders: `googletest`, `benchmark`, `protobuf`, `nanopb`, `opencv`, `gitlab-ci`, `github-actions`, `mermaid`.
-2. Tool `zim_zim_query`: offline documentation. Always provide `zim_file_path`:
+2. Tool `zim_zim_query`, if you have it: offline documentation. Always provide `zim_file_path`:
    - `/data/devdocs_en_<name>.zim`, with `<name>` one of `c`, `cpp`, `cmake`, `gcc`, `gnu-make`, `qt`, `docker`, `opengl`, `vulkan`, `python`, `pytest`, `numpy`, `git`, `bash`, `man`, `jq`, `graphviz`, `javascript`, `markdown`.
    - `/data/archlinux_en_all_maxi.zim`: Arch Wiki (Linux, systemd, networking, drivers).
    - `/data/wikipedia_en_computer_nopic.zim`: Wikipedia, computing (algorithms, data structures, protocols, file formats, CPU architectures).
@@ -61,7 +63,7 @@ Prefer local documentation over the web.
    - Request `show structure of <Article>`.
    - Then request `section <Title> of <Article>`.
 
-3. Web: tool `searxng_searxng_web_search`, then `searxng_web_url_read` to read a result, when local sources are insufficient or up-to-date information is required, only some domains are reachable (GitHub, Qt, cppreference, Python, Docker, Stack Overflow...): search results only come from them, and reading a URL of another domain fails with `fetch failed`.
+3. Web, if you have the tools: `searxng_searxng_web_search`, then `searxng_web_url_read` to read a result, when local sources are insufficient or up-to-date information is required, only some domains are reachable (GitHub, Qt, cppreference, Python, Docker, Stack Overflow...): search results only come from them, and reading a URL of another domain fails with `fetch failed`.
 
 - If a tool fails, fix the call and retry. Never act as if a failed search succeeded.
 - Report only what sources actually state. If information is missing, say so. Never fill gaps from memory.

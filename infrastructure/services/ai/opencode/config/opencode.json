@@ -14,6 +14,7 @@
       "package": "aisdk:@ai-sdk/openai-compatible",
       "settings": {
         "baseURL": "http://ollama:11434/v1",
+        "headerTimeout": 1800000,
         "chunkTimeout": 7200000
       },
       "models": {
@@ -24,13 +25,50 @@
             "output": 8192
           },
           "body": {
-            "max_tokens": 8192
-          }
+            "max_tokens": 16384,
+            "reasoning_effort": "high"
+          },
+          "variants": [
+            { "id": "lite", "body": { "max_tokens": 2048, "reasoning_effort": "none" } },
+            { "id": "lite-web", "body": { "max_tokens": 2048 } }
+          ]
         }
       }
     }
   },
   "instructions": ["/etc/opencode/instructions.md"],
+  "agents": {
+    "lite": {
+      "description": "Light mode, about 2k tokens of context instead of 13k - reads files and /docs, no shell, no edits, no web",
+      "mode": "primary",
+      "steps": 12,
+      "model": "ollama/{env:OLLAMA_MODEL}#lite",
+      "permissions": [
+        { "action": "*", "resource": "*", "effect": "deny" },
+        { "action": "read", "resource": "*", "effect": "allow" },
+        { "action": "glob", "resource": "*", "effect": "allow" },
+        { "action": "grep", "resource": "*", "effect": "allow" },
+        { "action": "external_directory", "resource": "/docs/*", "effect": "allow" }
+      ],
+      "system": "You are a concise assistant in light mode: your only tools are read, glob and grep. Answer in the user's language.\nLocal Markdown documentation is in /docs (googletest, benchmark, protobuf, nanopb, opencv, gitlab-ci, github-actions, mermaid).\nTo search it, call grep with path set to the folder, for example {\"pattern\": \"TEST_P\", \"path\": \"/docs/googletest\"}, then read only the lines around the match: every read call must include offset (the matching line minus 20) and limit 80. A read without limit fills the context and fails.\nNever invent file contents: quote the file you read. You cannot run commands or edit files: if a task needs that, say so and suggest the build agent."
+    },
+    "lite-web": {
+      "description": "Light mode with web search, about 3.5k tokens of context - reads files and /docs, searches the allowed websites, no shell, no edits",
+      "mode": "primary",
+      "steps": 12,
+      "model": "ollama/{env:OLLAMA_MODEL}#lite-web",
+      "permissions": [
+        { "action": "*", "resource": "*", "effect": "deny" },
+        { "action": "read", "resource": "*", "effect": "allow" },
+        { "action": "glob", "resource": "*", "effect": "allow" },
+        { "action": "grep", "resource": "*", "effect": "allow" },
+        { "action": "external_directory", "resource": "/docs/*", "effect": "allow" },
+        { "action": "searxng_searxng_web_search", "resource": "*", "effect": "allow" },
+        { "action": "searxng_web_url_read", "resource": "*", "effect": "allow" }
+      ],
+      "system": "You are a concise assistant in light mode: your only tools are read, glob, grep, searxng_searxng_web_search and searxng_web_url_read. Answer in the user's language.\nLocal Markdown documentation is in /docs (googletest, benchmark, protobuf, nanopb, opencv, gitlab-ci, github-actions, mermaid).\nTo search it, call grep with path set to the folder, for example {\"pattern\": \"TEST_P\", \"path\": \"/docs/googletest\"}, then read only the lines around the match: every read call must include offset (the matching line minus 20) and limit 80. A read without limit fills the context and fails.\nSearch the web only when the local files do not answer, or when the user asks: searxng_searxng_web_search, then searxng_web_url_read on one result with maxLength 4000 (use section or startChar to read more). Only some sites are reachable (GitHub, cppreference, Python, Docker, Stack Overflow...). Never answer from the search results alone: always read at least one page with searxng_web_url_read first, preferably the official site or GitHub releases.\nNever invent file contents: quote the file or page you read. You cannot run commands or edit files: if a task needs that, say so and suggest the build agent."
+    }
+  },
   "skills": ["/etc/opencode/skills"],
   "formatter": true,
   "mcp": {

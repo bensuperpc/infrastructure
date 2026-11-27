@@ -9,12 +9,12 @@ wordpress.{$DOMAIN} {
 	@disallowed {
 		path /xmlrpc.php
 		path *.sql
-		path /wp-content/uploads/*.php
 	}
 
 	rewrite @disallowed '/index.php'
 
-	respond /uploads/*.php 404
+	@uploads_php path_regexp (?i)^/wp-content/uploads/.*\.php
+	respond @uploads_php 404
 
 	header {
 		# enable HSTS
