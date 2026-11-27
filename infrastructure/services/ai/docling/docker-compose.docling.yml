@@ -1,7 +1,7 @@
 services:
   # Converts PDF, Word, PowerPoint... to Markdown, for openwebui and opencode
   docling:
-    image: ghcr.io/docling-project/docling-serve-cpu:v1.39.0
+    image: ghcr.io/docling-project/docling-serve-cpu:v1.40.0
     container_name: docling
     profiles: [local_ai]
     # Memory cap: a heavy job cannot take all the RAM of the host
