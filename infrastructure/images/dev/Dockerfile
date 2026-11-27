@@ -83,7 +83,7 @@ CMD ["code-server", "--bind-addr", "0.0.0.0:8443", "--extensions-dir", "/opt/cod
      "--disable-telemetry", "--disable-update-check", "/workspace"]
 
 
-FROM node:22.23.5-trixie-slim AS node
+FROM node:26.13.1-trixie-slim AS node
 
 FROM opencode AS compiler-explorer
 
